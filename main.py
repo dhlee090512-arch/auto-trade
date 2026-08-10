@@ -25,7 +25,10 @@ PAPER_TRADES_FILE = "paper_trades.json" # 모의투자 정밀 기록
 def get_env(key_name):
     return os.getenv(key_name, "").strip()
 
+# 🎯 API 키 이중화 수집 (1순위: KEY3, 2순위: KEY2)
 GROQ_API_KEY3 = get_env("GROQ_API_KEY3")
+GROQ_API_KEY2 = get_env("GROQ_API_KEY2")
+
 BITHUMB_API_KEY = get_env("BITHUMB_API_KEY")
 BITHUMB_SECRET_KEY = get_env("BITHUMB_SECRET_KEY")
 WEBSHARE_URL = get_env("WEBSHARE_URL")
@@ -382,36 +385,50 @@ def get_account_status():
 
 
 # ==========================================
-# [Step 3] Groq AI 연동 및 2단계 스크리닝
+# 🎯 [Step 3] Groq AI 연동 (API 키 이중화 Fallback 적용)
 # ==========================================
 def call_groq_api(system_instruction, user_prompt):
-    if not GROQ_API_KEY3:
-        err_msg = "⚠️ <b>[Groq API 연동 실패]</b>\n\n내용: <code>GROQ_API_KEY3 가 설정되어 있지 않습니다.</code>"
+    """KEY3 우선 시도 ➔ 실패 시 KEY2 자동 백업 실행"""
+    keys_to_try = []
+    if GROQ_API_KEY3: keys_to_try.append(("GROQ_API_KEY3", GROQ_API_KEY3))
+    if GROQ_API_KEY2: keys_to_try.append(("GROQ_API_KEY2", GROQ_API_KEY2))
+
+    if not keys_to_try:
+        err_msg = "⚠️ <b>[Groq API 연동 실패]</b>\n\n내용: <code>GROQ_API_KEY3 / GROQ_API_KEY2 설정이 없습니다.</code>"
         print(f"[ERROR] {err_msg}")
         send_telegram_msg(err_msg)
         return None
 
-    try:
-        groq_client = OpenAI(
-            base_url="https://api.groq.com/openai/v1",
-            api_key=GROQ_API_KEY3
-        )
-        response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": user_prompt}
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.15
-        )
-        return response.choices[0].message.content
+    last_error_msg = ""
+    for key_name, api_key in keys_to_try:
+        try:
+            print(f"🤖 [{key_name}] 사용하여 Groq AI 분석 요청 중...")
+            groq_client = OpenAI(
+                base_url="https://api.groq.com/openai/v1",
+                api_key=api_key
+            )
+            response = groq_client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": user_prompt}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.15
+            )
+            # 성공 시 즉시 응답 반환
+            return response.choices[0].message.content
 
-    except Exception as e:
-        last_error = str(e)
-        print(f"⚠️ GROQ_API_KEY3 호출 실패: {last_error}")
-        send_telegram_msg(f"⚠️ <b>[Groq API 에러]</b>: <code>{last_error}</code>")
-        return None
+        except Exception as e:
+            last_error_msg = str(e)
+            print(f"⚠️ [{key_name}] 호출 실패: {last_error_msg}")
+            print(f"🔄 다음 보조 API 키로 자동 백업 전환을 시도합니다...")
+
+    # 모든 키가 실패한 경우에만 텔레그램 알림 발송
+    err_notification = f"⚠️ <b>[Groq API 이중화 실패]</b>\n\n모든 API 키 호출이 실패했습니다.\n사유: <code>{last_error_msg}</code>"
+    print(f"[ERROR] {err_notification}")
+    send_telegram_msg(err_notification)
+    return None
 
 def screen_coins_2step(top10_data):
     print("🤖 [Step 3-1] 1차 AI 스크리닝: 상위 10개 종목 중 대추세 우량 후보 3개 추리기...")
@@ -606,7 +623,7 @@ if __name__ == "__main__":
         print(f"🛑 [보유 제한] 현재 보유 종목({len(held_coins)}개)이 최대 한도({MAX_HOLDING_COINS}개)에 도달했습니다.")
         sys.exit(0)
     
-    # 3. 데이터 수집 & 2단계 AI 스크리닝
+    # 3. 데이터 수집 & 2단계 AI 스크리닝 (이중화 수집 적용)
     top10_data = get_top10_market_data()
     ai_plan = screen_coins_2step(top10_data)
     
