@@ -2,30 +2,36 @@ name: Bithumb AI AutoTrading Scheduler
 
 on:
   #schedule:
-    # 매 30분마다 실행 (UTC 기준 0, 30분 -> KST 기준 매시 0, 30분)
-    #- cron: '0,30 * * * *'
-  workflow_dispatch: # 깃허브 웹 화면에서 수동 실행 버튼 제공
+    # 매 15분마다 자동 실행 (KST 기준 매시 00, 15, 30, 45분)
+    #- cron: '*/15 * * * *'
+  workflow_dispatch: # GitHub 웹 화면에서 [Run workflow] 버튼으로 수동 실행 가능
 
 jobs:
   autotrade:
     runs-on: ubuntu-latest
     steps:
+      # 1. GitHub 저장소 코드 체크아웃
       - name: Check out repository
         uses: actions/checkout@v3
 
+      # 2. 파이썬 환경 설정
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
+      # 3. 필수 라이브러리 설치
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pyjwt requests pandas openai
 
+      # 4. 자동매매 스크립트 실행 (모든 API Secrets 환경변수 주입)
       - name: Run Auto Trading Script
         env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
           GROQ_API_KEY3: ${{ secrets.GROQ_API_KEY3 }}
+          GROQ_API_KEY2: ${{ secrets.GROQ_API_KEY2 }}
           BITHUMB_API_KEY: ${{ secrets.BITHUMB_API_KEY }}
           BITHUMB_SECRET_KEY: ${{ secrets.BITHUMB_SECRET_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -33,10 +39,11 @@ jobs:
           WEBSHARE_URL: ${{ secrets.WEBSHARE_URL }}
         run: python main.py
 
+      # 5. 모의투자/실전 매매 결과(paper_trades.json, positions.json) 자동 커밋 & 푸시
       - name: Commit and Push Updated Trade History
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add paper_trades.json positions.json || true
-          git commit -m "update: Auto-trade & Paper trading performance update [skip ci]" || true
+          git commit -m "update: Auto-trade execution update [skip ci]" || true
           git push
