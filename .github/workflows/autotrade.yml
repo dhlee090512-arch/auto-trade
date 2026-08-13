@@ -30,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyjwt requests pandas openai httpx
 
-      # 4. 자동매매 스크립트 실행 (모든 API Secrets 환경변수 주입)
+      # 4. 자동매매 스크립트 실행 (복기 추적 ➔ AI 스크리닝 ➔ 모의 매수)
       - name: Run Auto Trading Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -44,12 +44,30 @@ jobs:
           WEBSHARE_URL: ${{ secrets.WEBSHARE_URL }}
         run: python main.py
 
-      # 5. 모의투자/실전 매매 결과(paper_trades.json) 강제 커밋 & 푸시
+      # 5. 모의투자 내역(paper_trades.json) 업로드 과정 실시간 출력 및 커밋/푸시
       - name: Commit and Push Updated Trade History
         run: |
+          echo "=========================================="
+          echo "📤 [GitHub Repository 업로드 프로세스 시작]"
+          echo "=========================================="
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          echo "📂 변경된 매매 기록 파일 상태 확인 중..."
+          git status --short
+          
           git add paper_trades.json positions.json || true
-          git commit -m "update: Auto-trade execution record [skip ci]" || true
-          git pull --rebase origin main || true
-          git push
+          
+          if git diff --staged --quiet; then
+            echo "💡 변경된 매매 기록이 없어 GitHub 업로드를 건너뜁니다."
+          else
+            echo "📝 변경 사항 커밋 생성 중..."
+            git commit -m "update: Paper trading history update [skip ci]"
+            
+            echo "🔄 최신 원격 저장소 동기화(pull --rebase) 중..."
+            git pull --rebase origin main || true
+            
+            echo "🚀 GitHub 저장소로 paper_trades.json 푸시(push) 전송 중..."
+            git push && echo "✅ [성공] GitHub 저장소에 paper_trades.json 업로드 완료!"
+          fi
+          echo "=========================================="
