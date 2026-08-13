@@ -6,7 +6,7 @@ on:
     #- cron: '*/15 * * * *'
   workflow_dispatch: # GitHub 웹 화면에서 [Run workflow] 버튼으로 수동 실행 가능
 
-# 🔑 GitHub Actions에 저장소 파일 수정/커밋 권한 부여 (필수)
+# 🔑 GitHub Actions 저장소 파일 수정/커밋 권한 부여 (필수)
 permissions:
   contents: write
 
@@ -28,11 +28,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyjwt requests pandas openai
+          pip install pyjwt requests pandas openai httpx
 
       # 4. 자동매매 스크립트 실행 (모든 API Secrets 환경변수 주입)
       - name: Run Auto Trading Script
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
           GROQ_API_KEY3: ${{ secrets.GROQ_API_KEY3 }}
           GROQ_API_KEY2: ${{ secrets.GROQ_API_KEY2 }}
@@ -43,10 +44,12 @@ jobs:
           WEBSHARE_URL: ${{ secrets.WEBSHARE_URL }}
         run: python main.py
 
-      # 5. 모의투자/실전 매매 결과(paper_trades.json, positions.json) 자동 커밋 & 푸시
+      # 5. 모의투자/실전 매매 결과(paper_trades.json) 강제 커밋 & 푸시
       - name: Commit and Push Updated Trade History
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add paper_trades.json positions.json || true
-          git diff --quiet && git diff --staged --quiet || (git commit -m "update: Auto-trade execution update [skip ci]" && git push)
+          git commit -m "update: Auto-trade execution record [skip ci]" || true
+          git pull --rebase origin main || true
+          git push
