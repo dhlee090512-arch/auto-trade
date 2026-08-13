@@ -1,4 +1,13 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 90251000.0,
+      "stop_loss": 88897235.0,
+      "take_profit": 93139032.0,
+      "buy_amount_krw": 6324,
+      "entry_time": "2026-08-13T07:01:53.207138"
+    }
+  },
   "closed_trades": []
 }
