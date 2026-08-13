@@ -6,6 +6,10 @@ on:
     #- cron: '*/15 * * * *'
   workflow_dispatch: # GitHub 웹 화면에서 [Run workflow] 버튼으로 수동 실행 가능
 
+# 🔑 GitHub Actions에 저장소 파일 수정/커밋 권한 부여 (필수)
+permissions:
+  contents: write
+
 jobs:
   autotrade:
     runs-on: ubuntu-latest
@@ -45,5 +49,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add paper_trades.json positions.json || true
-          git commit -m "update: Auto-trade execution update [skip ci]" || true
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "update: Auto-trade execution update [skip ci]" && git push)
