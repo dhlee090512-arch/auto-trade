@@ -1,5 +1,14 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "CYS": {
+      "symbol": "CYS/KRW",
+      "entry_price": 1674.0,
+      "stop_loss": 1648.89,
+      "take_profit": 1732.59,
+      "buy_amount_krw": 6324,
+      "entry_time": "2026-08-14T15:30:30.469924"
+    }
+  },
   "closed_trades": [
     {
       "symbol": "BTC/KRW",
