@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-15T09:31:21.115546",
+  "updated_at": "2026-08-15T10:01:39.125386",
   "paper_trading": true,
   "targets": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "current_price": 2066.0,
-      "target_entry": 2060.0,
-      "stop_loss": 2019.0,
-      "take_profit": 2142.0,
+    "CAP": {
+      "symbol": "CAP/KRW",
+      "current_price": 93.68,
+      "target_entry": 93.21,
+      "stop_loss": 91.35,
+      "take_profit": 96.94,
       "sl_pct": -2.0,
       "tp_pct": 4.0,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "CYS/KRW의 차트 패턴은 깃발형(Bull Flag)과 유사하며, RSI(42.8)와 ATR(27.57) 지표가 적정한 수준으로 나타나고 있습니다. 또한, VWAP(2003.81)와의 갭이 3.25%로 나타나며, 이는 상승의 기회를 나타낼 수 있습니다. 따라서, 진입 할인율 0.3%, 손절률 -2.0%, 익절률 4.0%를 설정하여 거래를 진행하는 것이 적절해 보입니다.",
-      "created_at": "2026-08-15T09:31:21.115546"
+      "buy_amount_krw": 10000,
+      "detailed_reason": "CAP/KRW의 차트 패턴은 깃발형(Bull Flag)과 유사하며, RSI(56.8)와 ATR(2.08) 지표가 상승세를 보이고 있습니다. VWAP(92.47)와의 갭도 1.54%로 상승 가능성이 있습니다.",
+      "created_at": "2026-08-15T10:01:39.125386"
     }
   }
 }
