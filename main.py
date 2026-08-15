@@ -54,7 +54,7 @@ TELEGRAM_CHAT_ID = get_env("TELEGRAM_CHAT_ID")
 PROXIES = {'http': WEBSHARE_URL, 'https': WEBSHARE_URL} if WEBSHARE_URL else None
 
 # ==========================================
-# 텔레그램 알림 발송 모듈
+# 1. 텔레그램 유틸리티
 # ==========================================
 def send_telegram_msg(message):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -68,7 +68,7 @@ def send_telegram_msg(message):
         print(f"⚠️ 텔레그램 발송 오류: {e}")
 
 # ==========================================
-# 1. GitHub API 통신 모듈
+# 2. GitHub API 통신 모듈
 # ==========================================
 def get_github_file_info(file_path):
     url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
@@ -137,7 +137,7 @@ def clean_and_parse_json(raw_text):
         return None
 
 # ==========================================
-# 2. 빗썸 API & 시장/차트 데이터 수집
+# 3. 빗썸 API & 시장 데이터 수집
 # ==========================================
 def get_v2_headers(query_params=None):
     payload = {
@@ -174,7 +174,7 @@ def get_candles(coin_code, interval="5m", limit=30):
     return []
 
 def check_btc_macro_trend():
-    """비트코인(BTC) 기준 시장 대추세 필터 (하락장 차단)"""
+    """비트코인(BTC) 기준 시장 대추세 필터 (급락장 매수 방어)"""
     try:
         url = "https://api.bithumb.com/public/ticker/BTC_KRW"
         res = requests.get(url, proxies=PROXIES, timeout=5).json()
@@ -212,7 +212,7 @@ def get_top10_market_data():
         candles_1h = get_candles(symbol, interval="1h", limit=12)
         if not candles_1h: continue
         
-        # 1시간봉 기준 역배열 하락세 종목은 1차 제외 (하락장 방어)
+        # 1시간봉 기준 역배열 하락세 종목은 1차 필터링
         closes = [c['close'] for c in candles_1h]
         sma_short = sum(closes[-3:]) / 3
         sma_long = sum(closes) / len(closes)
@@ -239,7 +239,7 @@ def get_account_status():
     return max(calc_buy, MIN_BUY_KRW)
 
 # ==========================================
-# 3. AI 연동 및 2단계 스크리닝 (하락장 방어 탑재)
+# 4. AI 연동 및 2단계 정밀 스크리닝
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
@@ -274,8 +274,8 @@ def call_ai_api(system_instruction, user_prompt):
 
 def screen_coins_2step(top_data):
     if not top_data:
-        print("⏸️ [하락장 방어] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
-        return None
+        print("⏸️ [추세 필터] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
+        return None, [], "추세 필터에서 우상향 정배열 종목 없음"
 
     print("🤖 [Step 2-1] 1차 AI 스크리닝: 우상향 돌파 후보 선별...")
     sys_1 = "당신은 보수적 퀀트입니다. 1시간봉(c_1h)이 명확한 우상향/골든크로스인 종목만 최대 3개 선별하세요. 마땅한 상승세가 없으면 top3_candidates를 빈 배열 []로 반환하세요."
@@ -285,7 +285,7 @@ def screen_coins_2step(top_data):
     data_1 = clean_and_parse_json(res_1)
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
-        return None
+        return None, [], "1차 AI 스크리닝에서 우상향 모멘텀 종목 미발견"
 
     candidates = data_1["top3_candidates"]
     print(f"🎯 [1차 후보] {candidates}")
@@ -304,25 +304,29 @@ def screen_coins_2step(top_data):
 
     res_2 = call_ai_api(sys_2, user_2)
     result = clean_and_parse_json(res_2)
-    if not result: return None
+    if not result:
+        return None, candidates, "2차 AI 응답 JSON 파싱 실패"
 
     selected = result.get("selected_symbol", "NONE")
     confidence = result.get("confidence_score", 0)
+    detailed_reason = result.get("detailed_reason", "지지선 불명확")
+
     if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
         print(f"⏸️ [2차 AI 스크리닝] 신뢰도 미달 또는 관망 판정 (점수: {confidence}점)")
-        return None
+        return None, candidates, f"5분봉 분석 결과 신뢰도({confidence}점) 기준 미달 또는 진입 자리 불확실 ({detailed_reason})"
 
-    return {
+    plan = {
         "symbol": selected,
         "confidence": confidence,
         "entry_discount_pct": float(result.get("entry_discount_pct", 0.5)),
         "sl_pct": max(min(float(result.get("stop_loss_pct", -2.0)), -1.0), -2.5),
         "tp_pct": min(max(float(result.get("take_profit_pct", 3.5)), 2.0), 5.0),
-        "detailed_reason": result.get("detailed_reason", "눌림목 지지 확인")
+        "detailed_reason": detailed_reason
     }
+    return plan, candidates, "타점 도출 성공"
 
 # ==========================================
-# 4. 타점 산출 및 targets.json 생성
+# 5. 타점 산출 및 targets.json 생성
 # ==========================================
 def calculate_and_save_targets(ai_plan, buy_amount_krw):
     symbol = ai_plan['symbol']
@@ -378,12 +382,21 @@ def calculate_and_save_targets(ai_plan, buy_amount_krw):
 # ==========================================
 if __name__ == "__main__":
     mode_str = "🧪 모의투자(TEST)" if PAPER_TRADING else "🚨 실전매매(REAL)"
+    kst_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"🤖 빗썸 AI 전략 수립 엔진 시작 [{mode_str}]")
 
     # 1. 비트코인 시장 매크로 점검 (급락장 방어)
     btc_ok, btc_rate = check_btc_macro_trend()
     if not btc_ok:
-        send_telegram_msg(f"🛡️ [하락장 방어 작동]\nBTC 급락세({btc_rate:.2f}%) 감지로 이번 회차는 100% 현금 관망합니다.")
+        hold_msg = f"""🛡️ [하락장 방어 작동] - {mode_str}
+• 점검 시각 : {kst_now}
+• BTC 24H 변동률 : {btc_rate:.2f}% (급락세 감지)
+
+• 판정 결과 : 전면 매수 차단 및 현금 관망
+• 사유 : 비트코인 급락으로 인한 시장 전체 리스크 회피
+=================================
+🛡️ 안전을 위해 신규 매수 진입을 중단하고 대기합니다."""
+        send_telegram_msg(hold_msg)
         sys.exit(0)
 
     # 2. 주문 가능 금액 산출
@@ -391,9 +404,21 @@ if __name__ == "__main__":
 
     # 3. 2단계 AI 스크리닝 및 타점 산출
     top_data = get_top10_market_data()
-    ai_plan = screen_coins_2step(top_data)
+    ai_plan, candidates, reason = screen_coins_2step(top_data)
 
     if ai_plan:
         calculate_and_save_targets(ai_plan, buy_amount_krw)
     else:
-        print("⏸️ 적합한 매수 타점이 없어 현금 관망을 유지합니다.")
+        # ⏸️ 관망 판정 시 텔레그램 상세 브리핑 발송
+        cand_str = ", ".join(candidates) if candidates else "1차 부적합"
+        hold_msg = f"""⏸️ [전략 분석 결과 - 현금 관망]
+• 분석 시각 : {kst_now}
+• 운영 모드 : {mode_str}
+
+• 검토 후보 : {cand_str}
+• 판정 결과 : 진입 타점 미달 (관망 유지)
+• 판단 사유 : {reason}
+=================================
+🛡️ 무리한 진입을 방지하고 다음 분석 주기까지 안전하게 대기합니다."""
+        send_telegram_msg(hold_msg)
+        print("⏸️ 적합한 매수 타점이 없어 현금 관망 리포트를 전송했습니다.")
