@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-15T15:01:10.028421",
+  "updated_at": "2026-08-15T18:31:07.183242",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "current_price": 488.0,
-      "target_entry": 487.0,
-      "stop_loss": 480.0,
-      "take_profit": 506.0,
-      "sl_pct": -1.5,
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "current_price": 10.44,
+      "target_entry": 10.39,
+      "stop_loss": 10.18,
+      "take_profit": 10.81,
+      "sl_pct": -2.0,
       "tp_pct": 4.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "WLD/KRW의 차트 패턴은 깃발형(Bull Flag)과 유사하며, RSI(63.6)와 ATR(1.21) 지표가 상승세를 보이고 있습니다. 또한, VWAP(484.5)와의 갭이 좁아지고 있어 매수 기대감이 높습니다.",
-      "created_at": "2026-08-15T15:01:10.028421"
+      "detailed_reason": "HEMI/KRW의 차트 패턴은 깃발형(Bull Flag)으로 거래량 실린 기준봉 발생 후 거래량이 줄며 0.3~0.8% 지지선을 형성하고 있습니다. 또한, RSI(50~65 모멘텀 구간)와 ATR 기반 적정 손절폭(-1.0%~-2.5%) 설정이 가능하여, 진입 할인율 0.5%, 손절률 -2.0%, 익절률 4.0%로 분석됩니다.",
+      "created_at": "2026-08-15T18:31:07.183242"
     }
   }
 }
