@@ -30,7 +30,8 @@ PROJECT_DIR = "/home/ubuntu/auto-trade"
 
 EMERGENCY_STOP = False
 LAST_TELEGRAM_UPDATE_ID = 0
-TIME_EXIT_HOURS = 3
+ENTRY_TIMEOUT_MINUTES = 20   # ⏰ 20분 내 미체결 시 취소/폐기
+TIME_EXIT_HOURS = 3          # ⏰ 3시간 도달 실패 시 시장가 강제 청산
 
 logging.basicConfig(
     level=logging.INFO,
@@ -128,7 +129,7 @@ def fetch_latest_targets():
     return None
 
 # ==========================================
-# 3. 텔레그램 실시간 원격 인터락 & 업데이트 리스너
+# 3. 텔레그램 실시간 원격 인터락 리스너
 # ==========================================
 async def telegram_command_listener():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
@@ -222,7 +223,7 @@ async def telegram_command_listener():
             await asyncio.sleep(3)
 
 # ==========================================
-# 4. 실시간 시세 감시 및 주문 집행 엔진
+# 4. 실시간 감시 및 타임어택 주문 집행 엔진
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP
@@ -238,29 +239,51 @@ async def realtime_execution_engine():
             server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
             paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
 
-            # 30초마다 GitHub targets.json 동기화
+            # 30초마다 GitHub targets.json 동기화 (신규 타점 수신 시 이전 미체결 대기 주문 덮어쓰기)
             if now - last_sync_time >= 30:
                 data = fetch_latest_targets()
                 if data and data.get("updated_at") != server_state.get("last_updated"):
                     server_state["last_updated"] = data.get("updated_at")
+                    
+                    # 💡 [핵심] 이전 회차 미체결 대기 주문 초기화 후 최신 타점으로 교체
+                    new_pending = {}
                     for coin_code, plan in data.get("targets", {}).items():
                         if coin_code not in paper_db.get("active_positions", {}):
-                            server_state["pending_targets"][coin_code] = plan
+                            # 생성 시각 기록 (20분 만료 계산용)
+                            if "created_at" not in plan:
+                                plan["created_at"] = data.get("updated_at", now_dt.isoformat())
+                            new_pending[coin_code] = plan
+                    
+                    server_state["pending_targets"] = new_pending
                     save_json_file(STATE_FILE, server_state)
-                    logging.info(f"🔄 targets.json 동기화 완료 ({server_state['last_updated']})")
+                    logging.info(f"🔄 targets.json 동기화 완료: 대기 종목 갱신 ({list(new_pending.keys())})")
                 last_sync_time = now
 
             pending = server_state.get("pending_targets", {})
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # [1] 진입 대기 감시 (현재가 <= 목표 진입가 시 매수)
+            # [1] 진입 대기 감시 (20분 타임어택 & 가격 도달 체결)
             if not EMERGENCY_STOP:
                 for coin_code, plan in list(pending.items()):
+                    # 20분 만료 여부 확인
+                    created_time_str = plan.get("created_at", now_dt.isoformat())
+                    try:
+                        created_dt = datetime.fromisoformat(created_time_str)
+                    except:
+                        created_dt = now_dt
+                        
+                    if now_dt - created_dt >= timedelta(minutes=ENTRY_TIMEOUT_MINUTES):
+                        logging.info(f"⌛ [{plan['symbol']}] 20분 내 미체결로 대기 주문 취소(폐기)")
+                        del pending[coin_code]
+                        save_json_file(STATE_FILE, server_state)
+                        continue
+
                     curr_p = get_current_price(coin_code)
                     if not curr_p:
                         continue
 
+                    # 목표 진입가 이하로 눌림목 터치 시 매수 체결
                     if curr_p <= plan["target_entry"]:
                         logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결 진행")
                         active_positions[coin_code] = {
@@ -297,7 +320,7 @@ async def realtime_execution_engine():
 {recent_summary}"""
                         send_telegram_msg(buy_msg)
 
-            # [2] 보유 포지션 실시간 감시 (익절 / 손절 / 시간손절)
+            # [2] 보유 포지션 실시간 감시 (익절 / 손절 / 3시간 시간손절)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p:
@@ -323,7 +346,7 @@ async def realtime_execution_engine():
                 elif now_dt - entry_time >= timedelta(hours=TIME_EXIT_HOURS):
                     status = "CLOSED_TIME_EXIT"
                     exit_price = curr_p
-                    exit_reason = f"{TIME_EXIT_HOURS}시간 횡보로 시간 손절(시장가 청산)"
+                    exit_reason = f"{TIME_EXIT_HOURS}시간 횡보로 시간 손절(시장가 강제 청산)"
 
                 if status != "HOLDING":
                     profit_pct = round(((exit_price - entry_p) / entry_p) * 100, 2)
@@ -379,7 +402,7 @@ if __name__ == "__main__":
         "🚀 [오라클 서버] 실시간 감시 & 원격 업데이트 엔진 가동\n\n"
         "📱 사용 가능한 명령어:\n"
         "• /status : 시스템 상태 및 포지션 확인\n"
-        "• /update : GitHub 최신 코드 당겨받고 재시작\n"
+        "• /update : GitHub 최신 코드 동기화 후 재시작\n"
         "• /log : 최근 실행 로그 10줄 확인\n"
         "• /stop : 신규 매수 일시정지\n"
         "• /start : 매매 재개\n"
