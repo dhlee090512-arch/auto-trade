@@ -1,12 +1,12 @@
 import os
+import sys
 import time
 import json
 import logging
 import asyncio
-import requests
-import jwt
-import uuid
+import threading
 import subprocess
+import requests
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
@@ -15,11 +15,9 @@ load_dotenv()
 # ==========================================
 # 0. 환경 변수 및 전역 설정
 # ==========================================
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
+TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
 GH_TOKEN = os.getenv("GH_TOKEN2") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
-BITHUMB_API_KEY = os.getenv("BITHUMB_API_KEY")
-BITHUMB_SECRET_KEY = os.getenv("BITHUMB_SECRET_KEY")
 
 GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
 TARGETS_RAW_URL = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/main/targets.json"
@@ -38,7 +36,7 @@ logging.basicConfig(
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
         logging.FileHandler("watcher.log"),
-        logging.StreamHandler()
+        logging.StreamHandler(sys.stdout)
     ]
 )
 
@@ -47,11 +45,14 @@ logging.basicConfig(
 # ==========================================
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        logging.warning("⚠️ 텔레그램 토큰 또는 Chat ID가 설정되지 않았습니다.")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
     try:
-        requests.post(url, json=payload, timeout=8)
+        res = requests.post(url, json=payload, timeout=8)
+        if res.status_code != 200:
+            logging.error(f"텔레그램 전송 실패 ({res.status_code}): {res.text}")
     except Exception as e:
         logging.error(f"텔레그램 발송 오류: {e}")
 
@@ -129,36 +130,53 @@ def fetch_latest_targets():
     return None
 
 # ==========================================
-# 3. 텔레그램 실시간 원격 인터락 리스너
+# 3. 텔레그램 실시간 리스너 (독립 스레드 구동)
 # ==========================================
-async def telegram_command_listener():
+def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
     if not TELEGRAM_BOT_TOKEN:
+        logging.warning("⚠️ TELEGRAM_BOT_TOKEN 없음. 리스너 중단.")
         return
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
-    logging.info("📱 텔레그램 명령어 및 원격 업데이트 리스너 활성화")
+    logging.info(f"📱 텔레그램 인터락 리스너 가동 (Chat ID: {TELEGRAM_CHAT_ID})")
+
+    # 시작 시 이전 밀린 메시지 오프셋 초기화
+    try:
+        init_res = requests.get(url, params={"timeout": 1}, timeout=5).json()
+        if init_res.get("ok") and init_res.get("result"):
+            LAST_TELEGRAM_UPDATE_ID = init_res["result"][-1]["update_id"]
+    except Exception:
+        pass
 
     while True:
         try:
-            params = {"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 5}
-            res = requests.get(url, params=params, timeout=10).json()
+            params = {"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 10}
+            res = requests.get(url, params=params, timeout=15).json()
+            
             if res.get("ok"):
                 for update in res.get("result", []):
                     LAST_TELEGRAM_UPDATE_ID = update["update_id"]
                     msg = update.get("message", {})
                     text = msg.get("text", "").strip()
-                    chat_id = str(msg.get("chat", {}).get("id", ""))
+                    sender_chat_id = str(msg.get("chat", {}).get("id", "")).strip()
 
-                    if chat_id != TELEGRAM_CHAT_ID:
+                    # chat_id 일치 확인 (안전장치)
+                    if TELEGRAM_CHAT_ID and sender_chat_id != TELEGRAM_CHAT_ID:
+                        logging.warning(f"⚠️ 인증되지 않은 사용자 접근 무시 (ID: {sender_chat_id})")
                         continue
+
+                    if not text:
+                        continue
+
+                    logging.info(f"📩 [텔레그램 수신] 명령어: '{text}'")
 
                     # 1. /status : 현재 봇 상태 조회
                     if text == "/status":
                         server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": "-"})
                         paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
                         
-                        held = [v['symbol'] for v in paper_db['active_positions'].values()]
+                        held = [v['symbol'] for v in paper_db.get('active_positions', {}).values()]
                         pending = list(server_state.get('pending_targets', {}).keys())
                         status_str = "🛑 일시정지 (STOP)" if EMERGENCY_STOP else "🟢 정상 감시 중 (RUNNING)"
 
@@ -188,9 +206,9 @@ async def telegram_command_listener():
                         save_json_file(PAPER_TRADES_FILE, paper_db)
                         send_telegram_msg("🚨 [PANIC] 보유 포지션이 전량 초기화되었습니다.")
 
-                    # 5. /update : GitHub 최신 코드 동기화 및 봇 재시작
+                    # 5. /update : GitHub 최신 코드 동기화 및 서비스 안전 재시작
                     elif text == "/update":
-                        send_telegram_msg("🔄 [원격 업데이트] GitHub에서 최신 코드를 다운로드하고 재시작합니다...")
+                        send_telegram_msg("🔄 [원격 업데이트] GitHub에서 최신 코드를 다운로드합니다...")
                         try:
                             result = subprocess.run(
                                 ["git", "pull", "origin", "main"],
@@ -200,14 +218,23 @@ async def telegram_command_listener():
                                 timeout=20
                             )
                             log_output = result.stdout.strip()
+                            err_output = result.stderr.strip()
                             
-                            if "Already up to date." in log_output:
-                                send_telegram_msg(f"ℹ️ [업데이트 불필요] 이미 최신 버전입니다.\n`{log_output}`")
-                            else:
-                                send_telegram_msg(f"✅ [Git Pull 성공]\n`{log_output}`\n\n⚡ 봇을 재시작합니다...")
-                                subprocess.Popen(["sudo", "systemctl", "restart", "autotrade.service"])
+                            if result.returncode != 0:
+                                send_telegram_msg(f"❌ [Git Pull 에러]\n{err_output}")
+                                continue
+
+                            send_telegram_msg(f"✅ [Git Pull 완료]\n`{log_output}`\n\n⚡ 봇 서비스를 재시작합니다...")
+                            
+                            # 1초 지연 후 서비스 재시작 (메시지 완전 전송 보장)
+                            def do_restart():
+                                time.sleep(1.5)
+                                subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
+
+                            threading.Thread(target=do_restart, daemon=True).start()
+
                         except Exception as e:
-                            send_telegram_msg(f"❌ [업데이트 실패] 오류 발생: {e}")
+                            send_telegram_msg(f"❌ [업데이트 실패] {e}")
 
                     # 6. /log : 최근 로그 10줄 확인
                     elif text == "/log":
@@ -218,9 +245,10 @@ async def telegram_command_listener():
                         else:
                             send_telegram_msg("로그 파일이 아직 없습니다.")
 
-            await asyncio.sleep(1)
-        except Exception:
-            await asyncio.sleep(3)
+            time.sleep(1)
+        except Exception as e:
+            logging.error(f"텔레그램 리스너 루프 에러: {e}")
+            time.sleep(3)
 
 # ==========================================
 # 4. 실시간 감시 및 타임어택 주문 집행 엔진
@@ -230,7 +258,9 @@ async def realtime_execution_engine():
     logging.info("⚡ 오라클 실시간 감시 & 체결 엔진 구동 시작")
     last_sync_time = 0
 
-    asyncio.create_task(telegram_command_listener())
+    # 텔레그램 리스너를 독립 백그라운드 스레드로 시작
+    t = threading.Thread(target=telegram_listener_thread, daemon=True)
+    t.start()
 
     while True:
         try:
@@ -245,11 +275,10 @@ async def realtime_execution_engine():
                 if data and data.get("updated_at") != server_state.get("last_updated"):
                     server_state["last_updated"] = data.get("updated_at")
                     
-                    # 💡 [핵심] 이전 회차 미체결 대기 주문 초기화 후 최신 타점으로 교체
+                    # 💡 이전 회차 미체결 대기 주문 초기화 후 최신 타점으로 교체
                     new_pending = {}
                     for coin_code, plan in data.get("targets", {}).items():
                         if coin_code not in paper_db.get("active_positions", {}):
-                            # 생성 시각 기록 (20분 만료 계산용)
                             if "created_at" not in plan:
                                 plan["created_at"] = data.get("updated_at", now_dt.isoformat())
                             new_pending[coin_code] = plan
@@ -266,7 +295,6 @@ async def realtime_execution_engine():
             # [1] 진입 대기 감시 (20분 타임어택 & 가격 도달 체결)
             if not EMERGENCY_STOP:
                 for coin_code, plan in list(pending.items()):
-                    # 20분 만료 여부 확인
                     created_time_str = plan.get("created_at", now_dt.isoformat())
                     try:
                         created_dt = datetime.fromisoformat(created_time_str)
@@ -283,7 +311,6 @@ async def realtime_execution_engine():
                     if not curr_p:
                         continue
 
-                    # 목표 진입가 이하로 눌림목 터치 시 매수 체결
                     if curr_p <= plan["target_entry"]:
                         logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결 진행")
                         active_positions[coin_code] = {
