@@ -1,5 +1,14 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "entry_price": 331.0,
+      "stop_loss": 324.05,
+      "take_profit": 344.9,
+      "buy_amount_krw": 6324,
+      "entry_time": "2026-08-15T04:31:29.995487"
+    }
+  },
   "closed_trades": [
     {
       "symbol": "BTC/KRW",
