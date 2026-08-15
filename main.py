@@ -25,7 +25,7 @@ TIME_EXIT_HOURS = 3       # ⏰ 시간 손절 (3시간 횡보 시 시장가 청�
 POSITIONS_FILE = "positions.json"       # 실전 진입 기록
 PAPER_TRADES_FILE = "paper_trades.json" # 모의투자 정밀 기록
 
-# 🔑 깃허브 저장소 고정 및 토큰 수집 (GH_TOKEN 우선 참조)
+# 🔑 깃허브 저장소 고정
 GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
 
 def get_env(key_name):
@@ -60,6 +60,8 @@ TELEGRAM_CHAT_ID = get_env("TELEGRAM_CHAT_ID")
 
 PROXIES = {'http': WEBSHARE_URL, 'https': WEBSHARE_URL} if WEBSHARE_URL else None
 
+SYNCED_FILES = set()
+
 
 # ==========================================
 # 텔레그램 알림 발송 전용 모듈
@@ -72,8 +74,7 @@ def send_telegram_msg(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
-        "text": message,
-        "parse_mode": "HTML"
+        "text": message
     }
     try:
         res = requests.post(url, json=payload, timeout=10)
@@ -86,14 +87,13 @@ def send_telegram_msg(message):
 
 
 # ==========================================
-# 1. GitHub API 직접 통신 파일 관리 모듈 (dhlee090512-arch/auto-trade 연동)
+# 1. GitHub API 직접 통신 파일 관리 모듈
 # ==========================================
 def get_github_file_info(file_path):
-    """GitHub API를 사용해 저장소의 파일 내용과 sha 값을 직접 읽어옴"""
     url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
     headers = {"Accept": "application/vnd.github.v3+json"}
     if GITHUB_TOKEN:
-        headers["Authorization"] = f"token {GITHUB_TOKEN}"
+        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
         
     try:
         res = requests.get(url, headers=headers, timeout=10)
@@ -107,14 +107,13 @@ def get_github_file_info(file_path):
     return None, None
 
 def save_github_file(file_path, content_data, sha=None):
-    """GitHub API를 사용해 저장소의 파일(paper_trades.json)을 직접 커밋/업데이트"""
     if not GITHUB_TOKEN:
-        print("💡 [알림] GH_TOKEN 환경변수가 없어 GitHub 원격 업로드를 건너뛰고 로컬 저장만 수행합니다.")
+        print("💡 [알림] GH_TOKEN / GITHUB_TOKEN 환경변수가 없어 GitHub 원격 업로드를 건너뛰고 로컬 저장만 수행합니다.")
         return
 
     url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
     headers = {
-        "Authorization": f"token {GITHUB_TOKEN}",
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github.v3+json"
     }
 
@@ -141,15 +140,18 @@ def save_github_file(file_path, content_data, sha=None):
         print(f"❌ [GitHub API] 통신 에러: {e}")
 
 def load_json_file(file_path, default_value):
-    """GitHub API로 원격 데이터 최우선 로드, 실패 시 로컬 파일 로드"""
-    print(f"📥 [{GITHUB_REPOSITORY}] 저장소에서 최신 '{file_path}' 데이터 조회 중...")
-    remote_data, _ = get_github_file_info(file_path)
+    global SYNCED_FILES
     
-    if remote_data is not None:
-        print(f"✅ [GitHub Sync] 깃허브 저장소의 최신 '{file_path}' 데이터를 가져와 동기화했습니다.")
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(remote_data, f, indent=2, ensure_ascii=False)
-        return remote_data
+    if file_path not in SYNCED_FILES:
+        print(f"📥 [{GITHUB_REPOSITORY}] 저장소에서 최신 '{file_path}' 데이터 동기화 중...")
+        remote_data, _ = get_github_file_info(file_path)
+        if remote_data is not None:
+            print(f"✅ [GitHub Sync] 깃허브 저장소의 최신 '{file_path}' 데이터를 가져와 로컬에 덮어썼습니다.")
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(remote_data, f, indent=2, ensure_ascii=False)
+            SYNCED_FILES.add(file_path)
+            return remote_data
+        SYNCED_FILES.add(file_path)
 
     if os.path.exists(file_path):
         try:
@@ -165,7 +167,6 @@ def save_json_file(file_path, data):
     save_github_file(file_path, data)
 
 def clean_and_parse_json(raw_text):
-    """AI 응답 텍스트에서 완결된 JSON 객체 정밀 추출"""
     if not raw_text:
         return None
     try:
@@ -279,6 +280,51 @@ def get_top10_market_data():
 
 
 # ==========================================
+# 📊 최근 매도 이력 문자열 생성 헬퍼 함수
+# ==========================================
+def format_recent_trades_summary(closed_trades):
+    if not closed_trades:
+        return "[최근 매도 이력]\n매도 이력이 없습니다.\n최근 10건 승률 : 0%\n최근 10건 손익 : +0KRW (+0.0%)"
+    
+    recent_10 = closed_trades[-10:]
+    lines = ["[최근 매도 이력]"]
+    
+    wins = 0
+    total_profit_krw = 0
+    total_profit_pct = 0.0
+    
+    for idx, t in enumerate(recent_10, 1):
+        p_pct = t.get('profit_pct', 0.0)
+        p_krw = t.get('profit_krw', 0)
+        symbol = t.get('symbol', 'UNKNOWN')
+        
+        # exit_time 변환 (YY/MM/DD HH:MM)
+        exit_time_str = t.get('exit_time', '')
+        try:
+            dt = datetime.fromisoformat(exit_time_str)
+            formatted_time = dt.strftime("%y/%m/%d %H:%M")
+        except:
+            formatted_time = "-"
+            
+        sign = "+" if p_pct > 0 else ""
+        lines.append(f"{idx}. {symbol} ({sign}{p_pct:.1f}%) {formatted_time}")
+        
+        if p_pct > 0:
+            wins += 1
+        total_profit_krw += p_krw
+        total_profit_pct += p_pct
+
+    win_rate = round((wins / len(recent_10)) * 100) if recent_10 else 0
+    sign_krw = "+" if total_profit_krw > 0 else ""
+    sign_pct = "+" if total_profit_pct > 0 else ""
+    
+    lines.append(f"최근 10건 승률 : {win_rate}%")
+    lines.append(f"최근 10건 손익 : {sign_krw}{total_profit_krw:,}KRW ({sign_pct}{total_profit_pct:.1f}%)")
+    
+    return "\n".join(lines)
+
+
+# ==========================================
 # 🧪 [1순위 실행 모듈] 보유 종목 승패 복기 파동 검증 및 성과 추적
 # ==========================================
 def track_paper_trading_performance():
@@ -325,19 +371,19 @@ def track_paper_trading_performance():
             if c_low <= sl_price and c_high >= tp_price:
                 status = "CLOSED_STOP_LOSS"
                 exit_price = sl_price
-                exit_reason = "동일 봉 내 변동성 폭발 (보수적 손절 처리)"
+                exit_reason = "동일 봉 내 급격한 변동성 (보수적 손절 처리)"
                 break
                 
             if c_low <= sl_price:
                 status = "CLOSED_STOP_LOSS"
                 exit_price = sl_price
-                exit_reason = "하락 파동 중 스탑로스 먼저 체결 (손절)"
+                exit_reason = "스탑로스 도달 (손절)"
                 break
                 
             if c_high >= tp_price:
                 status = "CLOSED_TAKE_PROFIT"
                 exit_price = tp_price
-                exit_reason = "상승 파동 중 목표가 먼저 체결 (익절)"
+                exit_reason = "익절 목표가 달성"
                 break
 
         if status == "HOLDING" and (now - entry_time >= timedelta(hours=TIME_EXIT_HOURS)):
@@ -345,7 +391,7 @@ def track_paper_trading_performance():
             curr_url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
             res = requests.get(curr_url, proxies=PROXIES, timeout=5).json()
             exit_price = float(res['data']['closing_price'])
-            exit_reason = "3시간 이상 목표가/손절가 미도달로 시간 손절(시장가 청산)"
+            exit_reason = "3시간 이상 횡보로 시간 손절(시장가 청산)"
 
         if status != "HOLDING":
             closed_keys.append(coin_code)
@@ -365,43 +411,27 @@ def track_paper_trading_performance():
                 "exit_time": now.isoformat()
             }
             closed_trades.append(trade_record)
+
+            # 청산 후 남은 보유종목 리스트 구성
+            remaining_held = [v['symbol'] for k_code, v in active_positions.items() if k_code != coin_code]
+            held_str = "\n".join([f"- {s}" for s in remaining_held]) if remaining_held else "- (없음)"
             
-            recent_10 = closed_trades[-10:]
-            recent_text_list = []
-            recent_wins = 0
+            recent_summary = format_recent_trades_summary(closed_trades)
             
-            for idx, t in enumerate(recent_10, 1):
-                p_pct = t['profit_pct']
-                tag = "🎯" if p_pct > 0 else "🛡️"
-                if p_pct > 0: recent_wins += 1
-                recent_text_list.append(f"{idx}. {tag} <code>{t['symbol']}</code> ({p_pct:+.2f}%)")
+            sign_pct = "+" if profit_pct > 0 else ""
+            sign_krw = "+" if profit_krw > 0 else ""
             
-            recent_history_str = "\n".join(recent_text_list)
-            recent_total = len(recent_10)
-            recent_win_rate = round((recent_wins / recent_total) * 100, 1) if recent_total > 0 else 0.0
+            msg = f"""[청산 완료] - 모의투자
+종목 : {symbol}
+진입가 : {entry_price:,.0f}KRW ➔ 청산가 : {exit_price:,.0f}KRW
+손익 : {sign_krw}{profit_krw:,}KRW ({sign_pct}{profit_pct:.1f}%)
 
-            total_trades = len(closed_trades)
-            total_wins = len([t for t in closed_trades if t['profit_pct'] > 0])
-            total_win_rate = round((total_wins / total_trades) * 100, 1) if total_trades > 0 else 0.0
-            total_profit_krw = sum(t['profit_krw'] for t in closed_trades)
-
-            status_tag = "🎯 익절 성공" if profit_pct > 0 else "🛡️ 손절 청산"
-            msg = f"""🧪 <b>[모의투자 복기 청산 완료 - {status_tag}]</b>
-
-📌 <b>종목</b>: <code>{symbol}</code>
-📈 <b>진입가</b>: <code>{entry_price:,.0f} KRW</code>
-📉 <b>청산가</b>: <code>{exit_price:,.0f} KRW</code>
-💵 <b>손익금</b>: <code>{profit_krw:+,.0f} KRW</code> (<b>{profit_pct:+.2f}%</b>)
-⏳ <b>사유</b>: {exit_reason}
-
-=========================
-📊 <b>[최근 10개 매매 이력]</b>
-{recent_history_str}
-
-📈 <b>[성과 통계 요약]</b>
-• 최근 10건 승률 : <b>{recent_total}전 {recent_wins}승 {recent_total - recent_wins}패 ({recent_win_rate}%)</b>
-• 전체 누적 승률 : <b>{total_trades}전 {total_wins}승 {total_trades - total_wins}패 ({total_win_rate}%)</b>
-• 누적 총 손익금 : <b>{total_profit_krw:+,.0f} KRW</b>"""
+청산 사유 : {exit_reason}
+=================================
+[현재 보유종목]
+{held_str}
+=================================
+{recent_summary}"""
 
             send_telegram_msg(msg)
             print(f"🎯 [{symbol}] 복기 완료! 청산가: {exit_price:,.0f} (수익률: {profit_pct}%)")
@@ -482,7 +512,7 @@ def manage_unfilled_and_time_exits():
                     market_id = f"{currency}_KRW"
                     sell_body = {'market': market_id, 'side': 'ask', 'volume': str(total_vol), 'ord_type': 'market'}
                     requests.post('https://api.bithumb.com/v1/orders', json=sell_body, headers=get_v2_headers(sell_body), proxies=PROXIES, timeout=10)
-                    send_telegram_msg(f"⏰ [실전 시간 손절 청산] {currency}/KRW 전량 시장가 매도")
+                    send_telegram_msg(f"[실전 시간 손절 청산]\n종목 : {currency}/KRW")
                     del positions[currency]
                     save_json_file(POSITIONS_FILE, positions)
     except Exception as e:
@@ -564,7 +594,7 @@ def call_ai_api(system_instruction, user_prompt):
         })
 
     if not providers:
-        err_msg = "⚠️ <b>[AI API 연동 실패]</b>\n\n내용: <code>등록된 AI API 키가 없습니다. (GEMINI / SAMBANOVA / GROQ)</code>"
+        err_msg = "AI API 연동 실패: 등록된 API 키가 없습니다."
         print(f"[ERROR] {err_msg}")
         send_telegram_msg(err_msg)
         return None
@@ -604,7 +634,7 @@ def call_ai_api(system_instruction, user_prompt):
             print(f"⚠️ [{prov['name']}] 호출 실패: {last_error_msg}")
             print(f"🔄 다음 백업 AI 서비스로 자동 전환을 시도합니다...")
 
-    err_notification = f"⚠️ <b>[AI API 다중화 실패]</b>\n\n모든 AI API 서비스 호출이 실패했습니다.\n최종 사유: <code>{last_error_msg}</code>"
+    err_notification = f"AI API 호출 실패: {last_error_msg}"
     print(f"[ERROR] {err_notification}")
     send_telegram_msg(err_notification)
     return None
@@ -636,8 +666,8 @@ def screen_coins_2step(top10_data):
         candidates_5m_data.append({"symbol": cand_symbol, "candles_5m": c_5m_light})
 
     print("🤖 [Step 3-3] 2차 AI 정밀 스크리닝: 5분봉 파동 분석 및 맞춤 손익비 산출...")
-    sys_prompt_2 = "당신은 수석 데이트레이더입니다. 후보 3개의 5분봉 파동을 분석하여 최종 1개 종목을 선정하고, 손절률(-1.0%~-2.5%) 및 익절률(+2.0%~+5.0%)을 산출하세요. 텍스트 값 안에 큰따옴표나 줄바꿈을 넣지 마세요."
-    user_prompt_2 = f"후보 3개 코인 5분봉 데이터:\n{json.dumps(candidates_5m_data, ensure_ascii=False)}\n\n[응답 포맷 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 88, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"trend_analysis_1h\": \"1시간봉 우상향\", \"trigger_analysis_5m\": \"5분봉 눌림목\", \"technical_summary\": \"요약\"}}"
+    sys_prompt_2 = "당신은 수석 데이트레이더입니다. 후보 3개의 5분봉 파동을 분석하여 최종 1개 종목을 선정하고, 손절률(-1.0%~-2.5%) 및 익절률(+2.0%~+5.0%)을 산출하세요. 매수근거는 지표(RSI/MACD/이평선/패턴 등)를 들어 구체적으로 서술하세요. 텍스트 값 안에 큰따옴표나 줄바꿈을 넣지 마세요."
+    user_prompt_2 = f"후보 3개 코인 5분봉 데이터:\n{json.dumps(candidates_5m_data, ensure_ascii=False)}\n\n[응답 포맷 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 88, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"대추세 상승 추세이며 RSI 분석 시 추세가 강하게 유지되고 있음, 5분봉 분석 시 MACD 골든크로스 발생했으며 눌림목 지지 패턴이 만들어짐.\"}}"
 
     res_2 = call_ai_api(sys_prompt_2, user_prompt_2)
     result = clean_and_parse_json(res_2)
@@ -651,6 +681,7 @@ def screen_coins_2step(top10_data):
         confidence = result.get("confidence_score", 0)
         sl_pct = float(result.get("stop_loss_pct", -2.0))
         tp_pct = float(result.get("take_profit_pct", 3.5))
+        detailed_reason = result.get("detailed_reason", "상위 거래대금 동반 및 단기 파동 돌파 지지 확인")
 
         sl_pct = max(min(sl_pct, -1.0), -2.5)
         tp_pct = min(max(tp_pct, 2.0), 5.0)
@@ -667,9 +698,7 @@ def screen_coins_2step(top10_data):
             "confidence": confidence,
             "sl_pct": sl_pct,
             "tp_pct": tp_pct,
-            "trend_1h": result.get('trend_analysis_1h', '-'),
-            "trigger_5m": result.get('trigger_analysis_5m', '-'),
-            "summary": result.get('technical_summary', '-')
+            "detailed_reason": detailed_reason
         }
 
     except Exception as e:
@@ -697,9 +726,7 @@ def analyze_technical_levels(ai_plan):
         "take_profit": take_profit,
         "sl_pct": ai_plan['sl_pct'],
         "tp_pct": ai_plan['tp_pct'],
-        "trend_1h": ai_plan['trend_1h'],
-        "trigger_5m": ai_plan['trigger_5m'],
-        "summary": ai_plan['summary']
+        "detailed_reason": ai_plan['detailed_reason']
     }
 
 
@@ -734,18 +761,30 @@ def execute_order_with_tp_sl(plan, buy_amount_krw):
         }
         save_json_file(PAPER_TRADES_FILE, paper_db)
 
-        sim_msg = f"""🧪 <b>[모의투자 체결 - 정밀 추적 시작]</b>
+        # 현재 보유 종목 리스트 생성
+        held_list = [v['symbol'] for v in paper_db['active_positions'].values()]
+        held_str = "\n".join([f"- {s}" for s in held_list])
+        
+        # 최근 매도 이력 요약 생성
+        recent_summary = format_recent_trades_summary(paper_db.get('closed_trades', []))
 
-📌 <b>종목</b>: <code>{symbol}</code>
-💵 <b>매수금액</b>: <code>{buy_amount_krw:,.0f} KRW</code>
-📈 <b>진입가</b>: <code>{price:,.0f} KRW</code>
+        # 📌 요청하신 레이아웃 적용
+        tp_sign = "+" if plan['tp_pct'] > 0 else ""
+        sl_sign = "" if plan['sl_pct'] < 0 else "+"
+        
+        sim_msg = f"""[체결 완료] - 모의투자
+종목 : {symbol}
+진입가 : {price:,.0f}KRW
 
-🎯 <b>지정가 익절 목표</b>: <code>{tp:,.0f} KRW</code> (+{plan['tp_pct']}%)
-🛡️ <b>스탑로스 손절 목표</b>: <code>{sl:,.0f} KRW</code> ({plan['sl_pct']}%)
+익절 목표 : {tp:,.0f}KRW({tp_sign}{plan['tp_pct']}%) / 손절 목표 : {sl:,.0f}KRW({plan['sl_pct']}%)
 
-📝 <b>매수 근거</b>:
-• <b>대추세(1h)</b>: {plan['trend_1h']}
-• <b>진입타점(5m)</b>: {plan['trigger_5m']}"""
+매수 근거 : {plan['detailed_reason']}
+=================================
+[현재 보유종목]
+{held_str}
+=================================
+{recent_summary}"""
+
         send_telegram_msg(sim_msg)
 
     else:
@@ -772,10 +811,10 @@ def execute_order_with_tp_sl(plan, buy_amount_krw):
                 positions[coin_code] = datetime.now().isoformat()
                 save_json_file(POSITIONS_FILE, positions)
 
-                send_telegram_msg(f"🚨 <b>[실전 매수 체결]</b> {symbol} | 진입가: {price:,.0f} KRW")
+                send_telegram_msg(f"[실전 매수 체결]\n종목 : {symbol}\n진입가 : {price:,.0f}KRW")
 
         except Exception as e:
-            send_telegram_msg(f"❌ <b>[실전 매수 오류]</b>: <code>{e}</code>")
+            send_telegram_msg(f"[실전 매수 오류]: {e}")
             
     print("="*50 + "\n")
 
