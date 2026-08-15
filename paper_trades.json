@@ -1,38 +1,4 @@
 {
-  "active_positions": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 331.0,
-      "stop_loss": 324.05,
-      "take_profit": 344.9,
-      "buy_amount_krw": 6324,
-      "entry_time": "2026-08-15T04:31:29.995487"
-    }
-  },
-  "closed_trades": [
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 90251000.0,
-      "exit_price": 88897235.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -95,
-      "profit_pct": -1.5,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "하락 파동 중 스탑로스 먼저 체결 (손절)",
-      "entry_time": "2026-08-13T07:01:53.207138",
-      "exit_time": "2026-08-14T15:29:33.608824"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 1674.0,
-      "exit_price": 1732.59,
-      "buy_amount_krw": 6324,
-      "profit_krw": 221,
-      "profit_pct": 3.5,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "상승 파동 중 목표가 먼저 체결 (익절)",
-      "entry_time": "2026-08-14T15:30:30.469924",
-      "exit_time": "2026-08-15T04:30:41.432149"
-    }
-  ]
+  "active_positions": {},
+  "closed_trades": []
 }
