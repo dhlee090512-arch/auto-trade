@@ -4,6 +4,7 @@ import time
 import uuid
 import json
 import re
+import math
 import base64
 import jwt
 import requests
@@ -133,11 +134,12 @@ def clean_and_parse_json(raw_text):
             if end_idx != -1:
                 return json.loads(sanitized[:end_idx+1])
         return json.loads(cleaned)
-    except Exception:
+    except Exception as e:
+        print(f"⚠️ JSON 파싱 실패 에러: {e}")
         return None
 
 # ==========================================
-# 3. 빗썸 API & 시장 데이터 수집
+# 3. 빗썸 API & 퀀트 지표(Feature Engineering) 연산
 # ==========================================
 def get_v2_headers(query_params=None):
     payload = {
@@ -156,10 +158,10 @@ def get_v2_headers(query_params=None):
     jwt_token = jwt.encode(payload, BITHUMB_SECRET_KEY)
     return {'Authorization': f'Bearer {jwt_token}', 'Content-Type': 'application/json'}
 
-def get_candles(coin_code, interval="5m", limit=30):
+def get_candles(coin_code, interval="5m", limit=50):
     try:
         url = f"https://api.bithumb.com/public/candlestick/{coin_code}_KRW/{interval}"
-        res = requests.get(url, proxies=PROXIES, timeout=5).json()
+        res = requests.get(url, proxies=PROXIES, timeout=6).json()
         if res.get("status") == "0000":
             return [{
                 "timestamp": int(c[0]),
@@ -167,11 +169,80 @@ def get_candles(coin_code, interval="5m", limit=30):
                 "close": float(c[2]),
                 "high": float(c[3]),
                 "low": float(c[4]),
-                "volume": round(float(c[5]), 1)
+                "volume": round(float(c[5]), 2)
             } for c in res['data'][-limit:]]
     except Exception:
         pass
     return []
+
+def calculate_rsi(closes, period=14):
+    if len(closes) < period + 1:
+        return 50.0
+    gains, losses = [], []
+    for i in range(1, len(closes)):
+        delta = closes[i] - closes[i-1]
+        if delta >= 0:
+            gains.append(delta)
+            losses.append(0.0)
+        else:
+            gains.append(0.0)
+            losses.append(abs(delta))
+    avg_gain = sum(gains[-period:]) / period
+    avg_loss = sum(losses[-period:]) / period
+    if avg_loss == 0:
+        return 100.0
+    rs = avg_gain / avg_loss
+    return round(100.0 - (100.0 / (1.0 + rs)), 1)
+
+def calculate_atr(candles, period=14):
+    if len(candles) < period + 1:
+        return 0.0
+    trs = []
+    for i in range(1, len(candles)):
+        h = candles[i]['high']
+        l = candles[i]['low']
+        prev_c = candles[i-1]['close']
+        tr = max(h - l, abs(h - prev_c), abs(l - prev_c))
+        trs.append(tr)
+    return round(sum(trs[-period:]) / period, 2)
+
+def calculate_quant_features(candles):
+    """캔들 데이터로부터 VWAP, 볼륨 급증 배수, RSI, ATR 연산"""
+    if not candles:
+        return {}
+    closes = [c['close'] for c in candles]
+    volumes = [c['volume'] for c in candles]
+    
+    # 1. VWAP (전체 수집 구간 가중평균가)
+    cum_pv = sum(c['close'] * c['volume'] for c in candles)
+    cum_vol = sum(volumes)
+    vwap = (cum_pv / cum_vol) if cum_vol > 0 else closes[-1]
+    vwap_gap_pct = round(((closes[-1] - vwap) / vwap) * 100, 2)
+
+    # 2. 최근 20캔들 평균 대비 거래량 폭발 배수
+    avg_vol_20 = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else (sum(volumes[:-1]) / max(len(volumes)-1, 1))
+    surge_ratio = round(volumes[-1] / avg_vol_20, 2) if avg_vol_20 > 0 else 1.0
+
+    # 3. RSI(14) & ATR(14)
+    rsi = calculate_rsi(closes, period=14)
+    atr = calculate_atr(candles, period=14)
+    atr_pct = round((atr / closes[-1]) * 100, 2) if closes[-1] > 0 else 0.0
+
+    # 4. 이평선 배열 상태 (EMA5 vs EMA20)
+    sma_short = sum(closes[-5:]) / 5
+    sma_long = sum(closes[-20:]) / 20 if len(closes) >= 20 else sum(closes) / len(closes)
+    trend_state = "정배열(Bullish)" if sma_short >= sma_long else "역배열(Bearish)"
+
+    return {
+        "current_price": closes[-1],
+        "vwap": round(vwap, 2),
+        "vwap_gap_pct": vwap_gap_pct,
+        "volume_surge_ratio": surge_ratio,
+        "rsi_14": rsi,
+        "atr_14": atr,
+        "atr_pct": atr_pct,
+        "trend_state": trend_state
+    }
 
 def check_btc_macro_trend():
     """비트코인(BTC) 기준 시장 대추세 필터 (급락장 매수 방어)"""
@@ -189,7 +260,7 @@ def check_btc_macro_trend():
     return True, 0.0
 
 def get_top10_market_data():
-    print("\n📊 [Step 1] 빗썸 상위 10개 코인 데이터 수집 및 추세 필터링...")
+    print("\n📊 [Step 1] 빗썸 상위 10개 코인 1시간봉(24개) 수집 및 퀀트 피처 분석...")
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     res = requests.get(url, proxies=PROXIES, timeout=10).json()
     if res.get("status") != "0000":
@@ -209,18 +280,24 @@ def get_top10_market_data():
     filtered_data = []
     
     for symbol, price, change, volume_krw in sorted_list:
-        candles_1h = get_candles(symbol, interval="1h", limit=12)
-        if not candles_1h: continue
+        # 1시간봉 24개(24시간 대추세) 수집
+        candles_1h = get_candles(symbol, interval="1h", limit=24)
+        if len(candles_1h) < 15: continue
         
-        # 1시간봉 기준 역배열 하락세 종목은 1차 필터링
-        closes = [c['close'] for c in candles_1h]
-        sma_short = sum(closes[-3:]) / 3
-        sma_long = sum(closes) / len(closes)
-        if sma_short < sma_long * 0.985:
+        q_feat = calculate_quant_features(candles_1h)
+        
+        # 1시간봉 기준 역배열이거나 VWAP 아래로 -2% 이상 꺾인 종목 1차 제외
+        if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
             continue
             
-        c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h]
-        filtered_data.append({"s": f"{symbol}/KRW", "p": price, "r": change, "c_1h": c_1h_light})
+        c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h[-12:]]
+        filtered_data.append({
+            "symbol": f"{symbol}/KRW",
+            "price": price,
+            "change_24h": change,
+            "quant_metrics": q_feat,
+            "candles_1h_recent": c_1h_light
+        })
             
     return filtered_data
 
@@ -239,24 +316,34 @@ def get_account_status():
     return max(calc_buy, MIN_BUY_KRW)
 
 # ==========================================
-# 4. AI 연동 및 2단계 정밀 스크리닝
+# 4. AI 연동 및 2단계 퀀트 정밀 스크리닝
 # ==========================================
-def call_ai_api(system_instruction, user_prompt):
+def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
     providers = []
     if GEMINI_API_KEY:
-        providers.append({"name": "Gemini", "key": GEMINI_API_KEY, "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-2.5-flash"})
+        providers.append({"name": "Gemini 2.5 Flash", "key": GEMINI_API_KEY, "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-2.5-flash"})
     if SAMBANOVA_API_KEY:
-        providers.append({"name": "SambaNova", "key": SAMBANOVA_API_KEY, "base_url": "https://api.sambanova.ai/v1", "model": "Meta-Llama-3.3-70B-Instruct"})
+        providers.append({"name": "SambaNova Llama-3.3-70B", "key": SAMBANOVA_API_KEY, "base_url": "https://api.sambanova.ai/v1", "model": "Meta-Llama-3.3-70B-Instruct"})
     if GROQ_API_KEY3:
-        providers.append({"name": "Groq3", "key": GROQ_API_KEY3, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
+        providers.append({"name": "Groq (KEY3)", "key": GROQ_API_KEY3, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
     if GROQ_API_KEY2:
-        providers.append({"name": "Groq2", "key": GROQ_API_KEY2, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
+        providers.append({"name": "Groq (KEY2)", "key": GROQ_API_KEY2, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
 
-    if not providers: return None
-    http_client = httpx.Client(proxy=WEBSHARE_URL, timeout=30.0) if WEBSHARE_URL else None
+    if not providers:
+        print("❌ [AI Error] 등록된 AI API 키가 없습니다.")
+        return None
+
+    http_client = httpx.Client(proxy=WEBSHARE_URL, timeout=35.0) if WEBSHARE_URL else None
+
+    print("\n" + "─"*60)
+    print(f"📤 [{step_name}] AI 요청 프롬프트 (Preview):")
+    preview_prompt = user_prompt if len(user_prompt) <= 600 else user_prompt[:600] + " ... (생략)"
+    print(preview_prompt)
+    print("─"*60)
 
     for prov in providers:
         try:
+            print(f"🤖 [{prov['name']}] 호출 시도 중...")
             client = OpenAI(base_url=prov['base_url'], api_key=prov['key'], http_client=http_client)
             res = client.chat.completions.create(
                 model=prov['model'],
@@ -267,9 +354,18 @@ def call_ai_api(system_instruction, user_prompt):
                 response_format={"type": "json_object"},
                 temperature=0.1
             )
-            return res.choices[0].message.content
-        except Exception:
-            pass
+            raw_response = res.choices[0].message.content
+
+            print(f"✅ [{prov['name']}] 응답 수신 성공!")
+            print(f"📥 [{step_name}] AI 반환 원본 결과:")
+            print(raw_response.strip())
+            print("─"*60 + "\n")
+            return raw_response
+
+        except Exception as e:
+            print(f"⚠️ [{prov['name']}] 호출 실패! ({e}) ➔ 다음 AI로 자동 폴백합니다.")
+
+    print(f"❌ [{step_name}] 모든 AI 호출 실패.")
     return None
 
 def screen_coins_2step(top_data):
@@ -277,32 +373,54 @@ def screen_coins_2step(top_data):
         print("⏸️ [추세 필터] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
         return None, [], "추세 필터에서 우상향 정배열 종목 없음"
 
-    print("🤖 [Step 2-1] 1차 AI 스크리닝: 우상향 돌파 후보 선별...")
-    sys_1 = "당신은 보수적 퀀트입니다. 1시간봉(c_1h)이 명확한 우상향/골든크로스인 종목만 최대 3개 선별하세요. 마땅한 상승세가 없으면 top3_candidates를 빈 배열 []로 반환하세요."
-    user_1 = f"데이터:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"이유\"}}"
+    print("🤖 [Step 2-1] 1차 AI 스크리닝: 1시간봉 퀀트 지표 기반 후보 3개 선별...")
+    sys_1 = (
+        "당신은 헤지펀드 퀀트 트레이더입니다. "
+        "제공된 10개 종목의 [VWAP 대비 위치, 거래량 폭발 배수(volume_surge_ratio), RSI, 1시간봉 추세]를 분석하여 "
+        "당일 기관/고래의 순매수 수급이 살아있는 상위 3개 후보를 선별하세요. "
+        "만약 10개 종목 모두 횡보/하락세이거나 거래량이 죽어있다면 top3_candidates를 빈 배열 []로 반환하여 100% 현금을 지키세요."
+    )
+    user_1 = f"시장 및 퀀트 지표 데이터:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"선정 이유 (VWAP 상단, 수급 폭발 등)\"}}"
     
-    res_1 = call_ai_api(sys_1, user_1)
+    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 대추세 퀀트 스크리닝")
     data_1 = clean_and_parse_json(res_1)
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
         return None, [], "1차 AI 스크리닝에서 우상향 모멘텀 종목 미발견"
 
     candidates = data_1["top3_candidates"]
-    print(f"🎯 [1차 후보] {candidates}")
+    print(f"🎯 [1차 선별된 후보 종목]: {candidates}")
 
-    print("📊 [Step 2-2] 2차 정밀 분석용 5분봉 수집 중...")
+    print("\n📊 [Step 2-2] 2차 정밀 분석용 5분봉 40개 차트 및 지표 수집 중...")
     cand_5m_data = []
     for sym in candidates:
         code = sym.split('/')[0]
-        candles_5m = get_candles(code, interval="5m", limit=15)
+        candles_5m = get_candles(code, interval="5m", limit=40)
+        if len(candles_5m) < 25: continue
+        
+        q_5m = calculate_quant_features(candles_5m)
         c_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_5m]
-        cand_5m_data.append({"symbol": sym, "candles_5m": c_light})
+        
+        cand_5m_data.append({
+            "symbol": sym,
+            "quant_5m_summary": q_5m,
+            "candles_5m_timeseries": c_light
+        })
 
-    print("🤖 [Step 2-3] 2차 AI 정밀 파동 분석 및 손익비 산출...")
-    sys_2 = "당신은 수석 데이트레이더입니다. 5분봉 파동을 분석하여 최종 1개 종목을 선정하고 할인 진입율(entry_discount_pct: 0.2~0.8%), 손절률(-1.0%~-2.5%), 익절률(+2.0%~+5.0%)을 산출하세요. 진입 자리가 불확실하거나 하락 반전 위험이 있으면 selected_symbol을 'NONE'으로 반환하세요."
-    user_2 = f"5분봉 데이터:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.5, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"근거\"}}"
+    print("🤖 [Step 2-3] 2차 AI 퀀트 정밀 파동 분석 및 타점 산출...")
+    sys_2 = (
+        "당신은 5분봉 눌림목/돌파를 전문으로 하는 수석 데이트레이더입니다. "
+        "제공된 5분봉 40개(3시간 20분 흐름)와 퀀트 지표(RSI, ATR, VWAP)를 바탕으로 다음 4대 원칙을 검증하세요:\n"
+        "1. 거래량 압축 후 재반등(Volume Contraction): 거래량이 줄어들며 0.3~0.8% 눌림목 지지선을 형성하는가?\n"
+        "2. 손익비(Risk/Reward): 목표 익절폭이 손절폭의 최소 1.8배 이상 나오는가?\n"
+        "3. ATR 변동성 일치: 산출된 손절률(-1.0%~-2.5%)이 5분봉 ATR 변동폭을 감당할 수 있는 합리적 수준인가?\n"
+        "4. 과매수(RSI > 75) 추격 매수 금지: 상투 구간(설거지) 매수를 엄격히 배제할 것.\n\n"
+        "조건을 가장 완벽히 만족하는 1개 종목을 골라 진입 할인율(entry_discount_pct: 0.2~0.8%), 손절률(-1.0%~-2.5%), 익절률(+2.0%~+5.0%)을 산출하세요. "
+        "진입 타점이 불명확하거나 하락 반전 위험이 감지되면 즉시 selected_symbol을 'NONE'으로 반환하세요."
+    )
+    user_2 = f"5분봉 40개 및 퀀트 지표 데이터:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.5, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"근거 (지지선, 손익비 등)\"}}"
 
-    res_2 = call_ai_api(sys_2, user_2)
+    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 퀀트 타점 산출")
     result = clean_and_parse_json(res_2)
     if not result:
         return None, candidates, "2차 AI 응답 JSON 파싱 실패"
@@ -311,9 +429,11 @@ def screen_coins_2step(top_data):
     confidence = result.get("confidence_score", 0)
     detailed_reason = result.get("detailed_reason", "지지선 불명확")
 
+    print(f"🔍 [2차 분석 디버깅 판정] 종목: {selected} | 신뢰도 점수: {confidence}점 | 기준 점수: {MIN_CONFIDENCE_SCORE}점")
+
     if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
         print(f"⏸️ [2차 AI 스크리닝] 신뢰도 미달 또는 관망 판정 (점수: {confidence}점)")
-        return None, candidates, f"5분봉 분석 결과 신뢰도({confidence}점) 기준 미달 또는 진입 자리 불확실 ({detailed_reason})"
+        return None, candidates, f"5분봉 40캔들 분석 결과 신뢰도({confidence}점) 기준 미달 또는 진입 자리 불확실 ({detailed_reason})"
 
     plan = {
         "symbol": selected,
@@ -409,7 +529,6 @@ if __name__ == "__main__":
     if ai_plan:
         calculate_and_save_targets(ai_plan, buy_amount_krw)
     else:
-        # ⏸️ 관망 판정 시 텔레그램 상세 브리핑 발송
         cand_str = ", ".join(candidates) if candidates else "1차 부적합"
         hold_msg = f"""⏸️ [전략 분석 결과 - 현금 관망]
 • 분석 시각 : {kst_now}
