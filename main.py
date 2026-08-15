@@ -298,7 +298,6 @@ def format_recent_trades_summary(closed_trades):
         p_krw = t.get('profit_krw', 0)
         symbol = t.get('symbol', 'UNKNOWN')
         
-        # exit_time 변환 (YY/MM/DD HH:MM)
         exit_time_str = t.get('exit_time', '')
         try:
             dt = datetime.fromisoformat(exit_time_str)
@@ -412,7 +411,6 @@ def track_paper_trading_performance():
             }
             closed_trades.append(trade_record)
 
-            # 청산 후 남은 보유종목 리스트 구성
             remaining_held = [v['symbol'] for k_code, v in active_positions.items() if k_code != coin_code]
             held_str = "\n".join([f"- {s}" for s in remaining_held]) if remaining_held else "- (없음)"
             
@@ -556,17 +554,17 @@ def get_account_status():
 
 
 # ==========================================
-# 🎯 [Step 3] AI 연동 (1순위: Gemini 3.5 Flash ➔ 2순위: SambaNova ➔ 3/4순위: Groq)
+# 🎯 [Step 3] AI 연동 (1순위: Gemini 3.5 Flash Lite [RPD 500] ➔ 2순위: SambaNova ➔ 3/4순위: Groq)
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
 
     if GEMINI_API_KEY:
         providers.append({
-            "name": "Google Gemini (3.5 Flash)",
+            "name": "Google Gemini (3.5 Flash Lite)",
             "key": GEMINI_API_KEY,
             "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
-            "model": "gemini-3.5-flash"
+            "model": "gemini-3.5-flash-lite"  # 👈 하루 500회 무료 쿼터 적용
         })
 
     if SAMBANOVA_API_KEY:
@@ -770,7 +768,6 @@ def execute_order_with_tp_sl(plan, buy_amount_krw):
 
         # 📌 요청하신 레이아웃 적용
         tp_sign = "+" if plan['tp_pct'] > 0 else ""
-        sl_sign = "" if plan['sl_pct'] < 0 else "+"
         
         sim_msg = f"""[체결 완료] - 모의투자
 종목 : {symbol}
