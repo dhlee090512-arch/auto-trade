@@ -13,7 +13,7 @@ load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-GH_TOKEN = os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
+GH_TOKEN = os.getenv("GH_TOKEN2") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
 BITHUMB_API_KEY = os.getenv("BITHUMB_API_KEY")
 BITHUMB_SECRET_KEY = os.getenv("BITHUMB_SECRET_KEY")
 
@@ -40,7 +40,7 @@ def send_telegram_msg(msg: str):
     try:
         requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": msg}, timeout=8)
     except Exception as e:
-        logging.error(f"텔레그램 발송 에러: {e}")
+        logging.error(f"텔레그램 발송 오류: {e}")
 
 def format_recent_trades_summary(closed_trades):
     if not closed_trades:
@@ -58,15 +58,13 @@ def format_recent_trades_summary(closed_trades):
         symbol = t.get('symbol', 'UNKNOWN')
         exit_time_str = t.get('exit_time', '')
         try:
-            dt = datetime.fromisoformat(exit_time_str)
-            formatted_time = dt.strftime("%y/%m/%d %H:%M")
+            formatted_time = datetime.fromisoformat(exit_time_str).strftime("%y/%m/%d %H:%M")
         except:
             formatted_time = "-"
             
         sign = "+" if p_pct > 0 else ""
         lines.append(f"{idx}. {symbol} ({sign}{p_pct:.1f}%) {formatted_time}")
-        if p_pct > 0:
-            wins += 1
+        if p_pct > 0: wins += 1
         total_profit_krw += p_krw
         total_profit_pct += p_pct
 
@@ -83,7 +81,7 @@ def load_json_file(file_path, default_value):
             with open(file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except:
-            return default_value
+            pass
     return default_value
 
 def save_json_file(file_path, data):
@@ -114,13 +112,11 @@ def fetch_latest_targets():
     return None
 
 async def telegram_command_listener():
-    """텔레그램 인터락 리스너 (/status, /stop, /start, /panic)"""
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
-    if not TELEGRAM_BOT_TOKEN:
-        return
+    if not TELEGRAM_BOT_TOKEN: return
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
-    logging.info("📱 텔레그램 원격 명령어 리스너 활성화")
+    logging.info("📱 텔레그램 인터락 리스너 활성화")
 
     while True:
         try:
@@ -137,23 +133,23 @@ async def telegram_command_listener():
                         continue
 
                     if text == "/status":
-                        server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "active_positions": {}})
+                        server_state = load_json_file(STATE_FILE, {"pending_targets": {}})
                         paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
                         
-                        held_list = [v['symbol'] for v in paper_db['active_positions'].values()]
-                        pending_list = list(server_state.get('pending_targets', {}).keys())
+                        held = [v['symbol'] for v in paper_db['active_positions'].values()]
+                        pending = list(server_state.get('pending_targets', {}).keys())
                         status_str = "🛑 일시정지 (STOP)" if EMERGENCY_STOP else "🟢 정상 감시 중 (RUNNING)"
 
                         res_msg = f"""[시스템 상태 보고]
 • 인터락 상태: {status_str}
-• 진입 대기 종목: {', '.join(pending_list) if pending_list else '(없음)'}
-• 현재 보유 종목: {', '.join(held_list) if held_list else '(없음)'}
+• 진입 대기 종목: {', '.join(pending) if pending else '(없음)'}
+• 현재 보유 종목: {', '.join(held) if held else '(없음)'}
 • 누적 복기 거래수: {len(paper_db.get('closed_trades', []))}건"""
                         send_telegram_msg(res_msg)
 
                     elif text == "/stop":
                         EMERGENCY_STOP = True
-                        send_telegram_msg("🛑 [인터락 작동] 신규 매수 감시가 일시 중단되었습니다. (보유 포지션 익/손절 감시는 유지)")
+                        send_telegram_msg("🛑 [인터락 작동] 신규 매수 감시가 일시 중단되었습니다.")
 
                     elif text == "/start":
                         EMERGENCY_STOP = False
@@ -161,21 +157,18 @@ async def telegram_command_listener():
 
                     elif text == "/panic":
                         EMERGENCY_STOP = True
-                        send_telegram_msg("🚨 [PANIC] 신규 매수 중단 및 보유 종목 전량 긴급 청산 실행")
-                        # 보유 종목 전량 청산 로직
                         paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
                         paper_db["active_positions"] = {}
                         save_json_file(PAPER_TRADES_FILE, paper_db)
-                        send_telegram_msg("✅ 보유 포지션이 모두 초기화되었습니다.")
+                        send_telegram_msg("🚨 [PANIC] 보유 포지션이 전량 초기화되었습니다.")
 
             await asyncio.sleep(1)
-        except Exception as e:
-            logging.error(f"텔레그램 리스너 오류: {e}")
+        except Exception:
             await asyncio.sleep(3)
 
 async def realtime_execution_engine():
     global EMERGENCY_STOP
-    logging.info("⚡ 오라클 서버 실시간 가격 감시 엔진 가동")
+    logging.info("⚡ 실시간 감시 엔진 구동 시작")
     last_sync_time = 0
 
     asyncio.create_task(telegram_command_listener())
@@ -187,7 +180,7 @@ async def realtime_execution_engine():
             server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
             paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
 
-            # 1. 30초마다 GitHub targets.json 동기화
+            # 30초마다 깃허브 targets.json 동기화
             if now - last_sync_time >= 30:
                 data = fetch_latest_targets()
                 if data and data.get("updated_at") != server_state.get("last_updated"):
@@ -196,25 +189,21 @@ async def realtime_execution_engine():
                         if coin_code not in paper_db.get("active_positions", {}):
                             server_state["pending_targets"][coin_code] = plan
                     save_json_file(STATE_FILE, server_state)
-                    logging.info(f"🔄 최신 targets.json 동기화 완료 ({server_state['last_updated']})")
+                    logging.info(f"🔄 targets.json 동기화 ({server_state['last_updated']})")
                 last_sync_time = now
 
             pending = server_state.get("pending_targets", {})
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # 2. [진입 대기 감시] 지정 진입가 도달 시 매수 체결
+            # [1] 진입 대기 감시 (현재가 <= 목표 진입가 시 매수)
             if not EMERGENCY_STOP:
                 for coin_code, plan in list(pending.items()):
                     curr_p = get_current_price(coin_code)
-                    if not curr_p:
-                        continue
+                    if not curr_p: continue
 
-                    # 진입가 도달 확인 (현재가 <= 목표 진입가)
                     if curr_p <= plan["target_entry"]:
-                        logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결 진행")
-                        
-                        # 포지션 등록
+                        logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 체결 진행")
                         active_positions[coin_code] = {
                             "symbol": plan["symbol"],
                             "entry_price": curr_p,
@@ -227,12 +216,10 @@ async def realtime_execution_engine():
                             "entry_time": now_dt.isoformat()
                         }
                         del pending[coin_code]
-                        
                         paper_db["active_positions"] = active_positions
                         save_json_file(PAPER_TRADES_FILE, paper_db)
                         save_json_file(STATE_FILE, server_state)
 
-                        # 기존 텔레그램 체결 메시지 포맷 그대로 전송
                         held_str = "\n".join([f"- {v['symbol']}" for v in active_positions.values()])
                         recent_summary = format_recent_trades_summary(closed_trades)
                         tp_sign = "+" if plan['tp_pct'] > 0 else ""
@@ -251,12 +238,10 @@ async def realtime_execution_engine():
 {recent_summary}"""
                         send_telegram_msg(buy_msg)
 
-            # 3. [보유 포지션 실시간 감시] 익절 / 손절 / 시간 손절
-            closed_keys = []
+            # [2] 보유 포지션 실시간 감시 (익절 / 손절 / 시간손절)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
-                if not curr_p:
-                    continue
+                if not curr_p: continue
 
                 entry_p = pos["entry_price"]
                 sl_p = pos["stop_loss"]
@@ -267,28 +252,24 @@ async def realtime_execution_engine():
                 exit_price = 0.0
                 exit_reason = ""
 
-                # 익절 도달
                 if curr_p >= tp_p:
                     status = "CLOSED_TAKE_PROFIT"
                     exit_price = curr_p
                     exit_reason = "익절 목표가 달성"
-                # 손절 도달
                 elif curr_p <= sl_p:
                     status = "CLOSED_STOP_LOSS"
                     exit_price = curr_p
                     exit_reason = "스탑로스 도달 (손절)"
-                # 3시간 시간 손절
                 elif now_dt - entry_time >= timedelta(hours=TIME_EXIT_HOURS):
                     status = "CLOSED_TIME_EXIT"
                     exit_price = curr_p
-                    exit_reason = f"{TIME_EXIT_HOURS}시간 이상 횡보로 시간 손절(시장가 청산)"
+                    exit_reason = f"{TIME_EXIT_HOURS}시간 횡보로 시간 손절(시장가 청산)"
 
                 if status != "HOLDING":
-                    closed_keys.append(coin_code)
                     profit_pct = round(((exit_price - entry_p) / entry_p) * 100, 2)
                     profit_krw = round(pos["buy_amount_krw"] * (profit_pct / 100.0))
 
-                    trade_record = {
+                    closed_trades.append({
                         "symbol": pos["symbol"],
                         "entry_price": entry_p,
                         "exit_price": exit_price,
@@ -299,15 +280,13 @@ async def realtime_execution_engine():
                         "reason": exit_reason,
                         "entry_time": pos["entry_time"],
                         "exit_time": now_dt.isoformat()
-                    }
-                    closed_trades.append(trade_record)
+                    })
 
                     del active_positions[coin_code]
                     paper_db["active_positions"] = active_positions
                     paper_db["closed_trades"] = closed_trades
                     save_json_file(PAPER_TRADES_FILE, paper_db)
 
-                    # 기존 텔레그램 청산 메시지 포맷 그대로 전송
                     remaining_held = [v['symbol'] for v in active_positions.values()]
                     held_str = "\n".join([f"- {s}" for s in remaining_held]) if remaining_held else "- (없음)"
                     recent_summary = format_recent_trades_summary(closed_trades)
@@ -328,11 +307,10 @@ async def realtime_execution_engine():
                     send_telegram_msg(exit_msg)
 
             await asyncio.sleep(2)
-
         except Exception as e:
-            logging.error(f"감시 루프 오류: {e}")
+            logging.error(f"루프 에러: {e}")
             await asyncio.sleep(5)
 
 if __name__ == "__main__":
-    send_telegram_msg("🚀 [오라클 서버] 실시간 감시 & 텔레그램 원격 제어 엔진 가동 시작\n(명령어: /status, /stop, /start, /panic)")
+    send_telegram_msg("🚀 [오라클 서버] 실시간 감시 & 텔레그램 원격 제어 엔진 가동\n(명령어: /status, /stop, /start, /panic)")
     asyncio.run(realtime_execution_engine())
