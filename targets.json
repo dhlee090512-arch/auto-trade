@@ -1,0 +1,17 @@
+{
+  "updated_at": "2026-08-15T09:02:59.499619",
+  "paper_trading": true,
+  "targets": {
+    "USDT": {
+      "symbol": "USDT/KRW",
+      "current_price": 1414.0,
+      "target_entry": 1406.0,
+      "stop_loss": 1389.0,
+      "take_profit": 1448.0,
+      "sl_pct": -1.2,
+      "tp_pct": 3.0,
+      "buy_amount_krw": 6324,
+      "detailed_reason": "거래량 압축 후 재반등(Volume Contraction)과 손익비(Risk/Reward)가 적절하며, ATR 변동성 일치와 과매수(RSI > 75) 추격 매수 금지 조건을 모두 만족한다."
+    }
+  }
+}
