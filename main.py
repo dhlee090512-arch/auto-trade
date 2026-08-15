@@ -23,6 +23,9 @@ MIN_BUY_KRW = 6000           # 💵 최소 매수 금액 (빗썸 5천원 + 안�
 BUY_RATIO = 0.20             # 📊 가용 잔고의 20%
 TIME_EXIT_HOURS = 3          # ⏰ 시간 손절 기준
 
+# 스테이블 코인 및 가격 고정형 토큰 (단타 대상 원천 제외)
+STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD"}
+
 TARGETS_FILE = "targets.json"
 GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
 
@@ -59,7 +62,7 @@ PROXIES = {'http': WEBSHARE_URL, 'https': WEBSHARE_URL} if WEBSHARE_URL else Non
 # ==========================================
 def send_telegram_msg(message):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[WARN] 텔레그램 설정 누락")
+        print("[WARN] 텔레그램 설정 누락으로 발송 건너뜀")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
@@ -135,11 +138,11 @@ def clean_and_parse_json(raw_text):
                 return json.loads(sanitized[:end_idx+1])
         return json.loads(cleaned)
     except Exception as e:
-        print(f"⚠️ JSON 파싱 실패 에러: {e}")
+        print(f"⚠️ JSON 파싱 에러: {e}")
         return None
 
 # ==========================================
-# 3. 빗썸 API & 퀀트 지표(Feature Engineering) 연산
+# 3. 빗썸 API & 퀀트 피처(보조지표) 연산
 # ==========================================
 def get_v2_headers(query_params=None):
     payload = {
@@ -207,31 +210,31 @@ def calculate_atr(candles, period=14):
     return round(sum(trs[-period:]) / period, 2)
 
 def calculate_quant_features(candles):
-    """캔들 데이터로부터 VWAP, 볼륨 급증 배수, RSI, ATR 연산"""
+    """캔들 데이터로부터 VWAP, 볼륨 폭발 배수, RSI, ATR, 추세 상태 연산"""
     if not candles:
         return {}
     closes = [c['close'] for c in candles]
     volumes = [c['volume'] for c in candles]
     
-    # 1. VWAP (전체 수집 구간 가중평균가)
+    # 1. VWAP (구간 거래량 가중평균가)
     cum_pv = sum(c['close'] * c['volume'] for c in candles)
     cum_vol = sum(volumes)
     vwap = (cum_pv / cum_vol) if cum_vol > 0 else closes[-1]
     vwap_gap_pct = round(((closes[-1] - vwap) / vwap) * 100, 2)
 
-    # 2. 최근 20캔들 평균 대비 거래량 폭발 배수
+    # 2. 거래량 폭발 배수 (직전 20캔들 평균 대비)
     avg_vol_20 = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else (sum(volumes[:-1]) / max(len(volumes)-1, 1))
     surge_ratio = round(volumes[-1] / avg_vol_20, 2) if avg_vol_20 > 0 else 1.0
 
-    # 3. RSI(14) & ATR(14)
+    # 3. RSI & ATR
     rsi = calculate_rsi(closes, period=14)
     atr = calculate_atr(candles, period=14)
     atr_pct = round((atr / closes[-1]) * 100, 2) if closes[-1] > 0 else 0.0
 
-    # 4. 이평선 배열 상태 (EMA5 vs EMA20)
-    sma_short = sum(closes[-5:]) / 5
-    sma_long = sum(closes[-20:]) / 20 if len(closes) >= 20 else sum(closes) / len(closes)
-    trend_state = "정배열(Bullish)" if sma_short >= sma_long else "역배열(Bearish)"
+    # 4. 이평선 배열 (5 / 20)
+    sma_5 = sum(closes[-5:]) / 5
+    sma_20 = sum(closes[-20:]) / 20 if len(closes) >= 20 else sum(closes) / len(closes)
+    trend_state = "정배열(Bullish)" if sma_5 >= sma_20 else "역배열(Bearish)"
 
     return {
         "current_price": closes[-1],
@@ -260,7 +263,7 @@ def check_btc_macro_trend():
     return True, 0.0
 
 def get_top10_market_data():
-    print("\n📊 [Step 1] 빗썸 상위 10개 코인 1시간봉(24개) 수집 및 퀀트 피처 분석...")
+    print("\n📊 [Step 1] 빗썸 상위 코인 1시간봉(24개) 수집 및 퀀트/스테이블 필터링...")
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     res = requests.get(url, proxies=PROXIES, timeout=10).json()
     if res.get("status") != "0000":
@@ -270,13 +273,16 @@ def get_top10_market_data():
     raw_list = []
     for symbol, info in data.items():
         if symbol == "date": continue
+        # 1. 스테이블 코인 원천 제외
+        if symbol.upper() in STABLE_COINS:
+            continue
         try:
             acc_val = float(info['acc_trade_value_24H'])
             raw_list.append((symbol, float(info['closing_price']), float(info['fluctate_rate_24H']), round(acc_val)))
         except:
             pass
             
-    sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:10]
+    sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:15]
     filtered_data = []
     
     for symbol, price, change, volume_krw in sorted_list:
@@ -286,7 +292,9 @@ def get_top10_market_data():
         
         q_feat = calculate_quant_features(candles_1h)
         
-        # 1시간봉 기준 역배열이거나 VWAP 아래로 -2% 이상 꺾인 종목 1차 제외
+        # 2. 1시간봉 기준 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
+        if q_feat["atr_pct"] < 0.8:
+            continue
         if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
             continue
             
@@ -298,6 +306,8 @@ def get_top10_market_data():
             "quant_metrics": q_feat,
             "candles_1h_recent": c_1h_light
         })
+        if len(filtered_data) >= 10:
+            break
             
     return filtered_data
 
@@ -373,16 +383,18 @@ def screen_coins_2step(top_data):
         print("⏸️ [추세 필터] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
         return None, [], "추세 필터에서 우상향 정배열 종목 없음"
 
-    print("🤖 [Step 2-1] 1차 AI 스크리닝: 1시간봉 퀀트 지표 기반 후보 3개 선별...")
+    print("🤖 [Step 2-1] 1차 AI 스크리닝: 차트 추세/지표 기반 후보 3개 선별...")
     sys_1 = (
-        "당신은 헤지펀드 퀀트 트레이더입니다. "
-        "제공된 10개 종목의 [VWAP 대비 위치, 거래량 폭발 배수(volume_surge_ratio), RSI, 1시간봉 추세]를 분석하여 "
-        "당일 기관/고래의 순매수 수급이 살아있는 상위 3개 후보를 선별하세요. "
-        "만약 10개 종목 모두 횡보/하락세이거나 거래량이 죽어있다면 top3_candidates를 빈 배열 []로 반환하여 100% 현금을 지키세요."
+        "당신은 헤지펀드 퀀트 트레이더입니다. 제공된 10개 종목의 [1시간봉 시계열, VWAP 대비 위치, 거래량 폭발 배수(volume_surge_ratio), RSI, ATR 변동성]을 바탕으로 "
+        "차트 추세와 수급 지표를 분석하여 상위 3개 후보를 선별하세요.\n\n"
+        "[차트 및 지표 분석 원칙]\n"
+        "1. 추세(Trend): 1시간봉 기준 저점/고점을 높이는 상승 다우 이론 또는 정배열(Bullish) 돌파형 차트 선별.\n"
+        "2. 수급/지표: VWAP 상단 안착 및 직전 대비 거래량이 증가(surge >= 1.2)하며 RSI가 50~70 구간에서 우상향하는 종목 우대.\n"
+        "3. 배제/관망: 스테이블 코인(USDT 등) 및 저변동성 종목은 제외. 10개 모두 모멘텀이 없으면 top3_candidates를 빈 배열 []로 반환할 것."
     )
-    user_1 = f"시장 및 퀀트 지표 데이터:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"선정 이유 (VWAP 상단, 수급 폭발 등)\"}}"
+    user_1 = f"시장 및 퀀트 지표 데이터:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[응답 포맷 (JSON)]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"선정 이유 (추세/지표 근거)\"}}"
     
-    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 대추세 퀀트 스크리닝")
+    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 1시간봉 퀀트/추세 스크리닝")
     data_1 = clean_and_parse_json(res_1)
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
@@ -407,20 +419,24 @@ def screen_coins_2step(top_data):
             "candles_5m_timeseries": c_light
         })
 
-    print("🤖 [Step 2-3] 2차 AI 퀀트 정밀 파동 분석 및 타점 산출...")
+    print("🤖 [Step 2-3] 2차 AI 5분봉 40캔들 차트패턴/타임어택 타점 산출...")
     sys_2 = (
-        "당신은 5분봉 눌림목/돌파를 전문으로 하는 수석 데이트레이더입니다. "
-        "제공된 5분봉 40개(3시간 20분 흐름)와 퀀트 지표(RSI, ATR, VWAP)를 바탕으로 다음 4대 원칙을 검증하세요:\n"
-        "1. 거래량 압축 후 재반등(Volume Contraction): 거래량이 줄어들며 0.3~0.8% 눌림목 지지선을 형성하는가?\n"
-        "2. 손익비(Risk/Reward): 목표 익절폭이 손절폭의 최소 1.8배 이상 나오는가?\n"
-        "3. ATR 변동성 일치: 산출된 손절률(-1.0%~-2.5%)이 5분봉 ATR 변동폭을 감당할 수 있는 합리적 수준인가?\n"
-        "4. 과매수(RSI > 75) 추격 매수 금지: 상투 구간(설거지) 매수를 엄격히 배제할 것.\n\n"
-        "조건을 가장 완벽히 만족하는 1개 종목을 골라 진입 할인율(entry_discount_pct: 0.2~0.8%), 손절률(-1.0%~-2.5%), 익절률(+2.0%~+5.0%)을 산출하세요. "
-        "진입 타점이 불명확하거나 하락 반전 위험이 감지되면 즉시 selected_symbol을 'NONE'으로 반환하세요."
+        "당신은 5분봉 초단타 데이트레이더입니다. 제공된 5분봉 40개(3시간 20분 흐름)와 퀀트 지표(RSI, ATR, VWAP)를 바탕으로 "
+        "차트 패턴, 프라이스 액션, 보조지표를 종합 분석하여 최종 1개 종목의 타점을 산출하세요.\n\n"
+        "[운영 규칙: 엄격한 2단계 타임어택 (Time-Constraint)]\n"
+        "1. 20분 진입 타임어택: 제시한 진입 대기가는 20분(5분봉 4개 캔들) 이내에 체결되지 않으면 자동 취소됩니다. 터치 가능한 현실적인 눌림목 할인율(0.2%~0.6%)을 산출하세요.\n"
+        "2. 3시간 강제 청산 (Time-Exit): 진입 후 3시간 이내에 익절/손절에 도달하지 못하면 시장가 청산됩니다. 향후 3시간 이내에 목표가(+2.0%~+5.0%)에 도달할 강력한 파동 종목만 선정하세요.\n\n"
+        "[5대 분석 및 검증 방법론]\n"
+        "1. 차트 패턴: 거래량 실린 기준봉 발생 후 거래량이 줄며 0.3~0.8% 지지선을 형성하는 깃발형(Bull Flag) 또는 이중바닥 패턴 확인.\n"
+        "2. 프라이스 액션: 거래량 압축(Volume Contraction) 후 재반등 확인. 단기 고점 추격 매수(설거지) 금지.\n"
+        "3. 보조지표: RSI(50~65 모멘텀 구간), ATR 기반 적정 손절폭(-1.0%~-2.5%) 설정.\n"
+        "4. 손익비: 목표 익절폭이 손절폭의 최소 1.8배 이상 (최소 익절 +2.0% 이상 필수).\n"
+        "5. 저변동성/스테이블 배제: 1~2틱 내 횡보 차트 즉시 탈락.\n\n"
+        "조건 충족 시 진입 할인율(0.2~0.6%), 손절률(-1.0%~-2.5%), 익절률(+2.0%~+5.0%)을 산출하고, 20분 내 진입 또는 3시간 내 목표 도달이 불확실하면 즉시 selected_symbol: 'NONE'을 반환하세요."
     )
-    user_2 = f"5분봉 40개 및 퀀트 지표 데이터:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.5, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"근거 (지지선, 손익비 등)\"}}"
+    user_2 = f"5분봉 40개 및 퀀트 지표 데이터:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.4, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"차트 패턴 및 지표 분석 근거\"}}"
 
-    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 퀀트 타점 산출")
+    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 차트패턴/타임어택 타점 산출")
     result = clean_and_parse_json(res_2)
     if not result:
         return None, candidates, "2차 AI 응답 JSON 파싱 실패"
@@ -429,7 +445,7 @@ def screen_coins_2step(top_data):
     confidence = result.get("confidence_score", 0)
     detailed_reason = result.get("detailed_reason", "지지선 불명확")
 
-    print(f"🔍 [2차 분석 디버깅 판정] 종목: {selected} | 신뢰도 점수: {confidence}점 | 기준 점수: {MIN_CONFIDENCE_SCORE}점")
+    print(f"🔍 [2차 분석 판정] 종목: {selected} | 신뢰도 점수: {confidence}점 | 기준 점수: {MIN_CONFIDENCE_SCORE}점")
 
     if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
         print(f"⏸️ [2차 AI 스크리닝] 신뢰도 미달 또는 관망 판정 (점수: {confidence}점)")
@@ -438,7 +454,7 @@ def screen_coins_2step(top_data):
     plan = {
         "symbol": selected,
         "confidence": confidence,
-        "entry_discount_pct": float(result.get("entry_discount_pct", 0.5)),
+        "entry_discount_pct": float(result.get("entry_discount_pct", 0.4)),
         "sl_pct": max(min(float(result.get("stop_loss_pct", -2.0)), -1.0), -2.5),
         "tp_pct": min(max(float(result.get("take_profit_pct", 3.5)), 2.0), 5.0),
         "detailed_reason": detailed_reason
@@ -460,8 +476,9 @@ def calculate_and_save_targets(ai_plan, buy_amount_krw):
     stop_loss = round(target_entry * (1.0 + (ai_plan['sl_pct'] / 100.0)), 2 if target_entry < 100 else 0)
     take_profit = round(target_entry * (1.0 + (ai_plan['tp_pct'] / 100.0)), 2 if target_entry < 100 else 0)
 
+    now_iso = datetime.now().isoformat()
     targets_payload = {
-        "updated_at": datetime.now().isoformat(),
+        "updated_at": now_iso,
         "paper_trading": PAPER_TRADING,
         "targets": {
             coin_code: {
@@ -473,7 +490,8 @@ def calculate_and_save_targets(ai_plan, buy_amount_krw):
                 "sl_pct": ai_plan['sl_pct'],
                 "tp_pct": ai_plan['tp_pct'],
                 "buy_amount_krw": buy_amount_krw,
-                "detailed_reason": ai_plan['detailed_reason']
+                "detailed_reason": ai_plan['detailed_reason'],
+                "created_at": now_iso
             }
         }
     }
@@ -492,7 +510,7 @@ def calculate_and_save_targets(ai_plan, buy_amount_krw):
 
 매수 근거 : {ai_plan['detailed_reason']}
 =================================
-⚡ 오라클 서버에서 진입 타점을 실시간 초 단위로 감시합니다."""
+⚡ 규칙: 20분 내 미체결 시 자동 취소 / 체결 후 3시간 미도달 시 시장가 청산"""
 
     send_telegram_msg(plan_msg)
     print("✅ targets.json 생성 및 텔레그램 발송 완료!")
