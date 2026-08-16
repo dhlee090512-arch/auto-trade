@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-16T05:01:22.581639",
+  "updated_at": "2026-08-16T07:01:14.426516",
   "paper_trading": true,
   "targets": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "current_price": 11.52,
-      "target_entry": 11.49,
-      "stop_loss": 11.32,
-      "take_profit": 11.95,
+    "AEON": {
+      "symbol": "AEON/KRW",
+      "current_price": 120.0,
+      "target_entry": 120.0,
+      "stop_loss": 118.0,
+      "take_profit": 125.0,
       "sl_pct": -1.5,
       "tp_pct": 4.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "HEMI/KRW의 차트 패턴은 깃발형(Bull Flag)과 유사하며, RSI(56.0)와 ATR(0.3) 지표가 상승세를 보이고 있습니다. 또한, VWAP(10.88)와의 갭이 5.74%로 상승세를 유지하고 있습니다. 이러한 분석 결과에 근거하여, 진입 할인율 0.3%, 손절률 -1.5%, 익절률 4.0%를 설정하였습니다.",
-      "created_at": "2026-08-16T05:01:22.581639"
+      "detailed_reason": "AEON/KRW의 차트 패턴은 정배열(Bullish)이며, RSI(62.5)와 ATR(1.29) 지표가 상승세를 보이고 있습니다. 또한, VWAP(116.85)와의 갭이 2.69%로 상승 가능성이 있습니다. 이러한 분석 결과에 따라 AEON/KRW를 선정하였습니다.",
+      "created_at": "2026-08-16T07:01:14.426516"
     }
   }
 }
