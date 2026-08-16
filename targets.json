@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-15T23:01:17.434321",
+  "updated_at": "2026-08-16T00:01:17.204406",
   "paper_trading": true,
   "targets": {
     "HEMI": {
       "symbol": "HEMI/KRW",
-      "current_price": 9.4,
-      "target_entry": 9.35,
-      "stop_loss": 9.16,
-      "take_profit": 9.71,
+      "current_price": 10.01,
+      "target_entry": 9.96,
+      "stop_loss": 9.76,
+      "take_profit": 10.36,
       "sl_pct": -2.0,
-      "tp_pct": 3.8,
+      "tp_pct": 4.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "HEMI/KRW의 차트 패턴과 지표 분석 결과, RSI(38.2)와 ATR(0.33) 기반으로 하여 역배열 상태에서 반등의 기회를 포착하였으며, VWAP(9.88) 대비 현재가(9.424)가 4.63% 하락한 상태에서 매수 기회를 확인하였습니다. 또한, 거래량 실린 기준봉 발생 후 거래량이 줄며 0.3~0.8% 지지선을 형성하는 깃발형(Bull Flag) 또는 이중바닥 패턴을 확인하였습니다.",
-      "created_at": "2026-08-15T23:01:17.434321"
+      "detailed_reason": "HEMI/KRW의 차트 패턴은 깃발형(Bull Flag)과 유사하며, RSI(50~65 모멘텀 구간)와 ATR 기반 적정 손절폭(-1.0%~-2.5%) 설정이 가능합니다. 또한, 거래량 압축 후 재반등 확인과 단기 고점 추격 매수(설거지) 금지 조건을 만족합니다.",
+      "created_at": "2026-08-16T00:01:17.204406"
     }
   }
 }
