@@ -34,7 +34,7 @@ def get_env(key_name):
     try:
         from google.colab import userdata
         val = userdata.get(key_name)
-    except:
+    except Exception:
         pass
     if not val:
         val = os.getenv(key_name)
@@ -72,7 +72,7 @@ def send_telegram_msg(message):
         print(f"⚠️ 텔레그램 발송 오류: {e}")
 
 # ==========================================
-# 2. GitHub API 통신 및 2중 JSON 파서
+# 2. GitHub API 통신 및 디버그 강화형 JSON 파서
 # ==========================================
 def get_github_file_info(file_path):
     url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
@@ -116,62 +116,88 @@ def save_json_file(file_path, data):
         json.dump(data, f, indent=2, ensure_ascii=False)
     save_github_file(file_path, data)
 
-def clean_and_parse_json(raw_text):
-    """표준 JSON 파싱 시도 후 실패 시 정규식 기반 2차 안전 파서 구동"""
-    if not raw_text:
+def clean_and_parse_json(raw_text, step_name="AI 분석"):
+    """상세 디버깅 정보 출력 및 3단계 복구 지원 JSON 파서"""
+    print(f"\n🔬 [JSON 디버거 진입: {step_name}]")
+    
+    # 1. raw_text가 None이거나 비어있는 경우 진단
+    if raw_text is None:
+        print(f"❌ [디버그 원인] AI API 반환값(raw_text)이 None입니다. (모든 AI 호출 실패 / 타임아웃 / 인증 에러)")
         return None
+    
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        print(f"❌ [디버그 원인] raw_text가 문자열이 아니거나 빈 텍스트입니다. (type: {type(raw_text)}, repr: {repr(raw_text)})")
+        return None
+
+    print(f"📏 [응답 텍스트 길이]: {len(raw_text)}자")
+    print(f"📄 [AI 수신 원문 전체 (Raw Output)]:\n{'='*60}\n{raw_text}\n{'='*60}")
+
+    # 2. 마크다운 코드블록 전처리
+    cleaned = raw_text.strip()
+    if "```json" in cleaned:
+        cleaned = cleaned.split("```json")[1].split("```")[0].strip()
+    elif "```" in cleaned:
+        cleaned = cleaned.split("```")[1].split("```")[0].strip()
+
+    # 3. 1차 표준 json.loads 시도
     try:
-        cleaned = raw_text.strip()
-        if "```json" in cleaned:
-            cleaned = cleaned.split("```json")[1].split("```")[0].strip()
-        elif "```" in cleaned:
-            cleaned = cleaned.split("```")[1].split("```")[0].strip()
-        start_idx = cleaned.find('{')
-        if start_idx != -1:
-            target_str = cleaned[start_idx:]
-            try:
-                return json.loads(target_str)
-            except Exception:
-                pass
-            sanitized = re.sub(r'[\r\n\t]+', ' ', target_str)
-            end_idx = sanitized.rfind('}')
-            if end_idx != -1:
-                return json.loads(sanitized[:end_idx+1])
-        return json.loads(cleaned)
-    except Exception as e:
-        print(f"⚠️ 표준 JSON 파싱 실패 ({e}) ➔ 정규식 2차 복구 시도")
-        
-    # 2차 정규식 키값 강제 추출기 (문법 깨짐 방어)
+        parsed = json.loads(cleaned)
+        print("✅ [1차 표준 JSON 파싱 성공!]")
+        return parsed
+    except json.JSONDecodeError as err:
+        print(f"⚠️ [1차 JSONDecodeError 상세 정보]")
+        print(f"   - 에러 내용: {err.msg}")
+        print(f"   - 에러 위치: Line {err.lineno}, Col {err.colno} (인덱스: {err.pos})")
+        start_pos = max(0, err.pos - 35)
+        end_pos = min(len(cleaned), err.pos + 35)
+        print(f"   - 에러 발생 부근 문자열: ... {repr(cleaned[start_pos:end_pos])} ...")
+
+    # 4. 2차: 중괄호 영역 슬라이싱 후 재시도
+    start_idx = cleaned.find('{')
+    end_idx = cleaned.rfind('}')
+    if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+        slice_target = cleaned[start_idx:end_idx+1]
+        try:
+            parsed = json.loads(slice_target)
+            print("✅ [2차 슬라이싱 JSON 파싱 성공!]")
+            return parsed
+        except Exception as e2:
+            print(f"⚠️ [2차 슬라이싱 파싱 실패]: {e2}")
+
+    # 5. 3차: 정규식 기반 key-value 강제 복구 시도
+    print("🔍 [3차 정규식 기반 키-값 추출 시도]")
+    res = {}
     try:
-        res = {}
-        sym_match = re.search(r'"selected_symbol"\s*:\s*"([^"]+)"', raw_text)
+        sym_match = re.search(r'["\']selected_symbol["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
         if sym_match: res["selected_symbol"] = sym_match.group(1)
-        
-        conf_match = re.search(r'"confidence_score"\s*:\s*([0-9]+)', raw_text)
+
+        conf_match = re.search(r'["\']confidence_score["\']\s*:\s*([0-9]+)', raw_text)
         if conf_match: res["confidence_score"] = int(conf_match.group(1))
-        
-        disc_match = re.search(r'"entry_discount_pct"\s*:\s*([0-9.]+)', raw_text)
+
+        disc_match = re.search(r'["\']entry_discount_pct["\']\s*:\s*([0-9.]+)', raw_text)
         if disc_match: res["entry_discount_pct"] = float(disc_match.group(1))
-        
-        sl_match = re.search(r'"stop_loss_pct"\s*:\s*(-?[0-9.]+)', raw_text)
+
+        sl_match = re.search(r'["\']stop_loss_pct["\']\s*:\s*(-?[0-9.]+)', raw_text)
         if sl_match: res["stop_loss_pct"] = float(sl_match.group(1))
-        
-        tp_match = re.search(r'"take_profit_pct"\s*:\s*([0-9.]+)', raw_text)
+
+        tp_match = re.search(r'["\']take_profit_pct["\']\s*:\s*([0-9.]+)', raw_text)
         if tp_match: res["take_profit_pct"] = float(tp_match.group(1))
-        
-        reason_match = re.search(r'"detailed_reason"\s*:\s*"([^"]+)"', raw_text)
+
+        reason_match = re.search(r'["\']detailed_reason["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
         if reason_match: res["detailed_reason"] = reason_match.group(1)
-        
-        cands_match = re.search(r'"top3_candidates"\s*:\s*\[(.*?)\]', raw_text)
+
+        cands_match = re.search(r'["\']top3_candidates["\']\s*:\s*\[(.*?)\]', raw_text, re.DOTALL)
         if cands_match:
             cands_raw = cands_match.group(1)
             res["top3_candidates"] = [c.strip().strip('"').strip("'") for c in cands_raw.split(",") if c.strip()]
-            
-        if res:
-            print("✅ 정규식 기반 JSON 복구 성공!")
+
+        if "selected_symbol" in res or "top3_candidates" in res:
+            print(f"✅ [3차 정규식 복구 성공]: {res}")
             return res
     except Exception as ex:
-        print(f"❌ 2차 정규식 파싱도 실패: {ex}")
+        print(f"❌ [3차 정규식 복구 실패]: {ex}")
+
+    print("❌ [최종 판정] 모든 JSON 파싱 및 복구 실패\n")
     return None
 
 # ==========================================
@@ -311,7 +337,7 @@ def get_top10_market_data():
         try:
             acc_val = float(info['acc_trade_value_24H'])
             raw_list.append((symbol, float(info['closing_price']), float(info['fluctate_rate_24H']), round(acc_val)))
-        except:
+        except Exception:
             pass
             
     sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:15]
@@ -324,7 +350,7 @@ def get_top10_market_data():
         
         q_feat = calculate_quant_features(candles_1h)
         
-        # 1시간봉 기준 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
+        # 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
         if q_feat["atr_pct"] < 0.8:
             continue
         if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
@@ -397,11 +423,7 @@ def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
                 temperature=0.1
             )
             raw_response = res.choices[0].message.content
-
-            print(f"✅ [{prov['name']}] 응답 수신 성공!")
-            print(f"📥 [{step_name}] AI 반환 원본 결과:")
-            print(raw_response.strip())
-            print("─"*60 + "\n")
+            print(f"✅ [{prov['name']}] 응답 수신 성공! (길이: {len(raw_response)}자)")
             return raw_response
 
         except Exception as e:
@@ -428,7 +450,7 @@ def screen_coins_2step(top_data):
     user_1 = f"Market and quant data:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"한국어로 작성된 상세한 1차 선별 근거\"}}"
     
     res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 주도주 퀀트 스크리닝")
-    data_1 = clean_and_parse_json(res_1)
+    data_1 = clean_and_parse_json(res_1, step_name="Step 2-1: 1차 스크리닝")
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
         return None, [], "1차 AI 스크리닝에서 우상향 모멘텀 종목 미발견"
@@ -468,8 +490,8 @@ def screen_coins_2step(top_data):
     )
     user_2 = f"5-minute 40-candle and quant data:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.2, \"stop_loss_pct\": -1.4, \"take_profit_pct\": 2.3, \"detailed_reason\": \"차트 패턴, 거래량 추이, 지지선 및 보조지표를 종합한 상세한 한국어 매수 분석 근거\"}}"
 
-    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 정밀 타점 산출")
-    result = clean_and_parse_json(res_2)
+    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 정밀 타점 산출")
+    result = clean_and_parse_json(res_2, step_name="Step 2-3: 2차 타점 산출")
     if not result:
         return None, candidates, "2차 AI 응답 JSON 파싱 실패"
 
