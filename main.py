@@ -120,7 +120,6 @@ def clean_and_parse_json(raw_text, step_name="AI 분석"):
     """상세 디버깅 정보 출력 및 3단계 복구 지원 JSON 파서"""
     print(f"\n🔬 [JSON 디버거 진입: {step_name}]")
     
-    # 1. raw_text가 None이거나 비어있는 경우 진단
     if raw_text is None:
         print(f"❌ [디버그 원인] AI API 반환값(raw_text)이 None입니다. (모든 AI 호출 실패 / 타임아웃 / 인증 에러)")
         return None
@@ -132,14 +131,13 @@ def clean_and_parse_json(raw_text, step_name="AI 분석"):
     print(f"📏 [응답 텍스트 길이]: {len(raw_text)}자")
     print(f"📄 [AI 수신 원문 전체 (Raw Output)]:\n{'='*60}\n{raw_text}\n{'='*60}")
 
-    # 2. 마크다운 코드블록 전처리
     cleaned = raw_text.strip()
     if "```json" in cleaned:
         cleaned = cleaned.split("```json")[1].split("```")[0].strip()
     elif "```" in cleaned:
         cleaned = cleaned.split("```")[1].split("```")[0].strip()
 
-    # 3. 1차 표준 json.loads 시도
+    # 1. 표준 json.loads 시도
     try:
         parsed = json.loads(cleaned)
         print("✅ [1차 표준 JSON 파싱 성공!]")
@@ -152,7 +150,7 @@ def clean_and_parse_json(raw_text, step_name="AI 분석"):
         end_pos = min(len(cleaned), err.pos + 35)
         print(f"   - 에러 발생 부근 문자열: ... {repr(cleaned[start_pos:end_pos])} ...")
 
-    # 4. 2차: 중괄호 영역 슬라이싱 후 재시도
+    # 2. 중괄호 영역 슬라이싱 후 재시도
     start_idx = cleaned.find('{')
     end_idx = cleaned.rfind('}')
     if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
@@ -164,7 +162,7 @@ def clean_and_parse_json(raw_text, step_name="AI 분석"):
         except Exception as e2:
             print(f"⚠️ [2차 슬라이싱 파싱 실패]: {e2}")
 
-    # 5. 3차: 정규식 기반 key-value 강제 복구 시도
+    # 3. 정규식 기반 key-value 강제 복구 시도
     print("🔍 [3차 정규식 기반 키-값 추출 시도]")
     res = {}
     try:
@@ -344,13 +342,11 @@ def get_top10_market_data():
     filtered_data = []
     
     for symbol, price, change, volume_krw in sorted_list:
-        # 1시간봉 24개(24시간 대추세) 수집
         candles_1h = get_candles(symbol, interval="1h", limit=24)
         if len(candles_1h) < 15: continue
         
         q_feat = calculate_quant_features(candles_1h)
         
-        # 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
         if q_feat["atr_pct"] < 0.8:
             continue
         if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
@@ -388,14 +384,40 @@ def get_account_status():
 # ==========================================
 def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
     providers = []
+    
+    # 1. Gemini (최신 3.5 Flash-Lite 지정)
     if GEMINI_API_KEY:
-        providers.append({"name": "Gemini 2.5 Flash", "key": GEMINI_API_KEY, "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-2.5-flash"})
+        providers.append({
+            "name": "Gemini 3.5 Flash-Lite",
+            "key": GEMINI_API_KEY,
+            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+            "model": "gemini-3.5-flash-lite"
+        })
+        
+    # 2. SambaNova (Llama 3.3 70B)
     if SAMBANOVA_API_KEY:
-        providers.append({"name": "SambaNova Llama-3.3-70B", "key": SAMBANOVA_API_KEY, "base_url": "https://api.sambanova.ai/v1", "model": "Meta-Llama-3.3-70B-Instruct"})
+        providers.append({
+            "name": "SambaNova Llama-3.3-70B",
+            "key": SAMBANOVA_API_KEY,
+            "base_url": "https://api.sambanova.ai/v1",
+            "model": "Meta-Llama-3.3-70B-Instruct"
+        })
+        
+    # 3. Groq (최신 llama-3.3-70b-specdec)
     if GROQ_API_KEY3:
-        providers.append({"name": "Groq (KEY3)", "key": GROQ_API_KEY3, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
+        providers.append({
+            "name": "Groq SpecDec (KEY3)",
+            "key": GROQ_API_KEY3,
+            "base_url": "https://api.groq.com/openai/v1",
+            "model": "llama-3.3-70b-specdec"
+        })
     if GROQ_API_KEY2:
-        providers.append({"name": "Groq (KEY2)", "key": GROQ_API_KEY2, "base_url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-versatile"})
+        providers.append({
+            "name": "Groq SpecDec (KEY2)",
+            "key": GROQ_API_KEY2,
+            "base_url": "https://api.groq.com/openai/v1",
+            "model": "llama-3.3-70b-specdec"
+        })
 
     if not providers:
         print("❌ [AI Error] 등록된 AI API 키가 없습니다.")
@@ -411,7 +433,7 @@ def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
 
     for prov in providers:
         try:
-            print(f"🤖 [{prov['name']}] 호출 시도 중...")
+            print(f"🤖 [{prov['name']}] 호출 시도 중 (모델: {prov['model']})...")
             client = OpenAI(base_url=prov['base_url'], api_key=prov['key'], http_client=http_client)
             res = client.chat.completions.create(
                 model=prov['model'],
