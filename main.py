@@ -17,13 +17,13 @@ from openai import OpenAI
 # 0. 설정 및 환경변수(Secrets) 수집
 # ==========================================
 PAPER_TRADING = True         # 🧪 모의투자 (True: 시뮬레이션 / False: 실전 매매)
-MIN_CONFIDENCE_SCORE = 75    # 🎯 매수 최소 신뢰도 기준
+MIN_CONFIDENCE_SCORE = 65    # 🎯 매수 최소 신뢰도 (횡보장 활성화를 위해 65점으로 완화)
 MAX_HOLDING_COINS = 3        # 🛡️ 최대 보유 가능 종목 수
-MIN_BUY_KRW = 6000           # 💵 최소 매수 금액 (빗썸 5천원 + 안전마진)
+MIN_BUY_KRW = 6000           # 💵 최소 매수 금액
 BUY_RATIO = 0.20             # 📊 가용 잔고의 20%
 TIME_EXIT_HOURS = 3          # ⏰ 시간 손절 기준
 
-# 스테이블 코인 및 고정가 토큰 (단타 대상 원천 제외)
+# 스테이블 코인 (단타 대상 원천 제외)
 STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD"}
 
 TARGETS_FILE = "targets.json"
@@ -117,53 +117,31 @@ def save_json_file(file_path, data):
     save_github_file(file_path, data)
 
 def clean_and_parse_json(raw_text, step_name="AI 분석"):
-    """상세 디버깅 정보 출력 및 3단계 복구 지원 JSON 파서"""
-    print(f"\n🔬 [JSON 디버거 진입: {step_name}]")
-    
     if raw_text is None:
-        print(f"❌ [디버그 원인] AI API 반환값(raw_text)이 None입니다. (모든 AI 호출 실패 / 타임아웃 / 인증 에러)")
+        print(f"❌ [디버그 원인] AI API 반환값이 None입니다.")
         return None
     
-    if not isinstance(raw_text, str) or not raw_text.strip():
-        print(f"❌ [디버그 원인] raw_text가 문자열이 아니거나 빈 텍스트입니다. (type: {type(raw_text)}, repr: {repr(raw_text)})")
-        return None
-
-    print(f"📏 [응답 텍스트 길이]: {len(raw_text)}자")
-    print(f"📄 [AI 수신 원문 전체 (Raw Output)]:\n{'='*60}\n{raw_text}\n{'='*60}")
-
     cleaned = raw_text.strip()
     if "```json" in cleaned:
         cleaned = cleaned.split("```json")[1].split("```")[0].strip()
     elif "```" in cleaned:
         cleaned = cleaned.split("```")[1].split("```")[0].strip()
 
-    # 1. 표준 json.loads 시도
     try:
-        parsed = json.loads(cleaned)
-        print("✅ [1차 표준 JSON 파싱 성공!]")
-        return parsed
-    except json.JSONDecodeError as err:
-        print(f"⚠️ [1차 JSONDecodeError 상세 정보]")
-        print(f"   - 에러 내용: {err.msg}")
-        print(f"   - 에러 위치: Line {err.lineno}, Col {err.colno} (인덱스: {err.pos})")
-        start_pos = max(0, err.pos - 35)
-        end_pos = min(len(cleaned), err.pos + 35)
-        print(f"   - 에러 발생 부근 문자열: ... {repr(cleaned[start_pos:end_pos])} ...")
+        return json.loads(cleaned)
+    except Exception:
+        pass
 
-    # 2. 중괄호 영역 슬라이싱 후 재시도
+    # 중괄호 슬라이싱
     start_idx = cleaned.find('{')
     end_idx = cleaned.rfind('}')
     if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-        slice_target = cleaned[start_idx:end_idx+1]
         try:
-            parsed = json.loads(slice_target)
-            print("✅ [2차 슬라이싱 JSON 파싱 성공!]")
-            return parsed
-        except Exception as e2:
-            print(f"⚠️ [2차 슬라이싱 파싱 실패]: {e2}")
+            return json.loads(cleaned[start_idx:end_idx+1])
+        except Exception:
+            pass
 
-    # 3. 정규식 기반 key-value 강제 복구 시도
-    print("🔍 [3차 정규식 기반 키-값 추출 시도]")
+    # 정규식 긴급 추출
     res = {}
     try:
         sym_match = re.search(r'["\']selected_symbol["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
@@ -190,16 +168,14 @@ def clean_and_parse_json(raw_text, step_name="AI 분석"):
             res["top3_candidates"] = [c.strip().strip('"').strip("'") for c in cands_raw.split(",") if c.strip()]
 
         if "selected_symbol" in res or "top3_candidates" in res:
-            print(f"✅ [3차 정규식 복구 성공]: {res}")
             return res
-    except Exception as ex:
-        print(f"❌ [3차 정규식 복구 실패]: {ex}")
+    except Exception:
+        pass
 
-    print("❌ [최종 판정] 모든 JSON 파싱 및 복구 실패\n")
     return None
 
 # ==========================================
-# 3. 빗썸 API & 퀀트 피처(보조지표) 연산
+# 3. 빗썸 API & 퀀트 피처 연산
 # ==========================================
 def get_v2_headers(query_params=None):
     payload = {
@@ -267,19 +243,18 @@ def calculate_atr(candles, period=14):
     return round(sum(trs[-period:]) / period, 2)
 
 def calculate_quant_features(candles):
-    """캔들 데이터로부터 VWAP, 볼륨 폭발 배수, RSI, ATR, 추세 상태 연산"""
     if not candles:
         return {}
     closes = [c['close'] for c in candles]
     volumes = [c['volume'] for c in candles]
     
-    # 1. VWAP (구간 거래량 가중평균가)
+    # 1. VWAP
     cum_pv = sum(c['close'] * c['volume'] for c in candles)
     cum_vol = sum(volumes)
     vwap = (cum_pv / cum_vol) if cum_vol > 0 else closes[-1]
     vwap_gap_pct = round(((closes[-1] - vwap) / vwap) * 100, 2)
 
-    # 2. 거래량 폭발 배수 (직전 20캔들 평균 대비)
+    # 2. 거래량 비율
     avg_vol_20 = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else (sum(volumes[:-1]) / max(len(volumes)-1, 1))
     surge_ratio = round(volumes[-1] / avg_vol_20, 2) if avg_vol_20 > 0 else 1.0
 
@@ -288,10 +263,10 @@ def calculate_quant_features(candles):
     atr = calculate_atr(candles, period=14)
     atr_pct = round((atr / closes[-1]) * 100, 2) if closes[-1] > 0 else 0.0
 
-    # 4. 이평선 배열 (5 / 20)
+    # 4. 이평선 상태
     sma_5 = sum(closes[-5:]) / 5
     sma_20 = sum(closes[-20:]) / 20 if len(closes) >= 20 else sum(closes) / len(closes)
-    trend_state = "정배열(Bullish)" if sma_5 >= sma_20 else "역배열(Bearish)"
+    trend_state = "정배열(Bullish)" if sma_5 >= sma_20 else "역배열/박스권(Range)"
 
     return {
         "current_price": closes[-1],
@@ -305,13 +280,13 @@ def calculate_quant_features(candles):
     }
 
 def check_btc_macro_trend():
-    """비트코인(BTC) 기준 시장 대추세 필터 (급락장 매수 방어)"""
+    """비트코인(BTC) 기준 시장 대추세 필터 (급락장만 방어: -3.0%)"""
     try:
         url = "https://api.bithumb.com/public/ticker/BTC_KRW"
         res = requests.get(url, proxies=PROXIES, timeout=5).json()
         if res.get("status") == "0000":
             btc_change = float(res['data']['fluctate_rate_24H'])
-            if btc_change <= -2.5:
+            if btc_change <= -3.0:
                 print(f"⚠️ [시장 매크로 필터] BTC 급락 중 ({btc_change:.2f}%). 매수를 전면 차단합니다.")
                 return False, btc_change
             return True, btc_change
@@ -320,7 +295,7 @@ def check_btc_macro_trend():
     return True, 0.0
 
 def get_top10_market_data():
-    print("\n📊 [Step 1] 빗썸 상위 코인 1시간봉(24개) 수집 및 퀀트/스테이블 필터링...")
+    print("\n📊 [Step 1] 빗썸 상위 코인 1시간봉(24개) 수집 및 하이브리드 필터링...")
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     res = requests.get(url, proxies=PROXIES, timeout=10).json()
     if res.get("status") != "0000":
@@ -347,9 +322,10 @@ def get_top10_market_data():
         
         q_feat = calculate_quant_features(candles_1h)
         
-        if q_feat["atr_pct"] < 0.8:
+        # 횡보장 허용을 위해 필터 완화 (ATR 0.5% 이상, VWAP 이격도 -3.5% 이내)
+        if q_feat["atr_pct"] < 0.5:
             continue
-        if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
+        if q_feat["vwap_gap_pct"] < -3.5:
             continue
             
         c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h[-12:]]
@@ -380,12 +356,11 @@ def get_account_status():
     return max(calc_buy, MIN_BUY_KRW)
 
 # ==========================================
-# 4. AI 연동 및 2단계 퀀트 정밀 스크리닝
+# 4. AI 연동 및 하이브리드 단타 스크리닝
 # ==========================================
 def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
     providers = []
     
-    # 1. Gemini (최신 3.5 Flash-Lite 지정)
     if GEMINI_API_KEY:
         providers.append({
             "name": "Gemini 3.5 Flash-Lite",
@@ -393,8 +368,6 @@ def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
             "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
             "model": "gemini-3.5-flash-lite"
         })
-        
-    # 2. SambaNova (Llama 3.3 70B)
     if SAMBANOVA_API_KEY:
         providers.append({
             "name": "SambaNova Llama-3.3-70B",
@@ -402,8 +375,6 @@ def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
             "base_url": "https://api.sambanova.ai/v1",
             "model": "Meta-Llama-3.3-70B-Instruct"
         })
-        
-    # 3. Groq (최신 llama-3.3-70b-specdec)
     if GROQ_API_KEY3:
         providers.append({
             "name": "Groq SpecDec (KEY3)",
@@ -456,31 +427,30 @@ def call_ai_api(system_instruction, user_prompt, step_name="AI 분석"):
 
 def screen_coins_2step(top_data):
     if not top_data:
-        print("⏸️ [추세 필터] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
-        return None, [], "추세 필터에서 우상향 정배열 종목 없음"
+        print("⏸️ [필터] 적합한 후보 코인이 없어 관망합니다.")
+        return None, [], "후보 종목 없음"
 
-    print("🤖 [Step 2-1] 1차 AI 스크리닝: 주도주 및 수급 폭발 종목 선별...")
+    print("🤖 [Step 2-1] 1차 AI 스크리닝: 상승 모멘텀 또는 박스권 반등 후보 선별...")
     sys_1 = (
-        "You are a top-tier algorithmic quant trader specializing in intraday breakout momentum.\n"
-        "Select up to 3 leading breakout candidates from the 10 provided coins based on 1-hour timeframes and technical metrics.\n\n"
-        "[Rules]\n"
-        "1. Prioritize Leading Momentum: Focus on coins with volume_surge_ratio >= 1.5, positive VWAP gap, and 1h EMA5 >= EMA20.\n"
-        "2. Exclude low-volatility/stable coins.\n"
-        "3. Standby: If no coin qualifies, return top3_candidates: [] to keep 100% cash.\n"
-        "4. Output format: JSON ONLY."
+        "You are an intraday quant trader. Select up to 3 candidates from the provided 10 coins based on 1-hour timeframes.\n\n"
+        "[Hybrid Strategy Rules]\n"
+        "1. Trending Setup: Strong volume surge (>= 1.2x) with price above VWAP.\n"
+        "2. Range/Sideways Setup: Box-range bottom support with RSI between 40 and 60 ready for mean-reversion tick gain.\n"
+        "3. Exclude dead volume/stable coins.\n"
+        "4. Standby: Only return [] if ALL coins are in a free-fall severe downtrend."
     )
-    user_1 = f"Market and quant data:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"한국어로 작성된 상세한 1차 선별 근거\"}}"
+    user_1 = f"Market data:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"상세한 한국어 선별 근거\"}}"
     
-    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 주도주 퀀트 스크리닝")
+    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 하이브리드 스크리닝")
     data_1 = clean_and_parse_json(res_1, step_name="Step 2-1: 1차 스크리닝")
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
-        return None, [], "1차 AI 스크리닝에서 우상향 모멘텀 종목 미발견"
+        return None, [], "1차 AI 스크리닝에서 적합 종목 미발견"
 
     candidates = data_1["top3_candidates"]
     print(f"🎯 [1차 선별된 후보 종목]: {candidates}")
 
-    print("\n📊 [Step 2-2] 2차 정밀 분석용 5분봉 40개 차트 및 지표 수집 중...")
+    print("\n📊 [Step 2-2] 2차 분석용 5분봉 40개 수집 중...")
     cand_5m_data = []
     for sym in candidates:
         code = sym.split('/')[0]
@@ -496,23 +466,21 @@ def screen_coins_2step(top_data):
             "candles_5m_timeseries": c_light
         })
 
-    print("🤖 [Step 2-3] 2차 AI 5분봉 40캔들 차트패턴/현실적 손익비 타점 산출...")
+    print("🤖 [Step 2-3] 2차 AI 5분봉 타점 산출 (상승 돌파 또는 박스권 틱 수익)...")
     sys_2 = (
-        "You are an expert intraday scalper executing 5-minute momentum & breakout pullback trades.\n"
-        "Analyze the 5-minute 40-candle series (3h 20m) and quant metrics of the candidates to output exactly 1 best trade plan or NONE.\n\n"
-        "[Execution & Win-Rate Optimization Constraints]\n"
-        "1. 20-Min Expiration: Set a realistic, shallow entry discount (entry_discount_pct: 0.1% to 0.4%) to catch immediate momentum and avoid adverse selection.\n"
-        "2. 3-Hour Time-Exit: Must pick a coin ready to hit target within 3 hours.\n"
-        "3. Realistic Scalping Targets:\n"
-        "   - take_profit_pct: +1.8% to +3.0% (highly achievable within 3 hours)\n"
-        "   - stop_loss_pct: -1.0% to -1.8% (placed below key 5m support/ATR buffer)\n"
-        "4. Anti-Chasing: Reject coins with 5m RSI > 72 or slowing volume.\n"
-        "5. detailed_reason: Provide a comprehensive, detailed technical analysis in KOREAN (covering chart pattern, volume action, support level, and indicators). It does not need to be short.\n"
-        "6. If unsure or risk is high, output selected_symbol: 'NONE' immediately."
+        "You are an active intraday scalper. Analyze the 5-minute 40-candle series to output exactly 1 trade plan or NONE.\n\n"
+        "[Scalping Constraints for Active Trading]\n"
+        "1. Entry: Set immediate realistic entry (entry_discount_pct: 0.0% to 0.3%) near current price.\n"
+        "2. Realistic Targets (Take quick profit in sideways/trending markets):\n"
+        "   - take_profit_pct: +1.2% to +2.5%\n"
+        "   - stop_loss_pct: -0.8% to -1.4%\n"
+        "3. Confidence Score: Score from 0 to 100 based on setup clarity.\n"
+        "4. detailed_reason: Comprehensive Korean explanation of the chart pattern/indicators.\n"
+        "5. Output raw JSON ONLY."
     )
-    user_2 = f"5-minute 40-candle and quant data:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.2, \"stop_loss_pct\": -1.4, \"take_profit_pct\": 2.3, \"detailed_reason\": \"차트 패턴, 거래량 추이, 지지선 및 보조지표를 종합한 상세한 한국어 매수 분석 근거\"}}"
+    user_2 = f"5m data:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 75, \"entry_discount_pct\": 0.1, \"stop_loss_pct\": -1.0, \"take_profit_pct\": 1.8, \"detailed_reason\": \"차트 패턴 및 지표 분석 근거\"}}"
 
-    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 정밀 타점 산출")
+    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 정밀 타점 산출")
     result = clean_and_parse_json(res_2, step_name="Step 2-3: 2차 타점 산출")
     if not result:
         return None, candidates, "2차 AI 응답 JSON 파싱 실패"
@@ -521,18 +489,18 @@ def screen_coins_2step(top_data):
     confidence = result.get("confidence_score", 0)
     detailed_reason = result.get("detailed_reason", "지지선 불명확")
 
-    print(f"🔍 [2차 분석 판정] 종목: {selected} | 신뢰도 점수: {confidence}점 | 기준 점수: {MIN_CONFIDENCE_SCORE}점")
+    print(f"🔍 [2차 분석 판정] 종목: {selected} | 신뢰도: {confidence}점 | 기준: {MIN_CONFIDENCE_SCORE}점")
 
     if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
-        print(f"⏸️ [2차 AI 스크리닝] 신뢰도 미달 또는 관망 판정 (점수: {confidence}점)")
-        return None, candidates, f"5분봉 40캔들 분석 결과 신뢰도({confidence}점) 기준 미달 또는 진입 자리 불확실 ({detailed_reason})"
+        print(f"⏸️ [2차 AI 스크리닝] 신뢰도 미달 (점수: {confidence}점)")
+        return None, candidates, f"5분봉 분석 결과 신뢰도({confidence}점) 기준 미달 ({detailed_reason})"
 
     plan = {
         "symbol": selected,
         "confidence": confidence,
-        "entry_discount_pct": float(result.get("entry_discount_pct", 0.2)),
-        "sl_pct": max(min(float(result.get("stop_loss_pct", -1.4)), -1.0), -2.0),
-        "tp_pct": min(max(float(result.get("take_profit_pct", 2.3)), 1.8), 3.5),
+        "entry_discount_pct": float(result.get("entry_discount_pct", 0.1)),
+        "sl_pct": max(min(float(result.get("stop_loss_pct", -1.0)), -0.8), -1.8),
+        "tp_pct": min(max(float(result.get("take_profit_pct", 1.8)), 1.2), 3.0),
         "detailed_reason": detailed_reason
     }
     return plan, candidates, "타점 도출 성공"
@@ -600,7 +568,6 @@ if __name__ == "__main__":
     kst_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"🤖 빗썸 AI 전략 수립 엔진 시작 [{mode_str}]")
 
-    # 1. 비트코인 시장 매크로 점검 (급락장 방어)
     btc_ok, btc_rate = check_btc_macro_trend()
     if not btc_ok:
         hold_msg = f"""🛡️ [하락장 방어 작동] - {mode_str}
@@ -614,10 +581,7 @@ if __name__ == "__main__":
         send_telegram_msg(hold_msg)
         sys.exit(0)
 
-    # 2. 주문 가능 금액 산출
     buy_amount_krw = get_account_status()
-
-    # 3. 2단계 AI 스크리닝 및 타점 산출
     top_data = get_top10_market_data()
     ai_plan, candidates, reason = screen_coins_2step(top_data)
 
