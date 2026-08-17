@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import json
+import base64
 import logging
 import asyncio
 import threading
@@ -20,7 +21,7 @@ TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
 GH_TOKEN = os.getenv("GH_TOKEN2") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
 
 GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
-TARGETS_RAW_URL = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/main/targets.json"
+TARGETS_API_URL = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/targets.json"
 
 STATE_FILE = "server_state.json"
 PAPER_TRADES_FILE = "paper_trades.json"
@@ -41,11 +42,11 @@ logging.basicConfig(
 )
 
 # ==========================================
-# 1. 텔레그램 유틸리티
+# 1. 텔레그램 유틸리티 (손익액 단독 표기 개선)
 # ==========================================
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        logging.warning("⚠️ 텔레그램 토큰 또는 Chat ID가 설정되지 않았습니다.")
+        logging.warning("⚠️ 텔레그램 설정 누락으로 발송 건너뜀")
         return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
@@ -57,14 +58,14 @@ def send_telegram_msg(msg: str):
         logging.error(f"텔레그램 발송 오류: {e}")
 
 def format_recent_trades_summary(closed_trades):
+    """최근 10건 승률 및 총 실현 손익액 표기 (수익률 합산 왜곡 제거)"""
     if not closed_trades:
-        return "[최근 매도 이력]\n매도 이력이 없습니다.\n최근 10건 승률 : 0%\n최근 10건 손익 : +0KRW (+0.0%)"
+        return "[최근 매도 이력]\n매도 이력이 없습니다.\n최근 10건 승률 : 0%\n최근 10건 실현 손익 : +0 KRW"
     
     recent_10 = closed_trades[-10:]
     lines = ["[최근 매도 이력]"]
     wins = 0
     total_profit_krw = 0
-    total_profit_pct = 0.0
     
     for idx, t in enumerate(recent_10, 1):
         p_pct = t.get('profit_pct', 0.0)
@@ -76,18 +77,16 @@ def format_recent_trades_summary(closed_trades):
         except:
             formatted_time = "-"
             
-        sign = "+" if p_pct > 0 else ""
-        lines.append(f"{idx}. {symbol} ({sign}{p_pct:.1f}%) {formatted_time}")
+        sign_pct = "+" if p_pct > 0 else ""
+        lines.append(f"{idx}. {symbol} ({sign_pct}{p_pct:.1f}%) {formatted_time}")
         if p_pct > 0:
             wins += 1
         total_profit_krw += p_krw
-        total_profit_pct += p_pct
 
     win_rate = round((wins / len(recent_10)) * 100) if recent_10 else 0
     sign_krw = "+" if total_profit_krw > 0 else ""
-    sign_pct = "+" if total_profit_pct > 0 else ""
     lines.append(f"최근 10건 승률 : {win_rate}%")
-    lines.append(f"최근 10건 손익 : {sign_krw}{total_profit_krw:,}KRW ({sign_pct}{total_profit_pct:.1f}%)")
+    lines.append(f"최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW")
     return "\n".join(lines)
 
 # ==========================================
@@ -117,16 +116,18 @@ def get_current_price(coin_code: str) -> float:
     return None
 
 def fetch_latest_targets():
-    headers = {}
+    """GitHub API를 통해 캐시 지연 없이 실시간 최신 targets.json 조회"""
+    headers = {"Accept": "application/vnd.github.v3+json"}
     if GH_TOKEN:
-        headers["Authorization"] = f"token {GH_TOKEN}"
+        headers["Authorization"] = f"Bearer {GH_TOKEN}"
     try:
-        url = f"{TARGETS_RAW_URL}?_={int(time.time())}"
-        res = requests.get(url, headers=headers, timeout=5)
+        res = requests.get(TARGETS_API_URL, headers=headers, timeout=5)
         if res.status_code == 200:
-            return res.json()
+            content_b64 = res.json().get('content', '')
+            decoded = base64.b64decode(content_b64).decode('utf-8')
+            return json.loads(decoded)
     except Exception as e:
-        logging.error(f"targets.json 동기화 에러: {e}")
+        logging.error(f"targets.json 실시간 API 조회 실패: {e}")
     return None
 
 # ==========================================
@@ -141,7 +142,6 @@ def telegram_listener_thread():
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
     logging.info(f"📱 텔레그램 인터락 리스너 가동 (Chat ID: {TELEGRAM_CHAT_ID})")
 
-    # 시작 시 이전 밀린 메시지 오프셋 초기화
     try:
         init_res = requests.get(url, params={"timeout": 1}, timeout=5).json()
         if init_res.get("ok") and init_res.get("result"):
@@ -161,9 +161,8 @@ def telegram_listener_thread():
                     text = msg.get("text", "").strip()
                     sender_chat_id = str(msg.get("chat", {}).get("id", "")).strip()
 
-                    # chat_id 일치 확인 (안전장치)
                     if TELEGRAM_CHAT_ID and sender_chat_id != TELEGRAM_CHAT_ID:
-                        logging.warning(f"⚠️ 인증되지 않은 사용자 접근 무시 (ID: {sender_chat_id})")
+                        logging.warning(f"⚠️ 미인증 접근 무시 (ID: {sender_chat_id})")
                         continue
 
                     if not text:
@@ -171,7 +170,6 @@ def telegram_listener_thread():
 
                     logging.info(f"📩 [텔레그램 수신] 명령어: '{text}'")
 
-                    # 1. /status : 현재 봇 상태 조회
                     if text == "/status":
                         server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": "-"})
                         paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
@@ -188,17 +186,14 @@ def telegram_listener_thread():
 • 누적 복기 거래수: {len(paper_db.get('closed_trades', []))}건"""
                         send_telegram_msg(res_msg)
 
-                    # 2. /stop : 신규 진입 일시 중단
                     elif text == "/stop":
                         EMERGENCY_STOP = True
                         send_telegram_msg("🛑 [인터락 작동] 신규 매수 감시가 일시 중단되었습니다. (보유 포지션 익/손절 방어는 유지)")
 
-                    # 3. /start : 매매 재개
                     elif text == "/start":
                         EMERGENCY_STOP = False
                         send_telegram_msg("▶️ [인터락 해제] 신규 매수 감시 및 자동 매매가 정상 재개되었습니다.")
 
-                    # 4. /panic : 즉시 정지 및 전량 청산
                     elif text == "/panic":
                         EMERGENCY_STOP = True
                         paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
@@ -206,7 +201,6 @@ def telegram_listener_thread():
                         save_json_file(PAPER_TRADES_FILE, paper_db)
                         send_telegram_msg("🚨 [PANIC] 보유 포지션이 전량 초기화되었습니다.")
 
-                    # 5. /update : GitHub 최신 코드 동기화 및 서비스 안전 재시작
                     elif text == "/update":
                         send_telegram_msg("🔄 [원격 업데이트] GitHub에서 최신 코드를 다운로드합니다...")
                         try:
@@ -226,7 +220,6 @@ def telegram_listener_thread():
 
                             send_telegram_msg(f"✅ [Git Pull 완료]\n`{log_output}`\n\n⚡ 봇 서비스를 재시작합니다...")
                             
-                            # 1초 지연 후 서비스 재시작 (메시지 완전 전송 보장)
                             def do_restart():
                                 time.sleep(1.5)
                                 subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
@@ -236,7 +229,6 @@ def telegram_listener_thread():
                         except Exception as e:
                             send_telegram_msg(f"❌ [업데이트 실패] {e}")
 
-                    # 6. /log : 최근 로그 10줄 확인
                     elif text == "/log":
                         if os.path.exists("watcher.log"):
                             with open("watcher.log", "r", encoding="utf-8") as f:
@@ -258,7 +250,6 @@ async def realtime_execution_engine():
     logging.info("⚡ 오라클 실시간 감시 & 체결 엔진 구동 시작")
     last_sync_time = 0
 
-    # 텔레그램 리스너를 독립 백그라운드 스레드로 시작
     t = threading.Thread(target=telegram_listener_thread, daemon=True)
     t.start()
 
@@ -269,13 +260,12 @@ async def realtime_execution_engine():
             server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
             paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
 
-            # 30초마다 GitHub targets.json 동기화 (신규 타점 수신 시 이전 미체결 대기 주문 덮어쓰기)
+            # 30초마다 GitHub API로 targets.json 실시간 동기화
             if now - last_sync_time >= 30:
                 data = fetch_latest_targets()
                 if data and data.get("updated_at") != server_state.get("last_updated"):
                     server_state["last_updated"] = data.get("updated_at")
                     
-                    # 💡 이전 회차 미체결 대기 주문 초기화 후 최신 타점으로 교체
                     new_pending = {}
                     for coin_code, plan in data.get("targets", {}).items():
                         if coin_code not in paper_db.get("active_positions", {}):
@@ -292,7 +282,7 @@ async def realtime_execution_engine():
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # [1] 진입 대기 감시 (20분 타임어택 & 가격 도달 체결)
+            # [1] 진입 대기 감시 (20분 타임어택 & 실제 체결가 기준 재계산)
             if not EMERGENCY_STOP:
                 for coin_code, plan in list(pending.items()):
                     created_time_str = plan.get("created_at", now_dt.isoformat())
@@ -311,13 +301,20 @@ async def realtime_execution_engine():
                     if not curr_p:
                         continue
 
+                    # 목표 진입가 이하 도달 시 매수 체결
                     if curr_p <= plan["target_entry"]:
                         logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결 진행")
+                        
+                        # 💡 [핵심] 실제 체결가(curr_p)를 기준으로 손절/익절 절대 가격 재계산
+                        real_entry_price = curr_p
+                        exact_stop_loss = round(real_entry_price * (1.0 + (plan["sl_pct"] / 100.0)), 2 if real_entry_price < 100 else 0)
+                        exact_take_profit = round(real_entry_price * (1.0 + (plan["tp_pct"] / 100.0)), 2 if real_entry_price < 100 else 0)
+
                         active_positions[coin_code] = {
                             "symbol": plan["symbol"],
-                            "entry_price": curr_p,
-                            "stop_loss": plan["stop_loss"],
-                            "take_profit": plan["take_profit"],
+                            "entry_price": real_entry_price,
+                            "stop_loss": exact_stop_loss,
+                            "take_profit": exact_take_profit,
                             "buy_amount_krw": plan["buy_amount_krw"],
                             "sl_pct": plan["sl_pct"],
                             "tp_pct": plan["tp_pct"],
@@ -335,11 +332,13 @@ async def realtime_execution_engine():
 
                         buy_msg = f"""[체결 완료] - 모의투자
 종목 : {plan['symbol']}
-진입가 : {curr_p:,.0f}KRW
+진입가 : {real_entry_price:,.0f} KRW
 
-익절 목표 : {plan['take_profit']:,.0f}KRW({tp_sign}{plan['tp_pct']}%) / 손절 목표 : {plan['stop_loss']:,.0f}KRW({plan['sl_pct']}%)
+익절 목표 : {exact_take_profit:,.0f} KRW ({tp_sign}{plan['tp_pct']}%)
+손절 목표 : {exact_stop_loss:,.0f} KRW ({plan['sl_pct']}%)
 
-매수 근거 : {plan['detailed_reason']}
+매수 근거 :
+{plan['detailed_reason']}
 =================================
 [현재 보유종목]
 {held_str}
@@ -405,8 +404,8 @@ async def realtime_execution_engine():
 
                     exit_msg = f"""[청산 완료] - 모의투자
 종목 : {pos['symbol']}
-진입가 : {entry_p:,.0f}KRW ➔ 청산가 : {exit_price:,.0f}KRW
-손익 : {sign_krw}{profit_krw:,}KRW ({sign_pct}{profit_pct:.1f}%)
+진입가 : {entry_p:,.0f} KRW ➔ 청산가 : {exit_price:,.0f} KRW
+손익 : {sign_krw}{profit_krw:,} KRW ({sign_pct}{profit_pct:.1f}%)
 
 청산 사유 : {exit_reason}
 =================================
