@@ -23,7 +23,7 @@ MIN_BUY_KRW = 6000           # 💵 최소 매수 금액 (빗썸 5천원 + 안�
 BUY_RATIO = 0.20             # 📊 가용 잔고의 20%
 TIME_EXIT_HOURS = 3          # ⏰ 시간 손절 기준
 
-# 스테이블 코인 및 가격 고정형 토큰 (단타 대상 원천 제외)
+# 스테이블 코인 및 고정가 토큰 (단타 대상 원천 제외)
 STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD"}
 
 TARGETS_FILE = "targets.json"
@@ -72,7 +72,7 @@ def send_telegram_msg(message):
         print(f"⚠️ 텔레그램 발송 오류: {e}")
 
 # ==========================================
-# 2. GitHub API 통신 모듈
+# 2. GitHub API 통신 및 2중 JSON 파서
 # ==========================================
 def get_github_file_info(file_path):
     url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
@@ -117,6 +117,7 @@ def save_json_file(file_path, data):
     save_github_file(file_path, data)
 
 def clean_and_parse_json(raw_text):
+    """표준 JSON 파싱 시도 후 실패 시 정규식 기반 2차 안전 파서 구동"""
     if not raw_text:
         return None
     try:
@@ -138,8 +139,40 @@ def clean_and_parse_json(raw_text):
                 return json.loads(sanitized[:end_idx+1])
         return json.loads(cleaned)
     except Exception as e:
-        print(f"⚠️ JSON 파싱 에러: {e}")
-        return None
+        print(f"⚠️ 표준 JSON 파싱 실패 ({e}) ➔ 정규식 2차 복구 시도")
+        
+    # 2차 정규식 키값 강제 추출기 (문법 깨짐 방어)
+    try:
+        res = {}
+        sym_match = re.search(r'"selected_symbol"\s*:\s*"([^"]+)"', raw_text)
+        if sym_match: res["selected_symbol"] = sym_match.group(1)
+        
+        conf_match = re.search(r'"confidence_score"\s*:\s*([0-9]+)', raw_text)
+        if conf_match: res["confidence_score"] = int(conf_match.group(1))
+        
+        disc_match = re.search(r'"entry_discount_pct"\s*:\s*([0-9.]+)', raw_text)
+        if disc_match: res["entry_discount_pct"] = float(disc_match.group(1))
+        
+        sl_match = re.search(r'"stop_loss_pct"\s*:\s*(-?[0-9.]+)', raw_text)
+        if sl_match: res["stop_loss_pct"] = float(sl_match.group(1))
+        
+        tp_match = re.search(r'"take_profit_pct"\s*:\s*([0-9.]+)', raw_text)
+        if tp_match: res["take_profit_pct"] = float(tp_match.group(1))
+        
+        reason_match = re.search(r'"detailed_reason"\s*:\s*"([^"]+)"', raw_text)
+        if reason_match: res["detailed_reason"] = reason_match.group(1)
+        
+        cands_match = re.search(r'"top3_candidates"\s*:\s*\[(.*?)\]', raw_text)
+        if cands_match:
+            cands_raw = cands_match.group(1)
+            res["top3_candidates"] = [c.strip().strip('"').strip("'") for c in cands_raw.split(",") if c.strip()]
+            
+        if res:
+            print("✅ 정규식 기반 JSON 복구 성공!")
+            return res
+    except Exception as ex:
+        print(f"❌ 2차 정규식 파싱도 실패: {ex}")
+    return None
 
 # ==========================================
 # 3. 빗썸 API & 퀀트 피처(보조지표) 연산
@@ -273,7 +306,6 @@ def get_top10_market_data():
     raw_list = []
     for symbol, info in data.items():
         if symbol == "date": continue
-        # 1. 스테이블 코인 원천 제외
         if symbol.upper() in STABLE_COINS:
             continue
         try:
@@ -292,7 +324,7 @@ def get_top10_market_data():
         
         q_feat = calculate_quant_features(candles_1h)
         
-        # 2. 1시간봉 기준 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
+        # 1시간봉 기준 저변동성(ATR < 0.8%) 또는 역배열 하락세 제외
         if q_feat["atr_pct"] < 0.8:
             continue
         if q_feat["trend_state"] == "역배열(Bearish)" and q_feat["vwap_gap_pct"] < -2.0:
@@ -383,18 +415,19 @@ def screen_coins_2step(top_data):
         print("⏸️ [추세 필터] 정배열 상승 모멘텀을 가진 후보 코인이 없어 관망합니다.")
         return None, [], "추세 필터에서 우상향 정배열 종목 없음"
 
-    print("🤖 [Step 2-1] 1차 AI 스크리닝: 차트 추세/지표 기반 후보 3개 선별...")
+    print("🤖 [Step 2-1] 1차 AI 스크리닝: 주도주 및 수급 폭발 종목 선별...")
     sys_1 = (
-        "당신은 헤지펀드 퀀트 트레이더입니다. 제공된 10개 종목의 [1시간봉 시계열, VWAP 대비 위치, 거래량 폭발 배수(volume_surge_ratio), RSI, ATR 변동성]을 바탕으로 "
-        "차트 추세와 수급 지표를 분석하여 상위 3개 후보를 선별하세요.\n\n"
-        "[차트 및 지표 분석 원칙]\n"
-        "1. 추세(Trend): 1시간봉 기준 저점/고점을 높이는 상승 다우 이론 또는 정배열(Bullish) 돌파형 차트 선별.\n"
-        "2. 수급/지표: VWAP 상단 안착 및 직전 대비 거래량이 증가(surge >= 1.2)하며 RSI가 50~70 구간에서 우상향하는 종목 우대.\n"
-        "3. 배제/관망: 스테이블 코인(USDT 등) 및 저변동성 종목은 제외. 10개 모두 모멘텀이 없으면 top3_candidates를 빈 배열 []로 반환할 것."
+        "You are a top-tier algorithmic quant trader specializing in intraday breakout momentum.\n"
+        "Select up to 3 leading breakout candidates from the 10 provided coins based on 1-hour timeframes and technical metrics.\n\n"
+        "[Rules]\n"
+        "1. Prioritize Leading Momentum: Focus on coins with volume_surge_ratio >= 1.5, positive VWAP gap, and 1h EMA5 >= EMA20.\n"
+        "2. Exclude low-volatility/stable coins.\n"
+        "3. Standby: If no coin qualifies, return top3_candidates: [] to keep 100% cash.\n"
+        "4. Output format: JSON ONLY."
     )
-    user_1 = f"시장 및 퀀트 지표 데이터:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[응답 포맷 (JSON)]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"선정 이유 (추세/지표 근거)\"}}"
+    user_1 = f"Market and quant data:\n{json.dumps(top_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"한국어로 작성된 상세한 1차 선별 근거\"}}"
     
-    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 1시간봉 퀀트/추세 스크리닝")
+    res_1 = call_ai_api(sys_1, user_1, step_name="Step 2-1: 1차 주도주 퀀트 스크리닝")
     data_1 = clean_and_parse_json(res_1)
     if not data_1 or not data_1.get("top3_candidates"):
         print("⏸️ [1차 AI 스크리닝] 매수 적합 종목 없음 (관망)")
@@ -419,24 +452,23 @@ def screen_coins_2step(top_data):
             "candles_5m_timeseries": c_light
         })
 
-    print("🤖 [Step 2-3] 2차 AI 5분봉 40캔들 차트패턴/타임어택 타점 산출...")
+    print("🤖 [Step 2-3] 2차 AI 5분봉 40캔들 차트패턴/현실적 손익비 타점 산출...")
     sys_2 = (
-        "당신은 5분봉 초단타 데이트레이더입니다. 제공된 5분봉 40개(3시간 20분 흐름)와 퀀트 지표(RSI, ATR, VWAP)를 바탕으로 "
-        "차트 패턴, 프라이스 액션, 보조지표를 종합 분석하여 최종 1개 종목의 타점을 산출하세요.\n\n"
-        "[운영 규칙: 엄격한 2단계 타임어택 (Time-Constraint)]\n"
-        "1. 20분 진입 타임어택: 제시한 진입 대기가는 20분(5분봉 4개 캔들) 이내에 체결되지 않으면 자동 취소됩니다. 터치 가능한 현실적인 눌림목 할인율(0.2%~0.6%)을 산출하세요.\n"
-        "2. 3시간 강제 청산 (Time-Exit): 진입 후 3시간 이내에 익절/손절에 도달하지 못하면 시장가 청산됩니다. 향후 3시간 이내에 목표가(+2.0%~+5.0%)에 도달할 강력한 파동 종목만 선정하세요.\n\n"
-        "[5대 분석 및 검증 방법론]\n"
-        "1. 차트 패턴: 거래량 실린 기준봉 발생 후 거래량이 줄며 0.3~0.8% 지지선을 형성하는 깃발형(Bull Flag) 또는 이중바닥 패턴 확인.\n"
-        "2. 프라이스 액션: 거래량 압축(Volume Contraction) 후 재반등 확인. 단기 고점 추격 매수(설거지) 금지.\n"
-        "3. 보조지표: RSI(50~65 모멘텀 구간), ATR 기반 적정 손절폭(-1.0%~-2.5%) 설정.\n"
-        "4. 손익비: 목표 익절폭이 손절폭의 최소 1.8배 이상 (최소 익절 +2.0% 이상 필수).\n"
-        "5. 저변동성/스테이블 배제: 1~2틱 내 횡보 차트 즉시 탈락.\n\n"
-        "조건 충족 시 진입 할인율(0.2~0.6%), 손절률(-1.0%~-2.5%), 익절률(+2.0%~+5.0%)을 산출하고, 20분 내 진입 또는 3시간 내 목표 도달이 불확실하면 즉시 selected_symbol: 'NONE'을 반환하세요."
+        "You are an expert intraday scalper executing 5-minute momentum & breakout pullback trades.\n"
+        "Analyze the 5-minute 40-candle series (3h 20m) and quant metrics of the candidates to output exactly 1 best trade plan or NONE.\n\n"
+        "[Execution & Win-Rate Optimization Constraints]\n"
+        "1. 20-Min Expiration: Set a realistic, shallow entry discount (entry_discount_pct: 0.1% to 0.4%) to catch immediate momentum and avoid adverse selection.\n"
+        "2. 3-Hour Time-Exit: Must pick a coin ready to hit target within 3 hours.\n"
+        "3. Realistic Scalping Targets:\n"
+        "   - take_profit_pct: +1.8% to +3.0% (highly achievable within 3 hours)\n"
+        "   - stop_loss_pct: -1.0% to -1.8% (placed below key 5m support/ATR buffer)\n"
+        "4. Anti-Chasing: Reject coins with 5m RSI > 72 or slowing volume.\n"
+        "5. detailed_reason: Provide a comprehensive, detailed technical analysis in KOREAN (covering chart pattern, volume action, support level, and indicators). It does not need to be short.\n"
+        "6. If unsure or risk is high, output selected_symbol: 'NONE' immediately."
     )
-    user_2 = f"5분봉 40개 및 퀀트 지표 데이터:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[응답 (JSON)]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.4, \"stop_loss_pct\": -1.8, \"take_profit_pct\": 3.5, \"detailed_reason\": \"차트 패턴 및 지표 분석 근거\"}}"
+    user_2 = f"5-minute 40-candle and quant data:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\n[Expected JSON Schema]\n{{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 85, \"entry_discount_pct\": 0.2, \"stop_loss_pct\": -1.4, \"take_profit_pct\": 2.3, \"detailed_reason\": \"차트 패턴, 거래량 추이, 지지선 및 보조지표를 종합한 상세한 한국어 매수 분석 근거\"}}"
 
-    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 차트패턴/타임어택 타점 산출")
+    res_2 = call_ai_api(sys_2, user_2, step_name="Step 2-3: 2차 5분봉 40캔들 정밀 타점 산출")
     result = clean_and_parse_json(res_2)
     if not result:
         return None, candidates, "2차 AI 응답 JSON 파싱 실패"
@@ -454,9 +486,9 @@ def screen_coins_2step(top_data):
     plan = {
         "symbol": selected,
         "confidence": confidence,
-        "entry_discount_pct": float(result.get("entry_discount_pct", 0.4)),
-        "sl_pct": max(min(float(result.get("stop_loss_pct", -2.0)), -1.0), -2.5),
-        "tp_pct": min(max(float(result.get("take_profit_pct", 3.5)), 2.0), 5.0),
+        "entry_discount_pct": float(result.get("entry_discount_pct", 0.2)),
+        "sl_pct": max(min(float(result.get("stop_loss_pct", -1.4)), -1.0), -2.0),
+        "tp_pct": min(max(float(result.get("take_profit_pct", 2.3)), 1.8), 3.5),
         "detailed_reason": detailed_reason
     }
     return plan, candidates, "타점 도출 성공"
@@ -508,7 +540,8 @@ def calculate_and_save_targets(ai_plan, buy_amount_krw):
 손절 목표 : {stop_loss:,.0f} KRW ({ai_plan['sl_pct']}%)
 매수 배정 : {buy_amount_krw:,.0f} KRW
 
-매수 근거 : {ai_plan['detailed_reason']}
+매수 근거 :
+{ai_plan['detailed_reason']}
 =================================
 ⚡ 규칙: 20분 내 미체결 시 자동 취소 / 체결 후 3시간 미도달 시 시장가 청산"""
 
