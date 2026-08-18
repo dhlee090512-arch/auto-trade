@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-18T16:31:04.373473",
+  "updated_at": "2026-08-18T17:01:20.127716",
   "paper_trading": true,
   "targets": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "current_price": 323.0,
-      "target_entry": 323.0,
-      "stop_loss": 319.0,
-      "take_profit": 329.0,
-      "sl_pct": -1.2,
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "current_price": 79.09,
+      "target_entry": 79.01,
+      "stop_loss": 78.22,
+      "take_profit": 80.59,
+      "sl_pct": -1.0,
       "tp_pct": 2.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "ACE/KRW는 5분봉 기준 단기 정배열(Bullish) 추세를 형성하며 거래량이 동반된 상승 흐름을 보이고 있습니다. VWAP 상단에 위치하여 매수세가 우세하며, RSI(14)가 74 수준이나 단기 조정 후 재차 고점을 갱신하는 모멘텀이 강하게 유지되고 있어 진입 적기로 판단됩니다.",
-      "created_at": "2026-08-18T16:31:04.373473"
+      "detailed_reason": "EDEN/KRW는 5분봉 기준 강한 정배열(Bullish) 추세를 형성하며 우상향 중입니다. RSI가 78.7로 과매수 구간에 진입해 있으나 거래량이 안정적으로 유지되며 VWAP(75.41) 대비 +4.88%의 괴리율을 보이고 있어 매수세가 매우 강합니다. 단기 눌림목 발생 시 진입하여 빠른 스캘핑 수익을 노리기에 적합한 구조입니다.",
+      "created_at": "2026-08-18T17:01:20.127716"
     }
   }
 }
