@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-18T00:31:07.423500",
+  "updated_at": "2026-08-18T01:01:05.812027",
   "paper_trading": true,
   "targets": {
-    "BMT": {
-      "symbol": "BMT/KRW",
-      "current_price": 23.96,
-      "target_entry": 23.91,
-      "stop_loss": 23.62,
-      "take_profit": 24.39,
-      "sl_pct": -1.2,
-      "tp_pct": 2.0,
+    "DEXE": {
+      "symbol": "DEXE/KRW",
+      "current_price": 2742.0,
+      "target_entry": 2739.0,
+      "stop_loss": 2712.0,
+      "take_profit": 2780.0,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
       "buy_amount_krw": 6324,
-      "detailed_reason": "BMT/KRW는 단기 상승 추세(정배열)를 형성한 이후 최근 조정을 거치며 지지선을 테스트하는 국면입니다. RSI(14)가 59.2로 과매수 구간이 아니며 적절한 눌림목 매수 기회를 제공하고 있습니다. VWAP 부근에서의 반등을 노리는 단기 스캘핑 전략으로 유리합니다.",
-      "created_at": "2026-08-18T00:31:07.423500"
+      "detailed_reason": "현재 DEXE는 2740원 부근에서 횡보 박스권을 형성하고 있으며, RSI(14)가 38.2로 과매도 구간에 근접하여 단기 반발 매수세 유입 가능성이 있습니다. VWAP 대비 하락 괴리율(-0.8%)이 존재하므로 평균 가격 회귀를 노린 단기 롱(매수) 스캘핑 접근이 유리합니다. 직전 저점 이탈 시 즉시 손절하는 전략을 취합니다.",
+      "created_at": "2026-08-18T01:01:05.812027"
     }
   }
 }
