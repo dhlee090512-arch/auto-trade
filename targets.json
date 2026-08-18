@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-18T22:31:07.600798",
+  "updated_at": "2026-08-18T23:01:14.213950",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "current_price": 456.0,
-      "target_entry": 456.0,
-      "stop_loss": 451.0,
-      "take_profit": 463.0,
+    "CYS": {
+      "symbol": "CYS/KRW",
+      "current_price": 722.0,
+      "target_entry": 721.0,
+      "stop_loss": 714.0,
+      "take_profit": 734.0,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "WLD/KRW는 최근 단기 저점 형성 후 거래량이 유입되며 456원 부근에서 지지력을 테스트하고 있습니다. VWAP 부근에서 수렴하며 횡보/박스권 상단 돌파 시도를 준비 중인 국면으로, 소폭 조정을 이용한 진입 시 유리한 리스크 대비 보상 비율을 확보할 수 있습니다.",
-      "created_at": "2026-08-18T22:31:07.600798"
+      "detailed_reason": "CYS 코인은 5분봉 기준 정배열(Bullish) 추세를 유지하며 VWAP(719.0) 상단인 722.0에 위치해 있습니다. RSI(66.7)가 강세 국면을 나타내고 있으며, 최근 캔들들이 단기 조정을 거친 뒤 상승 압력을 회복하는 모습을 보여주고 있어 단기 스캘핑 관점에서 긍정적인 진입 구간입니다.",
+      "created_at": "2026-08-18T23:01:14.213950"
     }
   }
 }
