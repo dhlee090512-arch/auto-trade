@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-18T07:03:22.405388",
+  "updated_at": "2026-08-18T07:31:17.821311",
   "paper_trading": true,
   "targets": {
     "ACE": {
       "symbol": "ACE/KRW",
-      "current_price": 271.0,
-      "target_entry": 271.0,
-      "stop_loss": 268.0,
-      "take_profit": 277.0,
+      "current_price": 273.0,
+      "target_entry": 273.0,
+      "stop_loss": 270.0,
+      "take_profit": 278.0,
       "sl_pct": -1.2,
-      "tp_pct": 2.2,
+      "tp_pct": 2.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "ACE/KRW는 5분봉 기준 강한 정배열 상승 흐름을 보이고 있으며, VWAP 대비 14% 이상의 괴리율과 높은 거래량이 동반되며 단기 모멘텀이 매우 강력함. RSI가 93.9로 과매수 구간이나 거래대금 유입이 지속되고 있어 눌림목 구간에서의 단기 스캘핑 매매가 유효함.",
-      "created_at": "2026-08-18T07:03:22.405388"
+      "detailed_reason": "ACE 종목은 단기 이동평균선이 완벽한 정배열(Bullish)을 이루며 강한 상승세를 이어가고 있습니다. 최근 지속적인 거래량 유입과 함께 전고점을 돌파하며 상승 모멘텀이 매우 강력한 상태이며, VWAP(거래량가중평균가격) 상단에서 안정적인 가격 방어가 이루어지고 있어 추가 상승 가능성이 높습니다.",
+      "created_at": "2026-08-18T07:31:17.821311"
     }
   }
 }
