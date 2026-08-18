@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-18T18:01:16.485089",
+  "updated_at": "2026-08-18T19:01:12.193212",
   "paper_trading": true,
   "targets": {
     "GPS": {
       "symbol": "GPS/KRW",
-      "current_price": 25.48,
-      "target_entry": 25.45,
-      "stop_loss": 25.2,
-      "take_profit": 25.96,
+      "current_price": 25.69,
+      "target_entry": 25.66,
+      "stop_loss": 25.4,
+      "take_profit": 26.12,
       "sl_pct": -1.0,
-      "tp_pct": 2.0,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "GPS/KRW는 단기 정배열 추세를 유지하며 견조한 상승 흐름을 보이는 종목입니다. 현재가 25.48 부근에서 VWAP 상단에 위치하며, RSI(68.9)가 강세 구간에서 안정적으로 지지받고 있습니다. 조정을 이용한 매수 진입 시 단기 목표가까지 상승 여력이 충분하며, 1% 이내의 철저한 손절 관리로 높은 손익비 스캘핑이 가능합니다.",
-      "created_at": "2026-08-18T18:01:16.485089"
+      "detailed_reason": "GPS/KRW는 5분봉 기준 정배열(Bullish) 추세를 유지하고 있으며, VWAP 상단에서 가격이 지지받으며 안정적인 흐름을 보이고 있습니다. RSI(14)가 55.3으로 과매수 구간이 아니며 추가 상승 여력이 충분합니다. 최근 거래대금 유입과 함께 단기 저점을 높여가는 패턴을 형성하여 진입하기에 적합합니다.",
+      "created_at": "2026-08-18T19:01:12.193212"
     }
   }
 }
