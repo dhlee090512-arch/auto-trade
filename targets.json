@@ -1,18 +1,16 @@
 {
-  "updated_at": "2026-08-19T17:31:07.271908",
+  "updated_at": "2026-08-19T17:43:52.635680",
   "paper_trading": true,
   "targets": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "current_price": 1454.0,
-      "target_entry": 1453.0,
-      "stop_loss": 1438.0,
-      "take_profit": 1482.0,
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "current_price": 2871000.0,
+      "target_entry": 2869564.5,
       "sl_pct": -1.0,
       "tp_pct": 2.0,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "RSI 14가 23.5 수준으로 단기 과매도 구간에 진입해 있으며, 최근 고점 형성 이후 조정을 거쳐 현재가 부근에서 하방 경직성을 보이고 있습니다. VWAP 대비 소폭 하회하고 있으나 단기 반발 매수세 유입 가능성이 높아 리스크 대비 보상 비율이 유리한 롱 스캘핑 진입 구간입니다.",
-      "created_at": "2026-08-19T17:31:07.271908"
+      "buy_amount_krw": 10000,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 31.1로 과매도 국면 직전에 위치해 있으며, 단기 조정 이후 287만 원 부근에서 지지력을 형성하고 있습니다. VWAP 대비 이격도가 적정 수준이며, 최근 급등 이후의 피로감이 해소되는 구간으로 반등 매수세 유입을 기대할 수 있는 유리한 스캘핑 구간입니다.",
+      "created_at": "2026-08-19T17:43:52.635680"
     }
   }
 }
