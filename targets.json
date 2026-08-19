@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-19T11:31:11.466810",
+  "updated_at": "2026-08-19T12:01:15.278916",
   "paper_trading": true,
   "targets": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "current_price": 12.09,
-      "target_entry": 12.08,
-      "stop_loss": 11.94,
-      "take_profit": 12.32,
-      "sl_pct": -1.2,
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "current_price": 78.74,
+      "target_entry": 78.66,
+      "stop_loss": 77.87,
+      "take_profit": 80.23,
+      "sl_pct": -1.0,
       "tp_pct": 2.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "RSI_14 지표가 78.6으로 과매수 구간에 진입해 있어 단기적인 피로감이 누적되어 있으나, 정배열(Bullish) 추세와 함께 최근 캔들들이 상승 압력을 유지하고 있으며 VWAP(11.46) 대비 가격 격차(5.74%)가 양호하여 단기 모멘텀을 활용한 스캘핑 매수 진입이 유효함.",
-      "created_at": "2026-08-19T11:31:11.466810"
+      "detailed_reason": "EDEN/KRW는 최근 5분봉 기준 거래량 급증(volume_surge_ratio: 1.59)과 함께 전고점을 돌파하며 78.8원까지 강한 상승세를 보이고 있습니다. VWAP(75.87) 상단에서 안정적으로 지지를 받으며 정배열(Bullish) 추세를 형성 중이고, RSI(71.3)가 과매수권 진입 초기 단계로 강한 모멘텀이 유지되고 있어 추가 상승 여력이 높습니다.",
+      "created_at": "2026-08-19T12:01:15.278916"
     }
   }
 }
