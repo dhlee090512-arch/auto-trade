@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-19T06:01:13.870415",
+  "updated_at": "2026-08-19T06:30:58.072749",
   "paper_trading": true,
   "targets": {
     "HEMI": {
       "symbol": "HEMI/KRW",
-      "current_price": 11.6,
-      "target_entry": 11.59,
-      "stop_loss": 11.47,
-      "take_profit": 11.82,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
+      "current_price": 11.79,
+      "target_entry": 11.78,
+      "stop_loss": 11.64,
+      "take_profit": 12.04,
+      "sl_pct": -1.2,
+      "tp_pct": 2.2,
       "buy_amount_krw": 6324,
-      "detailed_reason": "HEMI 코인은 최근 강력한 거래량 유입과 함께 5분봉 기준 완벽한 정배열 상승 흐름을 형성하고 있습니다. 현재가 11.6 기준으로 VWAP 상단에서 강세가 유지되고 있으며, RSI(88.2)가 과매수 구간이나 단기 모멘텀이 매우 강하여 추가적인 상방 슈팅 가능성이 높습니다. 눌림목 조정을 활용한 단기 스캘핑 매수 진입에 최적의 조건입니다.",
-      "created_at": "2026-08-19T06:01:13.870415"
+      "detailed_reason": "HEMI/KRW는 최근 5분봉 기준 거래량이 급증하며 완벽한 정배열(Bullish) 추세를 형성하고 있습니다. VWAP 상단에서 안정적인 지지를 받으며 점진적인 고점 갱신 패턴을 보이고 있어, 단기 모멘텀을 활용한 스캘핑 매매에 매우 유리한 구간입니다.",
+      "created_at": "2026-08-19T06:30:58.072749"
     }
   }
 }
