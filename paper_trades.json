@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1463.0,
-      "highest_price": 1463.0,
-      "stop_loss": 1448.37,
-      "take_profit": 1489.334,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "XRP/KRW는 최근 단기 상승 이후 조정을 거치며 VWAP(1460.22) 부근에서 안정적인 가격 지지를 형성하고 있습니다. RSI 14 지표가 45.7로 과열 구간(70 이상)을 완전히 회피하여 추격매수 위험이 낮고, 횡보세 속에서 점진적인 틱 비율 회복과 거래량 안정화가 관찰되어 진입하기 유리한 기술적 구간입니다. 0.05%의 얕은 할인율로 안정적인 매수 체결을 유도하며, 1.8%의 익절가와 -1.0%의 손절가로 스캘핑에 적합한 리스크 대비 리워드 비율을 확보했습니다.",
-      "entry_time": "2026-08-19T17:59:29.383042",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 478.0,
@@ -1191,6 +1178,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-19T16:41:00.477072",
       "exit_time": "2026-08-19T17:50:06.399435"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1463.0,
+      "exit_price": 1465.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 14,
+      "profit_pct": 0.14,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-19T17:59:29.383042",
+      "exit_time": "2026-08-19T18:34:34.315772"
     }
   ]
 }
