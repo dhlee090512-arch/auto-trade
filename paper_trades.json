@@ -1,19 +1,5 @@
 {
-  "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 113400.0,
-      "highest_price": 114900.0,
-      "stop_loss": 113513.4,
-      "take_profit": 115100.99999999999,
-      "buy_amount_krw": 10000,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 58.3으로 과열권(70 이상)을 피해 안정적인 눌림목 공략이 가능하며, VWAP(112,792 KRW) 상단에서 견조한 지지를 받으며 우상향 추세를 유지하고 있습니다. ATR 비율이 낮아 변동성이 통제된 상태에서 점진적인 거래대금 유입과 함께 단기 박스권 상단 돌파 시도가 관찰되므로 0.08% 할인된 가격에 매수하여 1.5% 수익을 목표로 하는 스켈핑 전략에 적합합니다.",
-      "entry_time": "2026-08-19T20:35:19.946039",
-      "break_even_triggered": true
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1274,6 +1260,18 @@
       "reason": "익절 목표가 달성",
       "entry_time": "2026-08-19T20:44:03.235672",
       "exit_time": "2026-08-19T20:51:06.208897"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 113400.0,
+      "exit_price": 115400.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 176,
+      "profit_pct": 1.76,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "익절 목표가 달성",
+      "entry_time": "2026-08-19T20:35:19.946039",
+      "exit_time": "2026-08-19T20:51:13.425552"
     }
   ]
 }
