@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 12.67,
+      "highest_price": 12.67,
+      "stop_loss": 12.5433,
+      "take_profit": 12.86005,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "HEMI/KRW는 5분봉 RSI가 51.1로 과매수 상태가 아니며(안티 체이싱 규칙 충족), 최근 가격조정 이후 VWAP 근처에서 안정적인 지지를 받으며 반등을 모색하는 구간입니다. ATR 비율이 2.12%로 변동성이 적절하여 단기 스캘핑 목표치(+1.5%) 달성에 유리하며, 얕은 눌림목에서 분할 매수 진입하기 적합합니다.",
+      "entry_time": "2026-08-19T14:16:39.833380",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
