@@ -2,15 +2,15 @@
   "active_positions": {
     "WLD": {
       "symbol": "WLD/KRW",
-      "entry_price": 502.0,
-      "highest_price": 502.0,
-      "stop_loss": 496.98,
-      "take_profit": 509.53,
+      "entry_price": 501.0,
+      "highest_price": 501.0,
+      "stop_loss": 495.99,
+      "take_profit": 510.01800000000003,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "WLD/KRW 코인은 최근 거래량이 동반되며 상승 흐름을 보였으나, 5분봉 기준 RSI(14)가 63.6으로 과매수 구간(70)을 하회하여 추격 매수 위험이 적습니다. VWAP 상단에 안정적으로 위치해 있으며 최근 캔들에서 소폭 조정을 거치는 동안 거래량이 감소하여 얕은 눌림목 매수(0.1% 할인 진입)에 유리한 구조를 갖추고 있습니다. 스캘핑 목표가는 1.5% 상승, 손절가는 -1.0%로 설정하여 리스크 대비 보상 비율을 최적화했습니다.",
-      "entry_time": "2026-08-19T20:58:57.932478",
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW(92.4)와 SOL/KRW(81.1)는 5분봉 RSI가 70을 초과하여 추격 매수 위험(Anti-Chasing 원칙)이 존재하므로 제외함. WLD/KRW는 5분봉 RSI 51.9로 과매수 구간을 피해 있으며, 최근 거래량 유입과 함께 VWAP 상단에서 안정적인 가격 조정을 거치고 있어 얕은 조정 구간을 활용한 단기 스캘핑 진입에 가장 적합함.",
+      "entry_time": "2026-08-19T21:04:08.752784",
       "break_even_triggered": false
     }
   },
