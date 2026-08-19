@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 112800.0,
-      "highest_price": 112800.0,
-      "stop_loss": 111672.0,
-      "take_profit": 114830.40000000001,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SOL/KRW는 최근 5분봉 기준 횡보 후 직전 캔들에서 소폭 거래량과 함께 반등 흐름을 보이고 있으며, RSI(14)가 68으로 과매수 구간(70)을 넘지 않아 추격매수 필터를 통과했습니다. 현재가와 VWAP(-0.11%)의 이격이 크지 않아 안정적인 얕은 진입(0.08% 할인)이 가능하며, ATR 기반 변동성을 고려하여 손절폭 -1.0%, 익절폭 +1.8%의 합리적인 단기 스캘핑 구간을 설정합니다.",
-      "entry_time": "2026-08-19T18:39:04.440461",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 2881000.0,
@@ -1215,6 +1202,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-19T18:19:31.732424",
       "exit_time": "2026-08-19T18:58:51.418410"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 112800.0,
+      "exit_price": 113200.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 35,
+      "profit_pct": 0.35,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-19T18:39:04.440461",
+      "exit_time": "2026-08-19T19:14:06.465678"
     }
   ]
 }
