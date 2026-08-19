@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-19T08:33:12.578884",
+  "updated_at": "2026-08-19T09:05:21.224249",
   "paper_trading": true,
   "targets": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "current_price": 11.68,
-      "target_entry": 11.67,
-      "stop_loss": 11.55,
-      "take_profit": 11.88,
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "current_price": 75.14,
+      "target_entry": 75.06,
+      "stop_loss": 74.31,
+      "take_profit": 76.56,
       "sl_pct": -1.0,
-      "tp_pct": 1.8,
+      "tp_pct": 2.0,
       "buy_amount_krw": 6324,
-      "detailed_reason": "HEMI/KRW는 최근 12.68 고점 형성 이후 급등락을 반복하며 박스권 조정을 거치는 양상입니다. 현재가 11.7 부근은 단기 지지선과 VWAP(11.62) 부근에 위치하여 기술적 반등을 기대할 수 있는 구간입니다. RSI 14가 44.9로 과매도 상태는 아니나 중립적인 위치에서 저점 매수세가 유입될 수 있으며, ATR 기반 변동성을 활용한 단기 스캘핑 접근이 가능합니다.",
-      "created_at": "2026-08-19T08:33:12.578884"
+      "detailed_reason": "EDEN 코인은 5분봉 기준 완벽한 정배열(Bullish) 추세를 형성하며 지속적인 고점 경신 흐름을 보이고 있습니다. VWAP 대비 가격 이격도가 건강하며, 최근 봉들에서 강한 거래 동반 상승이 확인되어 단기 모멘텀이 매우 우수합니다. RSI 14가 74로 과열권 진입 초기이나 강한 트렌드 장세에서는 지속 상승 여력이 높으므로 즉시 진입하여 빠른 스캘핑 수익을 추구합니다.",
+      "created_at": "2026-08-19T09:05:21.224249"
     }
   }
 }
