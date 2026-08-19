@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-08-19T04:31:03.543078",
+  "updated_at": "2026-08-19T05:01:03.782118",
   "paper_trading": true,
   "targets": {
-    "GNO": {
-      "symbol": "GNO/KRW",
-      "current_price": 162800.0,
-      "target_entry": 162637.0,
-      "stop_loss": 160685.0,
-      "take_profit": 165890.0,
-      "sl_pct": -1.2,
-      "tp_pct": 2.0,
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "current_price": 9.584,
+      "target_entry": 9.57,
+      "stop_loss": 9.47,
+      "take_profit": 9.74,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "최근 캔들에서 대량 거래량이 유입되며 단기 급등 후 조정 및 횡보 국면을 형성 중입니다. VWAP 부근에서 지지력을 테스트하고 있으며, RSI가 59.9로 건강한 매수 우위 상태를 유지하고 있어 추가 반등 가능성이 높습니다.",
-      "created_at": "2026-08-19T04:31:03.543078"
+      "detailed_reason": "현재 가격은 단기 조정을 거치고 있으나 직전 거래량이 유입된 상승 파동의 중심선 부근에서 지지력을 테스트 중입니다. RSI(14)가 57.3으로 중립 이상을 유지하며, 정배열 상태에서 단기 눌림목을 활용한 롱(매수) 진입 타점으로 적합합니다.",
+      "created_at": "2026-08-19T05:01:03.782118"
     }
   }
 }
