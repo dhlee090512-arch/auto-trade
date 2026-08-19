@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 498.0,
+      "highest_price": 498.0,
+      "stop_loss": 493.02,
+      "take_profit": 505.46999999999997,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "ETH와 SOL은 5분봉 RSI가 각각 77.1과 75.8로 과매수 구간(>70)에 진입해 있어 추격 매수 위험이 높음. 반면 WLD/KRW는 RSI 54.5로 중립적이며 최근 상승 추세 이후 적절한 조정을 거친 뒤 VWAP(497.6) 부근에서 지지를 받고 있음. 변동성(ATR pct 1.0%)과 거래량이 안정적이어서 얕은 눌림목 매수(스칼핑) 타점으로 적합함.",
+      "entry_time": "2026-08-19T22:02:58.761810",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
