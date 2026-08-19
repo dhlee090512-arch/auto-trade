@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "entry_price": 82.65,
+      "highest_price": 82.65,
+      "stop_loss": 81.74085000000001,
+      "take_profit": 84.30300000000001,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.1,
+      "tp_pct": 2.0,
+      "detailed_reason": "EDEN/KRW는 5분봉 기준 뚜렷한 거래대금 동반 상승 모멘텀을 형성하며 VWAP(80.05) 위로 강하게 안착했습니다. RSI는 62.3으로 과열권(70)에 도달하지 않아 추가 상승 여력이 충분합니다. 최근 캔들에서 단기 조정을 거치며 82.6 부근에서 지지력을 테스트 중이므로, 현재가 근처에서 얕은 진입(0.05% 할인)을 통해 상방 변동성을 활용한 단기 스캘핑 진입에 유리합니다.",
+      "entry_time": "2026-08-19T14:52:00.479334",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
