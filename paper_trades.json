@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 498.0,
-      "highest_price": 498.0,
-      "stop_loss": 493.02,
-      "take_profit": 505.46999999999997,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "ETH와 SOL은 5분봉 RSI가 각각 77.1과 75.8로 과매수 구간(>70)에 진입해 있어 추격 매수 위험이 높음. 반면 WLD/KRW는 RSI 54.5로 중립적이며 최근 상승 추세 이후 적절한 조정을 거친 뒤 VWAP(497.6) 부근에서 지지를 받고 있음. 변동성(ATR pct 1.0%)과 거래량이 안정적이어서 얕은 눌림목 매수(스칼핑) 타점으로 적합함.",
-      "entry_time": "2026-08-19T22:02:58.761810",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3101000.0,
@@ -1311,6 +1298,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-19T21:04:08.752784",
       "exit_time": "2026-08-19T21:40:17.268221"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 498.0,
+      "exit_price": 493.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": -100,
+      "profit_pct": -1.0,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-19T22:02:58.761810",
+      "exit_time": "2026-08-19T22:12:56.399664"
     }
   ]
 }
