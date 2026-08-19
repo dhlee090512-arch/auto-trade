@@ -1,16 +1,18 @@
 {
-  "updated_at": "2026-08-19T21:44:36.156823",
+  "updated_at": "2026-08-19T22:01:15.377062",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "current_price": 499.0,
-      "target_entry": 498.501,
+    "DOS": {
+      "symbol": "DOS/KRW",
+      "current_price": 349.0,
+      "target_entry": 349.0,
+      "stop_loss": 346.0,
+      "take_profit": 355.0,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "buy_amount_krw": 10000,
-      "detailed_reason": "ETH와 SOL은 5분봉 RSI가 각각 77.1과 75.8로 과매수 구간(>70)에 진입해 있어 추격 매수 위험이 높음. 반면 WLD/KRW는 RSI 54.5로 중립적이며 최근 상승 추세 이후 적절한 조정을 거친 뒤 VWAP(497.6) 부근에서 지지를 받고 있음. 변동성(ATR pct 1.0%)과 거래량이 안정적이어서 얕은 눌림목 매수(스칼핑) 타점으로 적합함.",
-      "created_at": "2026-08-19T21:44:36.156823"
+      "tp_pct": 1.8,
+      "buy_amount_krw": 6324,
+      "detailed_reason": "직전 하락 추세 이후 단기 저점(341-342원) 부근에서 거래량이 수반되며 반등에 성공하였으며, 현재 350원 부근에서 완만한 지지력을 형성하고 있습니다. RSI(14)가 51.7로 중립적인 위치에서 에너지를 응축 중이며, VWAP(-0.18%) 근처에서 밀착 거래되고 있어 소폭 조정 후 단기 반등을 노리는 롱 스캘핑 진입에 유리한 구간입니다.",
+      "created_at": "2026-08-19T22:01:15.377062"
     }
   }
 }
