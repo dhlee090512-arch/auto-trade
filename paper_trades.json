@@ -12,6 +12,19 @@
       "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 22.3으로 과매도 구간에 진입해 있으며, VWAP 대비 갭이 0.05%로 수렴하여 단기 기술적 반등 가능성이 높습니다. ATR 기반으로 변동성을 고려하여 1.0%의 손절선과 2.0%의 익절선으로 리스크 대비 보상 비율을 최적화한 스캘핑 진입 전략입니다.",
       "entry_time": "2026-08-19T23:00:40.339391",
       "break_even_triggered": false
+    },
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "entry_price": 116900.0,
+      "highest_price": 116900.0,
+      "stop_loss": 115731.0,
+      "take_profit": 118653.49999999999,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 55.6으로 과매수 구간(70 이상)을 완전히 회피했으며, VWAP 근처(-0.06% 갭)에서 안정적인 횡보 및 완만한 매수세 유입을 보이고 있습니다. ATR_pct가 0.34%로 적절한 변동성을 형성하고 있어 스캘핑 관점에서 얕은 조정을 이용한 진입(0.05% 할인) 후, +1.5% 익절과 -1.0% 손절 라인을 설정하기에 매우 유리한 차트 구조를 가집니다.",
+      "entry_time": "2026-08-19T23:52:33.553555",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
