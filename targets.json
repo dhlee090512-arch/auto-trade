@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-21T03:33:57.205477+09:00",
+  "updated_at": "2026-08-21T03:54:11.210875+09:00",
   "paper_trading": true,
   "targets": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "current_price": 3189000.0,
-      "target_entry": 3187405.5,
-      "sl_pct": -1.0,
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "current_price": 1712.0,
+      "target_entry": 1711.144,
+      "sl_pct": -1.1,
       "tp_pct": 2.0,
       "buy_amount_krw": 10000,
-      "detailed_reason": "ETH/KRW 5분봉 기준 최근 조정 국면에서 RSI 30.8로 과매도권 진입 직전이며, VWAP(-0.35%) 하단에서 강한 지지 테스트 완료. 직전 저점 구간(3186000원) 부근이 주요 지지선으로 작용하여 기술적 반등이 유력한 구간임. 단기 변동성을 활용한 스캘핑 매수 타점.",
-      "created_at": "2026-08-21T03:33:57.205477+09:00"
+      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI 20.2로 과매도 구간에 진입해 있으며, 최근 급락 이후 1710원 부근의 단기 지지선에서 저가 매수세가 유입되며 횡보 반등을 시도하는 패턴을 형성하고 있습니다. VWAP 대비 이격도가 -3.16%로 충분한 낙폭 과대 상태를 보여 단기 낙폭 과대 반등(Dead Cat Bounce/Reversal) 스캘핑 타점에 적합합니다.",
+      "created_at": "2026-08-21T03:54:11.210875+09:00"
     }
   }
 }
