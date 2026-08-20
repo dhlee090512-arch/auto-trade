@@ -1,19 +1,5 @@
 {
-  "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3172000.0,
-      "highest_price": 3172000.0,
-      "stop_loss": 3140280.0,
-      "take_profit": 3229096.0,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 63.3으로 과매수 구간(70)을 하회하면서도 단기 상승 모멘텀을 유지하고 있습니다. VWAP 대비 0.26% 괴리율을 보이며, 최근 캔들에서 소폭 조정 후 지지받는 양상을 보여 얕은 할인율(0.1%) 적용 시 유리한 진입이 가능합니다. 리스크 대비 보상 비율이 적절한 스캘핑 구간입니다.",
-      "entry_time": "2026-08-20T12:01:21.829001",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1550,6 +1536,18 @@
       "reason": "본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-20T11:53:51.600919",
       "exit_time": "2026-08-20T12:07:37.335272"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3172000.0,
+      "exit_price": 3140000.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": -101,
+      "profit_pct": -1.01,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-20T12:01:21.829001",
+      "exit_time": "2026-08-20T12:09:17.293169"
     }
   ]
 }
