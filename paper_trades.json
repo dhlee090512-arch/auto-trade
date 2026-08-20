@@ -15,15 +15,15 @@
     },
     "ONDO": {
       "symbol": "ONDO/KRW",
-      "entry_price": 481.0,
-      "highest_price": 481.0,
-      "stop_loss": 476.19,
-      "take_profit": 489.658,
+      "entry_price": 480.0,
+      "highest_price": 480.0,
+      "stop_loss": 475.68,
+      "take_profit": 487.68,
       "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "BTC와 ETH는 5m RSI가 각각 80.2와 70.2로 안티체이싱 필터(RSI > 70)에 저촉되어 추격 매수가 위험합니다. 반면 ONDO/KRW는 RSI가 66.7로 과매수 구간에 진입하지 않았으며, 최근 완만한 우상향 흐름과 함께 VWAP 상단에서 안정적인 가격 방어를 보여주고 있습니다. ATR 대비 적절한 변동성과 거래량 지지를 바탕으로 얕은 눌림목(0.1%) 진입 후 스캘핑 목표가 달성이 유리합니다.",
-      "entry_time": "2026-08-20T00:56:25.038480",
+      "sl_pct": -0.9,
+      "tp_pct": 1.6,
+      "detailed_reason": "ETH와 BTC는 RSI가 70을 초과하여 안티체이싱(Anti-Chasing) 룰에 의해 배제됨. ONDO/KRW는 5m RSI가 66.7로 70 미만이며, 최근 거래량 유입과 함께 VWAP(거래소가중평균가격) 상단에서 안정적인 지지를 받고 있음. ATR 대비 적절한 변동성과 얕은 눌림목 매수 전략을 적용하기에 가장 적합함.",
+      "entry_time": "2026-08-20T01:01:01.657861",
       "break_even_triggered": false
     }
   },
