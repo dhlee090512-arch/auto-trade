@@ -264,7 +264,61 @@ def calculate_quant_features(candles):
     }
 
 # ==========================================
-# 4. 서버 내장 AI 전략 수립 모듈
+# 4. 실시간 1분봉 캔들/거래량 패턴 분석 엔진
+# ==========================================
+def check_realtime_chart_patterns(coin_code: str, plan: dict):
+    """
+    1분봉 캔들 모양과 거래량을 실시간으로 분석하여 진짜 반등/돌파인지 검증
+    반환: (매수승인 여부 bool, 발동된 패턴명 str)
+    """
+    candles_1m = get_candles(coin_code, interval="1m", limit=15)
+    if len(candles_1m) < 10:
+        # 1분봉 데이터가 부족하면 기본 가격 도달만 체크
+        curr_p = get_current_price(coin_code)
+        return (curr_p <= plan["target_entry"]), "기본 가격 도달 (1분봉 데이터 부족)"
+
+    latest = candles_1m[-1]         # 현재 형성 중인 1분봉
+    prev_1m = candles_1m[-2]        # 직전 1분봉
+    curr_price = latest['close']
+
+    # 1분봉 지표 계산
+    closes_1m = [c['close'] for c in candles_1m]
+    volumes_1m = [c['volume'] for c in candles_1m]
+    rsi_1m = calculate_rsi(closes_1m, period=9)
+    avg_vol_10 = sum(volumes_1m[-11:-1]) / 10 if len(volumes_1m) >= 11 else (sum(volumes_1m[:-1]) / max(len(volumes_1m)-1, 1))
+
+    # [패턴 1] 🔨 지지선 아래꼬리 양봉 반등 (Hammer / Pin Bar Trigger)
+    # 지지선 구간 진입 후 1분봉이 아래꼬리를 길게 달고 양봉으로 전환되는 순간
+    if curr_price <= plan["target_entry"] * 1.002:
+        body = abs(latest['close'] - latest['open'])
+        lower_tail = min(latest['open'], latest['close']) - latest['low']
+        is_bullish = latest['close'] >= latest['open']
+        
+        # 꼬리가 몸통보다 1.2배 이상 길고 양봉이거나, 직전봉 대비 거래량이 실린 반등
+        if is_bullish and lower_tail >= (body * 1.2) and latest['volume'] >= (avg_vol_10 * 1.1):
+            return True, "🔨 1분봉 지지선 아래꼬리 양봉 반등 확인 (Hammer Pattern)"
+
+    # [패턴 2] 🚀 직전 5분 고점 거래량 폭발 돌파 (Volume Breakout Trigger)
+    # 직전 고점을 뚫을 때 최근 1분 거래량이 직전 10분 평균의 2.2배 이상 폭증
+    recent_high_10m = max(c['high'] for c in candles_1m[-10:-1])
+    if curr_price >= recent_high_10m and latest['volume'] >= (avg_vol_10 * 2.2) and rsi_1m < 72:
+        return True, f"🚀 1분봉 거래량 {latest['volume']/avg_vol_10:.1f}배 폭발 고점 돌파 (Breakout)"
+
+    # [패턴 3] 📈 과매도 반등 턴어라운드 (RSI Divergence Cross)
+    # 직전 1분봉이 RSI 38 이하 찍고 현재 1분봉에서 42선을 상향 돌파
+    prev_closes = closes_1m[:-1]
+    prev_rsi = calculate_rsi(prev_closes, period=9) if len(prev_closes) >= 10 else 50.0
+    if prev_rsi <= 38 and rsi_1m >= 42 and latest['close'] > latest['open']:
+        return True, "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드"
+
+    # [패턴 4] 안전 마진 깊은 눌림목 도달
+    if curr_price <= plan["target_entry"] * 0.997:
+        return True, "📉 안전 마진 지지선 도달 체결"
+
+    return False, "패턴 미완성"
+
+# ==========================================
+# 5. 서버 내장 AI 전략 수립 모듈 (5분 주기)
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
@@ -345,6 +399,15 @@ def clean_and_parse_json(raw_text):
     return None
 
 def execute_server_side_strategy():
+    """AI를 통해 상위 종목 중 차트 패턴 후보 및 감시구간(Trigger Zone) 도출"""
+    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+    active_positions = paper_db.get("active_positions", {})
+    
+    # 이미 최대 보유 종목 수 도달 시 AI 호출 스킵 (토큰 절약)
+    if len(active_positions) >= MAX_HOLDING_COINS:
+        logging.info("💼 최대 보유 종목(3개) 도달로 신규 AI 분석 스킵")
+        return
+
     logging.info("🧠 [서버 자체 AI 전략 분석 시작]")
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     res = requests.get(url, proxies=PROXIES, timeout=10).json()
@@ -365,6 +428,7 @@ def execute_server_side_strategy():
         if len(candles_1h) < 15: continue
         q_feat = calculate_quant_features(candles_1h)
 
+        # 1틱 가치 > 0.35% 초과 저가 코인 배제 (노이즈 방어)
         if q_feat["tick_ratio_pct"] > 0.35: continue
         if q_feat["atr_pct"] < 0.5 or q_feat["vwap_gap_pct"] < -3.5: continue
 
@@ -379,7 +443,8 @@ def execute_server_side_strategy():
         logging.info("⏸️ 조건에 부합하는 종목이 없어 관망합니다.")
         return
 
-    sys_1 = "Select up to 3 candidates for momentum/range scalping. Return JSON ONLY."
+    # 1차 퀀트 선별
+    sys_1 = "Select up to 3 candidates with volume consolidation or bullish structure. Return JSON ONLY."
     user_1 = f"Market Data:\n{json.dumps(top_data, ensure_ascii=False)}\n\nSchema: {{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"한국어 선별 사유\"}}"
     res_1 = clean_and_parse_json(call_ai_api(sys_1, user_1))
     if not res_1 or not res_1.get("top3_candidates"): return
@@ -387,6 +452,7 @@ def execute_server_side_strategy():
     candidates = res_1["top3_candidates"]
     logging.info(f"🎯 [1차 선별 완료]: {candidates}")
 
+    # 2차 5분봉 40캔들 정밀 타점 도출
     cand_5m_data = []
     for sym in candidates:
         code = sym.split('/')[0]
@@ -397,13 +463,13 @@ def execute_server_side_strategy():
         cand_5m_data.append({"symbol": sym, "quant_5m": q_5m, "candles_5m": c_light})
 
     sys_2 = (
-        "You are an intraday scalper. Analyze 5m 40-candle series to pick 1 trade plan or NONE.\n"
+        "You are an intraday quant scalper. Analyze 5m 40-candle series to output 1 best candidate or NONE.\n"
         "Rules:\n"
-        "1. Entry: Set realistic shallow entry (entry_discount_pct: 0.0% to 0.15%) near market price.\n"
+        "1. Identify key support / trigger zone (entry_discount_pct: 0.0% to 0.15%).\n"
         "2. Anti-Chasing: Reject coins with 5m RSI > 70.\n"
         "3. Scalping Targets: take_profit_pct: +1.2% to +2.5%, stop_loss_pct: -0.8% to -1.3%.\n"
-        "4. detailed_reason: Detailed Korean technical explanation.\n"
-        "Output JSON ONLY."
+        "4. detailed_reason: Detailed Korean technical explanation of pattern/support.\n"
+        "Output raw JSON ONLY."
     )
     user_2 = f"5m Series:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\nSchema: {{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 75, \"entry_discount_pct\": 0.1, \"stop_loss_pct\": -1.0, \"take_profit_pct\": 1.8, \"detailed_reason\": \"근거\"}}"
     res_2 = clean_and_parse_json(call_ai_api(sys_2, user_2))
@@ -437,8 +503,6 @@ def execute_server_side_strategy():
     }
 
     server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
-    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-    
     server_state["pending_targets"] = {code: plan_data}
     server_state["last_updated"] = now_iso
     save_json_file(STATE_FILE, server_state)
@@ -449,10 +513,11 @@ def execute_server_side_strategy():
 
     tp_sign = "+" if tp_pct > 0 else ""
     
+    # 💡 [메시지 1] 🎯 매수 타점 선정 - 서버
     plan_msg = f"""🎯 [매수 타점 선정 - 서버]
 • 종목 : {selected} (신뢰도: {confidence}점)
 • 현재가 : {curr_p:,.2f} KRW
-• 진입 대기가 : {target_entry:,.2f} KRW (-{discount}%)
+• 감시 기준가 : {target_entry:,.2f} KRW (-{discount}%)
 
 🎯 익절 목표 : {tp_sign}{tp_pct}%
 🛡️ 손절 기준 : {sl_pct}%
@@ -460,19 +525,20 @@ def execute_server_side_strategy():
 💡 매수 근거 :
 {plan_data['detailed_reason']}
 =================================
-⚡ 규칙: 20분 미체결 취소 / 트레일링 스탑 및 거래량 소멸 시 조기 청산"""
+⚡ 규칙: 1분봉 실시간 패턴(아래꼬리 양봉/돌파 거래량) 완성 시 즉시 체결"""
     send_telegram_msg(plan_msg)
 
     time.sleep(0.5)
-    portfolio_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
+    # 💡 [메시지 2] 💼 현재 매매 상황 (독립 메시지)
+    portfolio_msg = format_portfolio_status_msg(active_positions, paper_db.get("closed_trades", []))
     send_telegram_msg(portfolio_msg)
 
 # ==========================================
-# 5. 실시간 감시 & 트레일링 스탑 & 조기 청산 엔진
+# 6. 실시간 감시 & 1분봉 패턴 검증 & 청산 엔진
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP
-    logging.info("⚡ 오라클 실시간 감시 & 트레일링 스탑 엔진 구동 시작")
+    logging.info("⚡ 오라클 실시간 감시 & 1분봉 패턴 매수 엔진 구동 시작")
     last_strategy_run = 0
 
     t = threading.Thread(target=telegram_listener_thread, daemon=True)
@@ -483,6 +549,7 @@ async def realtime_execution_engine():
             now = time.time()
             now_dt = get_kst_now()
 
+            # 5분(300초) 주기 AI 전략 실행
             if now - last_strategy_run >= 300:
                 execute_server_side_strategy()
                 last_strategy_run = now
@@ -494,6 +561,7 @@ async def realtime_execution_engine():
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
+            # [1] 진입 대기 종목 실시간 차트 패턴 검증 (2초 주기)
             if not EMERGENCY_STOP and len(active_positions) < MAX_HOLDING_COINS:
                 for coin_code, plan in list(pending.items()):
                     created_dt = datetime.fromisoformat(plan.get("created_at", now_dt.isoformat()))
@@ -503,9 +571,14 @@ async def realtime_execution_engine():
                         save_json_file(STATE_FILE, server_state)
                         continue
 
-                    curr_p = get_current_price(coin_code)
-                    if curr_p and curr_p <= plan["target_entry"]:
-                        logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결")
+                    # 💡 [핵심] 1분봉 캔들 모양 및 거래량 패턴 실시간 분석
+                    pattern_matched, trigger_name = check_realtime_chart_patterns(coin_code, plan)
+                    
+                    if pattern_matched:
+                        curr_p = get_current_price(coin_code)
+                        if not curr_p: continue
+
+                        logging.info(f"🎯 [{plan['symbol']}] 실시간 패턴 충족! ({trigger_name}) ➔ 매수 체결")
                         exact_sl = curr_p * (1.0 + (plan["sl_pct"] / 100.0))
                         exact_tp = curr_p * (1.0 + (plan["tp_pct"] / 100.0))
 
@@ -518,7 +591,7 @@ async def realtime_execution_engine():
                             "buy_amount_krw": plan["buy_amount_krw"],
                             "sl_pct": plan["sl_pct"],
                             "tp_pct": plan["tp_pct"],
-                            "detailed_reason": plan["detailed_reason"],
+                            "trigger_pattern": trigger_name,
                             "entry_time": now_dt.isoformat(),
                             "break_even_triggered": False
                         }
@@ -529,6 +602,7 @@ async def realtime_execution_engine():
                         sync_file_to_github(PAPER_TRADES_FILE, paper_db)
 
                         tp_sign = "+" if plan['tp_pct'] > 0 else ""
+                        # 💡 [메시지 3] ⚡ 체결 완료 (매수 근거 제외)
                         buy_msg = f"""⚡ [체결 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
 • 종목 : {plan['symbol']}
 • 진입 체결가 : {curr_p:,.2f} KRW
@@ -538,6 +612,7 @@ async def realtime_execution_engine():
 💰 투입 금액 : {plan['buy_amount_krw']:,} KRW"""
                         send_telegram_msg(buy_msg)
 
+            # [2] 보유 포지션 실시간 청산 관리 (본절 방어 + 트레일링 스탑 + 조기 청산)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p: continue
@@ -551,10 +626,11 @@ async def realtime_execution_engine():
 
                 highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
 
-                if not pos.get("break_even_triggered", False) and curr_profit_pct >= 0.9:
+                # 본절 방어 (Break-Even)
+                if not pos.get("break_even_triggered", False) and curr_profit_pct >= 0.85:
                     pos["stop_loss"] = max(pos["stop_loss"], entry_p * 1.001)
                     pos["break_even_triggered"] = True
-                    logging.info(f"🛡️ [{pos['symbol']}] 수익 +0.9% 도달로 본절 방어선 가동")
+                    logging.info(f"🛡️ [{pos['symbol']}] 수익 +0.85% 도달로 본절 방어선 가동")
 
                 status = "HOLDING"
                 exit_reason = ""
@@ -562,15 +638,15 @@ async def realtime_execution_engine():
                 if curr_p >= pos["take_profit"]:
                     status = "CLOSED_TAKE_PROFIT"
                     exit_reason = "🎯 익절 목표가 달성"
-                elif highest_profit_pct >= 1.2 and (highest_profit_pct - curr_profit_pct) >= 0.4:
+                elif highest_profit_pct >= 1.2 and (highest_profit_pct - curr_profit_pct) >= 0.35:
                     status = "CLOSED_TRAILING_STOP"
                     exit_reason = f"📈 트레일링 스탑 (최고 +{highest_profit_pct:.1f}% 달성 후 이익 보존)"
                 elif curr_p <= pos["stop_loss"]:
                     status = "CLOSED_STOP_LOSS"
                     exit_reason = "🛡️ 본절 방어선 또는 손절가 도달"
-                elif (now_dt - entry_time) >= timedelta(minutes=35) and abs(curr_profit_pct) < 0.4:
+                elif (now_dt - entry_time) >= timedelta(minutes=30) and abs(curr_profit_pct) < 0.35:
                     status = "CLOSED_EARLY_EXIT"
-                    exit_reason = "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)"
+                    exit_reason = "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)"
                 elif (now_dt - entry_time) >= timedelta(hours=TIME_EXIT_HOURS):
                     status = "CLOSED_TIME_EXIT"
                     exit_reason = f"⏰ {TIME_EXIT_HOURS}시간 횡보로 시장가 청산"
@@ -602,6 +678,7 @@ async def realtime_execution_engine():
                     sign_krw = "+" if profit_krw > 0 else ""
                     profit_icon = "🎉" if profit_pct > 0 else "🌧️"
 
+                    # 💡 [메시지 4] 🎉 청산 완료 (핵심 손익 단독 표기)
                     exit_msg = f"""{profit_icon} [청산 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
 • 종목 : {pos['symbol']}
 • 진입가 : {entry_p:,.2f} KRW ➔ 청산가 : {curr_p:,.2f} KRW
@@ -616,23 +693,21 @@ async def realtime_execution_engine():
             await asyncio.sleep(5)
 
 # ==========================================
-# 6. 텔레그램 명령어 리스너 (무한 루프 방어)
+# 7. 텔레그램 명령어 리스너
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
     if not TELEGRAM_BOT_TOKEN: return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
 
-    # 💡 [핵심 버그 수정] 시작 시 큐에 남아있는 과거 메시지(재부팅 전 /update 등)를 모두 읽고 버림
+    # 과거 메시지 플러시
     try:
         init_res = requests.get(url, params={"timeout": 1}, timeout=5).json()
         if init_res.get("ok") and init_res.get("result"):
             LAST_TELEGRAM_UPDATE_ID = init_res["result"][-1]["update_id"]
-            # 텔레그램 서버에 과거 메시지 읽음 처리 (오프셋 갱신)
             requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=5)
-            logging.info(f"📱 텔레그램 과거 메시지 플러시 완료 (최신 Update ID: {LAST_TELEGRAM_UPDATE_ID})")
-    except Exception as e:
-        logging.warning(f"텔레그램 초기화 오류: {e}")
+    except Exception:
+        pass
 
     while True:
         try:
@@ -672,8 +747,6 @@ def telegram_listener_thread():
 
                     elif text == "/update":
                         send_telegram_msg("🔄 [원격 업데이트] 최신 코드를 다운로드하고 서비스를 재시작합니다...")
-                        
-                        # 💡 재시작 전에 현재 Update ID를 텔레그램 서버에 확실히 커밋
                         try:
                             requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=3)
                         except Exception:
@@ -682,6 +755,7 @@ def telegram_listener_thread():
                         def do_restart():
                             time.sleep(1.5)
                             try:
+                                subprocess.run(["git", "stash"], cwd=PROJECT_DIR, timeout=10)
                                 subprocess.run(["git", "pull", "origin", "main"], cwd=PROJECT_DIR, timeout=20)
                                 subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
                             except Exception as ex:
@@ -695,7 +769,7 @@ def telegram_listener_thread():
 
 if __name__ == "__main__":
     send_telegram_msg(
-        "🚀 [오라클 서버] 트레일링 스탑 & 지연 제로 퀀트 엔진 가동\n\n"
+        "🚀 [오라클 서버] 실시간 1분봉 패턴 감시 & 트레일링 스탑 엔진 가동\n\n"
         "📱 사용 가능한 명령어:\n"
         "• /status : 시스템 상태 및 포지션 확인\n"
         "• /update : GitHub 최신 코드 동기화 후 재시작\n"
