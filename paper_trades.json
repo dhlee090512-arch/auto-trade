@@ -3,7 +3,7 @@
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3165000.0,
-      "highest_price": 3165000.0,
+      "highest_price": 3192000.0,
       "stop_loss": 3136515.0,
       "take_profit": 3215640.0,
       "buy_amount_krw": 10000,
@@ -11,19 +11,6 @@
       "tp_pct": 1.6,
       "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 59.4로 과매수 구간(70 이상)을 회피하였으며, 최근 캔들에서 전반적인 거래량 유입(volume_surge_ratio: 1.41)과 함께 VWAP(가중평균가격) 상단에서 안정적인 지지 흐름을 형성하고 있습니다. VWAP 갭 비율도 0.51%로 양호하며 단기 상승 모멘텀이 유지되고 있어 0.08% 수준의 미세한 눌림목 진입을 통해 스캘핑 목표가 달성이 유리합니다.",
       "entry_time": "2026-08-20T11:05:09.667403",
-      "break_even_triggered": false
-    },
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "entry_price": 99384000.0,
-      "highest_price": 99384000.0,
-      "stop_loss": 98390160.0,
-      "take_profit": 101172912.0,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "BTC/KRW는 5분봉 기준 RSI가 54.8로 과열권(70 이상)을 회피하였으며, 최근 1억 원 터치 이후 단기 조정 및 횡보 구간에서 VWAP 지지력을 확인하며 안정적인 변동성을 보이고 있습니다. ATR 비율이 0.25%로 스캘핑에 적합한 탄력성을 지니고 있어, 현재가 부근의 얕은 할인율을 적용한 롱 포지션 진입이 유리합니다.",
-      "entry_time": "2026-08-20T11:15:12.350598",
       "break_even_triggered": false
     }
   },
@@ -1527,6 +1514,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T10:26:25.170142",
       "exit_time": "2026-08-20T11:01:26.775966"
+    },
+    {
+      "symbol": "BTC/KRW",
+      "entry_price": 99384000.0,
+      "exit_price": 99631000.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 25,
+      "profit_pct": 0.25,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T11:15:12.350598",
+      "exit_time": "2026-08-20T11:51:44.616562"
     }
   ]
 }
