@@ -1,18 +1,16 @@
 {
-  "updated_at": "2026-08-20T11:30:59.871398",
+  "updated_at": "2026-08-20T11:51:39.609320",
   "paper_trading": true,
   "targets": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "current_price": 294.0,
-      "target_entry": 294.0,
-      "stop_loss": 291.0,
-      "take_profit": 300.0,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "현재 가격 294.0으로 전고점 부근을 돌파하며 강한 정배열(Bullish) 추세를 형성하고 있습니다. VWAP(280.84) 대비 이격도가 4.69% 존재하며 거래량이 수반된 상승 모멘텀이 유지되고 있어 추가 상승 여력이 큽니다. RSI(14)는 64.7로 과매수 구간에 완전히 진입하지 않아 단기 스캘핑 관점에서 유리한 매수 타이밍입니다.",
-      "created_at": "2026-08-20T11:30:59.871398"
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "current_price": 121200.0,
+      "target_entry": 121103.04,
+      "sl_pct": -0.9,
+      "tp_pct": 1.6,
+      "buy_amount_krw": 10000,
+      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI(14)가 67.9로 과매수 구간(70 이상)을 회피하여 안티 체이싱 규칙을 충족합니다. VWAP와의 이격도(vwap_gap_pct)가 0.24%로 안정적이며, 최근 직전 고점 부근의 매물대를 소화하며 소폭의 거래량과 함께 점진적 우상향 패턴을 형성하고 있어 단기 스캘핑 관점에서 얕은 조정을 활용한 롱(Long) 진입에 매우 유리한 기술적 구조를 보입니다.",
+      "created_at": "2026-08-20T11:51:39.609320"
     }
   }
 }
