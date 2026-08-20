@@ -12,6 +12,19 @@
       "detailed_reason": "SOL/KRW는 최근 5분봉 기준 RSI(14)가 20.0으로 극단적인 과매도 상태이며, 단기 급락 후 VWAP 대비 이격도가 -0.76%로 벌어져 있어 기술적 반등 가능성이 높습니다. ATR 기반으로 스캘핑 목표가 +2.0%, 손절가 -1.0%를 설정하여 리스크 대비 보상 비율이 우수합니다.",
       "entry_time": "2026-08-20T03:31:40.943765",
       "break_even_triggered": false
+    },
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 95261000.0,
+      "highest_price": 95261000.0,
+      "stop_loss": 94308390.0,
+      "take_profit": 96975698.0,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "BTC/KRW는 최근 5분봉 기준 급락 이후 9500만 원 부근에서 저점을 형성하며 단기 반등 모멘텀을 확보하고 있습니다. RSI(14)가 34.4로 과매도 국면에서 벗어나려는 초기 단계이며, VWAP 대비 -0.31% 하향 이격되어 있어 평균 회귀(Mean Reversion) 매수 전략에 매우 적합합니다. 얕은 할인율(0.05%)로 공격적인 진입을 취하며, 스캘핑 목표 수익률 1.8%와 손절 1.0%로 리스크 대비 보상 비율이 우수합니다.",
+      "entry_time": "2026-08-20T03:50:56.669847",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
