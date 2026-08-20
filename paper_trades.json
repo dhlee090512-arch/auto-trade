@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 99199000.0,
+      "highest_price": 99199000.0,
+      "stop_loss": 98306209.0,
+      "take_profit": 100686984.99999999,
+      "buy_amount_krw": 10000,
+      "sl_pct": -0.9,
+      "tp_pct": 1.5,
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-21T00:24:32.622791+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
