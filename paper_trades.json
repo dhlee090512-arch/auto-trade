@@ -12,6 +12,19 @@
       "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 61.9로 과매수 구간(70 이상)을 회피하였으며, 최근 조정 이후 저점을 높이며 완만한 반등 흐름을 형성하고 있습니다. VWAP 부근에서 가격 안정화가 진행 중이며, 얕은 눌림목 구간을 활용한 매수 진입 시 리스크 대비 매력적인 리워드 확보가 가능합니다.",
       "entry_time": "2026-08-20T04:32:06.768951",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3102000.0,
+      "highest_price": 3102000.0,
+      "stop_loss": 3070980.0,
+      "take_profit": 3157836.0,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 RSI가 61.9로 과매수 구간(70 이상)을 회피하였으며, 최근 단기 조정 이후 저점을 높이며 반등세를 형성하고 있습니다. VWAP 부근에서 지지를 받으며 거래량이 안정적으로 유입되고 있어, 얕은 눌림목(0.1% 할인) 매수 진입 시 유리한 리스크 대비 리턴(Risk-Reward) 비율을 확보할 수 있습니다.",
+      "entry_time": "2026-08-20T05:01:46.486974",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
