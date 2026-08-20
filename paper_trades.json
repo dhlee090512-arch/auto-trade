@@ -12,6 +12,19 @@
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI(14)가 67.9로 과매수 구간(70 이상)을 회피하여 안티 체이싱 규칙을 충족합니다. VWAP와의 이격도(vwap_gap_pct)가 0.24%로 안정적이며, 최근 직전 고점 부근의 매물대를 소화하며 소폭의 거래량과 함께 점진적 우상향 패턴을 형성하고 있어 단기 스캘핑 관점에서 얕은 조정을 활용한 롱(Long) 진입에 매우 유리한 기술적 구조를 보입니다.",
       "entry_time": "2026-08-20T11:53:51.600919",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3172000.0,
+      "highest_price": 3172000.0,
+      "stop_loss": 3140280.0,
+      "take_profit": 3229096.0,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 63.3으로 과매수 구간(70)을 하회하면서도 단기 상승 모멘텀을 유지하고 있습니다. VWAP 대비 0.26% 괴리율을 보이며, 최근 캔들에서 소폭 조정 후 지지받는 양상을 보여 얕은 할인율(0.1%) 적용 시 유리한 진입이 가능합니다. 리스크 대비 보상 비율이 적절한 스캘핑 구간입니다.",
+      "entry_time": "2026-08-20T12:01:21.829001",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
