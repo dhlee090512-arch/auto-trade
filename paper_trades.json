@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1745.0,
+      "highest_price": 1745.0,
+      "stop_loss": 1725.805,
+      "take_profit": 1779.9,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.1,
+      "tp_pct": 2.0,
+      "trigger_pattern": "📉 안전 마진 지지선 도달 체결",
+      "entry_time": "2026-08-21T03:15:36.792924+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
