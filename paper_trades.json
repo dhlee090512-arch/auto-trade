@@ -15,15 +15,15 @@
     },
     "XRP": {
       "symbol": "XRP/KRW",
-      "entry_price": 1711.0,
-      "highest_price": 1711.0,
-      "stop_loss": 1693.8899999999999,
-      "take_profit": 1736.6649999999997,
+      "entry_price": 1709.0,
+      "highest_price": 1709.0,
+      "stop_loss": 1691.91,
+      "take_profit": 1743.18,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
-      "entry_time": "2026-08-21T00:32:04.860091+09:00",
+      "tp_pct": 2.0,
+      "trigger_pattern": "기본 가격 도달 (1분봉 데이터 부족)",
+      "entry_time": "2026-08-21T00:35:46.511736+09:00",
       "break_even_triggered": false
     }
   },
