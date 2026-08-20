@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3123000.0,
+      "highest_price": 3123000.0,
+      "stop_loss": 3091770.0,
+      "take_profit": 3185460.0,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ETH/KRW는 최근 5분 봉에서 대량 거래량이 동반되며 전고점을 돌파하는 강한 상승 흐름을 보이고 있습니다. 반면 BTC와 SOL은 RSI가 80을 상회하여 안티체이싱(Anti-Chasing) 규칙에 따라 추격 매수가 제한되는 반면, ETH는 RSI 64.4로 과매수 구간에 진입하지 않아 상대적인 상승 여력이 충분합니다. VWAP 상단에 위치하며 거래대금이 급증하는 모멘텀을 활용하여 얕은 눌림목에서 분할 매수 후 스캘핑 목표가 달성이 유리합니다.",
+      "entry_time": "2026-08-20T08:15:11.747301",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
