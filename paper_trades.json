@@ -12,6 +12,19 @@
       "trigger_pattern": "기본 가격 도달 (1분봉 데이터 부족)",
       "entry_time": "2026-08-21T00:35:46.511736+09:00",
       "break_even_triggered": false
+    },
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 99481000.0,
+      "highest_price": 99481000.0,
+      "stop_loss": 98486190.0,
+      "take_profit": 101271658.0,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-21T01:15:30.412542+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
