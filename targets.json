@@ -1,18 +1,16 @@
 {
-  "updated_at": "2026-08-20T10:31:07.223815",
+  "updated_at": "2026-08-20T10:34:39.566401",
   "paper_trading": true,
   "targets": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "current_price": 278.0,
-      "target_entry": 278.0,
-      "stop_loss": 275.0,
-      "take_profit": 284.0,
-      "sl_pct": -1.2,
-      "tp_pct": 2.0,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "현재 ACE/KRW는 단기 급등 이후 270~280원 대에서 안정적인 지지를 형성하며 정배열(Bullish) 추세를 이어가고 있습니다. VWAP(275.77) 상단에 위치하여 매수세가 우세하며, RSI(64.3)가 과매수 구간에 진입하기 전으로 추가 상승 여력이 충분합니다. 최근 거래량 급증 후 눌림목 구간에서 소폭 반등하는 흐름을 보여 분할 매수 및 단기 스캘핑 접근이 유리합니다.",
-      "created_at": "2026-08-20T10:31:07.223815"
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "current_price": 3156000.0,
+      "target_entry": 3154422.0,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "buy_amount_krw": 10000,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 38.5로 과매수 국면에 진입하지 않아 추격매수 위험이 낮고, VWAP 상단 부근에서 안정적인 조정을 거치고 있습니다. ATR 대비 변동성이 적절하며 지지선 부근에서 반등을 노리는 단기 스캘핑 전략에 적합합니다.",
+      "created_at": "2026-08-20T10:34:39.566401"
     }
   }
 }
