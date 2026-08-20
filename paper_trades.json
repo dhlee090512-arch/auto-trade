@@ -3,7 +3,7 @@
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3158000.0,
-      "highest_price": 3158000.0,
+      "highest_price": 3161000.0,
       "stop_loss": 3126420.0,
       "take_profit": 3214844.0,
       "buy_amount_krw": 10000,
@@ -11,19 +11,6 @@
       "tp_pct": 1.8,
       "detailed_reason": "ETH/KRW는 최근 5분봉 기준 완만한 상승세 이후 주요 지지선을 다지며 안정적인 횡보 조정을 거치는 중입니다. RSI(14)가 56.1로 과매수 구간(70 이상)을 완전히 피해 안티 체이싱 규칙을 충족하며, VWAP 대비 0.55% 괴리율로 추세적 지지를 받고 있습니다. 거래량 역시 안정적으로 유지되며 단기 반등 모멘텀이 유효하므로 진입가 할인율 0.05%를 적용하여 효율적인 롱 스캘핑 진입이 가능합니다.",
       "entry_time": "2026-08-20T10:09:47.403412",
-      "break_even_triggered": false
-    },
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1595.0,
-      "highest_price": 1595.0,
-      "stop_loss": 1579.05,
-      "take_profit": 1626.9,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI 64.4로 과매수 구간(>70)을 회피하면서도 견조한 거래량과 우상향 추세를 형성하고 있습니다. VWAP 대비 괴리율이 1.33%로 안정적이며 직전 고점 돌파 시도 중인 흐름을 보여 단기 스캘핑 매매에 적합합니다.",
-      "entry_time": "2026-08-20T09:49:00.120912",
       "break_even_triggered": false
     }
   },
@@ -1503,6 +1490,18 @@
       "reason": "본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-20T09:59:31.326428",
       "exit_time": "2026-08-20T10:00:51.886683"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1595.0,
+      "exit_price": 1601.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 38,
+      "profit_pct": 0.38,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T09:49:00.120912",
+      "exit_time": "2026-08-20T10:25:38.723071"
     }
   ]
 }
