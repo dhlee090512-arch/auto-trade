@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-20T02:50:36.415051",
+  "updated_at": "2026-08-20T02:55:36.786778",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "current_price": 493.0,
-      "target_entry": 492.75350000000003,
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "current_price": 3104000.0,
+      "target_entry": 3102448.0,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
+      "tp_pct": 1.8,
       "buy_amount_krw": 10000,
-      "detailed_reason": "WLD/KRW는 5m RSI가 23.1로 과매도 구간에 진입해 있으며, VWAP 대비 -1.25% 하락하여 가격적 메리트가 존재합니다. 단기 바닥권 형성 및 반등을 노리는 역추세 스캘핑 전략으로 적합합니다.",
-      "created_at": "2026-08-20T02:50:36.415051"
+      "detailed_reason": "ETH/KRW는 5분봉 RSI가 25.0으로 강한 과매도 구간에 진입해 있으며, VWAP 대비 하락 괴리율(-0.29%)을 보이고 있어 단기 반등 모멘텀이 유효합니다. 최근 캔들들이 하방 경직성을 확보하며 매도세가 진정되는 모습을 보이고 있어 얕은 구간에서의 분할 매수 진입 시 유리한 리스크 대비 보상 비율(RRR)을 제공합니다.",
+      "created_at": "2026-08-20T02:55:36.786778"
     }
   }
 }
