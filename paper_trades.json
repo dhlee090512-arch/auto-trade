@@ -25,6 +25,19 @@
       "detailed_reason": "ETH와 BTC는 RSI가 70을 초과하여 안티체이싱(Anti-Chasing) 룰에 의해 배제됨. ONDO/KRW는 5m RSI가 66.7로 70 미만이며, 최근 거래량 유입과 함께 VWAP(거래소가중평균가격) 상단에서 안정적인 지지를 받고 있음. ATR 대비 적절한 변동성과 얕은 눌림목 매수 전략을 적용하기에 가장 적합함.",
       "entry_time": "2026-08-20T01:01:01.657861",
       "break_even_triggered": false
+    },
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 501.0,
+      "highest_price": 501.0,
+      "stop_loss": 495.99,
+      "take_profit": 510.01800000000003,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI가 57.9로 과매수 구간(70 이상)을 완전히 회피하였으며, 뚜렷한 거래량 유입(volume_surge_ratio: 1.22)과 함께 VWAP 상단 위에서 안정적인 가격 흐름을 보이고 있습니다. 단기 상승 추세 속에서 얕은 눌림목을 활용한 진입이 유리하며, 스캘핑 전략에 적합한 리스크 대비 보상 비율(손절 -1.0%, 익절 +1.8%)을 충족합니다. 반면 ETH와 CYS는 RSI가 각각 76.7, 81.7로 과열 상태여서 안티체이싱(Anti-Chasing) 원칙에 의해 제외되었습니다.",
+      "entry_time": "2026-08-20T01:03:21.241983",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
