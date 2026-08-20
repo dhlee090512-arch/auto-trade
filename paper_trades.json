@@ -2,15 +2,15 @@
   "active_positions": {
     "ETH": {
       "symbol": "ETH/KRW",
-      "entry_price": 3177000.0,
-      "highest_price": 3182000.0,
-      "stop_loss": 3145230.0,
-      "take_profit": 3240540.0,
+      "entry_price": 3187000.0,
+      "highest_price": 3187000.0,
+      "stop_loss": 3155130.0,
+      "take_profit": 3250740.0,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
       "tp_pct": 2.0,
-      "trigger_pattern": "📉 안전 마진 지지선 도달 체결",
-      "entry_time": "2026-08-21T03:41:09.575729+09:00",
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-21T04:03:37.052802+09:00",
       "break_even_triggered": false
     }
   },
