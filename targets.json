@@ -1,18 +1,16 @@
 {
-  "updated_at": "2026-08-20T00:31:06.904671",
+  "updated_at": "2026-08-20T00:52:44.243990",
   "paper_trading": true,
   "targets": {
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "current_price": 95667000.0,
-      "target_entry": 95571333.0,
-      "stop_loss": 94615620.0,
-      "take_profit": 97004903.0,
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "current_price": 482.0,
+      "target_entry": 481.518,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "현재 RSI(14)가 81.4로 과매수 구간에 진입해 있어 단기 조정 압력이 존재하며, 정배열 상태에서 상승 탄력이 둔화되는 모습을 보이고 있습니다. 공격적인 추격 매수보다는 약간의 조정을 기다리는 전략이 유리합니다.",
-      "created_at": "2026-08-20T00:31:06.904671"
+      "tp_pct": 1.8,
+      "buy_amount_krw": 10000,
+      "detailed_reason": "BTC와 ETH는 5m RSI가 각각 80.2와 70.2로 안티체이싱 필터(RSI > 70)에 저촉되어 추격 매수가 위험합니다. 반면 ONDO/KRW는 RSI가 66.7로 과매수 구간에 진입하지 않았으며, 최근 완만한 우상향 흐름과 함께 VWAP 상단에서 안정적인 가격 방어를 보여주고 있습니다. ATR 대비 적절한 변동성과 거래량 지지를 바탕으로 얕은 눌림목(0.1%) 진입 후 스캘핑 목표가 달성이 유리합니다.",
+      "created_at": "2026-08-20T00:52:44.243990"
     }
   }
 }
