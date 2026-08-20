@@ -1,5 +1,19 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "entry_price": 341.0,
+      "highest_price": 341.0,
+      "stop_loss": 337.59,
+      "take_profit": 347.82,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ACE/KRW는 5분봉 기준 꾸준한 거래량 유입과 함께 전고점을 갱신하며 강한 상승 흐름을 보이고 있습니다. RSI가 67.7로 과매수 구간(70)에 진입하지 않아 추세 추종 매매에 적합하며, VWAP 대비 갭(8.46%)이 건전하게 유지되고 있어 단기 스캘핑 관점에서 눌림목 또는 시장가 근접 진입 시 추가 상승 여력이 충분합니다.",
+      "entry_time": "2026-08-20T14:42:56.830152",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
