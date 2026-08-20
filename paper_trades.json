@@ -3,28 +3,15 @@
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3066000.0,
-      "highest_price": 3083000.0,
-      "stop_loss": 3035340.0,
+      "highest_price": 3120000.0,
+      "stop_loss": 3069065.9999999995,
       "take_profit": 3127320.0,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
       "tp_pct": 2.0,
       "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 22.3으로 과매도 구간에 진입해 있으며, VWAP 대비 갭이 0.05%로 수렴하여 단기 기술적 반등 가능성이 높습니다. ATR 기반으로 변동성을 고려하여 1.0%의 손절선과 2.0%의 익절선으로 리스크 대비 보상 비율을 최적화한 스캘핑 진입 전략입니다.",
       "entry_time": "2026-08-19T23:00:40.339391",
-      "break_even_triggered": false
-    },
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 117400.0,
-      "highest_price": 117400.0,
-      "stop_loss": 116226.0,
-      "take_profit": 119513.2,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 60.9로 과매수 구간(70 이상)을 회피하여 추격 매수 위험이 낮고, VWAP 대비 적정한 갭(-0.25%)을 형성하고 있어 단기 반등을 노리기 적합합니다. 안정적인 거래량 서지와 변동성(ATR 0.27%)을 바탕으로 현실적인 얕은 진입 가격 설정이 가능하며, 1.8%의 익절과 -1.0%의 손절 비율로 스칼핑 매매 전략에 부합합니다.",
-      "entry_time": "2026-08-20T00:16:35.837985",
-      "break_even_triggered": false
+      "break_even_triggered": true
     }
   },
   "closed_trades": [
@@ -1335,6 +1322,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-19T22:46:52.469528",
       "exit_time": "2026-08-19T23:21:52.624184"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 117400.0,
+      "exit_price": 117400.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 0,
+      "profit_pct": 0.0,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T00:16:35.837985",
+      "exit_time": "2026-08-20T00:51:38.115547"
     }
   ]
 }
