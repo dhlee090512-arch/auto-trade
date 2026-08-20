@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "entry_price": 480.0,
-      "highest_price": 482.0,
-      "stop_loss": 475.68,
-      "take_profit": 487.68,
-      "buy_amount_krw": 10000,
-      "sl_pct": -0.9,
-      "tp_pct": 1.6,
-      "detailed_reason": "ETH와 BTC는 RSI가 70을 초과하여 안티체이싱(Anti-Chasing) 룰에 의해 배제됨. ONDO/KRW는 5m RSI가 66.7로 70 미만이며, 최근 거래량 유입과 함께 VWAP(거래소가중평균가격) 상단에서 안정적인 지지를 받고 있음. ATR 대비 적절한 변동성과 얕은 눌림목 매수 전략을 적용하기에 가장 적합함.",
-      "entry_time": "2026-08-20T01:01:01.657861",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 116700.0,
@@ -1384,6 +1371,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T01:03:21.241983",
       "exit_time": "2026-08-20T01:38:36.169605"
+    },
+    {
+      "symbol": "ONDO/KRW",
+      "entry_price": 480.0,
+      "exit_price": 481.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 21,
+      "profit_pct": 0.21,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T01:01:01.657861",
+      "exit_time": "2026-08-20T02:09:26.366370"
     }
   ]
 }
