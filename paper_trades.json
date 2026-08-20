@@ -2,15 +2,15 @@
   "active_positions": {
     "SOL": {
       "symbol": "SOL/KRW",
-      "entry_price": 115700.0,
-      "highest_price": 115700.0,
-      "stop_loss": 114543.0,
-      "take_profit": 117782.6,
+      "entry_price": 116100.0,
+      "highest_price": 116100.0,
+      "stop_loss": 114939.0,
+      "take_profit": 118422.0,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 0.0으로 극단적인 과매도 상태이며, 최근 급락 이후 VWAP(-1.15%) 대비 이격이 벌어져 단기 기술적 반등(Dead Cat Bounce 또는 되돌림)이 나올 확률이 높습니다. RSI 70 이하의 안티 체이싱 규칙을 충족하며, 하단 지지선 부근에서 얕은 디스카운트 진입을 통해 스캘핑 목표가(1.8%) 달성이 유리한 구간입니다.",
-      "entry_time": "2026-08-20T03:11:29.064935",
+      "tp_pct": 2.0,
+      "detailed_reason": "SOL/KRW는 최근 5분봉 기준 RSI(14)가 20.0으로 극단적인 과매도 상태이며, 단기 급락 후 VWAP 대비 이격도가 -0.76%로 벌어져 있어 기술적 반등 가능성이 높습니다. ATR 기반으로 스캘핑 목표가 +2.0%, 손절가 -1.0%를 설정하여 리스크 대비 보상 비율이 우수합니다.",
+      "entry_time": "2026-08-20T03:31:40.943765",
       "break_even_triggered": false
     }
   },
