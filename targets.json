@@ -1,16 +1,18 @@
 {
-  "updated_at": "2026-08-20T13:16:46.730131",
+  "updated_at": "2026-08-20T13:31:02.732354",
   "paper_trading": true,
   "targets": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "current_price": 1646.0,
-      "target_entry": 1644.6832,
-      "sl_pct": -0.9,
-      "tp_pct": 1.6,
-      "buy_amount_krw": 10000,
-      "detailed_reason": "ACE/KRW는 5m RSI가 71.9로 과매수 구간에 진입하여 안티체이싱 룰(RSI > 70)에 의해 제외되었습니다. BTC/KRW는 횡보세가 강하고 모멘텀이 다소 약합니다. 반면 XRP/KRW는 5m RSI가 64.4로 적정한 상승 모멘텀을 유지하고 있으며, 가격이 VWAP(1630.7) 위에서 안정적인 지지를 받으며 우상향 흐름을 형성하고 있습니다. 최근 캔들에서 단기 조정 후 저점을 높여가는 패턴을 보여 얕은 할인율로 진입하기에 적합합니다.",
-      "created_at": "2026-08-20T13:16:46.730131"
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "current_price": 318.0,
+      "target_entry": 318.0,
+      "stop_loss": 315.0,
+      "take_profit": 324.0,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "buy_amount_krw": 6324,
+      "detailed_reason": "전형적인 정배열 상승 추세가 유지되고 있으며, 단기 조정 구간 이후 거래량을 동반한 고가 놀이 패턴을 보이고 있습니다. VWAP 상단에 위치하며 RSI(14)가 59.5로 과열되지 않은 건전한 모멘텀을 형성 중이므로 소폭의 진입 할인 후 단기 상승 탄력을 활용한 수익 창출이 유리합니다.",
+      "created_at": "2026-08-20T13:31:02.732354"
     }
   }
 }
