@@ -2,15 +2,15 @@
   "active_positions": {
     "ETH": {
       "symbol": "ETH/KRW",
-      "entry_price": 3158000.0,
-      "highest_price": 3161000.0,
-      "stop_loss": 3126420.0,
-      "take_profit": 3214844.0,
+      "entry_price": 3154000.0,
+      "highest_price": 3154000.0,
+      "stop_loss": 3122460.0,
+      "take_profit": 3210772.0,
       "buy_amount_krw": 10000,
       "sl_pct": -1.0,
       "tp_pct": 1.8,
-      "detailed_reason": "ETH/KRW는 최근 5분봉 기준 완만한 상승세 이후 주요 지지선을 다지며 안정적인 횡보 조정을 거치는 중입니다. RSI(14)가 56.1로 과매수 구간(70 이상)을 완전히 피해 안티 체이싱 규칙을 충족하며, VWAP 대비 0.55% 괴리율로 추세적 지지를 받고 있습니다. 거래량 역시 안정적으로 유지되며 단기 반등 모멘텀이 유효하므로 진입가 할인율 0.05%를 적용하여 효율적인 롱 스캘핑 진입이 가능합니다.",
-      "entry_time": "2026-08-20T10:09:47.403412",
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 38.5로 과매수 국면에 진입하지 않아 추격매수 위험이 낮고, VWAP 상단 부근에서 안정적인 조정을 거치고 있습니다. ATR 대비 변동성이 적절하며 지지선 부근에서 반등을 노리는 단기 스캘핑 전략에 적합합니다.",
+      "entry_time": "2026-08-20T10:35:40.565212",
       "break_even_triggered": false
     },
     "SOL": {
