@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 116100.0,
-      "highest_price": 116100.0,
-      "stop_loss": 114939.0,
-      "take_profit": 118422.0,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "SOL/KRW는 최근 5분봉 기준 RSI(14)가 20.0으로 극단적인 과매도 상태이며, 단기 급락 후 VWAP 대비 이격도가 -0.76%로 벌어져 있어 기술적 반등 가능성이 높습니다. ATR 기반으로 스캘핑 목표가 +2.0%, 손절가 -1.0%를 설정하여 리스크 대비 보상 비율이 우수합니다.",
-      "entry_time": "2026-08-20T03:31:40.943765",
-      "break_even_triggered": false
-    },
     "BTC": {
       "symbol": "BTC/KRW",
       "entry_price": 95261000.0,
@@ -1419,6 +1406,18 @@
       "reason": "본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-20T02:29:05.848882",
       "exit_time": "2026-08-20T03:09:02.007063"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 116100.0,
+      "exit_price": 116400.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 26,
+      "profit_pct": 0.26,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T03:31:40.943765",
+      "exit_time": "2026-08-20T04:07:05.874192"
     }
   ]
 }
