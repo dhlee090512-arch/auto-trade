@@ -1,19 +1,5 @@
 {
-  "active_positions": {
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "entry_price": 95261000.0,
-      "highest_price": 95261000.0,
-      "stop_loss": 94308390.0,
-      "take_profit": 96975698.0,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "BTC/KRW는 최근 5분봉 기준 급락 이후 9500만 원 부근에서 저점을 형성하며 단기 반등 모멘텀을 확보하고 있습니다. RSI(14)가 34.4로 과매도 국면에서 벗어나려는 초기 단계이며, VWAP 대비 -0.31% 하향 이격되어 있어 평균 회귀(Mean Reversion) 매수 전략에 매우 적합합니다. 얕은 할인율(0.05%)로 공격적인 진입을 취하며, 스캘핑 목표 수익률 1.8%와 손절 1.0%로 리스크 대비 보상 비율이 우수합니다.",
-      "entry_time": "2026-08-20T03:50:56.669847",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1418,6 +1404,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T03:31:40.943765",
       "exit_time": "2026-08-20T04:07:05.874192"
+    },
+    {
+      "symbol": "BTC/KRW",
+      "entry_price": 95261000.0,
+      "exit_price": 95500000.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 25,
+      "profit_pct": 0.25,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T03:50:56.669847",
+      "exit_time": "2026-08-20T04:25:58.598957"
     }
   ]
 }
