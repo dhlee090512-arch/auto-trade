@@ -1,19 +1,5 @@
 {
-  "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3105000.0,
-      "highest_price": 3105000.0,
-      "stop_loss": 3073950.0,
-      "take_profit": 3160890.0,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ETH/KRW는 5분봉 RSI 61.5로 과매수 구간(70 이상)을 회피하였으며, 최근 거래량 급증 이후 안정적인 횡보 조정을 거치고 있습니다. VWAP(3107865 KRW) 부근에서 지지를 받고 있어 소폭의 할인된 가격(0.1%)으로 진입하기 유리합니다. ATR 대비 적절한 손익비(+1.8% 익절, -1.0% 손절)를 설정하여 단기 스캘핑 매매 전략으로 적합합니다. 반면 SOL은 RSI 88.9로 과열되어 제외했습니다.",
-      "entry_time": "2026-08-20T07:24:07.967058",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1466,6 +1452,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T07:13:28.163839",
       "exit_time": "2026-08-20T07:50:30.905867"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3105000.0,
+      "exit_price": 3104000.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": -3,
+      "profit_pct": -0.03,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T07:24:07.967058",
+      "exit_time": "2026-08-20T07:59:10.108969"
     }
   ]
 }
