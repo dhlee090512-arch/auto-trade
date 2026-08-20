@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 497.0,
-      "highest_price": 497.0,
-      "stop_loss": 492.03,
-      "take_profit": 505.946,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "WLD/KRW는 5분봉 RSI가 65.0으로 과매수 구간(70 이상)을 회피하였으며, 최근 거래량이 점진적으로 증가하며 VWAP(496.01) 위인 499.0에 안착하여 상승 모멘텀을 형성하고 있습니다. ATR 변동성 비율이 0.52%로 안정적인 스캘핑 환경을 제공하며, 얕은 눌림목(0.1% 할인) 진입을 통해 단기 목표가 +1.8%, 손절가 -1.0%의 유리한 손익비를 확보할 수 있습니다. (ETH와 SOL은 RSI가 각각 72.5, 89.5로 추격 매수 위험이 높아 배제함)",
-      "entry_time": "2026-08-20T07:13:28.163839",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3105000.0,
@@ -1467,6 +1454,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T05:01:46.486974",
       "exit_time": "2026-08-20T05:36:47.030697"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 497.0,
+      "exit_price": 498.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 20,
+      "profit_pct": 0.2,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T07:13:28.163839",
+      "exit_time": "2026-08-20T07:50:30.905867"
     }
   ]
 }
