@@ -25,6 +25,19 @@
       "detailed_reason": "WLD/KRW는 5분봉 기준 RSI가 57.9로 과매수 구간(70 이상)을 완전히 회피하였으며, 뚜렷한 거래량 유입(volume_surge_ratio: 1.22)과 함께 VWAP 상단 위에서 안정적인 가격 흐름을 보이고 있습니다. 단기 상승 추세 속에서 얕은 눌림목을 활용한 진입이 유리하며, 스캘핑 전략에 적합한 리스크 대비 보상 비율(손절 -1.0%, 익절 +1.8%)을 충족합니다. 반면 ETH와 CYS는 RSI가 각각 76.7, 81.7로 과열 상태여서 안티체이싱(Anti-Chasing) 원칙에 의해 제외되었습니다.",
       "entry_time": "2026-08-20T01:03:21.241983",
       "break_even_triggered": false
+    },
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "entry_price": 116700.0,
+      "highest_price": 116700.0,
+      "stop_loss": 115533.0,
+      "take_profit": 118450.49999999999,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SOL/KRW는 5분봉 RSI가 33.3으로 과매도 구간에 근접해 있으며, VWAP 대비 하단(-0.28%)에서 가격이 형성되어 단기 반등 모멘텀을 노리기 유리한 구간입니다. CYS는 RSI가 70을 초과하여 추격 매수 금지 규정에 해당하고, ETH는 중립적인 RSI로 모멘텀이 다소 약한 반면, 솔라나는 소폭 조정을 거친 후 지지선을 테스트하고 있어 얕은 할인율(0.1%)로 진입하여 스캘핑 목표 수익을 달성하기 적합합니다.",
+      "entry_time": "2026-08-20T01:17:59.427935",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
