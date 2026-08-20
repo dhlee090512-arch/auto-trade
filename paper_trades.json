@@ -12,6 +12,19 @@
       "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
       "entry_time": "2026-08-21T00:24:32.622791+09:00",
       "break_even_triggered": false
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1711.0,
+      "highest_price": 1711.0,
+      "stop_loss": 1693.8899999999999,
+      "take_profit": 1736.6649999999997,
+      "buy_amount_krw": 10000,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-21T00:32:04.860091+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
