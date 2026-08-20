@@ -1,18 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 117400.0,
-      "highest_price": 117400.0,
-      "stop_loss": 116226.0,
-      "take_profit": 119513.2,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 61.1로 과매수 구간(70 이상)을 회피하면서도 VWAP 상단에서 안정적인 우상향 흐름을 유지하고 있습니다. ATR 비율이 0.21%로 변동성이 적당하며, 얕은 눌림목(0.08% 할인) 진입을 통해 효율적인 스캘핑 리스크 관리가 가능합니다. 상승 추세 지속 가능성이 높아 목표가 +1.8%, 손절가 -1.0%의 훌륭한 손익비 구간을 제공합니다.",
-      "entry_time": "2026-08-20T02:21:50.628324",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3112000.0,
@@ -1396,6 +1383,18 @@
       "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
       "entry_time": "2026-08-20T01:01:01.657861",
       "exit_time": "2026-08-20T02:09:26.366370"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 117400.0,
+      "exit_price": 117000.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": -34,
+      "profit_pct": -0.34,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
+      "entry_time": "2026-08-20T02:21:50.628324",
+      "exit_time": "2026-08-20T02:56:52.263505"
     }
   ]
 }
