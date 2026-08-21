@@ -1,19 +1,5 @@
 {
-  "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1689.0,
-      "highest_price": 1689.0,
-      "stop_loss": 1672.11,
-      "take_profit": 1722.78,
-      "buy_amount_krw": 10000,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "trigger_pattern": "📉 안전 마진 지지선 도달 체결",
-      "entry_time": "2026-08-21T04:33:11.903755+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1705,6 +1691,18 @@
       "status": "CLOSED_TAKE_PROFIT",
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-21T04:23:39.420494+09:00",
+      "exit_time": "2026-08-22T01:38:21.408494+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1689.0,
+      "exit_price": 1918.0,
+      "buy_amount_krw": 10000,
+      "profit_krw": 1356,
+      "profit_pct": 13.56,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-21T04:33:11.903755+09:00",
       "exit_time": "2026-08-22T01:38:21.408494+09:00"
     }
   ]
