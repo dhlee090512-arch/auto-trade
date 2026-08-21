@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "BCH": {
-      "symbol": "BCH/KRW",
-      "entry_price": 397600.0,
-      "highest_price": 397600.0,
-      "stop_loss": 393624.0,
-      "take_profit": 405552.0,
-      "buy_amount_krw": 200000,
-      "units": 0.5030181086519114,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
-      "entry_time": "2026-08-22T07:24:32.467969+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1827,6 +1812,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-22T07:16:20.047334+09:00",
       "exit_time": "2026-08-22T07:20:16.348911+09:00"
+    },
+    {
+      "symbol": "BCH/KRW",
+      "entry_price": 397600.0,
+      "exit_price": 393500.0,
+      "buy_amount_krw": 200000,
+      "profit_krw": -2060,
+      "profit_pct": -1.03,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-22T07:24:32.467969+09:00",
+      "exit_time": "2026-08-22T07:31:06.388359+09:00"
     }
   ]
 }
