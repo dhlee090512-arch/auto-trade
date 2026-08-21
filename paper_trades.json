@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "entry_price": 520.0,
-      "highest_price": 520.0,
-      "stop_loss": 514.8,
-      "take_profit": 530.4,
-      "buy_amount_krw": 200000,
-      "units": 384.61538461538464,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
-      "entry_time": "2026-08-22T04:49:43.525370+09:00",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3336000.0,
@@ -1793,6 +1779,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-22T03:27:22.840119+09:00",
       "exit_time": "2026-08-22T03:45:22.527698+09:00"
+    },
+    {
+      "symbol": "ONDO/KRW",
+      "entry_price": 520.0,
+      "exit_price": 531.0,
+      "buy_amount_krw": 200000,
+      "profit_krw": 4240,
+      "profit_pct": 2.12,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-22T04:49:43.525370+09:00",
+      "exit_time": "2026-08-22T05:21:44.416617+09:00"
     }
   ]
 }
