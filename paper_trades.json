@@ -13,6 +13,20 @@
       "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
       "entry_time": "2026-08-22T02:05:58.675500+09:00",
       "break_even_triggered": false
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1936.0,
+      "highest_price": 1936.0,
+      "stop_loss": 1916.6399999999999,
+      "take_profit": 1970.848,
+      "buy_amount_krw": 200000,
+      "units": 103.30578512396694,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
+      "entry_time": "2026-08-22T02:11:56.010757+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
