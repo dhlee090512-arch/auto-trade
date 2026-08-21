@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "entry_price": 401300.0,
+      "highest_price": 401300.0,
+      "stop_loss": 397287.0,
+      "take_profit": 408523.4,
+      "buy_amount_krw": 200000,
+      "units": 0.49838026414154,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-22T07:16:20.047334+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
