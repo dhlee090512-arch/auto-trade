@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 128800.0,
-      "highest_price": 128800.0,
-      "stop_loss": 127512.0,
-      "take_profit": 131118.4,
-      "buy_amount_krw": 200000,
-      "units": 1.5527950310559007,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
-      "entry_time": "2026-08-22T07:54:37.937922+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CYS/KRW",
@@ -1839,6 +1824,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-22T07:24:32.467969+09:00",
       "exit_time": "2026-08-22T07:31:06.388359+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 128800.0,
+      "exit_price": 129200.0,
+      "buy_amount_krw": 200000,
+      "profit_krw": 620,
+      "profit_pct": 0.31,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-22T07:54:37.937922+09:00",
+      "exit_time": "2026-08-22T08:28:05.896370+09:00"
     }
   ]
 }
