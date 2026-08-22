@@ -1,5 +1,12 @@
 import os
 import sys
+
+# ==========================================
+# [중요] 시스템 프록시 환경변수 원천 무효화 (402 에러 차단)
+# ==========================================
+for proxy_var in ['http_proxy', 'https_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'all_proxy', 'WEBSHARE_URL']:
+    os.environ.pop(proxy_var, None)
+
 import time
 import json
 import base64
@@ -8,9 +15,10 @@ import asyncio
 import threading
 import subprocess
 import requests
-import httpx
 import jwt
 import uuid
+import hashlib
+import urllib.parse
 import re
 from datetime import datetime, timedelta, timezone
 from openai import OpenAI
@@ -21,11 +29,11 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 환경 변수
 # ==========================================
-PAPER_TRADING = True             # 🧪 모의투자 (True / False)
+PAPER_TRADING = True             # 🧪 True: 모의투자 / False: 빗썸 실전매매
 MIN_CONFIDENCE_SCORE = 65        # 🎯 최소 신뢰도
 MAX_HOLDING_COINS = 3            # 🛡️ 최대 보유 가능 종목 수
-MIN_BUY_KRW = 6000               # 💵 최소 매수 금액
-BUY_RATIO = 0.20                 # 📊 가용 잔고 비중
+MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
+BUY_RATIO = 0.20                 # 📊 가용 잔고 대비 1회 투입 비중 (20%)
 ENTRY_TIMEOUT_MINUTES = 20       # ⏰ 진입 대기 만료 시간
 TIME_EXIT_HOURS = 3              # ⏰ 최대 보유 시간 (강제 청산)
 
@@ -38,11 +46,9 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY")
 GROQ_API_KEY3 = os.getenv("GROQ_API_KEY3")
 GROQ_API_KEY2 = os.getenv("GROQ_API_KEY2")
-WEBSHARE_URL = os.getenv("WEBSHARE_URL")
 BITHUMB_API_KEY = os.getenv("BITHUMB_API_KEY")
 BITHUMB_SECRET_KEY = os.getenv("BITHUMB_SECRET_KEY")
 
-PROXIES = {'http': WEBSHARE_URL, 'https': WEBSHARE_URL} if WEBSHARE_URL else None
 STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD"}
 
 STATE_FILE = "server_state.json"
@@ -66,7 +72,7 @@ logging.basicConfig(
 # 1. 텔레그램 및 KST 시간 유틸리티
 # ==========================================
 def get_kst_now():
-    """한국 표준시(KST, UTC+9) datetime 반환"""
+    """한국 표준시 (KST, UTC+9) datetime 반환"""
     return datetime.now(timezone(timedelta(hours=9)))
 
 def send_telegram_msg(msg: str):
@@ -75,12 +81,12 @@ def send_telegram_msg(msg: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
     try:
-        requests.post(url, json=payload, timeout=8)
+        requests.post(url, json=payload, timeout=6)
     except Exception as e:
         logging.error(f"텔레그램 발송 오류: {e}")
 
 def format_portfolio_status_msg(active_positions, closed_trades):
-    """💡 [독립 메시지] 현재 매매 상황 및 최근 10건 통계 (KST 시간 표기)"""
+    """💼 [현재 매매 상황] 독립 메시지 포맷 (담백한 텍스트 리스트)"""
     held_symbols = [v['symbol'] for v in active_positions.values()]
     if held_symbols:
         held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)"
@@ -102,17 +108,14 @@ def format_portfolio_status_msg(active_positions, closed_trades):
             p_krw = t.get('profit_krw', 0)
             symbol = t.get('symbol', 'UNKNOWN')
             exit_time_str = t.get('exit_time', '')
-            
             try:
-                # ISO 문자열을 KST 포맷으로 변환
                 dt_obj = datetime.fromisoformat(exit_time_str)
                 time_display = dt_obj.strftime("%m/%d %H:%M KST")
             except Exception:
                 time_display = "-"
                 
             sign_pct = "+" if p_pct > 0 else ""
-            icon = "🟢" if p_pct > 0 else "🔴"
-            trade_lines.append(f"{icon} {idx}. {symbol} ({sign_pct}{p_pct:.1f}%) {time_display}")
+            trade_lines.append(f"{idx}. {symbol} ({sign_pct}{p_pct:.1f}%) {time_display}")
             if p_pct > 0:
                 wins += 1
             total_profit_krw += p_krw
@@ -121,8 +124,7 @@ def format_portfolio_status_msg(active_positions, closed_trades):
         win_rate = round((wins / len(recent_10)) * 100)
 
     sign_krw = "+" if total_profit_krw > 0 else ""
-
-    msg = f"""💼 [현재 매매 상황]
+    return f"""💼 [현재 매매 상황]
 • 보유 종목 : {held_str}
 
 📜 [최근 매도 이력]
@@ -130,7 +132,6 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 
 📊 최근 10건 승률 : {win_rate}%
 💰 최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW"""
-    return msg
 
 # ==========================================
 # 2. GitHub 백업 & 파일 I/O
@@ -172,8 +173,65 @@ def sync_file_to_github(file_path, content_data):
         logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
 
 # ==========================================
-# 3. 빗썸 호가단위(Tick Size) & 퀀트 피처
+# 3. 빗썸 API (Public 직통 & 실전용 Private JWT 서명)
 # ==========================================
+def get_bithumb_jwt_headers(query_params: dict = None):
+    """빗썸 Private API JWT 서명 생성기 (실전 매매용)"""
+    if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
+        return {}
+    payload = {
+        'access_key': BITHUMB_API_KEY,
+        'nonce': str(uuid.uuid4()),
+        'timestamp': round(time.time() * 1000)
+    }
+    if query_params:
+        query_string = urllib.parse.urlencode(query_params).encode()
+        m = hashlib.sha512()
+        m.update(query_string)
+        payload['query_hash'] = m.hexdigest()
+        payload['query_hash_alg'] = 'SHA512'
+
+    token = jwt.encode(payload, BITHUMB_SECRET_KEY, algorithm='HS256')
+    return {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+
+def get_real_krw_balance():
+    """빗썸 실계좌 KRW 가용 잔고 조회"""
+    if PAPER_TRADING:
+        return 100000.0  # 모의투자 기준 가상 잔고 (10만원 -> 20% 투입 시 2만원)
+    try:
+        url = "https://api.bithumb.com/v1/accounts"
+        headers = get_bithumb_jwt_headers()
+        res = requests.get(url, headers=headers, timeout=5).json()
+        for acc in res:
+            if acc.get("currency") == "KRW":
+                return float(acc.get("balance", 0.0))
+    except Exception as e:
+        logging.error(f"빗썸 잔고 조회 실패: {e}")
+    return 100000.0
+
+def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
+    """빗썸 실전 시장가 매수/매도 주문"""
+    if PAPER_TRADING:
+        return True, "모의투자 체결"
+    try:
+        url = "https://api.bithumb.com/v1/orders"
+        market = f"KRW-{coin_code.upper()}"
+        if side == "bid":  # 매수 (원화 금액 기준)
+            body = {"market": market, "side": "bid", "price": str(amount_or_units), "ord_type": "price"}
+        else:              # 매도 (코인 수량 기준)
+            body = {"market": market, "side": "ask", "volume": str(amount_or_units), "ord_type": "market"}
+
+        headers = get_bithumb_jwt_headers(body)
+        res = requests.post(url, json=body, headers=headers, timeout=5).json()
+        if "uuid" in res:
+            return True, res["uuid"]
+        return False, str(res)
+    except Exception as e:
+        return False, str(e)
+
 def get_bithumb_tick_size(price: float) -> float:
     if price < 1.0: return 0.0001
     elif price < 10.0: return 0.001
@@ -200,7 +258,7 @@ def get_current_price(coin_code: str) -> float:
 def get_candles(coin_code, interval="5m", limit=50):
     try:
         url = f"https://api.bithumb.com/public/candlestick/{coin_code}_KRW/{interval}"
-        res = requests.get(url, proxies=PROXIES, timeout=6).json()
+        res = requests.get(url, timeout=5).json()
         if res.get("status") == "0000":
             return [{
                 "timestamp": int(c[0]),
@@ -274,7 +332,7 @@ def calculate_quant_features(candles):
     }
 
 # ==========================================
-# 4. 서버 내장 AI 전략 수립 모듈
+# 4. 서버 내장 AI 전략 수립 모듈 (다이렉트 직통 연결)
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
@@ -300,11 +358,9 @@ def call_ai_api(system_instruction, user_prompt):
             "model": "llama-3.3-70b-specdec"
         })
 
-    http_client = httpx.Client(proxy=WEBSHARE_URL, timeout=30.0) if WEBSHARE_URL else None
-
     for prov in providers:
         try:
-            client = OpenAI(base_url=prov['base_url'], api_key=prov['key'], http_client=http_client)
+            client = OpenAI(base_url=prov['base_url'], api_key=prov['key'])
             res = client.chat.completions.create(
                 model=prov['model'],
                 messages=[
@@ -355,16 +411,32 @@ def clean_and_parse_json(raw_text):
     return None
 
 def execute_server_side_strategy():
-    """서버 자체에서 즉시 타점을 수립하고 감시 큐에 등록"""
+    """서버 자체 타점 수립 엔진 (보유 코인 중복 배제 + 가용 잔고 비중 연산)"""
+    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+    active_positions = paper_db.get("active_positions", {})
+    
+    if len(active_positions) >= MAX_HOLDING_COINS:
+        logging.info("💼 최대 보유 종목(3개) 도달로 신규 AI 분석 스킵")
+        return
+
+    # 💡 보유 코인 목록 (중복 매수 원천 차단)
+    held_codes = set(active_positions.keys())
+
     logging.info("🧠 [서버 자체 AI 전략 분석 시작]")
     
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
-    res = requests.get(url, proxies=PROXIES, timeout=10).json()
+    try:
+        res = requests.get(url, timeout=8).json()
+    except Exception as e:
+        logging.error(f"빗썸 전체 시세 조회 실패: {e}")
+        return
+
     if res.get("status") != "0000": return
 
     raw_list = []
     for sym, info in res["data"].items():
         if sym == "date" or sym.upper() in STABLE_COINS: continue
+        if sym in held_codes: continue  # 💡 이미 보유 중인 종목 제외
         try:
             raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), float(info['acc_trade_value_24H'])))
         except Exception: pass
@@ -377,10 +449,8 @@ def execute_server_side_strategy():
         if len(candles_1h) < 15: continue
         q_feat = calculate_quant_features(candles_1h)
 
-        if q_feat["tick_ratio_pct"] > 0.35:
-            continue
-        if q_feat["atr_pct"] < 0.5 or q_feat["vwap_gap_pct"] < -3.5:
-            continue
+        if q_feat["tick_ratio_pct"] > 0.35: continue
+        if q_feat["atr_pct"] < 0.5 or q_feat["vwap_gap_pct"] < -3.5: continue
 
         c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h[-10:]]
         top_data.append({
@@ -400,10 +470,12 @@ def execute_server_side_strategy():
     if not res_1 or not res_1.get("top3_candidates"):
         return
 
-    candidates = res_1["top3_candidates"]
+    candidates = [c for c in res_1["top3_candidates"] if c.split('/')[0] not in held_codes]
+    if not candidates:
+        return
     logging.info(f"🎯 [1차 선별 완료]: {candidates}")
 
-    # 2차 5분봉 40캔들 타점 도출
+    # 2차 5분봉 40캔들 정밀 분석
     cand_5m_data = []
     for sym in candidates:
         code = sym.split('/')[0]
@@ -433,8 +505,16 @@ def execute_server_side_strategy():
         return
 
     code = selected.split('/')[0]
+    if code in held_codes:
+        logging.info(f"⏸️ [{selected}] 이미 보유 중인 종목으로 신규 등록 스킵")
+        return
+
     curr_p = get_current_price(code)
     if not curr_p: return
+
+    # 💡 동적 투입 금액 산출 (가용 잔고의 20%, 최소 6,000원)
+    available_krw = get_real_krw_balance()
+    calculated_buy_krw = max(round(available_krw * BUY_RATIO), MIN_BUY_KRW)
 
     discount = float(res_2.get("entry_discount_pct", 0.1))
     target_entry = curr_p * (1.0 - (discount / 100.0))
@@ -448,14 +528,12 @@ def execute_server_side_strategy():
         "target_entry": target_entry,
         "sl_pct": sl_pct,
         "tp_pct": tp_pct,
-        "buy_amount_krw": 10000,
+        "buy_amount_krw": calculated_buy_krw,
         "detailed_reason": res_2.get("detailed_reason", "5분봉 패턴 및 지표 분석"),
         "created_at": now_iso
     }
 
     server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
-    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-    
     server_state["pending_targets"] = {code: plan_data}
     server_state["last_updated"] = now_iso
     save_json_file(STATE_FILE, server_state)
@@ -482,7 +560,6 @@ def execute_server_side_strategy():
     send_telegram_msg(plan_msg)
 
     # 💡 [메시지 2] 💼 현재 매매 상황 (독립 메시지 전송)
-    time.sleep(0.5)
     portfolio_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
     send_telegram_msg(portfolio_msg)
 
@@ -502,9 +579,10 @@ async def realtime_execution_engine():
             now = time.time()
             now_dt = get_kst_now()
 
+            # 5분마다 백그라운드 스레드에서 AI 전략 실행 (루프 블로킹 방지)
             if now - last_strategy_run >= 300:
-                execute_server_side_strategy()
                 last_strategy_run = now
+                asyncio.create_task(asyncio.to_thread(execute_server_side_strategy))
 
             server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
             paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
@@ -525,10 +603,17 @@ async def realtime_execution_engine():
 
                     curr_p = get_current_price(coin_code)
                     if curr_p and curr_p <= plan["target_entry"]:
+                        # 실전 매매 주문 실행
+                        if not PAPER_TRADING:
+                            success, order_res = execute_real_market_order(coin_code, "bid", plan["buy_amount_krw"])
+                            if not success:
+                                logging.error(f"실전 매수 주문 실패: {order_res}")
+                                continue
+
                         logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결")
-                        
                         exact_sl = curr_p * (1.0 + (plan["sl_pct"] / 100.0))
                         exact_tp = curr_p * (1.0 + (plan["tp_pct"] / 100.0))
+                        units = plan["buy_amount_krw"] / curr_p
 
                         active_positions[coin_code] = {
                             "symbol": plan["symbol"],
@@ -537,6 +622,7 @@ async def realtime_execution_engine():
                             "stop_loss": exact_sl,
                             "take_profit": exact_tp,
                             "buy_amount_krw": plan["buy_amount_krw"],
+                            "units": units,
                             "sl_pct": plan["sl_pct"],
                             "tp_pct": plan["tp_pct"],
                             "detailed_reason": plan["detailed_reason"],
@@ -611,6 +697,10 @@ async def realtime_execution_engine():
                     exit_reason = f"⏰ {TIME_EXIT_HOURS}시간 횡보로 시장가 청산"
 
                 if status != "HOLDING":
+                    # 실전 매도 주문 실행
+                    if not PAPER_TRADING:
+                        execute_real_market_order(coin_code, "ask", pos.get("units", 0.0))
+
                     profit_pct = round(((curr_p - entry_p) / entry_p) * 100, 2)
                     profit_krw = round(pos["buy_amount_krw"] * (profit_pct / 100.0))
 
@@ -649,15 +739,24 @@ async def realtime_execution_engine():
             await asyncio.sleep(2)
         except Exception as e:
             logging.error(f"감시 루프 오류: {e}")
-            await asyncio.sleep(5)
+            await asyncio.sleep(3)
 
 # ==========================================
-# 6. 텔레그램 명령어 리스너
+# 6. 텔레그램 명령어 리스너 (루프 방지 패치)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
     if not TELEGRAM_BOT_TOKEN: return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
+
+    # 💡 부팅 시점 이전의 과거 메시지 즉시 전진 스킵 (무한 재부팅 루프 원천 차단)
+    try:
+        init_res = requests.get(url, params={"timeout": 1}, timeout=5).json()
+        if init_res.get("ok") and init_res.get("result"):
+            LAST_TELEGRAM_UPDATE_ID = init_res["result"][-1]["update_id"]
+            requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=5)
+    except Exception:
+        pass
 
     while True:
         try:
@@ -681,6 +780,7 @@ def telegram_listener_thread():
                         status_str = "🛑 일시정지 (STOP)" if EMERGENCY_STOP else "🟢 실시간 감시 중 (RUNNING)"
 
                         res_msg = f"""📊 [시스템 상태 보고]
+• 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
 • 인터락 상태: {status_str}
 • 진입 대기 종목: {', '.join(pending) if pending else '(없음)'}
 • 현재 보유 종목: {', '.join(held) if held else '(없음)'}
@@ -697,12 +797,23 @@ def telegram_listener_thread():
 
                     elif text == "/update":
                         send_telegram_msg("🔄 [원격 업데이트] 최신 코드를 다운로드하고 서비스를 재시작합니다...")
+                        
+                        # 💡 재시작 전 텔레그램 서버에 읽음(오프셋) 즉시 전송하여 루프 차단
                         try:
-                            subprocess.run(["git", "pull", "origin", "main"], cwd=PROJECT_DIR, timeout=20)
-                            time.sleep(1)
-                            subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
-                        except Exception as e:
-                            send_telegram_msg(f"❌ [업데이트 실패]: {e}")
+                            requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=3)
+                        except Exception:
+                            pass
+
+                        def do_restart():
+                            time.sleep(2.0)
+                            try:
+                                subprocess.run(["git", "stash"], cwd=PROJECT_DIR, timeout=10)
+                                subprocess.run(["git", "pull", "origin", "main"], cwd=PROJECT_DIR, timeout=20)
+                                subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
+                            except Exception as ex:
+                                logging.error(f"재시작 실패: {ex}")
+
+                        threading.Thread(target=do_restart, daemon=True).start()
 
             time.sleep(1)
         except Exception:
@@ -710,7 +821,8 @@ def telegram_listener_thread():
 
 if __name__ == "__main__":
     send_telegram_msg(
-        "🚀 [오라클 서버] 트레일링 스탑 & 지연 제로 퀀트 엔진 가동\n\n"
+        f"🚀 [오라클 서버] 트레일링 스탑 & 지연 제로 퀀트 엔진 가동\n"
+        f"• 가동 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}\n\n"
         "📱 사용 가능한 명령어:\n"
         "• /status : 시스템 상태 및 포지션 확인\n"
         "• /update : GitHub 최신 코드 동기화 후 재시작\n"
