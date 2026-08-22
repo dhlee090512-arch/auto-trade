@@ -3,8 +3,8 @@
     "SUI": {
       "symbol": "SUI/KRW",
       "entry_price": 1159.0,
-      "highest_price": 1159.0,
-      "stop_loss": 1147.41,
+      "highest_price": 1170.0,
+      "stop_loss": 1160.1589999999999,
       "take_profit": 1176.385,
       "buy_amount_krw": 6324,
       "units": 5.456427955133736,
@@ -12,21 +12,7 @@
       "tp_pct": 1.5,
       "detailed_reason": "SUI 코인은 5분봉 기준 RSI(14)가 38.8로 과매도 국면 근처에 위치하며, 단기 하락 추세 이후 1150원 부근에서 지지력을 테스트하고 반등하는 캔들 패턴이 관찰됩니다. VWAP(1176.34) 대비 현재가(-1.39%)가 할인된 상태이며, 직전 저점 이탈을 손절선(-1.0%)으로 설정하고 기술적 반등을 활용한 롱 스캘핑 진입이 유리합니다.",
       "entry_time": "2026-08-22T18:10:01.582879+09:00",
-      "break_even_triggered": false
-    },
-    "AGI": {
-      "symbol": "AGI/KRW",
-      "entry_price": 6.25,
-      "highest_price": 6.25,
-      "stop_loss": 6.18125,
-      "take_profit": 6.375,
-      "buy_amount_krw": 6324,
-      "units": 1011.84,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "AGI/KRW는 5분봉 기준 RSI가 59.6으로 과매수 구간(70)을 하회하여 추세 지속 및 반등 여력이 충분합니다. 최근 거래량이 유입되며 VWAP(6.1447) 상단에서 안정적으로 가격이 형성되어 있고, 단기적인 눌림목 이후 재상승 모멘텀이 확인되므로 얕은 할인율로 매수 진입하기에 적합합니다.",
-      "entry_time": "2026-08-22T18:20:08.664190+09:00",
-      "break_even_triggered": false
+      "break_even_triggered": true
     }
   },
   "closed_trades": [
@@ -113,6 +99,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-22T17:55:07.056075+09:00",
       "exit_time": "2026-08-22T18:05:02.926378+09:00"
+    },
+    {
+      "symbol": "AGI/KRW",
+      "entry_price": 6.25,
+      "exit_price": 6.118,
+      "buy_amount_krw": 6324,
+      "profit_krw": -133,
+      "profit_pct": -2.11,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-22T18:20:08.664190+09:00",
+      "exit_time": "2026-08-22T18:21:29.512592+09:00"
     }
   ]
 }
