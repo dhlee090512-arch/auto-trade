@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-23T05:11:46.748143+09:00",
+  "updated_at": "2026-08-23T05:16:47.954764+09:00",
   "paper_trading": true,
   "targets": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "current_price": 1146.0,
-      "target_entry": 1145.4270000000001,
+    "PENGU": {
+      "symbol": "PENGU/KRW",
+      "current_price": 11.81,
+      "target_entry": 11.800552,
       "sl_pct": -1.0,
       "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "SUI/KRW는 5분봉 기준 RSI가 67.4로 과매수 구간(70) 직전이며, 최근 강한 상승 모멘텀과 함께 VWAP 상단에서 안정적으로 거래되고 있습니다. XRP와 ADA는 이미 RSI가 70을 상회하여 추격 매수(Anti-Chasing) 위험이 있으나, SUI는 아직 상승 여력이 남아있고 얕은 눌림목(0.05% 할인)을 통한 진입이 유리합니다. 리스크 대비 보상 비율(RRR)을 고려하여 TP +1.8%, SL -1.0%로 설정합니다.",
-      "created_at": "2026-08-23T05:11:46.748143+09:00"
+      "detailed_reason": "XRP/KRW와 ADA/KRW는 5분봉 RSI가 각각 78.0과 88.9로 과매수 구간에 진입하여 안티 체이싱 규칙에 의해 배제됨. 반면 PENGU/KRW는 RSI 61.0으로 과열되지 않았으며, 볼륨 서지 비율이 1.56으로 강한 거래량 유입이 포착됨. VWAP 부근(-0.14% 갭)에서 안정적인 가격 조정을 거치고 있어 얕은 할인율로 진입하기에 최적의 조건을 갖춤.",
+      "created_at": "2026-08-23T05:16:47.954764+09:00"
     }
   }
 }
