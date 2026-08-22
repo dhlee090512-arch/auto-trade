@@ -1,1880 +1,809 @@
-{
-  "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3451000.0,
-      "highest_price": 3451000.0,
-      "stop_loss": 3416490.0,
-      "take_profit": 3513118.0,
-      "buy_amount_krw": 200000,
-      "units": 0.05795421616922631,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
-      "entry_time": "2026-08-22T09:37:00.618475+09:00",
-      "break_even_triggered": false
+import os
+import sys
+import time
+import json
+import base64
+import logging
+import asyncio
+import threading
+import subprocess
+import requests
+import jwt
+import uuid
+import hashlib
+import urllib.parse
+import re
+from datetime import datetime, timedelta, timezone
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# ==========================================
+# 0. 전역 설정 및 환경 변수
+# ==========================================
+PAPER_TRADING = True             # 🧪 True: 모의투자 / False: 빗썸 실전매매
+MIN_CONFIDENCE_SCORE = 65        # 🎯 최소 신뢰도
+MAX_HOLDING_COINS = 3            # 🛡️ 최대 보유 가능 종목 수
+MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
+BUY_RATIO = 0.20                 # 📊 가용 잔고 대비 1회 투입 비중 (20%)
+ENTRY_TIMEOUT_MINUTES = 20       # ⏰ 진입 대기 만료 시간
+TIME_EXIT_HOURS = 3              # ⏰ 최대 보유 시간 (강제 청산)
+
+TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
+TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
+GH_TOKEN = os.getenv("GH_TOKEN2") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
+GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY")
+GROQ_API_KEY3 = os.getenv("GROQ_API_KEY3")
+GROQ_API_KEY2 = os.getenv("GROQ_API_KEY2")
+BITHUMB_API_KEY = os.getenv("BITHUMB_API_KEY")
+BITHUMB_SECRET_KEY = os.getenv("BITHUMB_SECRET_KEY")
+
+STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD"}
+
+STATE_FILE = "server_state.json"
+PAPER_TRADES_FILE = "paper_trades.json"
+TARGETS_FILE = "targets.json"
+PROJECT_DIR = "/home/ubuntu/auto-trade"
+
+EMERGENCY_STOP = False
+LAST_TELEGRAM_UPDATE_ID = 0
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler("watcher.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+# ==========================================
+# 1. 텔레그램 및 KST 시간 유틸리티
+# ==========================================
+def get_kst_now():
+    """한국 표준시 (KST, UTC+9) datetime 반환"""
+    return datetime.now(timezone(timedelta(hours=9)))
+
+def send_telegram_msg(msg: str):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
+    try:
+        requests.post(url, json=payload, timeout=6)
+    except Exception as e:
+        logging.error(f"텔레그램 발송 오류: {e}")
+
+def format_portfolio_status_msg(active_positions, closed_trades):
+    """💼 [현재 매매 상황] 독립 메시지 포맷 (신호등 이모지 제외, 담백한 텍스트 리스트)"""
+    held_symbols = [v['symbol'] for v in active_positions.values()]
+    if held_symbols:
+        held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)"
+    else:
+        held_str = "(현재 보유 종목 없음)"
+
+    recent_10 = closed_trades[-10:] if closed_trades else []
+    
+    if not recent_10:
+        trades_str = "• 매도 이력이 없습니다."
+        win_rate = 0
+        total_profit_krw = 0
+    else:
+        trade_lines = []
+        wins = 0
+        total_profit_krw = 0
+        for idx, t in enumerate(recent_10, 1):
+            p_pct = t.get('profit_pct', 0.0)
+            p_krw = t.get('profit_krw', 0)
+            symbol = t.get('symbol', 'UNKNOWN')
+            exit_time_str = t.get('exit_time', '')
+            try:
+                dt_obj = datetime.fromisoformat(exit_time_str)
+                time_display = dt_obj.strftime("%m/%d %H:%M KST")
+            except Exception:
+                time_display = "-"
+                
+            sign_pct = "+" if p_pct > 0 else ""
+            trade_lines.append(f"{idx}. {symbol} ({sign_pct}{p_pct:.1f}%) {time_display}")
+            if p_pct > 0:
+                wins += 1
+            total_profit_krw += p_krw
+            
+        trades_str = "\n".join(trade_lines)
+        win_rate = round((wins / len(recent_10)) * 100)
+
+    sign_krw = "+" if total_profit_krw > 0 else ""
+    return f"""💼 [현재 매매 상황]
+• 보유 종목 : {held_str}
+
+📜 [최근 매도 이력]
+{trades_str}
+
+📊 최근 10건 승률 : {win_rate}%
+💰 최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW"""
+
+# ==========================================
+# 2. GitHub 백업 & 파일 I/O
+# ==========================================
+def load_json_file(file_path, default_value):
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return default_value
+
+def save_json_file(file_path, data):
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+def sync_file_to_github(file_path, content_data):
+    if not GH_TOKEN:
+        return
+    url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
+    headers = {"Authorization": f"Bearer {GH_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+    sha = None
+    try:
+        res = requests.get(url, headers=headers, timeout=5)
+        if res.status_code == 200:
+            sha = res.json().get('sha')
+    except Exception:
+        pass
+        
+    json_str = json.dumps(content_data, indent=2, ensure_ascii=False)
+    encoded = base64.b64encode(json_str.encode('utf-8')).decode('utf-8')
+    payload = {"message": f"update: {file_path} from oracle server", "content": encoded}
+    if sha:
+        payload["sha"] = sha
+    try:
+        requests.put(url, headers=headers, json=payload, timeout=8)
+    except Exception as e:
+        logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
+
+# ==========================================
+# 3. 빗썸 API (Public 직통 & 실전용 Private JWT 서명)
+# ==========================================
+def get_bithumb_jwt_headers(query_params: dict = None):
+    """빗썸 Private API JWT 서명 생성기 (실전 매매용)"""
+    if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
+        return {}
+    payload = {
+        'access_key': BITHUMB_API_KEY,
+        'nonce': str(uuid.uuid4()),
+        'timestamp': round(time.time() * 1000)
     }
-  },
-  "closed_trades": [
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 2026.0,
-      "exit_price": 2018.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -25,
-      "profit_pct": -0.39,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T09:34:49.300707",
-      "exit_time": "2026-08-15T10:44:29.452296"
-    },
-    {
-      "symbol": "ROBO/KRW",
-      "entry_price": 26.51,
-      "exit_price": 25.98,
-      "buy_amount_krw": 6324,
-      "profit_krw": -126,
-      "profit_pct": -2.0,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T11:05:09.488845",
-      "exit_time": "2026-08-15T11:33:23.021725"
-    },
-    {
-      "symbol": "ROBO/KRW",
-      "entry_price": 25.56,
-      "exit_price": 25.56,
-      "buy_amount_krw": 6324,
-      "profit_krw": 0,
-      "profit_pct": 0.0,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T11:34:17.975383",
-      "exit_time": "2026-08-15T11:34:17.975383"
-    },
-    {
-      "symbol": "CAP/KRW",
-      "entry_price": 92.9,
-      "exit_price": 91.35,
-      "buy_amount_krw": 10000,
-      "profit_krw": -167,
-      "profit_pct": -1.67,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T10:05:01.091226",
-      "exit_time": "2026-08-15T12:17:37.175303"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 2213.0,
-      "exit_price": 2162.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -145,
-      "profit_pct": -2.3,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T13:35:16.364712",
-      "exit_time": "2026-08-15T13:41:49.607135"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 10.3,
-      "exit_price": 10.15,
-      "buy_amount_krw": 6324,
-      "profit_krw": -92,
-      "profit_pct": -1.46,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T18:31:41.053119",
-      "exit_time": "2026-08-15T18:31:55.708451"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.655,
-      "exit_price": 9.415,
-      "buy_amount_krw": 6324,
-      "profit_krw": -157,
-      "profit_pct": -2.49,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-15T20:32:16.451043",
-      "exit_time": "2026-08-15T20:32:43.157564"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.855,
-      "exit_price": 10.36,
-      "buy_amount_krw": 6324,
-      "profit_krw": 324,
-      "profit_pct": 5.12,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-15T22:02:53.599667",
-      "exit_time": "2026-08-15T22:21:56.019384"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 496.0,
-      "exit_price": 492.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -51,
-      "profit_pct": -0.81,
-      "status": "CLOSED_TIME_EXIT",
-      "reason": "3시간 횡보로 시간 손절(시장가 강제 청산)",
-      "entry_time": "2026-08-15T20:02:03.808177",
-      "exit_time": "2026-08-15T23:02:05.564351"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.936,
-      "exit_price": 9.754,
-      "buy_amount_krw": 6324,
-      "profit_krw": -116,
-      "profit_pct": -1.83,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T00:14:09.277860",
-      "exit_time": "2026-08-16T00:14:38.453420"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 119.0,
-      "exit_price": 118.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -53,
-      "profit_pct": -0.84,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T01:35:00.185634",
-      "exit_time": "2026-08-16T01:38:11.448939"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 10.94,
-      "exit_price": 11.4,
-      "buy_amount_krw": 6324,
-      "profit_krw": 266,
-      "profit_pct": 4.2,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-16T03:11:49.219077",
-      "exit_time": "2026-08-16T03:19:55.235195"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.2,
-      "exit_price": 11.21,
-      "buy_amount_krw": 6324,
-      "profit_krw": 6,
-      "profit_pct": 0.09,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T05:05:57.410791",
-      "exit_time": "2026-08-16T05:05:57.410791"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 120.0,
-      "exit_price": 117.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -158,
-      "profit_pct": -2.5,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T07:01:44.819404",
-      "exit_time": "2026-08-16T07:28:05.735875"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 12.12,
-      "exit_price": 11.94,
-      "buy_amount_krw": 6324,
-      "profit_krw": -94,
-      "profit_pct": -1.49,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T08:03:59.531353",
-      "exit_time": "2026-08-16T08:12:51.259149"
-    },
-    {
-      "symbol": "DRV/KRW",
-      "entry_price": 155.0,
-      "exit_price": 152.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -123,
-      "profit_pct": -1.94,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T13:33:20.954811",
-      "exit_time": "2026-08-16T14:08:36.577201"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 519.0,
-      "exit_price": 509.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -122,
-      "profit_pct": -1.93,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T17:19:15.300097",
-      "exit_time": "2026-08-16T18:06:33.140286"
-    },
-    {
-      "symbol": "ONG/KRW",
-      "entry_price": 74.0,
-      "exit_price": 74.3,
-      "buy_amount_krw": 6324,
-      "profit_krw": 26,
-      "profit_pct": 0.41,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-16T21:13:09.023315",
-      "exit_time": "2026-08-16T21:40:07.473988"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 21.85,
-      "exit_price": 21.59,
-      "buy_amount_krw": 6324,
-      "profit_krw": -75,
-      "profit_pct": -1.19,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T05:31:29.946959",
-      "exit_time": "2026-08-17T05:41:33.290600"
-    },
-    {
-      "symbol": "ONDO/KRW",
-      "entry_price": 483.0,
-      "exit_price": 478.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -66,
-      "profit_pct": -1.04,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T12:31:36.595365",
-      "exit_time": "2026-08-17T12:37:35.166304"
-    },
-    {
-      "symbol": "ONG/KRW",
-      "entry_price": 83.0,
-      "exit_price": 82.1,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T13:33:40.937081",
-      "exit_time": "2026-08-17T13:55:57.989384"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 258.0,
-      "exit_price": 255.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -73,
-      "profit_pct": -1.16,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T14:01:37.233019",
-      "exit_time": "2026-08-17T14:03:15.823442"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 123.0,
-      "exit_price": 125.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 103,
-      "profit_pct": 1.63,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-17T15:32:19.856218",
-      "exit_time": "2026-08-17T15:36:21.641796"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 501.0,
-      "exit_price": 507.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 76,
-      "profit_pct": 1.2,
-      "status": "CLOSED_TIME_EXIT",
-      "reason": "3시간 횡보로 시간 손절(시장가 강제 청산)",
-      "entry_time": "2026-08-17T13:02:32.945636",
-      "exit_time": "2026-08-17T16:02:33.420687"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 73.99,
-      "exit_price": 73.08,
-      "buy_amount_krw": 6324,
-      "profit_krw": -78,
-      "profit_pct": -1.23,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T16:01:32.400106",
-      "exit_time": "2026-08-17T16:03:38.507816"
-    },
-    {
-      "symbol": "HFT/KRW",
-      "entry_price": 10.65,
-      "exit_price": 10.88,
-      "buy_amount_krw": 6324,
-      "profit_krw": 137,
-      "profit_pct": 2.16,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-17T16:31:23.427431",
-      "exit_time": "2026-08-17T16:33:02.621049"
-    },
-    {
-      "symbol": "HFT/KRW",
-      "entry_price": 10.78,
-      "exit_price": 11.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 129,
-      "profit_pct": 2.04,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-17T17:31:47.928208",
-      "exit_time": "2026-08-17T17:33:49.696189"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 23.1,
-      "exit_price": 22.81,
-      "buy_amount_krw": 6324,
-      "profit_krw": -80,
-      "profit_pct": -1.26,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T19:01:43.670124",
-      "exit_time": "2026-08-17T19:04:39.367539"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.64,
-      "exit_price": 9.505,
-      "buy_amount_krw": 6324,
-      "profit_krw": -89,
-      "profit_pct": -1.4,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T20:05:26.201311",
-      "exit_time": "2026-08-17T20:06:48.334089"
-    },
-    {
-      "symbol": "GWEI/KRW",
-      "entry_price": 33.35,
-      "exit_price": 32.97,
-      "buy_amount_krw": 6324,
-      "profit_krw": -72,
-      "profit_pct": -1.14,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T20:33:06.830944",
-      "exit_time": "2026-08-17T21:05:08.260123"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 23.3,
-      "exit_price": 23.78,
-      "buy_amount_krw": 6324,
-      "profit_krw": 130,
-      "profit_pct": 2.06,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-17T21:32:06.413904",
-      "exit_time": "2026-08-17T21:49:05.943234"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 23.4,
-      "exit_price": 23.12,
-      "buy_amount_krw": 6324,
-      "profit_krw": -76,
-      "profit_pct": -1.2,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T22:01:43.518654",
-      "exit_time": "2026-08-17T22:15:39.954051"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 117.0,
-      "exit_price": 116.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -54,
-      "profit_pct": -0.85,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-17T23:01:29.077350",
-      "exit_time": "2026-08-17T23:02:14.028924"
-    },
-    {
-      "symbol": "BMT/KRW",
-      "entry_price": 23.38,
-      "exit_price": 23.85,
-      "buy_amount_krw": 6324,
-      "profit_krw": 127,
-      "profit_pct": 2.01,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-17T23:31:22.450357",
-      "exit_time": "2026-08-17T23:40:25.216192"
-    },
-    {
-      "symbol": "BMT/KRW",
-      "entry_price": 23.87,
-      "exit_price": 23.53,
-      "buy_amount_krw": 6324,
-      "profit_krw": -90,
-      "profit_pct": -1.42,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T00:34:09.125201",
-      "exit_time": "2026-08-18T00:36:29.497411"
-    },
-    {
-      "symbol": "GWEI/KRW",
-      "entry_price": 33.13,
-      "exit_price": 32.8,
-      "buy_amount_krw": 6324,
-      "profit_krw": -63,
-      "profit_pct": -1.0,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T00:02:00.199835",
-      "exit_time": "2026-08-18T00:48:38.084222"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 116.0,
-      "exit_price": 118.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 109,
-      "profit_pct": 1.72,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T02:01:15.165669",
-      "exit_time": "2026-08-18T02:13:04.267993"
-    },
-    {
-      "symbol": "DEXE/KRW",
-      "entry_price": 2737.0,
-      "exit_price": 2710.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -63,
-      "profit_pct": -0.99,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T01:04:36.308822",
-      "exit_time": "2026-08-18T02:30:18.585644"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 23.01,
-      "exit_price": 22.74,
-      "buy_amount_krw": 6324,
-      "profit_krw": -74,
-      "profit_pct": -1.17,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T02:31:06.616060",
-      "exit_time": "2026-08-18T02:32:08.864061"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.555,
-      "exit_price": 9.457,
-      "buy_amount_krw": 6324,
-      "profit_krw": -65,
-      "profit_pct": -1.03,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T03:01:59.207930",
-      "exit_time": "2026-08-18T03:08:28.957356"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 123.0,
-      "exit_price": 122.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -51,
-      "profit_pct": -0.81,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T04:02:44.678338",
-      "exit_time": "2026-08-18T04:05:46.290007"
-    },
-    {
-      "symbol": "AEON/KRW",
-      "entry_price": 129.0,
-      "exit_price": 128.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -49,
-      "profit_pct": -0.78,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T06:31:38.139406",
-      "exit_time": "2026-08-18T06:31:48.834642"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 271.0,
-      "exit_price": 268.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -70,
-      "profit_pct": -1.11,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T07:03:35.314776",
-      "exit_time": "2026-08-18T07:04:06.624448"
-    },
-    {
-      "symbol": "GWEI/KRW",
-      "entry_price": 32.16,
-      "exit_price": 32.67,
-      "buy_amount_krw": 6324,
-      "profit_krw": 101,
-      "profit_pct": 1.59,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T06:02:13.927088",
-      "exit_time": "2026-08-18T07:26:43.914848"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 271.0,
-      "exit_price": 268.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -70,
-      "profit_pct": -1.11,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T07:31:30.227391",
-      "exit_time": "2026-08-18T07:43:03.205320"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 276.0,
-      "exit_price": 273.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -69,
-      "profit_pct": -1.09,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T08:38:13.305876",
-      "exit_time": "2026-08-18T08:42:15.943450"
-    },
-    {
-      "symbol": "GWEI/KRW",
-      "entry_price": 32.45,
-      "exit_price": 32.13,
-      "buy_amount_krw": 6324,
-      "profit_krw": -63,
-      "profit_pct": -0.99,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T08:03:42.741317",
-      "exit_time": "2026-08-18T08:47:21.117853"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 723.0,
-      "exit_price": 712.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -96,
-      "profit_pct": -1.52,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T09:32:32.900191",
-      "exit_time": "2026-08-18T09:33:04.481588"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.72,
-      "exit_price": 9.557,
-      "buy_amount_krw": 6324,
-      "profit_krw": -106,
-      "profit_pct": -1.68,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T10:01:25.304741",
-      "exit_time": "2026-08-18T10:05:29.774093"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 76.73,
-      "exit_price": 75.92,
-      "buy_amount_krw": 6324,
-      "profit_krw": -67,
-      "profit_pct": -1.06,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T10:31:21.341227",
-      "exit_time": "2026-08-18T10:36:40.647088"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 79.51,
-      "exit_price": 81.32,
-      "buy_amount_krw": 6324,
-      "profit_krw": 144,
-      "profit_pct": 2.28,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T11:03:19.259461",
-      "exit_time": "2026-08-18T11:05:39.325124"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 77.08,
-      "exit_price": 76.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -89,
-      "profit_pct": -1.4,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T11:33:54.399038",
-      "exit_time": "2026-08-18T11:51:55.644000"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 9.558,
-      "exit_price": 9.445,
-      "buy_amount_krw": 6324,
-      "profit_krw": -75,
-      "profit_pct": -1.18,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T12:08:20.263787",
-      "exit_time": "2026-08-18T12:36:12.482063"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 25.49,
-      "exit_price": 25.2,
-      "buy_amount_krw": 6324,
-      "profit_krw": -72,
-      "profit_pct": -1.14,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T12:31:29.270884",
-      "exit_time": "2026-08-18T12:41:09.194129"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 723.0,
-      "exit_price": 716.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -61,
-      "profit_pct": -0.97,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T14:01:34.209556",
-      "exit_time": "2026-08-18T14:30:37.716567"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 322.0,
-      "exit_price": 330.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 157,
-      "profit_pct": 2.48,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T14:31:29.239507",
-      "exit_time": "2026-08-18T14:32:05.477294"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 320.0,
-      "exit_price": 326.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 119,
-      "profit_pct": 1.88,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T15:01:37.424726",
-      "exit_time": "2026-08-18T15:07:05.489733"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 322.0,
-      "exit_price": 328.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 118,
-      "profit_pct": 1.86,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T16:31:12.485970",
-      "exit_time": "2026-08-18T16:33:54.255679"
-    },
-    {
-      "symbol": "BMT/KRW",
-      "entry_price": 22.4,
-      "exit_price": 22.15,
-      "buy_amount_krw": 6324,
-      "profit_krw": -71,
-      "profit_pct": -1.12,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T15:35:44.516482",
-      "exit_time": "2026-08-18T16:52:12.258201"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 78.85,
-      "exit_price": 78.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T17:01:59.779844",
-      "exit_time": "2026-08-18T17:10:10.134138"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 25.57,
-      "exit_price": 25.3,
-      "buy_amount_krw": 6324,
-      "profit_krw": -67,
-      "profit_pct": -1.06,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T17:31:52.509556",
-      "exit_time": "2026-08-18T17:44:47.618772"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 25.44,
-      "exit_price": 25.07,
-      "buy_amount_krw": 6324,
-      "profit_krw": -92,
-      "profit_pct": -1.45,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T18:02:03.663433",
-      "exit_time": "2026-08-18T18:28:43.108875"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 25.63,
-      "exit_price": 25.36,
-      "buy_amount_krw": 6324,
-      "profit_krw": -66,
-      "profit_pct": -1.05,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T19:02:02.106522",
-      "exit_time": "2026-08-18T19:34:17.313311"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 317.0,
-      "exit_price": 314.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -60,
-      "profit_pct": -0.95,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T20:01:38.120095",
-      "exit_time": "2026-08-18T20:07:53.608668"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 24.78,
-      "exit_price": 25.29,
-      "buy_amount_krw": 6324,
-      "profit_krw": 130,
-      "profit_pct": 2.06,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T21:03:09.651472",
-      "exit_time": "2026-08-18T21:22:24.206978"
-    },
-    {
-      "symbol": "HFT/KRW",
-      "entry_price": 9.684,
-      "exit_price": 9.579,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T20:33:29.587206",
-      "exit_time": "2026-08-18T21:22:33.890845"
-    },
-    {
-      "symbol": "GNO/KRW",
-      "entry_price": 158400.0,
-      "exit_price": 162200.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 152,
-      "profit_pct": 2.4,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-18T21:31:32.513802",
-      "exit_time": "2026-08-18T21:32:38.972756"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 721.0,
-      "exit_price": 714.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -61,
-      "profit_pct": -0.97,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T23:05:40.959393",
-      "exit_time": "2026-08-18T23:28:32.221342"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 456.0,
-      "exit_price": 446.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -138,
-      "profit_pct": -2.19,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T22:31:31.953760",
-      "exit_time": "2026-08-18T23:29:43.227763"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 449.0,
-      "exit_price": 444.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -70,
-      "profit_pct": -1.11,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-18T23:31:15.398167",
-      "exit_time": "2026-08-19T00:27:49.220177"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 347.0,
-      "exit_price": 343.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -73,
-      "profit_pct": -1.15,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T01:31:15.699362",
-      "exit_time": "2026-08-19T01:32:19.191190"
-    },
-    {
-      "symbol": "GPS/KRW",
-      "entry_price": 25.57,
-      "exit_price": 25.09,
-      "buy_amount_krw": 6324,
-      "profit_krw": -119,
-      "profit_pct": -1.88,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T01:03:58.317433",
-      "exit_time": "2026-08-19T01:39:32.109968"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 445.0,
-      "exit_price": 441.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -57,
-      "profit_pct": -0.9,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T00:31:08.552206",
-      "exit_time": "2026-08-19T02:18:16.273774"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 314.0,
-      "exit_price": 311.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -61,
-      "profit_pct": -0.96,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T02:31:04.619717",
-      "exit_time": "2026-08-19T02:31:45.401284"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 313.0,
-      "exit_price": 319.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 121,
-      "profit_pct": 1.92,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T03:31:25.729452",
-      "exit_time": "2026-08-19T03:33:13.174343"
-    },
-    {
-      "symbol": "GNO/KRW",
-      "entry_price": 165000.0,
-      "exit_price": 162600.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -92,
-      "profit_pct": -1.45,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T04:13:15.385171",
-      "exit_time": "2026-08-19T04:13:25.150508"
-    },
-    {
-      "symbol": "GNO/KRW",
-      "entry_price": 162500.0,
-      "exit_price": 160400.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -82,
-      "profit_pct": -1.29,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T04:33:49.981466",
-      "exit_time": "2026-08-19T04:34:08.347195"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.05,
-      "exit_price": 11.27,
-      "buy_amount_krw": 6324,
-      "profit_krw": 126,
-      "profit_pct": 1.99,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T05:31:25.556725",
-      "exit_time": "2026-08-19T05:46:30.887094"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.59,
-      "exit_price": 11.43,
-      "buy_amount_krw": 6324,
-      "profit_krw": -87,
-      "profit_pct": -1.38,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T06:01:20.402587",
-      "exit_time": "2026-08-19T06:01:28.429917"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.77,
-      "exit_price": 11.63,
-      "buy_amount_krw": 6324,
-      "profit_krw": -75,
-      "profit_pct": -1.19,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T06:31:15.863853",
-      "exit_time": "2026-08-19T06:33:42.801737"
-    },
-    {
-      "symbol": "DOS/KRW",
-      "entry_price": 363.0,
-      "exit_price": 370.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": 122,
-      "profit_pct": 1.93,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T07:01:39.157820",
-      "exit_time": "2026-08-19T07:14:12.278834"
-    },
-    {
-      "symbol": "DOS/KRW",
-      "entry_price": 370.0,
-      "exit_price": 366.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T07:31:34.098372",
-      "exit_time": "2026-08-19T07:35:43.527962"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 741.0,
-      "exit_price": 734.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -59,
-      "profit_pct": -0.94,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T08:02:52.131913",
-      "exit_time": "2026-08-19T08:08:43.639327"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.67,
-      "exit_price": 11.89,
-      "buy_amount_krw": 6324,
-      "profit_krw": 120,
-      "profit_pct": 1.89,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T08:33:43.648602",
-      "exit_time": "2026-08-19T08:38:05.495066"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 75.0,
-      "exit_price": 76.51,
-      "buy_amount_krw": 6324,
-      "profit_krw": 127,
-      "profit_pct": 2.01,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T09:11:07.300721",
-      "exit_time": "2026-08-19T09:58:41.392650"
-    },
-    {
-      "symbol": "DOS/KRW",
-      "entry_price": 371.0,
-      "exit_price": 367.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T10:31:36.034652",
-      "exit_time": "2026-08-19T10:33:06.427131"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 78.6,
-      "exit_price": 77.8,
-      "buy_amount_krw": 6324,
-      "profit_krw": -65,
-      "profit_pct": -1.02,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T12:01:44.076120",
-      "exit_time": "2026-08-19T12:04:53.268419"
-    },
-    {
-      "symbol": "GNO/KRW",
-      "entry_price": 159000.0,
-      "exit_price": 157300.0,
-      "buy_amount_krw": 6324,
-      "profit_krw": -68,
-      "profit_pct": -1.07,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "스탑로스 도달 (손절)",
-      "entry_time": "2026-08-19T11:01:30.402780",
-      "exit_time": "2026-08-19T12:07:59.963939"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 13.0,
-      "exit_price": 13.26,
-      "buy_amount_krw": 6324,
-      "profit_krw": 126,
-      "profit_pct": 2.0,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T12:36:37.981180",
-      "exit_time": "2026-08-19T12:40:20.842368"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 13.0,
-      "exit_price": 12.87,
-      "buy_amount_krw": 10000,
-      "profit_krw": -100,
-      "profit_pct": -1.0,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T13:43:18.093558",
-      "exit_time": "2026-08-19T13:44:06.457903"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 79.09,
-      "exit_price": 78.29,
-      "buy_amount_krw": 10000,
-      "profit_krw": -101,
-      "profit_pct": -1.01,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T13:19:28.616455",
-      "exit_time": "2026-08-19T13:46:18.433681"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 12.79,
-      "exit_price": 12.59,
-      "buy_amount_krw": 10000,
-      "profit_krw": -156,
-      "profit_pct": -1.56,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T14:12:18.824826",
-      "exit_time": "2026-08-19T14:13:30.479995"
-    },
-    {
-      "symbol": "HEMI/KRW",
-      "entry_price": 12.67,
-      "exit_price": 12.53,
-      "buy_amount_krw": 10000,
-      "profit_krw": -110,
-      "profit_pct": -1.1,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T14:16:39.833380",
-      "exit_time": "2026-08-19T14:17:53.666106"
-    },
-    {
-      "symbol": "EDEN/KRW",
-      "entry_price": 82.65,
-      "exit_price": 81.62,
-      "buy_amount_krw": 10000,
-      "profit_krw": -125,
-      "profit_pct": -1.25,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T14:52:00.479334",
-      "exit_time": "2026-08-19T14:52:29.055174"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 2866000.0,
-      "exit_price": 2867000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 3,
-      "profit_pct": 0.03,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T17:04:24.305346",
-      "exit_time": "2026-08-19T17:39:26.184369"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 469.0,
-      "exit_price": 473.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 85,
-      "profit_pct": 0.85,
-      "status": "CLOSED_TRAILING_STOP",
-      "reason": "트레일링 스탑 발동 (최고 +1.3% 기록 후 되돌림 확정 익절)",
-      "entry_time": "2026-08-19T17:01:03.874178",
-      "exit_time": "2026-08-19T17:42:17.163543"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 112900.0,
-      "exit_price": 112500.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -35,
-      "profit_pct": -0.35,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T16:41:00.477072",
-      "exit_time": "2026-08-19T17:50:06.399435"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1463.0,
-      "exit_price": 1465.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 14,
-      "profit_pct": 0.14,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T17:59:29.383042",
-      "exit_time": "2026-08-19T18:34:34.315772"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 478.0,
-      "exit_price": 479.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 21,
-      "profit_pct": 0.21,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T18:19:31.732424",
-      "exit_time": "2026-08-19T18:58:51.418410"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 112800.0,
-      "exit_price": 113200.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 35,
-      "profit_pct": 0.35,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T18:39:04.440461",
-      "exit_time": "2026-08-19T19:14:06.465678"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 2878000.0,
-      "exit_price": 2885000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 24,
-      "profit_pct": 0.24,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T19:14:16.180278",
-      "exit_time": "2026-08-19T19:49:16.270939"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 484.0,
-      "exit_price": 495.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 227,
-      "profit_pct": 2.27,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T19:25:57.078368",
-      "exit_time": "2026-08-19T19:49:48.598663"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 113000.0,
-      "exit_price": 113400.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 35,
-      "profit_pct": 0.35,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T19:40:09.918217",
-      "exit_time": "2026-08-19T20:15:10.978748"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 2907000.0,
-      "exit_price": 2975000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 234,
-      "profit_pct": 2.34,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T20:13:26.981123",
-      "exit_time": "2026-08-19T20:50:41.412395"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 497.0,
-      "exit_price": 506.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 181,
-      "profit_pct": 1.81,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T20:44:03.235672",
-      "exit_time": "2026-08-19T20:51:06.208897"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 113400.0,
-      "exit_price": 115400.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 176,
-      "profit_pct": 1.76,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-19T20:35:19.946039",
-      "exit_time": "2026-08-19T20:51:13.425552"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 501.0,
-      "exit_price": 499.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -40,
-      "profit_pct": -0.4,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T21:04:08.752784",
-      "exit_time": "2026-08-19T21:40:17.268221"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 498.0,
-      "exit_price": 493.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -100,
-      "profit_pct": -1.0,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-19T22:02:58.761810",
-      "exit_time": "2026-08-19T22:12:56.399664"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 116700.0,
-      "exit_price": 117100.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 34,
-      "profit_pct": 0.34,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-19T22:46:52.469528",
-      "exit_time": "2026-08-19T23:21:52.624184"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 117400.0,
-      "exit_price": 117400.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 0,
-      "profit_pct": 0.0,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T00:16:35.837985",
-      "exit_time": "2026-08-20T00:51:38.115547"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3066000.0,
-      "exit_price": 3107000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 134,
-      "profit_pct": 1.34,
-      "status": "CLOSED_TRAILING_STOP",
-      "reason": "트레일링 스탑 발동 (최고 +1.8% 기록 후 되돌림 확정 익절)",
-      "entry_time": "2026-08-19T23:00:40.339391",
-      "exit_time": "2026-08-20T01:10:06.952514"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 501.0,
-      "exit_price": 500.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -20,
-      "profit_pct": -0.2,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T01:03:21.241983",
-      "exit_time": "2026-08-20T01:38:36.169605"
-    },
-    {
-      "symbol": "ONDO/KRW",
-      "entry_price": 480.0,
-      "exit_price": 481.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 21,
-      "profit_pct": 0.21,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T01:01:01.657861",
-      "exit_time": "2026-08-20T02:09:26.366370"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 117400.0,
-      "exit_price": 117000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -34,
-      "profit_pct": -0.34,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T02:21:50.628324",
-      "exit_time": "2026-08-20T02:56:52.263505"
-    },
-    {
-      "symbol": "CYS/KRW",
-      "entry_price": 837.0,
-      "exit_price": 823.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -167,
-      "profit_pct": -1.67,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T02:46:17.415686",
-      "exit_time": "2026-08-20T02:58:25.939838"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3112000.0,
-      "exit_price": 3076000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -116,
-      "profit_pct": -1.16,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T02:29:05.848882",
-      "exit_time": "2026-08-20T03:09:02.007063"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 116100.0,
-      "exit_price": 116400.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 26,
-      "profit_pct": 0.26,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T03:31:40.943765",
-      "exit_time": "2026-08-20T04:07:05.874192"
-    },
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 95261000.0,
-      "exit_price": 95500000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 25,
-      "profit_pct": 0.25,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T03:50:56.669847",
-      "exit_time": "2026-08-20T04:25:58.598957"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 495.0,
-      "exit_price": 496.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 20,
-      "profit_pct": 0.2,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T04:32:06.768951",
-      "exit_time": "2026-08-20T05:07:08.067387"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3102000.0,
-      "exit_price": 3104000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 6,
-      "profit_pct": 0.06,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T05:01:46.486974",
-      "exit_time": "2026-08-20T05:36:47.030697"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 497.0,
-      "exit_price": 498.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 20,
-      "profit_pct": 0.2,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T07:13:28.163839",
-      "exit_time": "2026-08-20T07:50:30.905867"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3105000.0,
-      "exit_price": 3104000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -3,
-      "profit_pct": -0.03,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T07:24:07.967058",
-      "exit_time": "2026-08-20T07:59:10.108969"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 292.0,
-      "exit_price": 288.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -137,
-      "profit_pct": -1.37,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T09:59:31.326428",
-      "exit_time": "2026-08-20T10:00:51.886683"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1595.0,
-      "exit_price": 1601.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 38,
-      "profit_pct": 0.38,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T09:49:00.120912",
-      "exit_time": "2026-08-20T10:25:38.723071"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 120900.0,
-      "exit_price": 120600.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -25,
-      "profit_pct": -0.25,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T10:26:25.170142",
-      "exit_time": "2026-08-20T11:01:26.775966"
-    },
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 99384000.0,
-      "exit_price": 99631000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 25,
-      "profit_pct": 0.25,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T11:15:12.350598",
-      "exit_time": "2026-08-20T11:51:44.616562"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3165000.0,
-      "exit_price": 3177000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 38,
-      "profit_pct": 0.38,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T11:05:09.667403",
-      "exit_time": "2026-08-20T11:55:41.530128"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 121100.0,
-      "exit_price": 120000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -91,
-      "profit_pct": -0.91,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T11:53:51.600919",
-      "exit_time": "2026-08-20T12:07:37.335272"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3172000.0,
-      "exit_price": 3140000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -101,
-      "profit_pct": -1.01,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T12:01:21.829001",
-      "exit_time": "2026-08-20T12:09:17.293169"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1644.0,
-      "exit_price": 1671.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 164,
-      "profit_pct": 1.64,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-20T13:18:02.549000",
-      "exit_time": "2026-08-20T13:23:53.662105"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 119600.0,
-      "exit_price": 120000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 33,
-      "profit_pct": 0.33,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "35분간 모멘텀 소멸로 조기 약손익 청산 (기회비용 확보)",
-      "entry_time": "2026-08-20T12:46:24.890450",
-      "exit_time": "2026-08-20T13:25:09.597723"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1668.0,
-      "exit_price": 1695.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 162,
-      "profit_pct": 1.62,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "익절 목표가 달성",
-      "entry_time": "2026-08-20T13:52:10.768910",
-      "exit_time": "2026-08-20T14:10:34.659288"
-    },
-    {
-      "symbol": "ACE/KRW",
-      "entry_price": 341.0,
-      "exit_price": 337.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -117,
-      "profit_pct": -1.17,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-20T14:42:56.830152",
-      "exit_time": "2026-08-20T14:43:38.891123"
-    },
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 99500000.0,
-      "exit_price": 99471000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -3,
-      "profit_pct": -0.03,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-21T00:44:03.955994+09:00",
-      "exit_time": "2026-08-21T01:14:09.490154+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1709.0,
-      "exit_price": 1744.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 205,
-      "profit_pct": 2.05,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "🎯 익절 목표가 달성",
-      "entry_time": "2026-08-21T00:35:46.511736+09:00",
-      "exit_time": "2026-08-21T01:22:00.615998+09:00"
-    },
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 99481000.0,
-      "exit_price": 99638000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 16,
-      "profit_pct": 0.16,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-21T01:15:30.412542+09:00",
-      "exit_time": "2026-08-21T01:45:30.597010+09:00"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3207000.0,
-      "exit_price": 3216000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 28,
-      "profit_pct": 0.28,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-21T02:05:40.365189+09:00",
-      "exit_time": "2026-08-21T02:35:41.095823+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1745.0,
-      "exit_price": 1726.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -109,
-      "profit_pct": -1.09,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-21T03:17:57.289149+09:00",
-      "exit_time": "2026-08-21T03:32:13.212602+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1704.0,
-      "exit_price": 1685.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": -112,
-      "profit_pct": -1.12,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-21T03:55:33.740657+09:00",
-      "exit_time": "2026-08-21T04:01:48.979401+09:00"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3192000.0,
-      "exit_price": 3202000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 31,
-      "profit_pct": 0.31,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-21T04:13:48.831512+09:00",
-      "exit_time": "2026-08-21T04:44:32.698862+09:00"
-    },
-    {
-      "symbol": "BTC/KRW",
-      "entry_price": 99802000.0,
-      "exit_price": 106203000.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 641,
-      "profit_pct": 6.41,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "🎯 익절 목표가 달성",
-      "entry_time": "2026-08-21T04:23:39.420494+09:00",
-      "exit_time": "2026-08-22T01:38:21.408494+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1689.0,
-      "exit_price": 1918.0,
-      "buy_amount_krw": 10000,
-      "profit_krw": 1356,
-      "profit_pct": 13.56,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "🎯 익절 목표가 달성",
-      "entry_time": "2026-08-21T04:33:11.903755+09:00",
-      "exit_time": "2026-08-22T01:38:21.408494+09:00"
-    },
-    {
-      "symbol": "WLD/KRW",
-      "entry_price": 548.0,
-      "exit_price": 542.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -2180,
-      "profit_pct": -1.09,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T02:05:58.675500+09:00",
-      "exit_time": "2026-08-22T02:16:10.672850+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1936.0,
-      "exit_price": 1915.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -2160,
-      "profit_pct": -1.08,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T02:11:56.010757+09:00",
-      "exit_time": "2026-08-22T02:20:06.289384+09:00"
-    },
-    {
-      "symbol": "ONDO/KRW",
-      "entry_price": 537.0,
-      "exit_price": 538.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": 380,
-      "profit_pct": 0.19,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T02:19:19.793278+09:00",
-      "exit_time": "2026-08-22T02:49:20.904896+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1914.0,
-      "exit_price": 1896.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -1880,
-      "profit_pct": -0.94,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T03:35:59.663847+09:00",
-      "exit_time": "2026-08-22T03:42:45.089466+09:00"
-    },
-    {
-      "symbol": "ONDO/KRW",
-      "entry_price": 532.0,
-      "exit_price": 526.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -2260,
-      "profit_pct": -1.13,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T03:27:22.840119+09:00",
-      "exit_time": "2026-08-22T03:45:22.527698+09:00"
-    },
-    {
-      "symbol": "ONDO/KRW",
-      "entry_price": 520.0,
-      "exit_price": 531.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": 4240,
-      "profit_pct": 2.12,
-      "status": "CLOSED_TAKE_PROFIT",
-      "reason": "🎯 익절 목표가 달성",
-      "entry_time": "2026-08-22T04:49:43.525370+09:00",
-      "exit_time": "2026-08-22T05:21:44.416617+09:00"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3336000.0,
-      "exit_price": 3343000.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": 420,
-      "profit_pct": 0.21,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T05:16:16.980647+09:00",
-      "exit_time": "2026-08-22T05:46:18.270320+09:00"
-    },
-    {
-      "symbol": "XRP/KRW",
-      "entry_price": 1886.0,
-      "exit_price": 1884.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -220,
-      "profit_pct": -0.11,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T05:27:10.615744+09:00",
-      "exit_time": "2026-08-22T05:57:12.387965+09:00"
-    },
-    {
-      "symbol": "BCH/KRW",
-      "entry_price": 401300.0,
-      "exit_price": 396800.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -2240,
-      "profit_pct": -1.12,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T07:16:20.047334+09:00",
-      "exit_time": "2026-08-22T07:20:16.348911+09:00"
-    },
-    {
-      "symbol": "BCH/KRW",
-      "entry_price": 397600.0,
-      "exit_price": 393500.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -2060,
-      "profit_pct": -1.03,
-      "status": "CLOSED_STOP_LOSS",
-      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
-      "entry_time": "2026-08-22T07:24:32.467969+09:00",
-      "exit_time": "2026-08-22T07:31:06.388359+09:00"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 128800.0,
-      "exit_price": 129200.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": 620,
-      "profit_pct": 0.31,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T07:54:37.937922+09:00",
-      "exit_time": "2026-08-22T08:28:05.896370+09:00"
-    },
-    {
-      "symbol": "ETH/KRW",
-      "entry_price": 3453000.0,
-      "exit_price": 3441000.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": -700,
-      "profit_pct": -0.35,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T08:39:36.560280+09:00",
-      "exit_time": "2026-08-22T09:10:49.970577+09:00"
-    },
-    {
-      "symbol": "SOL/KRW",
-      "entry_price": 128600.0,
-      "exit_price": 129000.0,
-      "buy_amount_krw": 200000,
-      "profit_krw": 620,
-      "profit_pct": 0.31,
-      "status": "CLOSED_EARLY_EXIT",
-      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
-      "entry_time": "2026-08-22T08:56:03.402130+09:00",
-      "exit_time": "2026-08-22T09:29:25.551300+09:00"
+    if query_params:
+        query_string = urllib.parse.urlencode(query_params).encode()
+        m = hashlib.sha512()
+        m.update(query_string)
+        payload['query_hash'] = m.hexdigest()
+        payload['query_hash_alg'] = 'SHA512'
+
+    token = jwt.encode(payload, BITHUMB_SECRET_KEY, algorithm='HS256')
+    return {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
     }
-  ]
-}
+
+def get_real_krw_balance():
+    """빗썸 실계좌 KRW 가용 잔고 조회 (실전 전환용)"""
+    if PAPER_TRADING:
+        return 100000.0  # 모의투자 기준 가상 잔고 (10만원 -> 20% 투입 시 2만원)
+    try:
+        url = "https://api.bithumb.com/v1/accounts"
+        headers = get_bithumb_jwt_headers()
+        res = requests.get(url, headers=headers, timeout=5).json()
+        for acc in res:
+            if acc.get("currency") == "KRW":
+                return float(acc.get("balance", 0.0))
+    except Exception as e:
+        logging.error(f"빗썸 잔고 조회 실패: {e}")
+    return 100000.0
+
+def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
+    """빗썸 실전 시장가 매수/매도 주문 (실전 전환용)"""
+    if PAPER_TRADING:
+        return True, "모의투자 체결"
+    try:
+        url = "https://api.bithumb.com/v1/orders"
+        market = f"KRW-{coin_code.upper()}"
+        if side == "bid":  # 매수 (원화 금액 기준)
+            body = {"market": market, "side": "bid", "price": str(amount_or_units), "ord_type": "price"}
+        else:              # 매도 (코인 수량 기준)
+            body = {"market": market, "side": "ask", "volume": str(amount_or_units), "ord_type": "market"}
+
+        headers = get_bithumb_jwt_headers(body)
+        res = requests.post(url, json=body, headers=headers, timeout=5).json()
+        if "uuid" in res:
+            return True, res["uuid"]
+        return False, str(res)
+    except Exception as e:
+        return False, str(e)
+
+def get_bithumb_tick_size(price: float) -> float:
+    if price < 1.0: return 0.0001
+    elif price < 10.0: return 0.001
+    elif price < 100.0: return 0.01
+    elif price < 1000.0: return 1.0
+    elif price < 5000.0: return 1.0
+    elif price < 10000.0: return 5.0
+    elif price < 50000.0: return 10.0
+    elif price < 100000.0: return 50.0
+    elif price < 500000.0: return 100.0
+    elif price < 1000000.0: return 500.0
+    else: return 1000.0
+
+def get_current_price(coin_code: str) -> float:
+    try:
+        url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
+        res = requests.get(url, timeout=3).json()
+        if res.get("status") == "0000":
+            return float(res["data"]["closing_price"])
+    except Exception:
+        pass
+    return None
+
+def get_candles(coin_code, interval="5m", limit=50):
+    try:
+        url = f"https://api.bithumb.com/public/candlestick/{coin_code}_KRW/{interval}"
+        res = requests.get(url, timeout=5).json()
+        if res.get("status") == "0000":
+            return [{
+                "timestamp": int(c[0]),
+                "open": float(c[1]),
+                "close": float(c[2]),
+                "high": float(c[3]),
+                "low": float(c[4]),
+                "volume": round(float(c[5]), 2)
+            } for c in res['data'][-limit:]]
+    except Exception:
+        pass
+    return []
+
+def calculate_rsi(closes, period=14):
+    if len(closes) < period + 1: return 50.0
+    gains, losses = [], []
+    for i in range(1, len(closes)):
+        delta = closes[i] - closes[i-1]
+        if delta >= 0:
+            gains.append(delta)
+            losses.append(0.0)
+        else:
+            gains.append(0.0)
+            losses.append(abs(delta))
+    avg_gain = sum(gains[-period:]) / period
+    avg_loss = sum(losses[-period:]) / period
+    if avg_loss == 0: return 100.0
+    rs = avg_gain / avg_loss
+    return round(100.0 - (100.0 / (1.0 + rs)), 1)
+
+def calculate_atr(candles, period=14):
+    if len(candles) < period + 1: return 0.0
+    trs = []
+    for i in range(1, len(candles)):
+        h = candles[i]['high']
+        l = candles[i]['low']
+        prev_c = candles[i-1]['close']
+        tr = max(h - l, abs(h - prev_c), abs(l - prev_c))
+        trs.append(tr)
+    return round(sum(trs[-period:]) / period, 4)
+
+def calculate_quant_features(candles):
+    if not candles: return {}
+    closes = [c['close'] for c in candles]
+    volumes = [c['volume'] for c in candles]
+    
+    cum_pv = sum(c['close'] * c['volume'] for c in candles)
+    cum_vol = sum(volumes)
+    vwap = (cum_pv / cum_vol) if cum_vol > 0 else closes[-1]
+    vwap_gap_pct = round(((closes[-1] - vwap) / vwap) * 100, 2)
+
+    avg_vol_20 = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else (sum(volumes[:-1]) / max(len(volumes)-1, 1))
+    surge_ratio = round(volumes[-1] / avg_vol_20, 2) if avg_vol_20 > 0 else 1.0
+
+    rsi = calculate_rsi(closes, period=14)
+    atr = calculate_atr(candles, period=14)
+    atr_pct = round((atr / closes[-1]) * 100, 2) if closes[-1] > 0 else 0.0
+
+    tick_size = get_bithumb_tick_size(closes[-1])
+    tick_ratio_pct = round((tick_size / closes[-1]) * 100, 3)
+
+    return {
+        "current_price": closes[-1],
+        "vwap": round(vwap, 4),
+        "vwap_gap_pct": vwap_gap_pct,
+        "volume_surge_ratio": surge_ratio,
+        "rsi_14": rsi,
+        "atr_14": atr,
+        "atr_pct": atr_pct,
+        "tick_ratio_pct": tick_ratio_pct
+    }
+
+# ==========================================
+# 4. 서버 내장 AI 전략 수립 모듈 (직통 연결)
+# ==========================================
+def call_ai_api(system_instruction, user_prompt):
+    providers = []
+    if GEMINI_API_KEY:
+        providers.append({
+            "name": "Gemini 3.5 Flash-Lite",
+            "key": GEMINI_API_KEY,
+            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+            "model": "gemini-3.5-flash-lite"
+        })
+    if SAMBANOVA_API_KEY:
+        providers.append({
+            "name": "SambaNova Llama-3.3-70B",
+            "key": SAMBANOVA_API_KEY,
+            "base_url": "https://api.sambanova.ai/v1",
+            "model": "Meta-Llama-3.3-70B-Instruct"
+        })
+    if GROQ_API_KEY3 or GROQ_API_KEY2:
+        providers.append({
+            "name": "Groq SpecDec",
+            "key": GROQ_API_KEY3 or GROQ_API_KEY2,
+            "base_url": "https://api.groq.com/openai/v1",
+            "model": "llama-3.3-70b-specdec"
+        })
+
+    for prov in providers:
+        try:
+            client = OpenAI(base_url=prov['base_url'], api_key=prov['key'])
+            res = client.chat.completions.create(
+                model=prov['model'],
+                messages=[
+                    {"role": "system", "content": system_instruction + "\nStrictly output valid JSON ONLY."},
+                    {"role": "user", "content": user_prompt}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.1
+            )
+            return res.choices[0].message.content
+        except Exception as e:
+            logging.warning(f"AI 호출 실패 ({prov['name']}): {e}")
+    return None
+
+def clean_and_parse_json(raw_text):
+    if not raw_text: return None
+    cleaned = raw_text.strip()
+    if "```json" in cleaned:
+        cleaned = cleaned.split("```json")[1].split("```")[0].strip()
+    elif "```" in cleaned:
+        cleaned = cleaned.split("```")[1].split("```")[0].strip()
+
+    try:
+        return json.loads(cleaned)
+    except Exception:
+        pass
+
+    res = {}
+    try:
+        sym_m = re.search(r'["\']selected_symbol["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
+        if sym_m: res["selected_symbol"] = sym_m.group(1)
+        conf_m = re.search(r'["\']confidence_score["\']\s*:\s*([0-9]+)', raw_text)
+        if conf_m: res["confidence_score"] = int(conf_m.group(1))
+        disc_m = re.search(r'["\']entry_discount_pct["\']\s*:\s*([0-9.]+)', raw_text)
+        if disc_m: res["entry_discount_pct"] = float(disc_m.group(1))
+        sl_m = re.search(r'["\']stop_loss_pct["\']\s*:\s*(-?[0-9.]+)', raw_text)
+        if sl_m: res["stop_loss_pct"] = float(sl_m.group(1))
+        tp_m = re.search(r'["\']take_profit_pct["\']\s*:\s*([0-9.]+)', raw_text)
+        if tp_m: res["take_profit_pct"] = float(tp_m.group(1))
+        reason_m = re.search(r'["\']detailed_reason["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
+        if reason_m: res["detailed_reason"] = reason_m.group(1)
+        cands_m = re.search(r'["\']top3_candidates["\']\s*:\s*\[(.*?)\]', raw_text, re.DOTALL)
+        if cands_m:
+            res["top3_candidates"] = [c.strip().strip('"').strip("'") for c in cands_m.group(1).split(",") if c.strip()]
+        if res: return res
+    except Exception:
+        pass
+    return None
+
+def execute_server_side_strategy():
+    """서버 자체에서 즉시 타점을 수립하고 감시 큐에 등록 (보유 코인 중복 매수 방지 및 동적 잔고 계산)"""
+    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+    active_positions = paper_db.get("active_positions", {})
+    
+    if len(active_positions) >= MAX_HOLDING_COINS:
+        logging.info("💼 최대 보유 종목(3개) 도달로 신규 AI 분석 스킵")
+        return
+
+    # 💡 보유 중인 종목 코드 목록 (중복 매수 원천 차단)
+    held_codes = set(active_positions.keys())
+
+    logging.info("🧠 [서버 자체 AI 전략 분석 시작]")
+    
+    url = "https://api.bithumb.com/public/ticker/ALL_KRW"
+    try:
+        res = requests.get(url, timeout=8).json()
+    except Exception as e:
+        logging.error(f"빗썸 전체 시세 조회 실패: {e}")
+        return
+
+    if res.get("status") != "0000": return
+
+    raw_list = []
+    for sym, info in res["data"].items():
+        if sym == "date" or sym.upper() in STABLE_COINS: continue
+        if sym in held_codes: continue  # 💡 이미 보유 중인 종목 배제
+        try:
+            raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), float(info['acc_trade_value_24H'])))
+        except Exception: pass
+
+    sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:15]
+    top_data = []
+
+    for sym, price, change, _ in sorted_list:
+        candles_1h = get_candles(sym, interval="1h", limit=24)
+        if len(candles_1h) < 15: continue
+        q_feat = calculate_quant_features(candles_1h)
+
+        if q_feat["tick_ratio_pct"] > 0.35: continue
+        if q_feat["atr_pct"] < 0.5 or q_feat["vwap_gap_pct"] < -3.5: continue
+
+        c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h[-10:]]
+        top_data.append({
+            "symbol": f"{sym}/KRW", "price": price, "change_24h": change,
+            "quant_metrics": q_feat, "candles_1h_recent": c_1h_light
+        })
+        if len(top_data) >= 8: break
+
+    if not top_data:
+        logging.info("⏸️ 조건에 부합하는 종목이 없어 관망합니다.")
+        return
+
+    # 1차 퀀트 선별
+    sys_1 = "Select up to 3 candidates for momentum/range scalping. Return JSON ONLY."
+    user_1 = f"Market Data:\n{json.dumps(top_data, ensure_ascii=False)}\n\nSchema: {{\"top3_candidates\": [\"BTC/KRW\"], \"reason\": \"한국어 선별 사유\"}}"
+    res_1 = clean_and_parse_json(call_ai_api(sys_1, user_1))
+    if not res_1 or not res_1.get("top3_candidates"):
+        return
+
+    candidates = [c for c in res_1["top3_candidates"] if c.split('/')[0] not in held_codes]
+    if not candidates:
+        return
+    logging.info(f"🎯 [1차 선별 완료]: {candidates}")
+
+    # 2차 5분봉 40캔들 타점 도출
+    cand_5m_data = []
+    for sym in candidates:
+        code = sym.split('/')[0]
+        candles_5m = get_candles(code, interval="5m", limit=40)
+        if len(candles_5m) < 25: continue
+        q_5m = calculate_quant_features(candles_5m)
+        c_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_5m]
+        cand_5m_data.append({"symbol": sym, "quant_5m": q_5m, "candles_5m": c_light})
+
+    sys_2 = (
+        "You are an intraday scalper. Analyze 5m 40-candle series to pick 1 trade plan or NONE.\n"
+        "Rules:\n"
+        "1. Entry: Set realistic shallow entry (entry_discount_pct: 0.0% to 0.15%) near market price.\n"
+        "2. Anti-Chasing: Reject coins with 5m RSI > 70.\n"
+        "3. Scalping Targets: take_profit_pct: +1.2% to +2.5%, stop_loss_pct: -0.8% to -1.3%.\n"
+        "4. detailed_reason: Detailed Korean technical explanation.\n"
+        "Output JSON ONLY."
+    )
+    user_2 = f"5m Series:\n{json.dumps(cand_5m_data, ensure_ascii=False)}\n\nSchema: {{\"selected_symbol\": \"BTC/KRW\", \"confidence_score\": 75, \"entry_discount_pct\": 0.1, \"stop_loss_pct\": -1.0, \"take_profit_pct\": 1.8, \"detailed_reason\": \"근거\"}}"
+    res_2 = clean_and_parse_json(call_ai_api(sys_2, user_2))
+    if not res_2: return
+
+    selected = res_2.get("selected_symbol", "NONE")
+    confidence = res_2.get("confidence_score", 0)
+    if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
+        logging.info(f"⏸️ 2차 분석 결과 신뢰도({confidence}점) 미달로 관망 유지")
+        return
+
+    code = selected.split('/')[0]
+    if code in held_codes:
+        logging.info(f"⏸️ [{selected}] 이미 보유 중인 종목으로 신규 등록 스킵")
+        return
+
+    curr_p = get_current_price(code)
+    if not curr_p: return
+
+    # 💡 동적 투입 금액 계산 (가용 잔고의 20%, 최소 6,000원 보장)
+    available_krw = get_real_krw_balance()
+    calculated_buy_krw = max(round(available_krw * BUY_RATIO), MIN_BUY_KRW)
+
+    discount = float(res_2.get("entry_discount_pct", 0.1))
+    target_entry = curr_p * (1.0 - (discount / 100.0))
+    sl_pct = max(min(float(res_2.get("stop_loss_pct", -1.0)), -0.8), -1.5)
+    tp_pct = min(max(float(res_2.get("take_profit_pct", 1.8)), 1.2), 2.8)
+
+    now_iso = get_kst_now().isoformat()
+    plan_data = {
+        "symbol": selected,
+        "current_price": curr_p,
+        "target_entry": target_entry,
+        "sl_pct": sl_pct,
+        "tp_pct": tp_pct,
+        "buy_amount_krw": calculated_buy_krw,
+        "detailed_reason": res_2.get("detailed_reason", "5분봉 패턴 및 지표 분석"),
+        "created_at": now_iso
+    }
+
+    server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
+    server_state["pending_targets"] = {code: plan_data}
+    server_state["last_updated"] = now_iso
+    save_json_file(STATE_FILE, server_state)
+
+    targets_payload = {"updated_at": now_iso, "paper_trading": PAPER_TRADING, "targets": {code: plan_data}}
+    save_json_file(TARGETS_FILE, targets_payload)
+    sync_file_to_github(TARGETS_FILE, targets_payload)
+
+    tp_sign = "+" if tp_pct > 0 else ""
+    
+    # 💡 [메시지 1] 🎯 매수 타점 선정 - 서버
+    plan_msg = f"""🎯 [매수 타점 선정 - 서버]
+• 종목 : {selected} (신뢰도: {confidence}점)
+• 현재가 : {curr_p:,.2f} KRW
+• 진입 대기가 : {target_entry:,.2f} KRW (-{discount}%)
+
+🎯 익절 목표 : {tp_sign}{tp_pct}%
+🛡️ 손절 기준 : {sl_pct}%
+
+💡 매수 근거 :
+{plan_data['detailed_reason']}
+=================================
+⚡ 규칙: 20분 미체결 취소 / 트레일링 스탑 및 거래량 소멸 시 조기 청산"""
+    send_telegram_msg(plan_msg)
+
+    # 💡 [메시지 2] 💼 현재 매매 상황 (독립 메시지 전송)
+    portfolio_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
+    send_telegram_msg(portfolio_msg)
+
+# ==========================================
+# 5. 실시간 감시 & 트레일링 스탑 & 조기 청산 엔진
+# ==========================================
+async def realtime_execution_engine():
+    global EMERGENCY_STOP
+    logging.info("⚡ 오라클 실시간 감시 & 트레일링 스탑 엔진 구동 시작")
+    last_strategy_run = 0
+
+    t = threading.Thread(target=telegram_listener_thread, daemon=True)
+    t.start()
+
+    while True:
+        try:
+            now = time.time()
+            now_dt = get_kst_now()
+
+            # 5분(300초)마다 백그라운드 스레드에서 AI 전략 실행 (루프 블로킹 방지)
+            if now - last_strategy_run >= 300:
+                last_strategy_run = now
+                asyncio.create_task(asyncio.to_thread(execute_server_side_strategy))
+
+            server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
+            paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+
+            pending = server_state.get("pending_targets", {})
+            active_positions = paper_db.get("active_positions", {})
+            closed_trades = paper_db.get("closed_trades", [])
+
+            # [1] 진입 대기 감시 (20분 만료 & 즉시 체결)
+            if not EMERGENCY_STOP and len(active_positions) < MAX_HOLDING_COINS:
+                for coin_code, plan in list(pending.items()):
+                    created_dt = datetime.fromisoformat(plan.get("created_at", now_dt.isoformat()))
+                    if now_dt - created_dt >= timedelta(minutes=ENTRY_TIMEOUT_MINUTES):
+                        logging.info(f"⌛ [{plan['symbol']}] 20분 내 미체결로 자동 취소")
+                        del pending[coin_code]
+                        save_json_file(STATE_FILE, server_state)
+                        continue
+
+                    curr_p = get_current_price(coin_code)
+                    if curr_p and curr_p <= plan["target_entry"]:
+                        # 실전 매매 주문 실행
+                        if not PAPER_TRADING:
+                            success, order_res = execute_real_market_order(coin_code, "bid", plan["buy_amount_krw"])
+                            if not success:
+                                logging.error(f"실전 매수 주문 실패: {order_res}")
+                                continue
+
+                        logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결")
+                        exact_sl = curr_p * (1.0 + (plan["sl_pct"] / 100.0))
+                        exact_tp = curr_p * (1.0 + (plan["tp_pct"] / 100.0))
+                        units = plan["buy_amount_krw"] / curr_p
+
+                        active_positions[coin_code] = {
+                            "symbol": plan["symbol"],
+                            "entry_price": curr_p,
+                            "highest_price": curr_p,
+                            "stop_loss": exact_sl,
+                            "take_profit": exact_tp,
+                            "buy_amount_krw": plan["buy_amount_krw"],
+                            "units": units,
+                            "sl_pct": plan["sl_pct"],
+                            "tp_pct": plan["tp_pct"],
+                            "detailed_reason": plan["detailed_reason"],
+                            "entry_time": now_dt.isoformat(),
+                            "break_even_triggered": False
+                        }
+                        del pending[coin_code]
+                        paper_db["active_positions"] = active_positions
+                        save_json_file(PAPER_TRADES_FILE, paper_db)
+                        save_json_file(STATE_FILE, server_state)
+                        sync_file_to_github(PAPER_TRADES_FILE, paper_db)
+
+                        tp_sign = "+" if plan['tp_pct'] > 0 else ""
+                        
+                        # 💡 [메시지 3] ⚡ 체결 완료 (매수 근거 제외)
+                        buy_msg = f"""⚡ [체결 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
+• 종목 : {plan['symbol']}
+• 진입 체결가 : {curr_p:,.2f} KRW
+
+🎯 익절 목표 : {exact_tp:,.2f} KRW ({tp_sign}{plan['tp_pct']}%)
+🛡️ 손절 목표 : {exact_sl:,.2f} KRW ({plan['sl_pct']}%)
+💰 투입 금액 : {plan['buy_amount_krw']:,} KRW"""
+
+                        send_telegram_msg(buy_msg)
+
+            # [2] 보유 포지션 실시간 감시 (본절 방어 + 트레일링 스탑 + 조기 청산)
+            for coin_code, pos in list(active_positions.items()):
+                curr_p = get_current_price(coin_code)
+                if not curr_p: continue
+
+                entry_p = pos["entry_price"]
+                entry_time = datetime.fromisoformat(pos["entry_time"])
+                curr_profit_pct = ((curr_p - entry_p) / entry_p) * 100.0
+
+                if curr_p > pos.get("highest_price", entry_p):
+                    pos["highest_price"] = curr_p
+
+                highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
+
+                # 본절 방어 (Break-Even)
+                if not pos.get("break_even_triggered", False) and curr_profit_pct >= 0.9:
+                    pos["stop_loss"] = max(pos["stop_loss"], entry_p * 1.001)
+                    pos["break_even_triggered"] = True
+                    logging.info(f"🛡️ [{pos['symbol']}] 수익 +0.9% 도달로 본절 방어선 가동")
+
+                status = "HOLDING"
+                exit_reason = ""
+
+                # ① 고정 익절
+                if curr_p >= pos["take_profit"]:
+                    status = "CLOSED_TAKE_PROFIT"
+                    exit_reason = "🎯 익절 목표가 달성"
+
+                # ② 트레일링 스탑
+                elif highest_profit_pct >= 1.2 and (highest_profit_pct - curr_profit_pct) >= 0.4:
+                    status = "CLOSED_TRAILING_STOP"
+                    exit_reason = f"📈 트레일링 스탑 (최고 +{highest_profit_pct:.1f}% 달성 후 이익 보존)"
+
+                # ③ 손절 / 본절 방어선
+                elif curr_p <= pos["stop_loss"]:
+                    status = "CLOSED_STOP_LOSS"
+                    exit_reason = "🛡️ 본절 방어선 또는 손절가 도달"
+
+                # ④ 조기 청산
+                elif (now_dt - entry_time) >= timedelta(minutes=35) and abs(curr_profit_pct) < 0.4:
+                    status = "CLOSED_EARLY_EXIT"
+                    exit_reason = "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)"
+
+                # ⑤ 3시간 타임아웃
+                elif (now_dt - entry_time) >= timedelta(hours=TIME_EXIT_HOURS):
+                    status = "CLOSED_TIME_EXIT"
+                    exit_reason = f"⏰ {TIME_EXIT_HOURS}시간 횡보로 시장가 청산"
+
+                if status != "HOLDING":
+                    # 실전 매도 주문 실행
+                    if not PAPER_TRADING:
+                        execute_real_market_order(coin_code, "ask", pos.get("units", 0.0))
+
+                    profit_pct = round(((curr_p - entry_p) / entry_p) * 100, 2)
+                    profit_krw = round(pos["buy_amount_krw"] * (profit_pct / 100.0))
+
+                    closed_trades.append({
+                        "symbol": pos["symbol"],
+                        "entry_price": entry_p,
+                        "exit_price": curr_p,
+                        "buy_amount_krw": pos["buy_amount_krw"],
+                        "profit_krw": profit_krw,
+                        "profit_pct": profit_pct,
+                        "status": status,
+                        "reason": exit_reason,
+                        "entry_time": pos["entry_time"],
+                        "exit_time": now_dt.isoformat()
+                    })
+
+                    del active_positions[coin_code]
+                    paper_db["active_positions"] = active_positions
+                    paper_db["closed_trades"] = closed_trades
+                    save_json_file(PAPER_TRADES_FILE, paper_db)
+                    sync_file_to_github(PAPER_TRADES_FILE, paper_db)
+
+                    sign_pct = "+" if profit_pct > 0 else ""
+                    sign_krw = "+" if profit_krw > 0 else ""
+                    profit_icon = "🎉" if profit_pct > 0 else "🌧️"
+
+                    # 💡 [메시지 4] 🎉 청산 완료 (핵심 손익 단독 표기)
+                    exit_msg = f"""{profit_icon} [청산 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
+• 종목 : {pos['symbol']}
+• 진입가 : {entry_p:,.2f} KRW ➔ 청산가 : {curr_p:,.2f} KRW
+• 실현 손익 : {sign_krw}{profit_krw:,} KRW ({sign_pct}{profit_pct:.1f}%)
+
+📋 청산 사유 : {exit_reason}"""
+                    send_telegram_msg(exit_msg)
+
+            await asyncio.sleep(2)
+        except Exception as e:
+            logging.error(f"감시 루프 오류: {e}")
+            await asyncio.sleep(3)
+
+# ==========================================
+# 6. 텔레그램 명령어 리스너
+# ==========================================
+def telegram_listener_thread():
+    global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
+    if not TELEGRAM_BOT_TOKEN: return
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
+
+    while True:
+        try:
+            params = {"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 10}
+            res = requests.get(url, params=params, timeout=15).json()
+            if res.get("ok"):
+                for update in res.get("result", []):
+                    LAST_TELEGRAM_UPDATE_ID = update["update_id"]
+                    msg = update.get("message", {})
+                    text = msg.get("text", "").strip()
+                    sender_chat_id = str(msg.get("chat", {}).get("id", "")).strip()
+
+                    if TELEGRAM_CHAT_ID and sender_chat_id != TELEGRAM_CHAT_ID:
+                        continue
+
+                    if text == "/status":
+                        server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": "-"})
+                        paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+                        held = [v['symbol'] for v in paper_db.get('active_positions', {}).values()]
+                        pending = list(server_state.get('pending_targets', {}).keys())
+                        status_str = "🛑 일시정지 (STOP)" if EMERGENCY_STOP else "🟢 실시간 감시 중 (RUNNING)"
+
+                        res_msg = f"""📊 [시스템 상태 보고]
+• 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
+• 인터락 상태: {status_str}
+• 진입 대기 종목: {', '.join(pending) if pending else '(없음)'}
+• 현재 보유 종목: {', '.join(held) if held else '(없음)'}
+• 누적 복기 거래수: {len(paper_db.get('closed_trades', []))}건"""
+                        send_telegram_msg(res_msg)
+
+                    elif text == "/stop":
+                        EMERGENCY_STOP = True
+                        send_telegram_msg("🛑 [인터락 작동] 신규 매수 감시가 일시 중단되었습니다.")
+
+                    elif text == "/start":
+                        EMERGENCY_STOP = False
+                        send_telegram_msg("▶️ [인터락 해제] 신규 매수 감시가 정상 재개되었습니다.")
+
+                    elif text == "/update":
+                        send_telegram_msg("🔄 [원격 업데이트] 최신 코드를 다운로드하고 서비스를 재시작합니다...")
+                        def do_restart():
+                            time.sleep(1.5)
+                            try:
+                                subprocess.run(["git", "stash"], cwd=PROJECT_DIR, timeout=10)
+                                subprocess.run(["git", "pull", "origin", "main"], cwd=PROJECT_DIR, timeout=20)
+                                subprocess.run(["sudo", "systemctl", "restart", "autotrade.service"])
+                            except Exception as ex:
+                                logging.error(f"재시작 실패: {ex}")
+
+                        threading.Thread(target=do_restart, daemon=True).start()
+
+            time.sleep(1)
+        except Exception:
+            time.sleep(3)
+
+if __name__ == "__main__":
+    send_telegram_msg(
+        f"🚀 [오라클 서버] 트레일링 스탑 & 지연 제로 퀀트 엔진 가동\n"
+        f"• 가동 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}\n\n"
+        "📱 사용 가능한 명령어:\n"
+        "• /status : 시스템 상태 및 포지션 확인\n"
+        "• /update : GitHub 최신 코드 동기화 후 재시작\n"
+        "• /stop : 신규 매수 일시정지\n"
+        "• /start : 매매 재개"
+    )
+    asyncio.run(realtime_execution_engine())
