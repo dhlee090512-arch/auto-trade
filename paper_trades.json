@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "entry_price": 1166.0,
-      "highest_price": 1166.0,
-      "stop_loss": 1154.34,
-      "take_profit": 1183.4899999999998,
-      "buy_amount_krw": 6324,
-      "units": 5.4236706689536875,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "SUI/KRW 코인은 5분봉 RSI가 40.0으로 과매도권이 아니며 안티체이싱 조건을 충족합니다. VWAP와의 갭이 -0.36%로 거의 밀접해 있으며, 거래량 급증 비율(2.54)이 동반된 조정 국면에서 단기 지지선 부근인 1,168원 전후에서 얕은 눌림목 매수(롱 스캘핑) 진입이 유리합니다. ATR 기반으로 스탑로스는 -1.0%, 익절은 +1.5%로 설정하여 리스크 대비 보상 비율을 확보했습니다.",
-      "entry_time": "2026-08-22T17:30:05.973676+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -63,6 +48,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-22T17:16:13.211205+09:00",
       "exit_time": "2026-08-22T17:25:17.892143+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "entry_price": 1166.0,
+      "exit_price": 1151.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -82,
+      "profit_pct": -1.29,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-22T17:30:05.973676+09:00",
+      "exit_time": "2026-08-22T17:33:11.211696+09:00"
     }
   ]
 }
