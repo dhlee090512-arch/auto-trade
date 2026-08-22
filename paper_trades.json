@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3453000.0,
-      "highest_price": 3453000.0,
-      "stop_loss": 3421923.0,
-      "take_profit": 3508248.0,
-      "buy_amount_krw": 200000,
-      "units": 0.057920648711265565,
-      "sl_pct": -0.9,
-      "tp_pct": 1.6,
-      "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
-      "entry_time": "2026-08-22T08:39:36.560280+09:00",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 128600.0,
@@ -1865,6 +1851,18 @@
       "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-22T07:54:37.937922+09:00",
       "exit_time": "2026-08-22T08:28:05.896370+09:00"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3453000.0,
+      "exit_price": 3441000.0,
+      "buy_amount_krw": 200000,
+      "profit_krw": -700,
+      "profit_pct": -0.35,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 30분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-22T08:39:36.560280+09:00",
+      "exit_time": "2026-08-22T09:10:49.970577+09:00"
     }
   ]
 }
