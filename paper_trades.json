@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3305000.0,
+      "highest_price": 3305000.0,
+      "stop_loss": 3271950.0,
+      "take_profit": 3364490.0,
+      "buy_amount_krw": 6324,
+      "units": 0.001913464447806354,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 RSI가 30.2로 과매도 구간에 근접해 있으며, VWAP 대비 -0.36% 하락하여 기술적 반등 여력이 충분합니다. 최근 캔들들이 단기 저점을 다지는 모습을 보이고 있어 얕은 할인율로 진입 시 단기 스캘핑 관점의 리스크 대비 보상 비율이 우수합니다.",
+      "entry_time": "2026-08-23T00:08:16.436462+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
