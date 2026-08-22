@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 128500.0,
-      "highest_price": 128500.0,
-      "stop_loss": 127343.5,
-      "take_profit": 130427.49999999999,
-      "buy_amount_krw": 6324,
-      "units": 0.049214007782101166,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "SOL/KRW는 5분봉 RSI가 53.3으로 과매수 구간(70 이상)을 완전히 회피하였으며, VWAP(128,467) 위에서 안정적으로 가격이 형성되어 단기 상승 추세의 지지를 받고 있습니다. ATR 변동성이 낮고 횡보 후 소폭의 거래량 유입 조짐이 보여 얕은 할인율로 진입하기 적합합니다.",
-      "entry_time": "2026-08-23T03:53:50.794086+09:00",
-      "break_even_triggered": false
-    },
     "ADA": {
       "symbol": "ADA/KRW",
       "entry_price": 312.0,
@@ -305,6 +291,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-23T03:41:58.633067+09:00",
       "exit_time": "2026-08-23T04:16:58.885774+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 128500.0,
+      "exit_price": 129000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 25,
+      "profit_pct": 0.39,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-23T03:53:50.794086+09:00",
+      "exit_time": "2026-08-23T04:28:52.213539+09:00"
     }
   ]
 }
