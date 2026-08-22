@@ -198,18 +198,22 @@ def get_bithumb_jwt_headers(query_params: dict = None):
     }
 
 def get_real_krw_balance():
-    """빗썸 실계좌 KRW 가용 잔고 조회"""
-    if PAPER_TRADING:
-        return 100000.0  # 모의투자 기준 가상 잔고 (10만원 -> 20% 투입 시 2만원)
-    try:
-        url = "https://api.bithumb.com/v1/accounts"
-        headers = get_bithumb_jwt_headers()
-        res = requests.get(url, headers=headers, timeout=5).json()
-        for acc in res:
-            if acc.get("currency") == "KRW":
-                return float(acc.get("balance", 0.0))
-    except Exception as e:
-        logging.error(f"빗썸 잔고 조회 실패: {e}")
+    """빗썸 실계좌 KRW 가용 잔고 조회 (모의투자/실전 공통 실제 잔고 조회)"""
+    if BITHUMB_API_KEY and BITHUMB_SECRET_KEY:
+        try:
+            url = "https://api.bithumb.com/v1/accounts"
+            headers = get_bithumb_jwt_headers()
+            res = requests.get(url, headers=headers, timeout=5).json()
+            if isinstance(res, list):
+                for acc in res:
+                    if acc.get("currency") == "KRW":
+                        bal = float(acc.get("balance", 0.0))
+                        logging.info(f"💰 빗썸 실제 가용 잔고 조회 성공: {bal:,.0f} KRW")
+                        return bal
+            else:
+                logging.warning(f"빗썸 잔고 응답 오류: {res}")
+        except Exception as e:
+            logging.error(f"빗썸 잔고 조회 통신 실패: {e}")
     return 100000.0
 
 def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
@@ -332,7 +336,7 @@ def calculate_quant_features(candles):
     }
 
 # ==========================================
-# 4. 서버 내장 AI 전략 수립 모듈 (다이렉트 직통 연결)
+# 4. 서버 내장 AI 전략 수립 모듈 (다이렉트 직통)
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
@@ -742,7 +746,7 @@ async def realtime_execution_engine():
             await asyncio.sleep(3)
 
 # ==========================================
-# 6. 텔레그램 명령어 리스너 (루프 방지 패치)
+# 6. 텔레그램 명령어 리스너 (/log 및 재부팅 방어 완비)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
@@ -787,6 +791,11 @@ def telegram_listener_thread():
 • 누적 복기 거래수: {len(paper_db.get('closed_trades', []))}건"""
                         send_telegram_msg(res_msg)
 
+                    elif text == "/log":
+                        paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+                        summary_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
+                        send_telegram_msg(summary_msg)
+
                     elif text == "/stop":
                         EMERGENCY_STOP = True
                         send_telegram_msg("🛑 [인터락 작동] 신규 매수 감시가 일시 중단되었습니다.")
@@ -825,6 +834,7 @@ if __name__ == "__main__":
         f"• 가동 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}\n\n"
         "📱 사용 가능한 명령어:\n"
         "• /status : 시스템 상태 및 포지션 확인\n"
+        "• /log : 최근 매도 이력 및 실현 손익 확인\n"
         "• /update : GitHub 최신 코드 동기화 후 재시작\n"
         "• /stop : 신규 매수 일시정지\n"
         "• /start : 매매 재개"
