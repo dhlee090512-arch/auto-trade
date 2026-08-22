@@ -13,6 +13,20 @@
       "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
       "entry_time": "2026-08-22T08:56:03.402130+09:00",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3437000.0,
+      "highest_price": 3437000.0,
+      "stop_loss": 3402630.0,
+      "take_profit": 3498866.0,
+      "buy_amount_krw": 200000,
+      "units": 0.05819028222286878,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "trigger_pattern": "📈 1분봉 과매도(RSI<38) 탈출 양봉 턴어라운드",
+      "entry_time": "2026-08-22T09:15:40.968649+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
