@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "entry_price": 342.0,
+      "highest_price": 342.0,
+      "stop_loss": 338.58,
+      "take_profit": 348.84000000000003,
+      "buy_amount_krw": 6324,
+      "units": 18.49122807017544,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ACE 코인은 최근 5분봉 기준 전고점 부근에서 눌림목을 형성하며 RSI가 34.3으로 과매도권에 진입하여 반등 여력이 충분합니다. VWAP 대비 가격 이격도가 다소 있으나, 숏텀 스캘핑 관점에서 단기 지지선 반등을 노리는 롱 진입 전략이 유효하며, 0.05% 미세 할인 진입 후 2% 수익 및 1% 손절 라인 설정이 적절합니다.",
+      "entry_time": "2026-08-22T21:55:32.239738+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
