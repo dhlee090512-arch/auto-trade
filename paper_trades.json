@@ -13,6 +13,20 @@
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 65.0으로 과매수 구간(70)을 하회하며 안정한 상승 모멘텀을 유지하고 있습니다. VWAP(128,838원) 상단에서 가격이 지지받으며 129,200원에 안착, 거래량이 점진적으로 유입되는 추세입니다. XRP는 RSI 74.5로 안티체이싱 룰에 의해 배제되었으며, ACE는 모멘텀이 부족합니다. 따라서 SOL은 단기 스캘핑 관점에서 0.08% 할인된 가격에 진입하여 1.5% 익절과 1.0% 손절로 유리한 리스크 대비 리워드를 제공합니다.",
       "entry_time": "2026-08-23T04:59:58.860732+09:00",
       "break_even_triggered": false
+    },
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "entry_price": 1144.0,
+      "highest_price": 1144.0,
+      "stop_loss": 1132.56,
+      "take_profit": 1164.592,
+      "buy_amount_krw": 6324,
+      "units": 5.527972027972028,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "SUI/KRW는 5분봉 기준 RSI가 67.4로 과매수 구간(70) 직전이며, 최근 강한 상승 모멘텀과 함께 VWAP 상단에서 안정적으로 거래되고 있습니다. XRP와 ADA는 이미 RSI가 70을 상회하여 추격 매수(Anti-Chasing) 위험이 있으나, SUI는 아직 상승 여력이 남아있고 얕은 눌림목(0.05% 할인)을 통한 진입이 유리합니다. 리스크 대비 보상 비율(RRR)을 고려하여 TP +1.8%, SL -1.0%로 설정합니다.",
+      "entry_time": "2026-08-23T05:11:49.505369+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
