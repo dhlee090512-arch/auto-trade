@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 2030.0,
-      "highest_price": 2030.0,
-      "stop_loss": 2009.7,
-      "take_profit": 2066.54,
-      "buy_amount_krw": 6324,
-      "units": 3.115270935960591,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI 33.7로 과매도 구간 근처에 위치하며 안티 체이싱 조건을 완벽히 충족합니다. VWAP 대비 -0.57% 하락하여 가격 할인 매력이 있으며, 최근 음봉 조정 이후 단기 반등 모멘텀을 포착하기에 적합한 얕은 진입 구간입니다.",
-      "entry_time": "2026-08-23T06:17:32.767505+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -363,6 +348,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-23T05:48:10.998693+09:00",
       "exit_time": "2026-08-23T06:03:04.712120+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 2030.0,
+      "exit_price": 2007.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -71,
+      "profit_pct": -1.13,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-23T06:17:32.767505+09:00",
+      "exit_time": "2026-08-23T06:31:53.448668+09:00"
     }
   ]
 }
