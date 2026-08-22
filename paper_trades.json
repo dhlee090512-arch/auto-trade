@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 2020.0,
-      "highest_price": 2020.0,
-      "stop_loss": 1999.8,
-      "take_profit": 2056.36,
-      "buy_amount_krw": 6324,
-      "units": 3.130693069306931,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI 53.7로 과매수 구간이 아니며, VWAP 상단(vwap_gap_pct +1.5%) 위에서 안정적인 매수세가 유입되고 있습니다. 최근 캔들들이 단기 조정을 거친 뒤 견조한 지지 라인을 형성하고 있으므로 얕은 할인율(0.05%)로 진입하여 스캘핑 목표 수익률 달성이 유리합니다.",
-      "entry_time": "2026-08-23T03:11:35.878633+09:00",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3316000.0,
@@ -281,6 +267,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-23T02:27:51.424882+09:00",
       "exit_time": "2026-08-23T03:02:53.401756+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 2020.0,
+      "exit_price": 2028.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 25,
+      "profit_pct": 0.4,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-23T03:11:35.878633+09:00",
+      "exit_time": "2026-08-23T03:46:39.393616+09:00"
     }
   ]
 }
