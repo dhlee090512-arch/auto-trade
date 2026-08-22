@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 4084.0,
+      "highest_price": 4084.0,
+      "stop_loss": 4043.16,
+      "take_profit": 4145.259999999999,
+      "buy_amount_krw": 20000,
+      "units": 4.897159647404505,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "TRUMP/KRW 코인은 5분봉 기준 RSI가 47.5로 중립 영역에 위치하여 과열(RSI > 70)에 따른 추격매수 위험이 없습니다. 단기 변동성(ATR 2.56%)과 VWAP 부근(4,080.9)에서의 지지를 확인하며, 현재가(4,091.0) 근처에서 얕은 진입을 통해 단기 반등을 노리는 스칼핑 전략에 적합합니다.",
+      "entry_time": "2026-08-22T16:07:55.583350+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
