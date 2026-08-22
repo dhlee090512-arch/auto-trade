@@ -2,16 +2,16 @@
   "active_positions": {
     "ETH": {
       "symbol": "ETH/KRW",
-      "entry_price": 3450000.0,
-      "highest_price": 3450000.0,
-      "stop_loss": 3415500.0,
-      "take_profit": 3512100.0,
+      "entry_price": 3451000.0,
+      "highest_price": 3451000.0,
+      "stop_loss": 3416490.0,
+      "take_profit": 3513118.0,
       "buy_amount_krw": 200000,
-      "units": 0.057971014492753624,
+      "units": 0.05795421616922631,
       "sl_pct": -1.0,
       "tp_pct": 1.8,
       "trigger_pattern": "🔨 1분봉 지지선 아래꼬리 양봉 반등 (Hammer Pattern)",
-      "entry_time": "2026-08-22T09:33:35.158919+09:00",
+      "entry_time": "2026-08-22T09:37:00.618475+09:00",
       "break_even_triggered": false
     }
   },
