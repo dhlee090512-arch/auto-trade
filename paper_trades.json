@@ -14,20 +14,6 @@
       "entry_time": "2026-08-24T07:36:35.468107+09:00",
       "break_even_triggered": false
     },
-    "PENGU": {
-      "symbol": "PENGU/KRW",
-      "entry_price": 13.6,
-      "highest_price": 13.6,
-      "stop_loss": 13.464,
-      "take_profit": 13.8448,
-      "buy_amount_krw": 6324,
-      "units": 465.0,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "PENGU/KRW는 최근 단기 하락 조정 이후 13.5~13.6 구간에서 바닥을 다지며 지지력을 형성하고 있습니다. 5분봉 RSI가 39.7로 과매도 국면 근처에 위치해 있어 매수 과열 부담이 없고 안티 체이싱 룰을 완벽히 충족합니다. VWAP 대비 다소 이격이 있으나 최근 캔들들에서 하락세가 둔화되고 횡보하며 저점을 높이려는 시도가 관찰되므로, 현제가 기준 소폭 할인된 가격에서 진입하여 반등 시 단기 차익을 노리는 스칼핑 전략이 유효합니다.",
-      "entry_time": "2026-08-24T07:46:49.716936+09:00",
-      "break_even_triggered": false
-    },
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 2079.0,
@@ -979,6 +965,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-24T07:31:30.163366+09:00",
       "exit_time": "2026-08-24T07:38:51.703375+09:00"
+    },
+    {
+      "symbol": "PENGU/KRW",
+      "entry_price": 13.6,
+      "exit_price": 13.46,
+      "buy_amount_krw": 6324,
+      "profit_krw": -65,
+      "profit_pct": -1.03,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-24T07:46:49.716936+09:00",
+      "exit_time": "2026-08-24T08:03:12.422057+09:00"
     }
   ]
 }
