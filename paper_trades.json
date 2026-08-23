@@ -3,8 +3,8 @@
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 127100.0,
-      "highest_price": 128200.0,
-      "stop_loss": 125829.0,
+      "highest_price": 128700.0,
+      "stop_loss": 127227.09999999999,
       "take_profit": 129642.0,
       "buy_amount_krw": 6324,
       "units": 0.04975609756097561,
@@ -12,21 +12,7 @@
       "tp_pct": 2.0,
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 14가 25.7로 강력한 과매도 구간에 진입해 있으며, 최근 하락 과정에서 거래량이 동반되며 단기 바닥 형성을 시도하고 있습니다. VWAP 대비 가격 이격(-0.91%)이 발생하여 기술적 반등 여력이 충분하며, 0.1% 수준의 얕은 할인율로 진입하여 2.0%의 익절과 -1.0%의 손절로 리스크 대비 보상 비율이 우수한 단기 스캘핑 타점입니다.",
       "entry_time": "2026-08-23T07:02:31.845090+09:00",
-      "break_even_triggered": false
-    },
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "entry_price": 105407000.0,
-      "highest_price": 105407000.0,
-      "stop_loss": 104458337.0,
-      "take_profit": 106988104.99999999,
-      "buy_amount_krw": 6324,
-      "units": 5.999601544489455e-05,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "현재 BTC/KRW의 5분봉 RSI가 41.1로 과매도나 과매수 구간이 아니며, 뷰와프(VWAP) 가격 근처에서 횡보세를 보이며 수렴하고 있습니다. 변동성(ATR pct 0.13%)이 안정적이고 뚜렷한 추세 추종보다는 박스권 하단 매수 관점으로 접근하기에 적합합니다. 시장 가격 대비 매우 얕은 할인율(0.05%)로 진입을 설정하고, 1.5%의 익절과 -0.9%의 손절로 단기 스캘핑 관점의 리스크 관리를 수행합니다.",
-      "entry_time": "2026-08-23T08:28:11.706521+09:00",
-      "break_even_triggered": false
+      "break_even_triggered": true
     },
     "PENGU": {
       "symbol": "PENGU/KRW",
@@ -427,6 +413,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-23T07:39:12.665635+09:00",
       "exit_time": "2026-08-23T08:14:13.167759+09:00"
+    },
+    {
+      "symbol": "BTC/KRW",
+      "entry_price": 105407000.0,
+      "exit_price": 105695000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 17,
+      "profit_pct": 0.27,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-23T08:28:11.706521+09:00",
+      "exit_time": "2026-08-23T09:03:14.422938+09:00"
     }
   ]
 }
