@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "AGI": {
-      "symbol": "AGI/KRW",
-      "entry_price": 6.186,
-      "highest_price": 6.186,
-      "stop_loss": 6.117954,
-      "take_profit": 6.30972,
-      "buy_amount_krw": 6324,
-      "units": 1022.3084384093114,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "AGI/KRW는 최근 5분봉 기준 강력한 거래량 유입과 함께 전고점 부근을 돌파 시도 후, 단기 조정을 거치며 6.253 부근에서 지지를 받는 흐름을 보이고 있습니다. RSI(14)는 62.7로 과매수 구간(70 이상)을 회피하여 추격 매수 부담이 적고, 5분봉 상 VWAP 위에서 가격이 유지되며 상승 추세의 건전성을 보여줍니다. 단기 변동성(ATR pct 4.27%)을 고려할 때 얕은 눌림목 매수 후 상방으로 2.0% 수익 실현과 -1.1% 손절 라인 설정이 매우 유리한 단타 스캘핑 구간입니다.",
-      "entry_time": "2026-08-23T14:41:53.321015+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -555,6 +540,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-23T12:35:23.580396+09:00",
       "exit_time": "2026-08-23T12:48:11.089722+09:00"
+    },
+    {
+      "symbol": "AGI/KRW",
+      "entry_price": 6.186,
+      "exit_price": 6.116,
+      "buy_amount_krw": 6324,
+      "profit_krw": -71,
+      "profit_pct": -1.13,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-23T14:41:53.321015+09:00",
+      "exit_time": "2026-08-23T14:47:36.366723+09:00"
     }
   ]
 }
