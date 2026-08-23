@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 332.0,
-      "highest_price": 332.0,
-      "stop_loss": 328.68,
-      "take_profit": 338.64,
-      "buy_amount_krw": 6324,
-      "units": 19.048192771084338,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "ACE/KRW는 최근 5분봉 기준 강력한 거래량 유입(volume_surge_ratio 3.57)과 함께 단기 상승 추세가 뚜렷하며, VWAP(가중평균가격) 상단에서 안정적으로 가격이 유지되고 있습니다. RSI가 79.3으로 다소 높으나, 거래량이 폭증하며 신고가 갱신 시도 구간에 있어 모멘텀을 이용한 스캘핑 매매가 유효합니다. 따라서 현시점 소폭 조정을 준 가격에 진입하여 목표가 2.0%, 손절가 -1.0%로 설정하여 기대 수익 대비 위험 비율을 최적화합니다.",
-      "entry_time": "2026-08-23T16:09:15.337181+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -567,6 +552,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-23T14:41:53.321015+09:00",
       "exit_time": "2026-08-23T14:47:36.366723+09:00"
+    },
+    {
+      "symbol": "ACE/KRW",
+      "entry_price": 332.0,
+      "exit_price": 328.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -76,
+      "profit_pct": -1.2,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-23T16:09:15.337181+09:00",
+      "exit_time": "2026-08-23T16:13:53.611534+09:00"
     }
   ]
 }
