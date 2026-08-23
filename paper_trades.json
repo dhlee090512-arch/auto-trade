@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "AGI": {
+      "symbol": "AGI/KRW",
+      "entry_price": 5.843,
+      "highest_price": 5.843,
+      "stop_loss": 5.7845699999999995,
+      "take_profit": 5.948174,
+      "buy_amount_krw": 6324,
+      "units": 1082.3207256546295,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "AGI/KRW 종목은 최근 급등 이후 조정을 거치며 5분봉 RSI가 34.1로 과매도 권역에 근접해 있으며 안티 체이싱 조건을 충족합니다. VWAP 대비 -0.89% 이격되어 있고 직전 거래량 급증(1.88) 동반된 강세 흐름의 눌림목 구간이므로, 현실적인 얕은 진입가(0.05% 할인) 설정을 통해 기술적 반등을 노리는 단기 스캘핑 매매 전략으로 적합합니다.",
+      "entry_time": "2026-08-23T18:59:53.973149+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
