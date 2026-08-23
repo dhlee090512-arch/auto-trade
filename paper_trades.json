@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 543.0,
-      "highest_price": 546.0,
-      "stop_loss": 537.57,
-      "take_profit": 552.774,
-      "buy_amount_krw": 6324,
-      "units": 11.646408839779005,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "WLD/KRW 코인은 5분봉 기준 거래량 급증 비율이 1.75로 높고, VWAP 상향 돌파 및 안착이 견조하게 이루어지고 있습니다. RSI(14)가 65.0으로 과매수 구간(>70)을 회피하면서도 상승 추세의 강도를 유지하고 있어 단기 스캘핑 관점에서 유리한 모멘텀을 형성하고 있습니다. 현재가 부근에서 얕은 진입을 설정하고 리스크 대비 보상 비율에 맞춘 타겟을 설정합니다.",
-      "entry_time": "2026-08-23T22:15:23.224729+09:00",
-      "break_even_triggered": false
-    },
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 2077.0,
@@ -749,6 +735,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-23T21:48:44.185425+09:00",
       "exit_time": "2026-08-23T22:39:29.637366+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 543.0,
+      "exit_price": 553.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 116,
+      "profit_pct": 1.84,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-23T22:15:23.224729+09:00",
+      "exit_time": "2026-08-23T22:47:34.670442+09:00"
     }
   ]
 }
