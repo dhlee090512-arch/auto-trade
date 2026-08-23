@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "entry_price": 528.0,
-      "highest_price": 528.0,
-      "stop_loss": 523.248,
-      "take_profit": 535.92,
-      "buy_amount_krw": 6324,
-      "units": 11.977272727272727,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "ONDO/KRW 코인은 5분봉 기준 RSI(14)가 43.3으로 과매수 구간이 아니며, VWAP(가중평균가격) 상단에서 안정적인 지지 흐름을 보이고 있습니다. 단기 변동성(ATR pct 0.63%)과 틱 비율을 고려할 때 현 가격 근처에서 미세 조정을 거친 후 상방 반등을 시도할 확률이 높습니다.",
-      "entry_time": "2026-08-24T02:15:08.603544+09:00",
-      "break_even_triggered": false
-    },
     "CYS": {
       "symbol": "CYS/KRW",
       "entry_price": 795.0,
@@ -847,6 +833,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-24T01:48:31.603409+09:00",
       "exit_time": "2026-08-24T02:03:20.621562+09:00"
+    },
+    {
+      "symbol": "ONDO/KRW",
+      "entry_price": 528.0,
+      "exit_price": 523.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -60,
+      "profit_pct": -0.95,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-24T02:15:08.603544+09:00",
+      "exit_time": "2026-08-24T02:48:10.379360+09:00"
     }
   ]
 }
