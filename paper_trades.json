@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "entry_price": 3508.0,
-      "highest_price": 3508.0,
-      "stop_loss": 3472.92,
-      "take_profit": 3578.16,
-      "buy_amount_krw": 6324,
-      "units": 1.8027366020524516,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "TRUMP/KRW는 5분봉 기준 RSI 64.0으로 과매수 구간(70)을 하회하면서도, 거래량 급증 비율이 1.9배로 강한 매수 유입이 확인되었습니다. VWAP과의 이격도(1.88%)는 단기 상승 모멘텀을 지지하며, ATR 기반 변동성을 활용한 얕은 진입(0.1% 할인) 후 스캘핑 목표가(2.0%) 및 손절가(-1.0%) 설정에 적합합니다. WLD와 ONDO는 RSI가 72.7로 안티체이싱(RSI > 70) 규칙에 위배되므로 제외하였습니다.",
-      "entry_time": "2026-08-23T20:44:41.167906+09:00",
-      "break_even_triggered": false
-    },
     "ONDO": {
       "symbol": "ONDO/KRW",
       "entry_price": 508.0,
@@ -689,6 +675,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-23T19:34:52.840220+09:00",
       "exit_time": "2026-08-23T19:42:37.864813+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3508.0,
+      "exit_price": 3472.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -65,
+      "profit_pct": -1.03,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-23T20:44:41.167906+09:00",
+      "exit_time": "2026-08-23T21:06:24.898641+09:00"
     }
   ]
 }
