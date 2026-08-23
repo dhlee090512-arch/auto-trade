@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3334000.0,
+      "highest_price": 3334000.0,
+      "stop_loss": 3300660.0,
+      "take_profit": 3394012.0,
+      "buy_amount_krw": 6324,
+      "units": 0.0018968206358728253,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 68.6으로 과매수 구간(70)을 아슬아슬하게 회피하였으며, 최근 캔들들이 단기 이평선과 VWAP 위에서 안정적인 완만한 우상향 채널을 형성하고 있습니다. SOL은 RSI 80.7로 안티체이싱 규칙에 의해 배제되었고, XRP는 RSI 70.0으로 경계선상에 있으나 ETH가 상대적으로 변동성이 낮고 탄탄한 거래 지지를 보이고 있어 얕은 조정(0.05% 할인)을 통한 스캘핑 진입에 가장 적합합니다.",
+      "entry_time": "2026-08-23T10:08:10.358145+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
