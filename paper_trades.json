@@ -27,6 +27,20 @@
       "detailed_reason": "TRUMP/KRW 코인은 5분봉 기준 RSI가 32.4로 과매도 국면 근처에 위치해 있으며, VWAP 대비 -0.47% 수준으로 가격 조정 후 반등을 시도하기 좋은 자리입니다. 최근 변동성이 안정화되면서 단기 저점 지지선을 형성하고 있어, 현재가 부근에서 얕은 할인율을 적용하여 진입할 경우 VWAP 회귀 및 기술적 반등에 따른 목표가 달성 가능성이 높습니다.",
       "entry_time": "2026-08-24T08:12:51.308003+09:00",
       "break_even_triggered": false
+    },
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "entry_price": 526.0,
+      "highest_price": 526.0,
+      "stop_loss": 521.266,
+      "take_profit": 533.89,
+      "buy_amount_krw": 6324,
+      "units": 12.022813688212928,
+      "sl_pct": -0.9,
+      "tp_pct": 1.5,
+      "detailed_reason": "ONDO/KRW는 5분봉 기준 RSI 54.5로 과열권에 진입하지 않았으며, VWAP에 매우 근접(gap -0.04%)하여 안정적인 지지선을 형성하고 있습니다. 최근 캔들 움직임에서 저점이 점진적으로 높아지는 완만한 상승 흐름이 확인되어 얕은 조정을 활용한 단기 스캘핑 진입에 적합합니다.",
+      "entry_time": "2026-08-24T08:22:19.704183+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
