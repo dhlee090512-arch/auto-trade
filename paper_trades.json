@@ -3,7 +3,7 @@
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 2077.0,
-      "highest_price": 2077.0,
+      "highest_price": 2095.0,
       "stop_loss": 2056.23,
       "take_profit": 2114.386,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 1.8,
       "detailed_reason": "XRP/KRW는 5분봉 기준 RSI가 67.9로 과매수 구간(70) 직전에 위치하여 안티 체이싱 규칙을 충족하며, 최근 거래대금 동반 급등과 함께 VWAP(2055.1원) 상단에서 안정적인 지지 후 2078원 부근에서 강한 모멘텀을 유지하고 있습니다. 볼륨 서지 및 VWAP 갭(1.11%)도 적절하여 단기 눌림목 매수 후 상승 추세 추종 스캘핑에 최적의 조건입니다.",
       "entry_time": "2026-08-23T22:45:23.116543+09:00",
-      "break_even_triggered": false
-    },
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "entry_price": 3700.0,
-      "highest_price": 3700.0,
-      "stop_loss": 3663.0,
-      "take_profit": 3766.6,
-      "buy_amount_krw": 6324,
-      "units": 1.7091891891891893,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "TRUMP/KRW는 5분봉 RSI가 66.6으로 과매수 구간(70) 직전이며, 최근 거래량이 동반되며 전고점을 돌파하는 강한 상승 모멘텀을 보이고 있습니다. VWAP 대비 괴리율이 존재하나 얕은 눌림목 구간에서 진입하기 유리하며, 스캘핑 전략에 적합한 가격 변동성을 제공합니다. ETH는 RSI 73.6으로 추격 매수 금지 규정에 저촉되고, ONDO는 RSI 80.0으로 과열 상태이므로 TRUMP가 유일하게 적합합니다.",
-      "entry_time": "2026-08-23T22:55:37.617937+09:00",
       "break_even_triggered": false
     }
   },
@@ -761,6 +747,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-23T22:15:23.224729+09:00",
       "exit_time": "2026-08-23T22:47:34.670442+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3700.0,
+      "exit_price": 3771.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 121,
+      "profit_pct": 1.92,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-23T22:55:37.617937+09:00",
+      "exit_time": "2026-08-23T23:05:12.705965+09:00"
     }
   ]
 }
