@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "entry_price": 3422.0,
-      "highest_price": 3422.0,
-      "stop_loss": 3387.7799999999997,
-      "take_profit": 3483.596,
-      "buy_amount_krw": 6324,
-      "units": 1.8480420806545879,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "TRUMP/KRW는 5분봉 RSI 55.0으로 과매수 구간(70 이상)을 피해 안정적인 스캘핑이 가능한 상태입니다. VWAP 대비 1.14% 상승 추세를 유지하며 견조한 지지선을 형성하고 있고, 직전 고점 부근의 매물대를 테스트하며 거래량이 뒷받침되고 있습니다. 과열권에 진입한 AGI(RSI 86.2) 및 XRP(RSI 81.1)와 달리 추세 추종 및 단기 반등 매매에 적합합니다.",
-      "entry_time": "2026-08-23T17:47:27.569992+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -627,6 +612,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-23T17:24:19.084754+09:00",
       "exit_time": "2026-08-23T17:31:03.452907+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3422.0,
+      "exit_price": 3382.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -74,
+      "profit_pct": -1.17,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-23T17:47:27.569992+09:00",
+      "exit_time": "2026-08-23T17:57:49.449585+09:00"
     }
   ]
 }
