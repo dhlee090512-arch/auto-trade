@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "entry_price": 795.0,
-      "highest_price": 795.0,
-      "stop_loss": 787.05,
-      "take_profit": 807.72,
-      "buy_amount_krw": 6324,
-      "units": 7.9547169811320755,
-      "sl_pct": -1.0,
-      "tp_pct": 1.6,
-      "detailed_reason": "CYS/KRW는 최근 단기 이평선과 VWAP(780.11) 위에서 안정적인 우상향 흐름을 보이고 있으며, 현재 가격(796 KRW)이 VWAP 대비 +2.04% 수준으로 매수세가 우세함을 나타냅니다. RSI(14)가 51.8로 과매수 구간(70 이상)을 완전히 회피하여 안티-체이싱 조건을 충족하며, 볼륨 서지 비율(1.64)이 상대적으로 높아 거래량 동반 상승 모멘텀이 확인됩니다. 0.08%의 얕은 할인율로 진입하여 +1.6%의 익절과 -1.0%의 손절 범위 내에서 리스크 관리 기반의 단기 스캘핑을 수행하기에 적합합니다.",
-      "entry_time": "2026-08-24T02:15:51.436568+09:00",
-      "break_even_triggered": false
-    },
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 2066.0,
@@ -845,6 +831,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-24T02:15:08.603544+09:00",
       "exit_time": "2026-08-24T02:48:10.379360+09:00"
+    },
+    {
+      "symbol": "CYS/KRW",
+      "entry_price": 795.0,
+      "exit_price": 798.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 24,
+      "profit_pct": 0.38,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-24T02:15:51.436568+09:00",
+      "exit_time": "2026-08-24T02:50:53.623947+09:00"
     }
   ]
 }
