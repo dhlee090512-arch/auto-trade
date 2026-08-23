@@ -13,6 +13,20 @@
       "detailed_reason": "XRP/KRW 종목은 5분봉 기준 RSI가 27.6으로 강한 과매도 구간에 진입해 있으며, 최근 하락세가 진정되고 횡보하며 바닥을 다지는 모습이 포착됨. VWAP 대비 가격 괴리율이 -0.02%로 시장 가격 부근에서 밀착되어 있어 지정가 매수 접근이 유리함. 안티체이싱 규칙에 부합하며 단기 반등을 노리는 스캘핑 진입 타이밍으로 적절함.",
       "entry_time": "2026-08-24T07:56:30.695060+09:00",
       "break_even_triggered": false
+    },
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3667.0,
+      "highest_price": 3667.0,
+      "stop_loss": 3630.33,
+      "take_profit": 3733.006,
+      "buy_amount_krw": 6324,
+      "units": 1.7245704935914916,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "TRUMP/KRW 코인은 5분봉 기준 RSI가 32.4로 과매도 국면 근처에 위치해 있으며, VWAP 대비 -0.47% 수준으로 가격 조정 후 반등을 시도하기 좋은 자리입니다. 최근 변동성이 안정화되면서 단기 저점 지지선을 형성하고 있어, 현재가 부근에서 얕은 할인율을 적용하여 진입할 경우 VWAP 회귀 및 기술적 반등에 따른 목표가 달성 가능성이 높습니다.",
+      "entry_time": "2026-08-24T08:12:51.308003+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
