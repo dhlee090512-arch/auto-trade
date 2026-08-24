@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "PENGU": {
-      "symbol": "PENGU/KRW",
-      "entry_price": 13.04,
-      "highest_price": 13.04,
-      "stop_loss": 12.9096,
-      "take_profit": 13.274719999999999,
-      "buy_amount_krw": 6324,
-      "units": 484.96932515337426,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "PENGU/KRW는 5분봉 기준 RSI 14가 32.3으로 과매도권 부근에 위치해 있으며, VWAP 대비 -1.35% 하회하여 가격적인 메리트가 존재합니다. 최근 조정을 거치며 단기 바닥 다지기 구간으로 판단되어 얕은 할인율로 진입하기에 적합하며, 변동성(ATR 0.76%)을 고려할 때 목표가 1.8%, 손절가 -1.0%의 리스크 대비 리워드 비율이 우수한 스캘핑 기회입니다.",
-      "entry_time": "2026-08-24T17:28:15.093041+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1227,6 +1212,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T17:25:19.624147+09:00",
       "exit_time": "2026-08-24T18:00:20.260653+09:00"
+    },
+    {
+      "symbol": "PENGU/KRW",
+      "entry_price": 13.04,
+      "exit_price": 13.28,
+      "buy_amount_krw": 6324,
+      "profit_krw": 116,
+      "profit_pct": 1.84,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-24T17:28:15.093041+09:00",
+      "exit_time": "2026-08-24T18:09:14.499013+09:00"
     }
   ]
 }
