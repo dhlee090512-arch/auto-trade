@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "PENGU": {
+      "symbol": "PENGU/KRW",
+      "entry_price": 13.42,
+      "highest_price": 13.42,
+      "stop_loss": 13.2858,
+      "take_profit": 13.6884,
+      "buy_amount_krw": 6324,
+      "units": 471.23695976154994,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "PENGU/KRW는 최근 5분봉 기준 전고점을 갱신하며 강한 거래동반 상승 흐름을 보이고 있으나, RSI가 65.6으로 아직 과매수 구간(70 이상)에 도달하지 않아 추세 지속 가능성이 높습니다. VWAP 상단에 안정적으로 위치하며 단기 이평선 지지를 받고 있으므로, 소폭 할인된 가격에서 얕은 진입(0.1% 할인)을 통해 2.0% 익절과 -1.0% 손절 구간을 설정하여 유리한 손익비를 확보합니다. (SOL/KRW는 RSI 71.9로 안티체이싱 규칙에 의해 배제됨)",
+      "entry_time": "2026-08-24T16:17:59.525319+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
