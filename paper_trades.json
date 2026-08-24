@@ -13,6 +13,20 @@
       "detailed_reason": "TRUMP/KRW 코인은 현재 5분봉 기준 RSI 43.3으로 과매수 구간이 아니며, 단기 하락 조정 이후 VWAP 근처(3451 KRW)에서 지지받으며 횡보세를 보이고 있습니다. 반면 PENGU와 WLD는 VWAP 대비 갭이 크거나 RSI가 상대적으로 높아 단기 추격 매수 위험이 있습니다. 따라서 TRUMP는 비교적 안정적인 얕은 눌림목 구간에서 리스크 관리가 가능한 진입 타점으로 판단됩니다.",
       "entry_time": "2026-08-24T13:27:45.690821+09:00",
       "break_even_triggered": false
+    },
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 546.0,
+      "highest_price": 546.0,
+      "stop_loss": 540.54,
+      "take_profit": 555.828,
+      "buy_amount_krw": 6324,
+      "units": 11.582417582417582,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "WLD/KRW는 최근 5분봉 기준 완만한 상승 추세를 유지하며 VWAP(거래량 가중 평균 가격) 상단에 안정적으로 안착해 있습니다(vwap_gap_pct +1.35%). RSI 14 수치가 64.3으로 과열 구간(70)을 하회하면서도 매수 우위의 모멘텀을 잘 보존하고 있습니다. ATR 대비 변동성 안정세 및 얕은 조정을 활용해 현지가 근처에서 진입하기 유리한 구조입니다.",
+      "entry_time": "2026-08-24T13:46:05.604325+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
