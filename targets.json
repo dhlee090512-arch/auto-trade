@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-24T12:37:16.527084+09:00",
+  "updated_at": "2026-08-24T13:27:25.682196+09:00",
   "paper_trading": true,
   "targets": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "current_price": 333.0,
-      "target_entry": 332.8335,
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "current_price": 3451.0,
+      "target_entry": 3447.549,
       "sl_pct": -1.0,
-      "tp_pct": 2.0,
+      "tp_pct": 1.5,
       "buy_amount_krw": 6324,
-      "detailed_reason": "ACE/KRW는 5분봉 기준 VWAP(325.24)을 상향 돌파하며 안정적인 우상향 흐름을 유지하고 있으며, RSI(56.0)로 과열권에 진입하지 않아 추세 추종 매매에 적합합니다. 최근 캔들들이 단기 지지선을 형성하며 견조한 매수세를 보이고 있어 얕은 조정을 활용한 롱 포지션 진입이 유리합니다.",
-      "created_at": "2026-08-24T12:37:16.527084+09:00"
+      "detailed_reason": "TRUMP/KRW 코인은 현재 5분봉 기준 RSI 43.3으로 과매수 구간이 아니며, 단기 하락 조정 이후 VWAP 근처(3451 KRW)에서 지지받으며 횡보세를 보이고 있습니다. 반면 PENGU와 WLD는 VWAP 대비 갭이 크거나 RSI가 상대적으로 높아 단기 추격 매수 위험이 있습니다. 따라서 TRUMP는 비교적 안정적인 얕은 눌림목 구간에서 리스크 관리가 가능한 진입 타점으로 판단됩니다.",
+      "created_at": "2026-08-24T13:27:25.682196+09:00"
     }
   }
 }
