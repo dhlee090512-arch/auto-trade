@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "entry_price": 519.0,
+      "highest_price": 519.0,
+      "stop_loss": 513.81,
+      "take_profit": 528.342,
+      "buy_amount_krw": 6324,
+      "units": 12.184971098265896,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ONDO는 5분봉 RSI 31.8로 과매도 구간에 근접해 있으며 단기 하락 압력이 완화되는 국면입니다. VWAP 대비 괴리율(-1.15%)이 존재하여 기술적 반등 여력이 충분하며, 최근 봉에서 거래량이 동반된 하방 경직성이 확인되어 얕은 조정을 거친 후 단기 반등을 노리기 적합한 스캘핑 구간입니다.",
+      "entry_time": "2026-08-24T09:12:15.221576+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
