@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3443000.0,
+      "highest_price": 3443000.0,
+      "stop_loss": 3408570.0,
+      "take_profit": 3511860.0,
+      "buy_amount_krw": 6324,
+      "units": 0.0018367702584954982,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI 62.4로 과매수 구간(70 이상)을 피해 안정적이며, VWAP 대비 0.89% 괴리율과 거래량 증가 비율(1.22)이 양호하게 유지되고 있습니다. 최근 캔들에서 전고점을 돌파하는 강한 매수세가 유입되었으며, 지지선을 확인한 후 소폭 눌림목 구간에서 얕은 진입(0.05% 할인)을 통해 리스크를 관리하며 단기 상승 모멘텀을 활용하기에 적합합니다.",
+      "entry_time": "2026-08-24T21:49:04.133324+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
