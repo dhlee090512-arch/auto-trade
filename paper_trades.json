@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3340000.0,
-      "highest_price": 3340000.0,
-      "stop_loss": 3306600.0,
-      "take_profit": 3400120.0,
-      "buy_amount_krw": 6324,
-      "units": 0.0018934131736526947,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ETH/KRW는 5분봉 RSI 35.5로 과매도 구간 근처에 위치하며, 최근 가격이 VWAP(3353431) 하단(-0.28% 갭)에서 횡보 바닥을 다지고 있습니다. 낙폭 과대에 따른 기술적 반등 매수세 유입 가능성이 높으며, ATR 비율(0.18%)이 안정적이고 과추격(RSI>70) 조건에 해당하지 않아 얕은 할인율로 진입하여 반등 구간을 노리는 단기 스캘핑 전략으로 적합합니다.",
-      "entry_time": "2026-08-24T12:28:22.469367+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1107,6 +1092,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T12:02:10.871213+09:00",
       "exit_time": "2026-08-24T12:38:25.064325+09:00"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3340000.0,
+      "exit_price": 3341000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 2,
+      "profit_pct": 0.03,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-24T12:28:22.469367+09:00",
+      "exit_time": "2026-08-24T13:03:23.535447+09:00"
     }
   ]
 }
