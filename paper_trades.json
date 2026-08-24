@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3489.0,
+      "highest_price": 3489.0,
+      "stop_loss": 3450.621,
+      "take_profit": 3558.78,
+      "buy_amount_krw": 6324,
+      "units": 1.812553740326741,
+      "sl_pct": -1.1,
+      "tp_pct": 2.0,
+      "detailed_reason": "TRUMP/KRW는 최근 5분봉 기준 완만한 조정 이후 저점을 높이며 반등을 시도하는 국면입니다. RSI(14)가 62.5로 과매수 구간(>70)을 회피하였으며, VWAP에 근접한 안정적인 가격대에서 거래량이 유입되고 있습니다. ATR 대비 적절한 리스크 관리가 가능하여 매수 진입 타이밍으로 적합합니다.",
+      "entry_time": "2026-08-24T12:02:10.871213+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
