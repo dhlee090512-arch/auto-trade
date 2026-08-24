@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "entry_price": 510.0,
-      "highest_price": 516.0,
-      "stop_loss": 510.50999999999993,
-      "take_profit": 520.2,
-      "buy_amount_krw": 6324,
-      "units": 12.4,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "ONDO/KRW는 5분봉 기준 RSI 20.8의 극심한 과매도 구간에 진입해 있으며, 최근 하락 과정에서 거래량이 동반된 급락 후 거래량이 감소하며 매도 압력이 완화되는 모습을 보이고 있습니다. VWAP 대비 -2.23% 괴리율을 기록하여 기술적 반등 여력이 충분하며, 틱 비율 및 거래대금 유입을 감안할 때 단기 낙폭 과대에 따른 반발 매수세 유입 확률이 높습니다.",
-      "entry_time": "2026-08-24T09:47:10.322710+09:00",
-      "break_even_triggered": true
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1071,6 +1056,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T09:42:26.558635+09:00",
       "exit_time": "2026-08-24T10:17:28.599647+09:00"
+    },
+    {
+      "symbol": "ONDO/KRW",
+      "entry_price": 510.0,
+      "exit_price": 512.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 25,
+      "profit_pct": 0.39,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-24T09:47:10.322710+09:00",
+      "exit_time": "2026-08-24T10:22:43.320811+09:00"
     }
   ]
 }
