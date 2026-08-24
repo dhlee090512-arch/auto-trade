@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "VIRTUAL": {
-      "symbol": "VIRTUAL/KRW",
-      "entry_price": 1053.0,
-      "highest_price": 1053.0,
-      "stop_loss": 1042.47,
-      "take_profit": 1074.06,
-      "buy_amount_krw": 6324,
-      "units": 6.005698005698005,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "VIRTUAL/KRW는 5분봉 기준 RSI가 45.2로 과매수 구간(70 이상)을 완전히 피해 있으며, 최근 강한 거래량 유입 이후 가격 조정을 거치고 다시 1056원 부근에서 완만한 지지력을 형성하고 있습니다. VWAP(1042.47) 위에서 안정적인 흐름을 유지하며 추가 상승 모멘텀을 기대할 수 있는 구간으로, 얕은 눌림목(0.1% 할인) 매수 전략을 통해 +2.0%의 목표가와 -1.0%의 손절가를 설정하여 효율적인 단기 스캘핑이 가능합니다.",
-      "entry_time": "2026-08-24T20:56:24.841859+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1263,6 +1248,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T20:49:03.970955+09:00",
       "exit_time": "2026-08-24T21:24:04.629040+09:00"
+    },
+    {
+      "symbol": "VIRTUAL/KRW",
+      "entry_price": 1053.0,
+      "exit_price": 1055.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 12,
+      "profit_pct": 0.19,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-24T20:56:24.841859+09:00",
+      "exit_time": "2026-08-24T21:31:26.677281+09:00"
     }
   ]
 }
