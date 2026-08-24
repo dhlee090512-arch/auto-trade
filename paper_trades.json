@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "entry_price": 3550.0,
-      "highest_price": 3550.0,
-      "stop_loss": 3514.5,
-      "take_profit": 3613.9,
-      "buy_amount_krw": 6324,
-      "units": 1.7814084507042254,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "TRUMP/KRW는 5분봉 RSI가 29.9로 과매도 구간에 진입해 있으며, VWAP 대비 -1.49% 하락하여 기술적 반등 여력이 충분합니다. 최근 하락 과정에서 거래량이 동반되었으나 가격이 3600원 부근 지지선을 테스트한 뒤 안정화되는 모습을 보여주고 있어, 단기 낙폭 과대에 따른 반등을 노리는 스캘핑 진입에 적합합니다.",
-      "entry_time": "2026-08-24T08:56:53.892225+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1011,6 +996,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T08:22:19.704183+09:00",
       "exit_time": "2026-08-24T08:57:21.962642+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3550.0,
+      "exit_price": 3614.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 114,
+      "profit_pct": 1.8,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-24T08:56:53.892225+09:00",
+      "exit_time": "2026-08-24T09:00:57.580156+09:00"
     }
   ]
 }
