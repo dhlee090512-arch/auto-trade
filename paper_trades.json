@@ -3,7 +3,7 @@
     "TRUMP": {
       "symbol": "TRUMP/KRW",
       "entry_price": 3489.0,
-      "highest_price": 3489.0,
+      "highest_price": 3509.0,
       "stop_loss": 3450.621,
       "take_profit": 3558.78,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 2.0,
       "detailed_reason": "TRUMP/KRW는 최근 5분봉 기준 완만한 조정 이후 저점을 높이며 반등을 시도하는 국면입니다. RSI(14)가 62.5로 과매수 구간(>70)을 회피하였으며, VWAP에 근접한 안정적인 가격대에서 거래량이 유입되고 있습니다. ATR 대비 적절한 리스크 관리가 가능하여 매수 진입 타이밍으로 적합합니다.",
       "entry_time": "2026-08-24T12:02:10.871213+09:00",
-      "break_even_triggered": false
-    },
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 326.0,
-      "highest_price": 326.0,
-      "stop_loss": 322.74,
-      "take_profit": 331.868,
-      "buy_amount_krw": 6324,
-      "units": 19.39877300613497,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ACE는 VWAP 상단에 위치하며 거래량이 급증(1.05배)한 상태에서 5분봉 RSI가 42.1로 과매수 구간이 아니며 단기 조정 후 반등 흐름이 유리합니다. VWAP 괴리율이 적절하고 틱 비율도 양호하여 진입 후 단기 상승 탄력을 활용해 1.8% 익절 목표를 달성할 확률이 높습니다.",
-      "entry_time": "2026-08-24T12:07:33.121771+09:00",
       "break_even_triggered": false
     }
   },
@@ -1097,6 +1083,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-24T09:47:10.322710+09:00",
       "exit_time": "2026-08-24T10:22:43.320811+09:00"
+    },
+    {
+      "symbol": "ACE/KRW",
+      "entry_price": 326.0,
+      "exit_price": 332.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 116,
+      "profit_pct": 1.84,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-24T12:07:33.121771+09:00",
+      "exit_time": "2026-08-24T12:25:19.268630+09:00"
     }
   ]
 }
