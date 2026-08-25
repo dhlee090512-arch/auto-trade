@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1994.0,
+      "highest_price": 1994.0,
+      "stop_loss": 1974.06,
+      "take_profit": 2029.892,
+      "buy_amount_krw": 6324,
+      "units": 3.1715145436308925,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI가 23.1로 심각한 과매도 구간에 진입해 있으며, 최근 하락 파동 이후 단기 반발 매수세가 유입될 수 있는 기술적 반등 구간입니다. VWAP 대비 괴리율(-1.09%)이 커서 평균회귀 관점에서의 롱 포지션 진입이 유리합니다. 반면 AGI와 PROM은 RSI가 65~66을 상회하여 추격 매수 위험이 높으므로 배제했습니다.",
+      "entry_time": "2026-08-26T06:20:07.213432+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
