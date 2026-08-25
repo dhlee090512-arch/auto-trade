@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1994.0,
-      "highest_price": 1994.0,
-      "stop_loss": 1974.06,
-      "take_profit": 2029.892,
-      "buy_amount_krw": 6324,
-      "units": 3.1715145436308925,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI가 23.1로 심각한 과매도 구간에 진입해 있으며, 최근 하락 파동 이후 단기 반발 매수세가 유입될 수 있는 기술적 반등 구간입니다. VWAP 대비 괴리율(-1.09%)이 커서 평균회귀 관점에서의 롱 포지션 진입이 유리합니다. 반면 AGI와 PROM은 RSI가 65~66을 상회하여 추격 매수 위험이 높으므로 배제했습니다.",
-      "entry_time": "2026-08-26T06:20:07.213432+09:00",
-      "break_even_triggered": false
-    },
     "PROM": {
       "symbol": "PROM/KRW",
       "entry_price": 5835.0,
@@ -1373,6 +1359,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-26T04:59:58.939332+09:00",
       "exit_time": "2026-08-26T05:13:43.677050+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1994.0,
+      "exit_price": 1999.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 16,
+      "profit_pct": 0.25,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-26T06:20:07.213432+09:00",
+      "exit_time": "2026-08-26T06:55:08.708806+09:00"
     }
   ]
 }
