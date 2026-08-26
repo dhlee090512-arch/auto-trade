@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BMT": {
+      "symbol": "BMT/KRW",
+      "entry_price": 35.77,
+      "highest_price": 35.77,
+      "stop_loss": 35.4123,
+      "take_profit": 36.30655,
+      "buy_amount_krw": 6324,
+      "units": 176.79619793122728,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "BMT/KRW는 5분봉 RSI가 59.4로 과매수 구간(70 이상)을 피해 안정적인 조정을 거치고 있으며, VWAP 근처에서 지지를 받으며 횡보 후 재상승할 가능성이 높습니다. NCT와 WLD는 RSI가 각각 96.4, 86.7로 과열 상태이며 추격 매수 위험이 높아 배제하였습니다. 적절한 진입가 할인율과 리스크 대비 보상 비율(RRR)을 확보한 상태입니다.",
+      "entry_time": "2026-08-26T19:57:13.100375+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
