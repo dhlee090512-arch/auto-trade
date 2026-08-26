@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "entry_price": 79.99,
+      "highest_price": 79.99,
+      "stop_loss": 78.79015,
+      "take_profit": 81.98974999999999,
+      "buy_amount_krw": 6324,
+      "units": 79.05988248531067,
+      "sl_pct": -1.5,
+      "tp_pct": 2.5,
+      "detailed_reason": "EDEN 코인은 5분봉 기준 VWAP(77.95)을 상회하며 지속적인 우상향 채널을 형성하고 있습니다. RSI(14)가 64.5로 과매수 구간(70)을 하회하면서도 강한 모멘텀을 유지하고 있고, 캔들 전반에 걸쳐 저점과 고점을 높이는 패턴이 뚜렷하여 단기 스캘핑 관점에서 롱 포지션 진입에 적합합니다. 현재가 부근에서 얕은 할인(0.05%)을 적용하여 안정적으로 진입하며, 명확한 리스크 관리를 위해 -1.0% 손절가와 +1.5% 익절가를 설정합니다.",
+      "entry_time": "2026-08-26T22:32:53.572001+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
