@@ -3,7 +3,7 @@
     "D": {
       "symbol": "D/KRW",
       "entry_price": 5.157,
-      "highest_price": 5.157,
+      "highest_price": 5.178,
       "stop_loss": 5.079645,
       "take_profit": 5.301396,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 2.8,
       "detailed_reason": "D/KRW는 5분봉 기준 VWAP(가중평균가격) 상단에 위치하며 2.25%의 양의 갭을 유지하여 견조한 매수 우위 흐름을 보여줍니다. RSI(14)는 59.4로 과매수 구간(70)을 하회하여 추세 지속 가능성이 높으며, ATR 비율(2.0%)이 변동성 스캘핑에 적합한 조건을 충족합니다. 0.08% 수준의 미세한 눌림목 진입을 통해 리스크를 관리하며 손익비 2.0%를 목표로 합니다.",
       "entry_time": "2026-08-27T06:33:39.434428+09:00",
-      "break_even_triggered": false
-    },
-    "TAVA": {
-      "symbol": "TAVA/KRW",
-      "entry_price": 4.599,
-      "highest_price": 4.599,
-      "stop_loss": 4.530015000000001,
-      "take_profit": 4.7222532,
-      "buy_amount_krw": 6324,
-      "units": 1375.081539465101,
-      "sl_pct": -1.5,
-      "tp_pct": 2.68,
-      "detailed_reason": "TAVA/KRW는 5분봉 기준 RSI 56.9로 과매수 구간(70 이상)을 피해 안티체이싱 룰을 충족합니다. VWAP(4.517) 상단에서 안정적으로 거래되고 있으며(vwap_gap_pct +1.62%), 최근 캔들에서 유의미한 거래량 유입(volume_surge_ratio 1.21)과 함께 상승 모멘텀을 유지하고 있습니다. ATR 기반 변동성을 고려하여 합리적인 손절(-1.0%) 및 익절(+1.8%) 타겟을 설정합니다.",
-      "entry_time": "2026-08-27T06:46:50.063864+09:00",
       "break_even_triggered": false
     }
   },
@@ -1793,6 +1779,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T06:41:44.780544+09:00",
       "exit_time": "2026-08-27T06:45:13.095344+09:00"
+    },
+    {
+      "symbol": "TAVA/KRW",
+      "entry_price": 4.599,
+      "exit_price": 4.512,
+      "buy_amount_krw": 6324,
+      "profit_krw": -120,
+      "profit_pct": -1.89,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T06:46:50.063864+09:00",
+      "exit_time": "2026-08-27T06:47:55.207709+09:00"
     }
   ]
 }
