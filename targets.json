@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-27T06:46:36.941099+09:00",
+  "updated_at": "2026-08-27T06:51:38.622325+09:00",
   "paper_trading": true,
   "targets": {
-    "TAVA": {
-      "symbol": "TAVA/KRW",
-      "current_price": 4.608,
-      "target_entry": 4.605696,
-      "sl_pct": -1.5,
-      "tp_pct": 2.68,
+    "BICO": {
+      "symbol": "BICO/KRW",
+      "current_price": 32.12,
+      "target_entry": 32.10394,
+      "sl_pct": -1.39,
+      "tp_pct": 2.27,
       "buy_amount_krw": 6324,
-      "detailed_reason": "TAVA/KRW는 5분봉 기준 RSI 56.9로 과매수 구간(70 이상)을 피해 안티체이싱 룰을 충족합니다. VWAP(4.517) 상단에서 안정적으로 거래되고 있으며(vwap_gap_pct +1.62%), 최근 캔들에서 유의미한 거래량 유입(volume_surge_ratio 1.21)과 함께 상승 모멘텀을 유지하고 있습니다. ATR 기반 변동성을 고려하여 합리적인 손절(-1.0%) 및 익절(+1.8%) 타겟을 설정합니다.",
-      "created_at": "2026-08-27T06:46:36.941099+09:00"
+      "detailed_reason": "BICO/KRW는 5분봉 RSI가 47.6으로 과매수 구간을 완전히 피했으며(안티 체이싱 규칙 충족), VWAP(31.68) 상단에서 안정적인 가격 형성과 함께 1.38배의 거래량 유입을 보여주고 있습니다. ATR 대비 적절한 변동성 속에서 단기 눌림목 반등을 노리기 적합한 구조입니다. 반면 HEMI는 RSI가 89.3으로 과매수 상태여서 진입에서 배제되었습니다.",
+      "created_at": "2026-08-27T06:51:38.622325+09:00"
     }
   }
 }
