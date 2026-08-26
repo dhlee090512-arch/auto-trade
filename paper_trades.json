@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "entry_price": 3126.0,
+      "highest_price": 3126.0,
+      "stop_loss": 3097.866,
+      "take_profit": 3172.89,
+      "buy_amount_krw": 6324,
+      "units": 2.0230326295585415,
+      "sl_pct": -0.9,
+      "tp_pct": 1.5,
+      "detailed_reason": "TRUMP/KRW는 5분봉 기준 RSI 50.0으로 과매수 구간이 아니며, VWAP(3130.84원) 부근에서 안정적인 가격 다지기를 형성하고 있습니다. 최근 캔들 흐름에서 소폭의 거래량 유입(volume_surge_ratio 1.2)과 함께 박스권 상단 돌파 시도가 관찰되어 단기 스캘핑 관점의 매수 진입에 적합합니다. 얕은 할인율로 진입하여 목표가 1.5%, 손절가 -0.9%의 리스크 대비 리워드 비율을 확보합니다.",
+      "entry_time": "2026-08-27T08:08:22.126860+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
