@@ -13,6 +13,20 @@
       "detailed_reason": "CYS/KRW 코인은 5분봉 기준 RSI가 62.5로 과매수 구간(70)을 하회하며, VWAP(1034.9) 상단에서 안정적인 가격 흐름을 보이고 있습니다. 최근 캔들들이 1050 부근에서 완만한 지지력을 형성하고 있으며 변동성이 적정 수준으로 관리되어 단기 스칼핑 진입에 유리합니다.",
       "entry_time": "2026-08-27T02:46:19.933760+09:00",
       "break_even_triggered": false
+    },
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 539.0,
+      "highest_price": 539.0,
+      "stop_loss": 533.61,
+      "take_profit": 547.0849999999999,
+      "buy_amount_krw": 6324,
+      "units": 11.732838589981448,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 60.9로 과열권에 진입하지 않았으며, VWAP(538.2) 상단에서 안정적인 가격대를 형성하고 있습니다. 최근 저점 횡보 이후 거래량이 점진적으로 유입되며 상승 탄력을 받는 모습을 보여 단기 스캘핑 관점에서 얕은 조정을 활용한 진입이 유리합니다.",
+      "entry_time": "2026-08-27T03:14:55.751960+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
