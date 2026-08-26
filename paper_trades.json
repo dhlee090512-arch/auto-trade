@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "entry_price": 1053.0,
-      "highest_price": 1053.0,
-      "stop_loss": 1041.2064,
-      "take_profit": 1072.3752,
-      "buy_amount_krw": 6324,
-      "units": 6.005698005698005,
-      "sl_pct": -1.12,
-      "tp_pct": 1.84,
-      "detailed_reason": "CYS/KRW 코인은 5분봉 기준 RSI가 62.5로 과매수 구간(70)을 하회하며, VWAP(1034.9) 상단에서 안정적인 가격 흐름을 보이고 있습니다. 최근 캔들들이 1050 부근에서 완만한 지지력을 형성하고 있으며 변동성이 적정 수준으로 관리되어 단기 스칼핑 진입에 유리합니다.",
-      "entry_time": "2026-08-27T02:46:19.933760+09:00",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 539.0,
@@ -1721,6 +1707,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T02:32:15.393118+09:00",
       "exit_time": "2026-08-27T03:01:55.193357+09:00"
+    },
+    {
+      "symbol": "CYS/KRW",
+      "entry_price": 1053.0,
+      "exit_price": 1074.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 126,
+      "profit_pct": 1.99,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-27T02:46:19.933760+09:00",
+      "exit_time": "2026-08-27T03:18:41.562070+09:00"
     }
   ]
 }
