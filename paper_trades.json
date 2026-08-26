@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "PROM": {
+      "symbol": "PROM/KRW",
+      "entry_price": 5515.0,
+      "highest_price": 5515.0,
+      "stop_loss": 5459.85,
+      "take_profit": 5614.27,
+      "buy_amount_krw": 6324,
+      "units": 1.1466908431550318,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "PROM/KRW 코인은 5분봉 기준 RSI가 29.2로 과매도 구간에 진입해 있으며, 최근 급등 이후의 되돌림 파동이 마무리되면서 단기 반등 모멘텀이 형성될 가능성이 높습니다. VWAP 대비 괴리율이 -1.22%로 하회하고 있어 평균단가 회귀를 위한 기술적 반등(Short-term Mean Reversion)을 노리기에 적합합니다. EDEN과 BMT는 RSI가 60을 상회하여 추격 매수 위험이 있으므로 제외하고, 과매도 반등 구간인 PROM을 롱 포지션 대상으로 선정합니다.",
+      "entry_time": "2026-08-26T17:03:08.002855+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
