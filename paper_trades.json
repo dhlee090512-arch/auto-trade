@@ -13,6 +13,20 @@
       "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 60.9로 과열권에 진입하지 않았으며, VWAP(538.2) 상단에서 안정적인 가격대를 형성하고 있습니다. 최근 저점 횡보 이후 거래량이 점진적으로 유입되며 상승 탄력을 받는 모습을 보여 단기 스캘핑 관점에서 얕은 조정을 활용한 진입이 유리합니다.",
       "entry_time": "2026-08-27T03:14:55.751960+09:00",
       "break_even_triggered": false
+    },
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "entry_price": 134600.0,
+      "highest_price": 134600.0,
+      "stop_loss": 133254.0,
+      "take_profit": 137022.8,
+      "buy_amount_krw": 6324,
+      "units": 0.046983655274888556,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "TRUMP/KRW는 RSI가 70으로 안티체이싱(Anti-Chasing) 규칙에 위배되며, EDEN/KRW는 VWAP과의 괴리율(4.19%)이 과도하고 ATR 변동성이 너무 높아 숏텀 스캘핑 리스크가 큽니다. 반면 SOL/KRW는 RSI(63.2)가 과매수 구간이 아니며, VWAP(134458)과 현재가(134800)의 이격이 안정적(0.25%)이고 점진적 우상향 흐름을 보여 진입 조건에 가장 부합합니다.",
+      "entry_time": "2026-08-27T03:26:52.185540+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
