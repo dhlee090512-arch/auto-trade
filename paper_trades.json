@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 108980000.0,
+      "highest_price": 108980000.0,
+      "stop_loss": 107890200.0,
+      "take_profit": 110941640.0,
+      "buy_amount_krw": 6324,
+      "units": 5.802899614608185e-05,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "BTC/KRW는 최근 5분봉 기준 급격한 변동성과 함께 108,500,000 KRW 부근에서 꼬리를 달고 반등하는 강한 매수세를 보여주었습니다. 현재 RSI(14)가 40.9로 과매도 국면에 진입하지 않고 안정적인 조정 구간에 있으며, VWAP 근처에서 얕은 조정을 거친 뒤 반등을 시도하고 있습니다. 뚜렷한 거래량 유입과 함께 단기 바닥 확인이 이루어진 상태로, 0.1% 수준의 얕은 할인율로 롱 포지션 진입 시 리스크 대비 매력적인 리턴을 기대할 수 있습니다.",
+      "entry_time": "2026-08-26T21:37:27.442125+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
