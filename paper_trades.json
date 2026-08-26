@@ -27,6 +27,20 @@
       "detailed_reason": "TRUMP/KRW는 RSI가 70으로 안티체이싱(Anti-Chasing) 규칙에 위배되며, EDEN/KRW는 VWAP과의 괴리율(4.19%)이 과도하고 ATR 변동성이 너무 높아 숏텀 스캘핑 리스크가 큽니다. 반면 SOL/KRW는 RSI(63.2)가 과매수 구간이 아니며, VWAP(134458)과 현재가(134800)의 이격이 안정적(0.25%)이고 점진적 우상향 흐름을 보여 진입 조건에 가장 부합합니다.",
       "entry_time": "2026-08-27T03:26:52.185540+09:00",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3426000.0,
+      "highest_price": 3426000.0,
+      "stop_loss": 3391740.0,
+      "take_profit": 3487668.0,
+      "buy_amount_krw": 6324,
+      "units": 0.0018458844133099825,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI 51.4로 과열권(70)을 완전히 벗어나 있으며, VWAP 위에서 안정적인 완만한 상승 흐름을 유지하고 있습니다. 직전 캔들들의 저점이 점진적으로 높아지는 구조를 보이며 변동성이 통제된 상태이므로, 소폭의 눌림목(0.05%)을 활용한 매수 진입 시 손익비가 우수한 스캘핑 기회로 판단됩니다.",
+      "entry_time": "2026-08-27T03:38:43.182730+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
