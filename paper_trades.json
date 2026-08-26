@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "PROM": {
-      "symbol": "PROM/KRW",
-      "entry_price": 6295.0,
-      "highest_price": 6295.0,
-      "stop_loss": 6232.05,
-      "take_profit": 6420.900000000001,
-      "buy_amount_krw": 6324,
-      "units": 1.0046068308181095,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "PROM/KRW 코인은 5분봉 기준 꾸준한 우상향 패턴을 보이며 거래가 활성화되어 있습니다. RSI(14)가 66.1로 과매수 구간(70 이상)을 회피하였으며, VWAP 대비 적정한 괴리율(3.92%)과 안정적인 ATR 변동성(1.65%)을 나타내어 단기 스캘핑 매수 관점에 매우 유리한 조건을 갖추고 있습니다. 진입 가격은 현재가 부근에서 소폭 할인된 가격으로 설정하고, 목표가 +2.0%, 손절가 -1.0%로 엄격한 리스크 관리를 적용합니다.",
-      "entry_time": "2026-08-26T11:30:54.227362+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -1431,6 +1416,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-26T08:20:57.274760+09:00",
       "exit_time": "2026-08-26T08:23:17.657869+09:00"
+    },
+    {
+      "symbol": "PROM/KRW",
+      "entry_price": 6295.0,
+      "exit_price": 6210.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -85,
+      "profit_pct": -1.35,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-26T11:30:54.227362+09:00",
+      "exit_time": "2026-08-26T11:31:03.359612+09:00"
     }
   ]
 }
