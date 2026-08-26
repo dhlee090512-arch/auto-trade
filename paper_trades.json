@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 134600.0,
-      "highest_price": 134600.0,
-      "stop_loss": 133254.0,
-      "take_profit": 137022.8,
-      "buy_amount_krw": 6324,
-      "units": 0.046983655274888556,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "TRUMP/KRW는 RSI가 70으로 안티체이싱(Anti-Chasing) 규칙에 위배되며, EDEN/KRW는 VWAP과의 괴리율(4.19%)이 과도하고 ATR 변동성이 너무 높아 숏텀 스캘핑 리스크가 큽니다. 반면 SOL/KRW는 RSI(63.2)가 과매수 구간이 아니며, VWAP(134458)과 현재가(134800)의 이격이 안정적(0.25%)이고 점진적 우상향 흐름을 보여 진입 조건에 가장 부합합니다.",
-      "entry_time": "2026-08-27T03:26:52.185540+09:00",
-      "break_even_triggered": false
-    },
     "ETH": {
       "symbol": "ETH/KRW",
       "entry_price": 3426000.0,
@@ -1745,6 +1731,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-27T03:14:55.751960+09:00",
       "exit_time": "2026-08-27T03:49:57.310181+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 134600.0,
+      "exit_price": 134500.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -4,
+      "profit_pct": -0.07,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-27T03:26:52.185540+09:00",
+      "exit_time": "2026-08-27T04:01:52.315458+09:00"
     }
   ]
 }
