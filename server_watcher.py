@@ -518,9 +518,10 @@ def execute_server_side_strategy():
         logging.info("⏸️ 유효 후보군이 없어 관망합니다.")
         return
 
-    # 💡 컷오프로 버리지 않고 점수 순 상위 3개 선별
+    # 💡 점수 순 상위 3개 선별 (문법 안전 처리 완료)
     top3_scored = sorted(scored_candidates, key=lambda x: x['score'], reverse=True)[:3]
-    logging.info(f"🎯 [퀀트 스코어링 상위 3개 선별]: {[c['symbol'] + f'({c[\"score\"]}점)' for c in top3_scored]}")
+    top3_labels = [c['symbol'] + '(' + str(c['score']) + '점)' for c in top3_scored]
+    logging.info(f"🎯 [퀀트 스코어링 상위 3개 선별]: {top3_labels}")
 
     # 2차 5분봉 AI 정밀 분석
     cand_5m_data = [{
