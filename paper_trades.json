@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "NCT": {
+      "symbol": "NCT/KRW",
+      "entry_price": 25.91,
+      "highest_price": 25.91,
+      "stop_loss": 25.521349999999998,
+      "take_profit": 26.63548,
+      "buy_amount_krw": 6324,
+      "units": 244.07564646854496,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "NCT/KRW는 5분봉 기준 VWAP(25.56)을 상회하며 강한 상승 모멘텀을 유지하고 있습니다. RSI가 62.4로 과매수 구간(70 이상)에 진입하지 않아 추가 상승 여력이 충분하며, 최근 캔들에서 거래량이 안정적으로 유입되며 단기 고점을 갱신하려는 패턴이 관찰됩니다. ATR 비율(2.72%)을 고려하여 단기 변동성에 맞춘 최적의 스캘핑 익절/손절 비율을 설정합니다.",
+      "entry_time": "2026-08-27T05:41:26.819628+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
