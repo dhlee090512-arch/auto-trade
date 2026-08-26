@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BMT": {
+      "symbol": "BMT/KRW",
+      "entry_price": 30.22,
+      "highest_price": 30.22,
+      "stop_loss": 29.9178,
+      "take_profit": 30.673299999999998,
+      "buy_amount_krw": 6324,
+      "units": 209.26538716082067,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "BMT 코인은 5분봉 기준 RSI 41.8로 과열권이 아니며, 단기 하락 조정 이후 최근 캔들에서 소폭 반등을 시도하며 횡보 바닥 다지기를 형성하고 있습니다. VWAP 대비 마이너스 괴리율을 보이고 있어 낙폭 과대 반발 매수세 유입 가능성이 높으며, 지정된 리스크 관리 범위 내에서 얕은 진입(0.05% 할인)을 통해 효율적인 스캘핑 수익을 기대할 수 있습니다.",
+      "entry_time": "2026-08-26T15:46:20.688690+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
