@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BICO": {
+      "symbol": "BICO/KRW",
+      "entry_price": 37.27,
+      "highest_price": 37.27,
+      "stop_loss": 36.710950000000004,
+      "take_profit": 38.309833000000005,
+      "buy_amount_krw": 6324,
+      "units": 169.680708344513,
+      "sl_pct": -1.5,
+      "tp_pct": 2.79,
+      "detailed_reason": "BICO/KRW는 5분봉 기준 거래량이 직전 대비 2.01배 급증하며 강한 매수세 유입이 확인되었습니다. VWAP 상단에서 가격이 지지받고 있으며 RSI(53.6)가 과열권(70) 아래에 위치해 추가 상승 여력이 충분합니다. 최근 캔들 패턴상 단기 조정을 거치며 저점을 높여가는 전형적인 스캘핑 매수 타이밍입니다.",
+      "entry_time": "2026-08-27T18:59:51.783372+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
