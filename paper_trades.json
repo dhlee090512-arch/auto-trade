@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "entry_price": 11.91,
-      "highest_price": 11.91,
-      "stop_loss": 11.763507,
-      "take_profit": 12.150582,
-      "buy_amount_krw": 6324,
-      "units": 530.9823677581863,
-      "sl_pct": -1.23,
-      "tp_pct": 2.02,
-      "detailed_reason": "SOL/KRW는 5분봉 RSI가 74.1로 과매수 구간에 진입하여 안티체이싱 룰에 의해 제외되었습니다. AGI/KRW는 횡보세 및 유동성 비율이 낮아 제외되었습니다. 반면 HEMI/KRW는 RSI 53.7로 과열되지 않은 건강한 상태이며, VWAP 상향 돌파 및 직전 15분간 2.49%의 안정적인 상승 모멘텀과 거래량 회복세를 보여주어 단기 스캘핑 진입에 가장 적합합니다.",
-      "entry_time": "2026-08-28T02:09:12.299769+09:00",
-      "break_even_triggered": false
-    },
     "GWEI": {
       "symbol": "GWEI/KRW",
       "entry_price": 35.3,
@@ -2323,6 +2309,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-28T01:56:50.770187+09:00",
       "exit_time": "2026-08-28T02:09:12.299769+09:00"
+    },
+    {
+      "symbol": "HEMI/KRW",
+      "entry_price": 11.91,
+      "exit_price": 11.85,
+      "buy_amount_krw": 6324,
+      "profit_krw": -32,
+      "profit_pct": -0.5,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T02:09:12.299769+09:00",
+      "exit_time": "2026-08-28T02:34:13.429496+09:00"
     }
   ]
 }
