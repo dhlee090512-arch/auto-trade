@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "PROM": {
-      "symbol": "PROM/KRW",
-      "entry_price": 6735.0,
-      "highest_price": 6735.0,
-      "stop_loss": 6667.65,
-      "take_profit": 6856.2300000000005,
-      "buy_amount_krw": 6324,
-      "units": 0.9389755011135857,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "WLD/KRW는 5분봉 RSI가 77.8로 안티체이싱(RSI > 70) 조건에 위배되어 제외하였으며, XRP/KRW는 뚜렷한 모멘텀이 부족합니다. 반면 PROM/KRW는 RSI 64.5로 과매수 구간을 회피하면서 최근 15분간 1.51% 상승 추세를 형성 중이고 VWAP 상단에 위치하여 안정적인 눌림목 스캘핑 진입이 가능합니다.",
-      "entry_time": "2026-08-28T01:56:50.770187+09:00",
-      "break_even_triggered": false
-    },
     "HEMI": {
       "symbol": "HEMI/KRW",
       "entry_price": 11.91,
@@ -2297,6 +2283,18 @@
       "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
       "entry_time": "2026-08-28T01:21:08.929344+09:00",
       "exit_time": "2026-08-28T01:46:58.289623+09:00"
+    },
+    {
+      "symbol": "PROM/KRW",
+      "entry_price": 6735.0,
+      "exit_price": 6665.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -66,
+      "profit_pct": -1.04,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-28T01:56:50.770187+09:00",
+      "exit_time": "2026-08-28T02:09:12.299769+09:00"
     }
   ]
 }
