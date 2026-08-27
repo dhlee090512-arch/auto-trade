@@ -13,6 +13,20 @@
       "detailed_reason": "PROM/KRW 코인은 5분봉 기준 RSI(14)가 58.8로 과열권(70 이상)을 회피했으며, VWAP 대비 적절한 갭(1.02%)과 함께 거래량 유입(surge ratio 1.41)이 확인됩니다. 단기 조정 이후 저점을 높이며 횡보 후 상승 탄력이 붙는 구간으로, 얕은 눌림목(0.08% 할인) 진입을 통해 손익비 2:1 이상의 안정적인 스캘핑 트레이드가 가능합니다. SOL은 RSI가 79.6으로 추격 매수 금지 규칙에 위배되어 제외했습니다.",
       "entry_time": "2026-08-27T09:00:12.351786+09:00",
       "break_even_triggered": false
+    },
+    "NCT": {
+      "symbol": "NCT/KRW",
+      "entry_price": 26.39,
+      "highest_price": 26.39,
+      "stop_loss": 25.99415,
+      "take_profit": 27.12892,
+      "buy_amount_krw": 6324,
+      "units": 239.6362258431224,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "NCT/KRW는 5분봉 기준 거래량이 급증(volume_surge_ratio 2.34)하며 최근 캔들에서 강한 상승 탄력을 보여주고 있습니다. RSI가 62.4로 과매수 구간(70 이상)을 회피하여 안티 체이싱 조건을 충족하며, VWAP 대비 갭(3.88%)이 존재하나 거래대금이 동반된 상승 추세로 눌림목 또는 현 위치 근처에서의 얕은 진입(0.1% 할인)이 유효합니다. ONDO는 RSI가 78.6으로 과매수 상태이며, XRP는 거래량이 부진하여 NCT를 선택함.",
+      "entry_time": "2026-08-27T09:22:18.107995+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
