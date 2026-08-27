@@ -3,8 +3,8 @@
     "BTC": {
       "symbol": "BTC/KRW",
       "entry_price": 110000000.0,
-      "highest_price": 110000000.0,
-      "stop_loss": 109010000.0,
+      "highest_price": 111390000.0,
+      "stop_loss": 110109999.99999999,
       "take_profit": 111649999.99999999,
       "buy_amount_krw": 6324,
       "units": 5.749090909090909e-05,
@@ -12,21 +12,7 @@
       "tp_pct": 1.5,
       "detailed_reason": "BTC/KRW는 현재 5분봉 RSI 52.3으로 과매수권(70 이상)을 완전히 회피하였으며, 최근 거래량이 동반되며 단기 저점을 다지고 반등을 시도하는 국면입니다. VWAP 근처에서 안정적인 지지를 받고 있어 얕은 할인율(0.05%)로 진입하기 유리하며, 스캘핑 전략에 적합한 리스크 대비 보상 비율(손절 -0.9%, 익절 1.5%)을 확보했습니다.",
       "entry_time": "2026-08-27T23:10:08.984010+09:00",
-      "break_even_triggered": false
-    },
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "entry_price": 1073.0,
-      "highest_price": 1073.0,
-      "stop_loss": 1062.27,
-      "take_profit": 1094.46,
-      "buy_amount_krw": 6324,
-      "units": 5.893755824790308,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "SUI/KRW는 5분봉 기준 RSI 62.2로 과매수 구간(70)을 하회하면서도 VWAP(1065.9) 상단에서 안정적인 우상향 흐름을 유지하고 있습니다. 거래량 증가 비율(1.41)이 양호하며, 최근 캔들에서 단기 지지선을 다진 후 상승 탄력이 붙는 모습입니다. 0.05%의 얕은 할인율로 진입하여 스캘핑 목표가 2.0%, 손절가 -1.0% 구간에서 유리한 리스크 대비 리워드 비율을 확보합니다.",
-      "entry_time": "2026-08-27T23:25:34.498061+09:00",
-      "break_even_triggered": false
+      "break_even_triggered": true
     },
     "WLD": {
       "symbol": "WLD/KRW",
@@ -2239,6 +2225,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-27T23:06:50.220157+09:00",
       "exit_time": "2026-08-27T23:45:30.109202+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "entry_price": 1073.0,
+      "exit_price": 1095.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 130,
+      "profit_pct": 2.05,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-27T23:25:34.498061+09:00",
+      "exit_time": "2026-08-28T00:19:10.352198+09:00"
     }
   ]
 }
