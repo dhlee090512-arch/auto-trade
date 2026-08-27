@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 2029.0,
-      "highest_price": 2029.0,
-      "stop_loss": 2008.71,
-      "take_profit": 2065.522,
-      "buy_amount_krw": 6324,
-      "units": 3.1168063085263675,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "XRP/KRW 5분봉 차트 분석 결과, VWAP(거래량가중평균가격) 상단(2015.78) 위에서 안정적인 가격 형성과 함께 완만한 우상향 흐름을 보이고 있습니다. RSI(14)는 58.9로 과매수 구간(70 이상)을 충분히 회피하여 추격매수 위험이 낮고, 직전 캔들들에서 점진적인 저점 높이기 패턴이 관찰됩니다. 얕은 눌림목(0.05% 할인) 진입을 통해 단기 스캘핑 관점에서 손익비 좋은 +1.8% 익절과 -1.0% 손절 타점을 공략하기에 적합합니다.",
-      "entry_time": "2026-08-28T01:21:08.929344+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2271,6 +2256,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-28T01:01:04.810189+09:00",
       "exit_time": "2026-08-28T01:34:12.750962+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 2029.0,
+      "exit_price": 2029.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 0,
+      "profit_pct": 0.0,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T01:21:08.929344+09:00",
+      "exit_time": "2026-08-28T01:46:58.289623+09:00"
     }
   ]
 }
