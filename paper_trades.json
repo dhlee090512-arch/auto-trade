@@ -3,7 +3,7 @@
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 1971.0,
-      "highest_price": 1984.0,
+      "highest_price": 1988.0,
       "stop_loss": 1949.319,
       "take_profit": 2010.42,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 2.0,
       "detailed_reason": "ETH는 RSI 71.4로 과매수 구간에 진입하여 안티체이싱 룰에 의해 제외되었으며, GWEI는 거래대금 및 모멘텀이 상대적으로 부족합니다. 반면 XRP는 최근 5분봉에서 강한 거래량 유입과 함께 단기 급등 이후 1970원 부근에서 자연스러운 눌림목 조정을 거치고 있습니다. RSI가 68.2로 과매수 기준(70) 아래에 위치하여 추가 상승 여력이 충분하며, VWAP 상단에서 지지를 확인하는 건전한 패턴을 보여 얕은 할인율로 매수 진입하기 매우 유리합니다.",
       "entry_time": "2026-08-27T17:23:49.232221+09:00",
-      "break_even_triggered": false
-    },
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 565.0,
-      "highest_price": 566.0,
-      "stop_loss": 559.35,
-      "take_profit": 576.3,
-      "buy_amount_krw": 6324,
-      "units": 11.1929203539823,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "WLD/KRW는 최근 5분봉 기준 저점을 점진적으로 높이며 완만한 상승 추세를 형성하고 있습니다. VWAP(563.6원) 상단에서 가격이 지지받고 있으며, RSI(14)가 53.6으로 과매수 구간(>70)을 완전히 회피하여 안정적인 롱 포지션 진입이 가능합니다. ATR(0.58%) 대비 충분한 변동성 여유가 있고, 직전 고점 부근의 매물대를 테스트하는 과정에서 얕은 눌림목(-0.05% 할인)을 활용한 단기 스캘핑 전략이 매우 유리합니다.",
-      "entry_time": "2026-08-27T17:43:54.464852+09:00",
       "break_even_triggered": false
     }
   },
@@ -1997,6 +1983,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-27T18:04:41.122300+09:00",
       "exit_time": "2026-08-27T18:07:11.398648+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 565.0,
+      "exit_price": 567.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 22,
+      "profit_pct": 0.35,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-27T17:43:54.464852+09:00",
+      "exit_time": "2026-08-27T18:18:56.593643+09:00"
     }
   ]
 }
