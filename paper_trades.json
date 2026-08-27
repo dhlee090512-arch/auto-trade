@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1971.0,
-      "highest_price": 1995.0,
-      "stop_loss": 1972.9709999999998,
-      "take_profit": 2010.42,
-      "buy_amount_krw": 6324,
-      "units": 3.208523592085236,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "ETH는 RSI 71.4로 과매수 구간에 진입하여 안티체이싱 룰에 의해 제외되었으며, GWEI는 거래대금 및 모멘텀이 상대적으로 부족합니다. 반면 XRP는 최근 5분봉에서 강한 거래량 유입과 함께 단기 급등 이후 1970원 부근에서 자연스러운 눌림목 조정을 거치고 있습니다. RSI가 68.2로 과매수 기준(70) 아래에 위치하여 추가 상승 여력이 충분하며, VWAP 상단에서 지지를 확인하는 건전한 패턴을 보여 얕은 할인율로 매수 진입하기 매우 유리합니다.",
-      "entry_time": "2026-08-27T17:23:49.232221+09:00",
-      "break_even_triggered": true
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 567.0,
@@ -2035,6 +2021,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T18:23:42.522921+09:00",
       "exit_time": "2026-08-27T18:24:03.582514+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1971.0,
+      "exit_price": 1987.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 51,
+      "profit_pct": 0.81,
+      "status": "CLOSED_TRAILING_STOP",
+      "reason": "📈 트레일링 스탑 (최고 +1.2% 달성 후 이익 보존)",
+      "entry_time": "2026-08-27T17:23:49.232221+09:00",
+      "exit_time": "2026-08-27T18:50:49.843908+09:00"
     }
   ]
 }
