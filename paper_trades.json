@@ -14,20 +14,6 @@
       "entry_time": "2026-08-28T02:26:58.937881+09:00",
       "break_even_triggered": false
     },
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "entry_price": 1087.0,
-      "highest_price": 1087.0,
-      "stop_loss": 1077.217,
-      "take_profit": 1103.3049999999998,
-      "buy_amount_krw": 6324,
-      "units": 5.817847286108556,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "SUI/KRW 코인은 5분봉 RSI가 54.3으로 과매수 구간(70 이상)을 피해 안정적인 눌림목 진입이 가능합니다. VWAP(거래소가중평균가격) 상단에 위치하며 15분 수익률이 양수(+0.18%)로 완만한 상승 추세를 유지하고 있습니다. 현재가 대비 미세한 할인율(0.09%)을 적용하여 현실적인 얕은 진입을 노리며, 스칼핑 기준에 부합하는 적정한 손절(-0.9%) 및 익절(+1.5%) 타겟을 설정합니다. (WLD/KRW는 RSI 71로 안티체이싱 룰에 의해 배제됨)",
-      "entry_time": "2026-08-28T02:29:13.514456+09:00",
-      "break_even_triggered": false
-    },
     "PENGU": {
       "symbol": "PENGU/KRW",
       "entry_price": 13.39,
@@ -2335,6 +2321,18 @@
       "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
       "entry_time": "2026-08-28T02:09:12.299769+09:00",
       "exit_time": "2026-08-28T02:34:13.429496+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "entry_price": 1087.0,
+      "exit_price": 1077.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -58,
+      "profit_pct": -0.92,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-28T02:29:13.514456+09:00",
+      "exit_time": "2026-08-28T02:45:50.161377+09:00"
     }
   ]
 }
