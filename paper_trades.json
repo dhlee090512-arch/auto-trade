@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "entry_price": 1076.0,
-      "highest_price": 1076.0,
-      "stop_loss": 1065.24,
-      "take_profit": 1097.52,
-      "buy_amount_krw": 6324,
-      "units": 5.877323420074349,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "SUI는 최근 5분 봉 시리즈에서 거래량이 2.4배 수준으로 급증하며 단기 수급 유입이 포착되었습니다. VWAP 상단에 위치하며 15분 수익률(0.28%) 및 RSI(51.7)가 과열권(70 이상)을 완전히 회피하여 안전한 진입 여건을 제공합니다. ATR 대비 적절한 변동성 속에서 얕은 눌림목 매수 전략 적용에 가장 적합합니다.",
-      "entry_time": "2026-08-28T06:05:13.162697+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2439,6 +2424,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-28T06:15:32.547818+09:00",
       "exit_time": "2026-08-28T06:25:26.503882+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "entry_price": 1076.0,
+      "exit_price": 1073.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -18,
+      "profit_pct": -0.28,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T06:05:13.162697+09:00",
+      "exit_time": "2026-08-28T06:30:14.028064+09:00"
     }
   ]
 }
