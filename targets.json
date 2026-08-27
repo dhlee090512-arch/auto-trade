@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-08-28T01:48:58.907501+09:00",
+  "updated_at": "2026-08-28T01:53:59.315962+09:00",
   "paper_trading": true,
   "targets": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "current_price": 149900.0,
-      "target_entry": 149780.08,
-      "sl_pct": -0.9,
-      "tp_pct": 1.6,
+    "PROM": {
+      "symbol": "PROM/KRW",
+      "current_price": 6740.0,
+      "target_entry": 6736.63,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI(64.6)가 과열권(70) 미만이면서도 완만한 우상향 추세를 형성하고 있습니다. VWAP 상단에 위치하며 거래량 및 모멘텀이 안정적으로 유지되어 얕은 눌림목(0.08% 할인) 매수 후 단기 상승 탄력을 활용한 스칼핑 타점으로 적합합니다. WLD는 RSI가 82.1로 안티체이싱 규칙에 의해 배제되었습니다.",
-      "created_at": "2026-08-28T01:48:58.907501+09:00"
+      "detailed_reason": "WLD/KRW는 5분봉 RSI가 77.8로 안티체이싱(RSI > 70) 조건에 위배되어 제외하였으며, XRP/KRW는 뚜렷한 모멘텀이 부족합니다. 반면 PROM/KRW는 RSI 64.5로 과매수 구간을 회피하면서 최근 15분간 1.51% 상승 추세를 형성 중이고 VWAP 상단에 위치하여 안정적인 눌림목 스캘핑 진입이 가능합니다.",
+      "created_at": "2026-08-28T01:53:59.315962+09:00"
     }
   }
 }
