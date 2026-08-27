@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "entry_price": 1078.0,
-      "highest_price": 1078.0,
-      "stop_loss": 1063.9859999999999,
-      "take_profit": 1100.8536000000001,
-      "buy_amount_krw": 6324,
-      "units": 5.866419294990724,
-      "sl_pct": -1.3,
-      "tp_pct": 2.12,
-      "detailed_reason": "CYS/KRW 코인은 5분봉 RSI 64.2로 과매수 구간(70 이상)을회피하면서도 2.3배의 높은 볼륨 서지를 동반하여 강한 매수세 유입을 확인했습니다. VWAP 대비 1.01% 위에서 가격이 형성되어 상승 모멘텀이 유지되고 있으며, 얕은 눌림목 구간인 0.1% 할인된 가격에서 진입하여 ATR 범위 내의 안정적인 손절(-1.0%)과 목표가(+1.8%) 설정이 가능합니다.",
-      "entry_time": "2026-08-28T00:32:35.390902+09:00",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 565.0,
@@ -2261,6 +2247,18 @@
       "reason": "📈 트레일링 스탑 (최고 +1.3% 달성 후 이익 보존)",
       "entry_time": "2026-08-27T23:10:08.984010+09:00",
       "exit_time": "2026-08-28T00:46:27.961398+09:00"
+    },
+    {
+      "symbol": "CYS/KRW",
+      "entry_price": 1078.0,
+      "exit_price": 1081.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 18,
+      "profit_pct": 0.28,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-08-28T00:32:35.390902+09:00",
+      "exit_time": "2026-08-28T01:14:51.921465+09:00"
     }
   ]
 }
