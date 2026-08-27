@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HPP": {
+      "symbol": "HPP/KRW",
+      "entry_price": 11.83,
+      "highest_price": 11.83,
+      "stop_loss": 11.65255,
+      "take_profit": 12.161240000000001,
+      "buy_amount_krw": 6324,
+      "units": 534.5731191885038,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "HPP 코인은 5분봉 기준 RSI가 57.6으로 과열권(70 이상)을 피해 안정적인 모멘텀을 유지하고 있습니다. VWAP 대비 괴리율이 존재하며 최근 15분간 꾸준한 상승 흐름(+1.28%)과 거래량 유입을 동반한 견고한 지지력을 보여주고 있어, 단기 스캘핑 관점에서 얕은 조정을 활용한 매수 진입 후 목표가 2.0% 수익 실현이 유리합니다.",
+      "entry_time": "2026-08-28T07:45:23.455483+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
