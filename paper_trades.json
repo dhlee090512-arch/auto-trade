@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "PROM": {
-      "symbol": "PROM/KRW",
-      "entry_price": 6330.0,
-      "highest_price": 6330.0,
-      "stop_loss": 6266.7,
-      "take_profit": 6443.9400000000005,
-      "buy_amount_krw": 6324,
-      "units": 0.9990521327014218,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "PROM/KRW는 5분봉 기준 RSI 64.3으로 과매수 구간(70 이상)을 회피하였으며, 최근 거래량 급증 비율(1.31)과 함께 VWAP 상단(vwap_gap_pct +1.08%)에서 완만한 상승 모멘텀을 유지하고 있습니다. 직전 고점 부근의 매물대를 돌파하려는 시도가 관측되며, 얕은 눌림목 조정을 이용한 진입으로 스캘핑 목표 수익률 확보가 유리합니다.",
-      "entry_time": "2026-08-27T21:49:21.922295+09:00",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 560.0,
@@ -2179,6 +2165,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-08-27T21:34:18.665835+09:00",
       "exit_time": "2026-08-27T22:09:19.634335+09:00"
+    },
+    {
+      "symbol": "PROM/KRW",
+      "entry_price": 6330.0,
+      "exit_price": 6525.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 195,
+      "profit_pct": 3.08,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-27T21:49:21.922295+09:00",
+      "exit_time": "2026-08-27T22:19:05.441845+09:00"
     }
   ]
 }
