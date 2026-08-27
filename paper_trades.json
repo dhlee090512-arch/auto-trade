@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "COS": {
+      "symbol": "COS/KRW",
+      "entry_price": 0.5426,
+      "highest_price": 0.5426,
+      "stop_loss": 0.534461,
+      "take_profit": 0.5577928,
+      "buy_amount_krw": 6324,
+      "units": 11654.994471065242,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "COS/KRW는 5분봉 기준 RSI(49.9)가 과매수 구간이 아니며, VWAP(0.5433) 부근에서 안정적인 가격 방어와 함께 거래량 서지 비율이 1.13으로 소폭 유입되고 있습니다. ATR 대비 변동성(2.54%)이 높아 단기 스캘핑으로 목표가 달성 가능성이 높으며, 지지선 근처에서 얕은 할인가로 진입하기 유리한 조건입니다.",
+      "entry_time": "2026-08-27T14:27:53.971333+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
