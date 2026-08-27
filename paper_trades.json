@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "BICO": {
-      "symbol": "BICO/KRW",
-      "entry_price": 39.36,
-      "highest_price": 39.36,
-      "stop_loss": 38.7696,
-      "take_profit": 40.46208,
-      "buy_amount_krw": 6324,
-      "units": 160.6707317073171,
-      "sl_pct": -1.5,
-      "tp_pct": 2.8,
-      "detailed_reason": "BICO/KRW는 5분봉 기준 RSI가 62.7로 과매수 구간(70)을 하회하면서도 거래량 서지(1.28)가 동반된 강한 상승 모멘텀을 유지하고 있습니다. VWAP 대비 3.57% 괴리가 있으나 단기 상승 추세가 견조하며, 70 미만의 RSI로 안티 체이싱 규칙을 준수합니다. 현재가 부근에서 0.1% 미만의 얕은 할인율로 진입하여 스캘핑 목표치 2.0% 수익을 타겟팅하기에 적합합니다.",
-      "entry_time": "2026-08-27T20:04:40.209848+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2079,6 +2064,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-27T19:09:03.050799+09:00",
       "exit_time": "2026-08-27T20:01:54.460818+09:00"
+    },
+    {
+      "symbol": "BICO/KRW",
+      "entry_price": 39.36,
+      "exit_price": 38.75,
+      "buy_amount_krw": 6324,
+      "profit_krw": -98,
+      "profit_pct": -1.55,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T20:04:40.209848+09:00",
+      "exit_time": "2026-08-27T20:06:15.406760+09:00"
     }
   ]
 }
