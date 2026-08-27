@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 140200.0,
-      "highest_price": 140600.0,
-      "stop_loss": 138798.0,
-      "take_profit": 142303.0,
-      "buy_amount_krw": 6324,
-      "units": 0.04510699001426534,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "SOL/KRW는 현재 5분봉 RSI가 44.4로 과매수 구간이 아니며, VWAP(140,330) 근처에서 가격이 안정적으로 수렴하고 있습니다. 거래량 급증 없이 횡보 조정을 거친 후 지지선을 테스트하는 구간으로, 현 가격대에서 얕은 할인율로 진입하여 박스권 상단 회복을 노리는 단기 스캘핑 전략에 적합합니다.",
-      "entry_time": "2026-08-27T16:24:16.618883+09:00",
-      "break_even_triggered": false
-    },
     "ONDO": {
       "symbol": "ONDO/KRW",
       "entry_price": 517.0,
@@ -1961,6 +1947,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-08-27T16:48:27.466938+09:00",
       "exit_time": "2026-08-27T16:49:23.337929+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 140200.0,
+      "exit_price": 142400.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 99,
+      "profit_pct": 1.57,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-08-27T16:24:16.618883+09:00",
+      "exit_time": "2026-08-27T17:07:46.470376+09:00"
     }
   ]
 }
