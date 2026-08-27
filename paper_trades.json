@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "D": {
-      "symbol": "D/KRW",
-      "entry_price": 5.058,
-      "highest_price": 5.058,
-      "stop_loss": 4.98213,
-      "take_profit": 5.199624,
-      "buy_amount_krw": 6324,
-      "units": 1250.2965599051008,
-      "sl_pct": -1.5,
-      "tp_pct": 2.8,
-      "detailed_reason": "D/KRW 종목은 5분봉 RSI 58.1로 과매수 구간(70)을 하회하며 안정적인 상승 모멘텀을 유지 중입니다. VWAP 대비 괴리율이 0.8%로 적정하며, 거래량 급증 비율이 1.76배로 매수세 유입이 뚜렷합니다. ATR 기반 변동성을 고려하여 현실적인 진입가와 리스크 관리가 가능한 최적의 스캘핑 구간입니다.",
-      "entry_time": "2026-08-27T18:48:51.388458+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2031,6 +2016,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T18:30:28.779213+09:00",
       "exit_time": "2026-08-27T18:50:57.091574+09:00"
+    },
+    {
+      "symbol": "D/KRW",
+      "entry_price": 5.058,
+      "exit_price": 4.973,
+      "buy_amount_krw": 6324,
+      "profit_krw": -106,
+      "profit_pct": -1.68,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T18:48:51.388458+09:00",
+      "exit_time": "2026-08-27T18:59:44.670314+09:00"
     }
   ]
 }
