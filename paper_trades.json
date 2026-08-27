@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "GWEI": {
-      "symbol": "GWEI/KRW",
-      "entry_price": 35.3,
-      "highest_price": 35.3,
-      "stop_loss": 34.946999999999996,
-      "take_profit": 35.829499999999996,
-      "buy_amount_krw": 6324,
-      "units": 179.1501416430595,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "GWEI/KRW는 최근 15분 동안 0.88% 상승하며 단기 상승 모멘텀을 형성하고 있습니다. VWAP(34.77) 상단에 위치하며 갭(1.78%)이 존재하나, RSI(14)가 62.3으로 과매수 구간(70)을 하회하여 추격 매수 부담이 적습니다. 거래량 비율도 1.33으로 유의미한 거래 유입이 관찰되며, ATR 기반 변동성을 고려할 때 스캘핑 목표가 달성 가능성이 높습니다.",
-      "entry_time": "2026-08-28T02:26:58.937881+09:00",
-      "break_even_triggered": false
-    },
     "PENGU": {
       "symbol": "PENGU/KRW",
       "entry_price": 13.39,
@@ -2333,6 +2319,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-28T02:29:13.514456+09:00",
       "exit_time": "2026-08-28T02:45:50.161377+09:00"
+    },
+    {
+      "symbol": "GWEI/KRW",
+      "entry_price": 35.3,
+      "exit_price": 35.28,
+      "buy_amount_krw": 6324,
+      "profit_krw": -4,
+      "profit_pct": -0.06,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T02:26:58.937881+09:00",
+      "exit_time": "2026-08-28T02:54:19.204810+09:00"
     }
   ]
 }
