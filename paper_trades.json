@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HPP": {
+      "symbol": "HPP/KRW",
+      "entry_price": 11.72,
+      "highest_price": 11.72,
+      "stop_loss": 11.5442,
+      "take_profit": 12.048160000000001,
+      "buy_amount_krw": 6324,
+      "units": 539.5904436860068,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "HPP/KRW 코인은 최근 강한 거래량 유입과 함께 단기 조정을 거치고 반등세를 보이는 중입니다. VWAP 대비 적절한 갭을 유지하고 있으며, RSI가 과매수권(70)을 하회하여 추격 매수 부담이 적고 안정적인 단기 스캘핑 진입 구간을 형성하고 있습니다.",
+      "entry_time": "2026-08-28T05:14:40.698763+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
