@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "CAMP": {
-      "symbol": "CAMP/KRW",
-      "entry_price": 0.7069,
-      "highest_price": 0.7069,
-      "stop_loss": 0.6962965,
-      "take_profit": 0.7266932,
-      "buy_amount_krw": 6324,
-      "units": 8946.10270193804,
-      "sl_pct": -1.5,
-      "tp_pct": 2.8,
-      "detailed_reason": "CAMP/KRW는 5분봉 RSI가 65.3으로 안티-추세 조건(70 미만)을 충족하며, 거래량 급증과 함께 단기 상승 모멘텀을 유지하고 있습니다. 반면 HEMI와 PYR은 RSI가 각각 91.0, 73.2로 과매수 구간에 진입하여 추격 매수 위험이 높아 배제했습니다. CAMP는 VWAP 상단에서 안정적인 지지를 보이며 얕은 눌림목 매수가 유효합니다.",
-      "entry_time": "2026-08-27T20:49:58.311158+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2103,6 +2088,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T20:29:58.372396+09:00",
       "exit_time": "2026-08-27T20:33:13.302383+09:00"
+    },
+    {
+      "symbol": "CAMP/KRW",
+      "entry_price": 0.7069,
+      "exit_price": 0.6928,
+      "buy_amount_krw": 6324,
+      "profit_krw": -126,
+      "profit_pct": -1.99,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T20:49:58.311158+09:00",
+      "exit_time": "2026-08-27T20:50:50.819992+09:00"
     }
   ]
 }
