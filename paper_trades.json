@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "entry_price": 1080.0,
-      "highest_price": 1080.0,
-      "stop_loss": 1069.2,
-      "take_profit": 1096.1999999999998,
-      "buy_amount_krw": 6324,
-      "units": 5.855555555555555,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "CYS/KRW 코인은 5분봉 기준 RSI가 53.7로 과매수 구간(70 이상)을 피해 안티체이싱 규칙을 충족하며, VWAP 근처(1080.32)에서 가격이 안정적으로 형성되어 있습니다. 최근 캔들에서 소폭의 거래량 유입과 함께 박스권 상단 돌파 시도가 나타나고 있어 얕은 조정을 활용한 단기 스캘핑 진입에 적합합니다.",
-      "entry_time": "2026-08-28T04:39:34.831780+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2367,6 +2352,18 @@
       "reason": "🎯 익절 목표가 도달",
       "entry_time": "2026-08-28T04:09:36.106350+09:00",
       "exit_time": "2026-08-28T04:24:47.974544+09:00"
+    },
+    {
+      "symbol": "CYS/KRW",
+      "entry_price": 1080.0,
+      "exit_price": 1079.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -6,
+      "profit_pct": -0.09,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T04:39:34.831780+09:00",
+      "exit_time": "2026-08-28T05:04:36.589892+09:00"
     }
   ]
 }
