@@ -35,7 +35,13 @@ MAX_HOLDING_COINS = 3            # 🛡️ 최대 보유 가능 종목 수
 MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
 BUY_RATIO = 0.20                 # 📊 가용 잔고 대비 1회 투입 비중 (20%)
 ENTRY_TIMEOUT_MINUTES = 20       # ⏰ 진입 대기 만료 시간
-TIME_EXIT_HOURS = 3              # ⏰ 최대 보유 시간 (강제 청산)
+
+# ⏰ 청산 및 추세 추종 파라미터
+EARLY_EXIT_MINUTES = 25          # ⏰ 모멘텀 소멸 조기 탈출 (마이너스 시)
+MAX_HOLD_MINUTES = 60            # ⏰ 비추세/횡보 종목 최대 보유 제한
+BREAK_EVEN_TRIGGER_PCT = 0.7     # 🛡️ 본절 방어선 발동 기준 (+0.7%)
+TRAILING_START_PCT = 1.2         # 📈 트레일링 스탑 활성화 기준 (+1.2%)
+TRAILING_GAP_PCT = 0.4           # 📈 고점 대비 하락 반락 허용폭 (-0.4%)
 
 TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
 TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
@@ -58,6 +64,10 @@ PROJECT_DIR = "/home/ubuntu/auto-trade"
 
 EMERGENCY_STOP = False
 LAST_TELEGRAM_UPDATE_ID = 0
+
+# 🌟 이번 세션(코드 실행/업데이트 시점) 기준 추적 변수
+SESSION_START_TIME = datetime.now(timezone(timedelta(hours=9)))
+BTC_DEFENSIVE_MODE = False  # BTC 하락 방어 모드 상태 플래그
 
 logging.basicConfig(
     level=logging.INFO,
@@ -86,7 +96,7 @@ def send_telegram_msg(msg: str):
         logging.error(f"텔레그램 발송 오류: {e}")
 
 def format_portfolio_status_msg(active_positions, closed_trades):
-    """💼 [현재 매매 상황] 독립 메시지 포맷 (담백한 텍스트 리스트)"""
+    """💼 [현재 매매 상황] (현재 가동 세션 누적 손익 포함)"""
     held_symbols = [v['symbol'] for v in active_positions.values()]
     if held_symbols:
         held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)"
@@ -95,14 +105,15 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 
     recent_10 = closed_trades[-10:] if closed_trades else []
     
+    # 1. 최근 10건 통계
     if not recent_10:
         trades_str = "• 매도 이력이 없습니다."
         win_rate = 0
-        total_profit_krw = 0
+        r10_profit_krw = 0
     else:
         trade_lines = []
         wins = 0
-        total_profit_krw = 0
+        r10_profit_krw = 0
         for idx, t in enumerate(recent_10, 1):
             p_pct = t.get('profit_pct', 0.0)
             p_krw = t.get('profit_krw', 0)
@@ -118,12 +129,33 @@ def format_portfolio_status_msg(active_positions, closed_trades):
             trade_lines.append(f"{idx}. {symbol} ({sign_pct}{p_pct:.1f}%) {time_display}")
             if p_pct > 0:
                 wins += 1
-            total_profit_krw += p_krw
+            r10_profit_krw += p_krw
             
         trades_str = "\n".join(trade_lines)
         win_rate = round((wins / len(recent_10)) * 100)
 
-    sign_krw = "+" if total_profit_krw > 0 else ""
+    # 2. 🌟 마지막 코드 실행/업데이트 시점 이후 누적 손익 계산
+    session_trades = []
+    session_profit_krw = 0
+    session_wins = 0
+    for t in closed_trades:
+        exit_time_str = t.get('exit_time', '')
+        try:
+            exit_dt = datetime.fromisoformat(exit_time_str)
+            if exit_dt >= SESSION_START_TIME:
+                session_trades.append(t)
+                session_profit_krw += t.get('profit_krw', 0)
+                if t.get('profit_pct', 0.0) > 0:
+                    session_wins += 1
+        except Exception:
+            pass
+
+    session_start_str = SESSION_START_TIME.strftime("%m/%d %H:%M")
+    session_sign_krw = "+" if session_profit_krw > 0 else ""
+    session_count = len(session_trades)
+    session_win_rate = round((session_wins / session_count) * 100) if session_count > 0 else 0
+    r10_sign_krw = "+" if r10_profit_krw > 0 else ""
+
     return f"""💼 [현재 매매 상황]
 • 보유 종목 : {held_str}
 
@@ -131,7 +163,11 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 {trades_str}
 
 📊 최근 10건 승률 : {win_rate}%
-💰 최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW"""
+💰 최근 10건 실현 손익 : {r10_sign_krw}{r10_profit_krw:,} KRW
+---------------------------------
+🚀 [현 세션 누적 성과] ({session_start_str} 가동 이후)
+• 체결 완료 : {session_count}건 (승률 {session_win_rate}%)
+• 실현 손익 : {session_sign_krw}{session_profit_krw:,} KRW"""
 
 # ==========================================
 # 2. GitHub 백업 & 파일 I/O
@@ -176,7 +212,6 @@ def sync_file_to_github(file_path, content_data):
 # 3. 빗썸 API & 퀀트 피처
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
-    """빗썸 Private API JWT 서명 생성기 (실전 매매용)"""
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
         return {}
     payload = {
@@ -198,7 +233,6 @@ def get_bithumb_jwt_headers(query_params: dict = None):
     }
 
 def get_real_krw_balance():
-    """빗썸 실계좌 KRW 가용 잔고 조회 (실제 빗썸 계좌 연동)"""
     if BITHUMB_API_KEY and BITHUMB_SECRET_KEY:
         try:
             url = "https://api.bithumb.com/v1/accounts"
@@ -208,16 +242,12 @@ def get_real_krw_balance():
                 for acc in res:
                     if acc.get("currency") == "KRW":
                         bal = float(acc.get("balance", 0.0))
-                        logging.info(f"💰 빗썸 실제 가용 잔고 조회 성공: {bal:,.0f} KRW")
                         return bal
-            else:
-                logging.warning(f"빗썸 잔고 응답 오류: {res}")
         except Exception as e:
             logging.error(f"빗썸 잔고 조회 통신 실패: {e}")
     return 100000.0
 
 def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
-    """빗썸 실전 시장가 매수/매도 주문"""
     if PAPER_TRADING:
         return True, "모의투자 체결"
     try:
@@ -304,6 +334,14 @@ def calculate_atr(candles, period=14):
         trs.append(tr)
     return round(sum(trs[-period:]) / period, 4)
 
+def calculate_ema(closes, period=20):
+    if len(closes) < period: return closes[-1] if closes else 0.0
+    k = 2.0 / (period + 1)
+    ema = sum(closes[:period]) / period
+    for price in closes[period:]:
+        ema = (price * k) + (ema * (1 - k))
+    return round(ema, 4)
+
 def calculate_quant_features(candles):
     if not candles: return {}
     closes = [c['close'] for c in candles]
@@ -321,6 +359,9 @@ def calculate_quant_features(candles):
     atr = calculate_atr(candles, period=14)
     atr_pct = round((atr / closes[-1]) * 100, 2) if closes[-1] > 0 else 0.0
 
+    # 최근 3캔들(15분) 수익률
+    ret_15m = round(((closes[-1] - closes[-4]) / closes[-4]) * 100, 2) if len(closes) >= 4 else 0.0
+
     tick_size = get_bithumb_tick_size(closes[-1])
     tick_ratio_pct = round((tick_size / closes[-1]) * 100, 3)
 
@@ -332,47 +373,79 @@ def calculate_quant_features(candles):
         "rsi_14": rsi,
         "atr_14": atr,
         "atr_pct": atr_pct,
+        "ret_15m": ret_15m,
         "tick_ratio_pct": tick_ratio_pct
     }
 
 # ==========================================
-# 4. 고도화 보조 유틸리티 (BTC 서킷 브레이커 & 스코어링)
+# 4. BTC 매크로 국면 판별 및 상태 알림
 # ==========================================
-def check_btc_circuit_breaker() -> tuple[bool, str]:
-    """⚡ 비트코인 급락 서킷 브레이커 (오류 발생 시 통과 처리)"""
+def check_btc_regime():
+    """
+    ⚡ BTC 1시간봉/5분봉 종합 국면 판별
+    반환값: (방어모드 여부: bool, 사유: str, btc_ret_15m: float)
+    """
+    btc_ret_15m = 0.0
     try:
-        btc_candles_5m = get_candles("BTC", interval="5m", limit=15)
-        if len(btc_candles_5m) >= 4:
-            closes = [c['close'] for c in btc_candles_5m]
-            drop_15m = ((closes[-1] - closes[-4]) / closes[-4]) * 100.0
-            rsi = calculate_rsi(closes, period=14)
-            if drop_15m <= -0.8:
-                return True, f"비트코인 15분 급락 ({drop_15m:.2f}%)"
-            if rsi < 35.0:
-                return True, f"비트코인 과매도 침체 (RSI: {rsi:.1f})"
+        candles_1h = get_candles("BTC", interval="1h", limit=30)
+        candles_5m = get_candles("BTC", interval="5m", limit=20)
+
+        if len(candles_5m) >= 4:
+            c5 = [c['close'] for c in candles_5m]
+            btc_ret_15m = ((c5[-1] - c5[-4]) / c5[-4]) * 100.0
+            rsi_5m = calculate_rsi(c5, period=14)
+
+            # 1. 5분봉 급락 서킷 브레이커
+            if btc_ret_15m <= -0.8:
+                return True, f"비트코인 15분 급락 ({btc_ret_15m:.2f}%)", btc_ret_15m
+            if rsi_5m < 35.0:
+                return True, f"비트코인 단기 과매도 침체 (RSI: {rsi_5m:.1f})", btc_ret_15m
+
+        if len(candles_1h) >= 20:
+            c1h = [c['close'] for c in candles_1h]
+            ema20_1h = calculate_ema(c1h, period=20)
+            curr_btc = c1h[-1]
+
+            # 2. 1시간봉 20 EMA 하회 및 역추세
+            if curr_btc < ema20_1h * 0.995:
+                gap_pct = ((curr_btc - ema20_1h) / ema20_1h) * 100.0
+                return True, f"비트코인 1시간 추세 이탈 (20 EMA 대비 {gap_pct:.2f}%)", btc_ret_15m
+
     except Exception:
         pass
-    return False, "BTC 상태 정상"
 
-def calculate_quant_score(q_1h, q_5m) -> int:
-    """🎯 퀀트 가중치 스코어링 (0 ~ 100점)"""
+    return False, "BTC 상태 정상", btc_ret_15m
+
+def calculate_quant_score(q_1h, q_5m, btc_ret_15m) -> int:
+    """🎯 퀀트 스코어링 (상대강도 RS 가산점 포함, 0~100점)"""
     score = 0
-    # 1. 1시간봉 VWAP 지지 (+30)
-    if q_1h.get("vwap_gap_pct", -99) >= -0.8: score += 30
-    # 2. 5분봉 거래량 유입 (+25)
+    # 1. 1시간봉 VWAP 지지 (+25)
+    if q_1h.get("vwap_gap_pct", -99) >= -0.8: score += 25
+
+    # 2. 5분봉 거래량 급증 (+25)
     surge = q_5m.get("volume_surge_ratio", 0)
     if surge >= 1.4: score += 25
     elif surge >= 1.1: score += 15
-    # 3. 5분봉 VWAP 지지 (+25)
-    if q_5m.get("vwap_gap_pct", -99) >= -0.2: score += 25
-    # 4. 5분봉 RSI 적정권 (+20)
+
+    # 3. 비트코인 대비 상대강도 RS (+20)
+    alt_ret = q_5m.get("ret_15m", 0.0)
+    if alt_ret > btc_ret_15m + 0.3:
+        score += 20
+    elif alt_ret > btc_ret_15m:
+        score += 10
+
+    # 4. 5분봉 VWAP 지지 (+15)
+    if q_5m.get("vwap_gap_pct", -99) >= -0.2: score += 15
+
+    # 5. 5분봉 RSI 적정권 (+15)
     rsi = q_5m.get("rsi_14", 50)
-    if 40 <= rsi <= 65: score += 20
-    elif 35 <= rsi < 40 or 65 < rsi <= 70: score += 10
+    if 40 <= rsi <= 65: score += 15
+    elif 35 <= rsi < 40 or 65 < rsi <= 70: score += 8
+
     return score
 
 # ==========================================
-# 5. 서버 내장 AI 전략 수립 모듈 (다이렉트 직통)
+# 5. AI 호출 및 타점 수립
 # ==========================================
 def call_ai_api(system_instruction, user_prompt):
     providers = []
@@ -442,16 +515,14 @@ def clean_and_parse_json(raw_text):
         if tp_m: res["take_profit_pct"] = float(tp_m.group(1))
         reason_m = re.search(r'["\']detailed_reason["\']\s*:\s*["\']([^"\']+)["\']', raw_text)
         if reason_m: res["detailed_reason"] = reason_m.group(1)
-        cands_m = re.search(r'["\']top3_candidates["\']\s*:\s*\[(.*?)\]', raw_text, re.DOTALL)
-        if cands_m:
-            res["top3_candidates"] = [c.strip().strip('"').strip("'") for c in cands_m.group(1).split(",") if c.strip()]
         if res: return res
     except Exception:
         pass
     return None
 
 def execute_server_side_strategy():
-    """서버 자체 타점 수립 엔진 (모수 30개 + BTC 서킷 브레이커 + ATR 가변 손익비 결합)"""
+    """서버 내장 퀀트+AI 타점 엔진 (상대강도 RS + BTC 국면 연동)"""
+    global BTC_DEFENSIVE_MODE
     paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
     active_positions = paper_db.get("active_positions", {})
     
@@ -459,14 +530,27 @@ def execute_server_side_strategy():
         logging.info("💼 최대 보유 종목(3개) 도달로 신규 AI 분석 스킵")
         return
 
-    # 1. ⚡ BTC 서킷 브레이커 체크
-    btc_paused, btc_reason = check_btc_circuit_breaker()
-    if btc_paused:
-        logging.warning(f"🛑 [BTC 서킷 브레이커] {btc_reason} ➔ 신규 알트 진입 일시정지")
+    # 1. ⚡ BTC 시장 국면 체크 및 상태 전환 알림
+    btc_is_defensive, btc_reason, btc_ret_15m = check_btc_regime()
+
+    if btc_is_defensive:
+        if not BTC_DEFENSIVE_MODE:
+            BTC_DEFENSIVE_MODE = True
+            msg = f"""🛑 [시장 방어 모드 가동]
+• 사유 : {btc_reason}
+• 조치 : 신규 알트코인 매수 탐색 일시정지 (현금 100% 방어)"""
+            send_telegram_msg(msg)
+            logging.warning(msg)
         return
+    else:
+        if BTC_DEFENSIVE_MODE:
+            BTC_DEFENSIVE_MODE = False
+            msg = "▶️ [시장 정상 회복]\n• 비트코인 추세가 안정권에 진입하여 신규 매수 탐색을 정상 재개합니다."
+            send_telegram_msg(msg)
+            logging.info(msg)
 
     held_codes = set(active_positions.keys())
-    logging.info("🧠 [서버 자체 퀀트 AI 전략 분석 시작 (모수 30개)]")
+    logging.info("🧠 [서버 퀀트+RS 스코어링 분석 시작 (모수 30개)]")
     
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     try:
@@ -485,7 +569,6 @@ def execute_server_side_strategy():
             raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), float(info['acc_trade_value_24H'])))
         except Exception: pass
 
-    # 💡 감시 모수 30개 확대 & 스코어링 랭킹 도출
     sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:30]
     scored_candidates = []
 
@@ -499,18 +582,14 @@ def execute_server_side_strategy():
 
         if q_5m.get("tick_ratio_pct", 0) > 0.35: continue
 
-        score = calculate_quant_score(q_1h, q_5m)
-        c_1h_light = [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_1h[-10:]]
-
+        score = calculate_quant_score(q_1h, q_5m, btc_ret_15m)
         scored_candidates.append({
             "symbol": f"{sym}/KRW",
             "code": sym,
             "price": price,
             "change_24h": change,
             "score": score,
-            "quant_metrics": q_1h,
             "quant_5m": q_5m,
-            "candles_1h_recent": c_1h_light,
             "candles_5m": [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_5m[-25:]]
         })
 
@@ -518,10 +597,9 @@ def execute_server_side_strategy():
         logging.info("⏸️ 유효 후보군이 없어 관망합니다.")
         return
 
-    # 💡 점수 순 상위 3개 선별 (문법 안전 처리 완료)
     top3_scored = sorted(scored_candidates, key=lambda x: x['score'], reverse=True)[:3]
     top3_labels = [c['symbol'] + '(' + str(c['score']) + '점)' for c in top3_scored]
-    logging.info(f"🎯 [퀀트 스코어링 상위 3개 선별]: {top3_labels}")
+    logging.info(f"🎯 [퀀트+RS 상위 3개 선별]: {top3_labels}")
 
     # 2차 5분봉 AI 정밀 분석
     cand_5m_data = [{
@@ -531,7 +609,7 @@ def execute_server_side_strategy():
     } for c in top3_scored]
 
     sys_2 = (
-        "You are an intraday scalper. Analyze 5m 40-candle series to pick 1 trade plan or NONE.\n"
+        "You are an intraday scalper. Analyze 5m 25-candle series to pick 1 trade plan or NONE.\n"
         "Rules:\n"
         "1. Entry: Set realistic shallow entry (entry_discount_pct: 0.0% to 0.15%) near market price.\n"
         "2. Anti-Chasing: Reject coins with 5m RSI > 70.\n"
@@ -546,13 +624,11 @@ def execute_server_side_strategy():
     selected = res_2.get("selected_symbol", "NONE")
     confidence = res_2.get("confidence_score", 0)
     if selected.upper() == "NONE" or confidence < MIN_CONFIDENCE_SCORE:
-        logging.info(f"⏸️ 2차 분석 결과 신뢰도({confidence}점) 미달로 관망 유지")
+        logging.info(f"⏸️ 2차 분석 결과 신뢰도({confidence}점) 미달로 관망")
         return
 
     code = selected.split('/')[0]
-    if code in held_codes:
-        logging.info(f"⏸️ [{selected}] 이미 보유 중인 종목으로 신규 등록 스킵")
-        return
+    if code in held_codes: return
 
     curr_p = get_current_price(code)
     if not curr_p: return
@@ -560,15 +636,12 @@ def execute_server_side_strategy():
     target_cand = next((c for c in top3_scored if c["code"] == code), None)
     atr_pct = target_cand["quant_5m"].get("atr_pct", 0.8) if target_cand else 0.8
 
-    # 💡 [전략 3] AI 제안값과 실시간 ATR 변동성을 결합한 가변 손익비
     base_sl = float(res_2.get("stop_loss_pct", -1.0))
     base_tp = float(res_2.get("take_profit_pct", 1.8))
     
-    # ATR 변동성을 반영하되 안전 가드레일 적용 (SL: -0.8% ~ -1.5%, TP: +1.2% ~ +2.8%)
     sl_pct = max(min(round(min(base_sl, -atr_pct * 1.1), 2), -0.8), -1.5)
     tp_pct = min(max(round(max(base_tp, atr_pct * 1.8), 2), 1.2), 2.8)
 
-    # 동적 잔고 계산 (20%, 최소 6,000원)
     available_krw = get_real_krw_balance()
     calculated_buy_krw = max(round(available_krw * BUY_RATIO), MIN_BUY_KRW)
 
@@ -583,7 +656,7 @@ def execute_server_side_strategy():
         "sl_pct": sl_pct,
         "tp_pct": tp_pct,
         "buy_amount_krw": calculated_buy_krw,
-        "detailed_reason": res_2.get("detailed_reason", "5분봉 패턴 및 퀀트 랭킹 분석"),
+        "detailed_reason": res_2.get("detailed_reason", "5분봉 패턴 및 상대강도(RS) 분석"),
         "created_at": now_iso
     }
 
@@ -597,8 +670,6 @@ def execute_server_side_strategy():
     sync_file_to_github(TARGETS_FILE, targets_payload)
 
     tp_sign = "+" if tp_pct > 0 else ""
-    
-    # 💡 [메시지 1] 🎯 매수 타점 선정 - 서버
     plan_msg = f"""🎯 [매수 타점 선정 - 서버]
 • 종목 : {selected} (신뢰도: {confidence}점)
 • 현재가 : {curr_p:,.2f} KRW
@@ -610,19 +681,19 @@ def execute_server_side_strategy():
 💡 매수 근거 :
 {plan_data['detailed_reason']}
 =================================
-⚡ 규칙: 20분 미체결 취소 / 트레일링 스탑 및 거래량 소멸 시 조기 청산"""
+⚡ 규칙: 20분 미체결 취소 / 트레일링 스탑 & 조건부 시간 손절 가동"""
     send_telegram_msg(plan_msg)
 
-    # 💡 [메시지 2] 💼 현재 매매 상황 (독립 메시지 전송)
+    # 💼 독립 메시지 전송
     portfolio_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
     send_telegram_msg(portfolio_msg)
 
 # ==========================================
-# 6. 실시간 감시 & 트레일링 스탑 & 조기 청산 엔진
+# 6. 실시간 감시 & 트레일링 스탑 & 조건부 시간 청산
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP
-    logging.info("⚡ 오라클 실시간 감시 & 트레일링 스탑 엔진 구동 시작")
+    logging.info("⚡ 실시간 감시 & 조건부 트레일링 엔진 구동 시작")
     last_strategy_run = 0
 
     t = threading.Thread(target=telegram_listener_thread, daemon=True)
@@ -633,7 +704,7 @@ async def realtime_execution_engine():
             now = time.time()
             now_dt = get_kst_now()
 
-            # 5분마다 백그라운드 스레드에서 AI 전략 실행
+            # 5분마다 AI 퀀트 분석 실행
             if now - last_strategy_run >= 300:
                 last_strategy_run = now
                 asyncio.create_task(asyncio.to_thread(execute_server_side_strategy))
@@ -645,7 +716,7 @@ async def realtime_execution_engine():
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # [1] 진입 대기 감시 (20분 만료 & 즉시 체결)
+            # [1] 진입 대기 감시
             if not EMERGENCY_STOP and len(active_positions) < MAX_HOLDING_COINS:
                 for coin_code, plan in list(pending.items()):
                     created_dt = datetime.fromisoformat(plan.get("created_at", now_dt.isoformat()))
@@ -663,7 +734,7 @@ async def realtime_execution_engine():
                                 logging.error(f"실전 매수 주문 실패: {order_res}")
                                 continue
 
-                        logging.info(f"🎯 [{plan['symbol']}] 진입 타점 도달! 매수 체결")
+                        logging.info(f"🎯 [{plan['symbol']}] 진입 체결 완료")
                         exact_sl = curr_p * (1.0 + (plan["sl_pct"] / 100.0))
                         exact_tp = curr_p * (1.0 + (plan["tp_pct"] / 100.0))
                         units = plan["buy_amount_krw"] / curr_p
@@ -689,8 +760,6 @@ async def realtime_execution_engine():
                         sync_file_to_github(PAPER_TRADES_FILE, paper_db)
 
                         tp_sign = "+" if plan['tp_pct'] > 0 else ""
-                        
-                        # 💡 [메시지 3] ⚡ 체결 완료
                         buy_msg = f"""⚡ [체결 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
 • 종목 : {plan['symbol']}
 • 진입 체결가 : {curr_p:,.2f} KRW
@@ -698,10 +767,9 @@ async def realtime_execution_engine():
 🎯 익절 목표 : {exact_tp:,.2f} KRW ({tp_sign}{plan['tp_pct']}%)
 🛡️ 손절 목표 : {exact_sl:,.2f} KRW ({plan['sl_pct']}%)
 💰 투입 금액 : {plan['buy_amount_krw']:,} KRW"""
-
                         send_telegram_msg(buy_msg)
 
-            # [2] 보유 포지션 실시간 감시 (본절 방어 + 트레일링 스탑 + 조기 청산)
+            # [2] 보유 포지션 감시 (트레일링 스탑 & 조건부 시간 손절)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p: continue
@@ -715,39 +783,39 @@ async def realtime_execution_engine():
 
                 highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
 
-                # 본절 방어 (Break-Even)
-                if not pos.get("break_even_triggered", False) and curr_profit_pct >= 0.9:
+                # 본절 방어선 (+0.7% 도달 시 가동)
+                if not pos.get("break_even_triggered", False) and curr_profit_pct >= BREAK_EVEN_TRIGGER_PCT:
                     pos["stop_loss"] = max(pos["stop_loss"], entry_p * 1.001)
                     pos["break_even_triggered"] = True
-                    logging.info(f"🛡️ [{pos['symbol']}] 수익 +0.9% 도달로 본절 방어선 가동")
+                    logging.info(f"🛡️ [{pos['symbol']}] +0.7% 도달로 본절 방어선 세팅")
 
                 status = "HOLDING"
                 exit_reason = ""
 
-                # ① 고정 익절
+                # ① 고정 익절가 도달
                 if curr_p >= pos["take_profit"]:
                     status = "CLOSED_TAKE_PROFIT"
-                    exit_reason = "🎯 익절 목표가 달성"
+                    exit_reason = "🎯 익절 목표가 도달"
 
-                # ② 트레일링 스탑
-                elif highest_profit_pct >= 1.2 and (highest_profit_pct - curr_profit_pct) >= 0.4:
+                # ② 트레일링 스탑 (최고점 +1.2% 이상 후 0.4% 반락 시)
+                elif highest_profit_pct >= TRAILING_START_PCT and (highest_profit_pct - curr_profit_pct) >= TRAILING_GAP_PCT:
                     status = "CLOSED_TRAILING_STOP"
                     exit_reason = f"📈 트레일링 스탑 (최고 +{highest_profit_pct:.1f}% 달성 후 이익 보존)"
 
-                # ③ 손절 / 본절 방어선
+                # ③ 손절 / 본절 방어선 도달
                 elif curr_p <= pos["stop_loss"]:
                     status = "CLOSED_STOP_LOSS"
                     exit_reason = "🛡️ 본절 방어선 또는 손절가 도달"
 
-                # ④ 조기 청산
-                elif (now_dt - entry_time) >= timedelta(minutes=35) and abs(curr_profit_pct) < 0.4:
+                # ④ 25분 모멘텀 소멸 조기 탈출 (마이너스 수익률일 때만 정리)
+                elif (now_dt - entry_time) >= timedelta(minutes=EARLY_EXIT_MINUTES) and curr_profit_pct <= 0.0:
                     status = "CLOSED_EARLY_EXIT"
-                    exit_reason = "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)"
+                    exit_reason = f"⌛ {EARLY_EXIT_MINUTES}분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)"
 
-                # ⑤ 3시간 타임아웃
-                elif (now_dt - entry_time) >= timedelta(hours=TIME_EXIT_HOURS):
+                # ⑤ 60분 횡보 청산 (상승 추세가 아닌 횡보/약세일 때만 정리)
+                elif (now_dt - entry_time) >= timedelta(minutes=MAX_HOLD_MINUTES) and curr_profit_pct < BREAK_EVEN_TRIGGER_PCT:
                     status = "CLOSED_TIME_EXIT"
-                    exit_reason = f"⏰ {TIME_EXIT_HOURS}시간 횡보로 시장가 청산"
+                    exit_reason = f"⏰ {MAX_HOLD_MINUTES}분 횡보 박스권 정체로 시장가 청산"
 
                 if status != "HOLDING":
                     if not PAPER_TRADING:
@@ -779,7 +847,6 @@ async def realtime_execution_engine():
                     sign_krw = "+" if profit_krw > 0 else ""
                     profit_icon = "🎉" if profit_pct > 0 else "🌧️"
 
-                    # 💡 [메시지 4] 🎉 청산 완료
                     exit_msg = f"""{profit_icon} [청산 완료] - {'모의투자' if PAPER_TRADING else '실전매매'}
 • 종목 : {pos['symbol']}
 • 진입가 : {entry_p:,.2f} KRW ➔ 청산가 : {curr_p:,.2f} KRW
@@ -794,7 +861,7 @@ async def realtime_execution_engine():
             await asyncio.sleep(3)
 
 # ==========================================
-# 7. 텔레그램 명령어 리스너 (/log 및 재부팅 방어)
+# 7. 텔레그램 리스너 (/log, /status 등)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
@@ -829,13 +896,14 @@ def telegram_listener_thread():
                         held = [v['symbol'] for v in paper_db.get('active_positions', {}).values()]
                         pending = list(server_state.get('pending_targets', {}).keys())
                         status_str = "🛑 일시정지 (STOP)" if EMERGENCY_STOP else "🟢 실시간 감시 중 (RUNNING)"
+                        regime_str = "🛡️ BTC 방어 모드" if BTC_DEFENSIVE_MODE else "🟢 시장 정상"
 
                         res_msg = f"""📊 [시스템 상태 보고]
 • 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
-• 인터락 상태: {status_str}
+• 인터락: {status_str} ({regime_str})
 • 진입 대기 종목: {', '.join(pending) if pending else '(없음)'}
 • 현재 보유 종목: {', '.join(held) if held else '(없음)'}
-• 누적 복기 거래수: {len(paper_db.get('closed_trades', []))}건"""
+• 누적 거래 이력: {len(paper_db.get('closed_trades', []))}건"""
                         send_telegram_msg(res_msg)
 
                     elif text == "/log":
@@ -852,7 +920,7 @@ def telegram_listener_thread():
                         send_telegram_msg("▶️ [인터락 해제] 신규 매수 감시가 정상 재개되었습니다.")
 
                     elif text == "/update":
-                        send_telegram_msg("🔄 [원격 업데이트] 최신 코드를 다운로드하고 서비스를 재시작합니다...")
+                        send_telegram_msg("🔄 [원격 업데이트] 코드를 동기화하고 서비스를 재시작합니다...")
                         try:
                             requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=3)
                         except Exception:
@@ -874,14 +942,14 @@ def telegram_listener_thread():
             time.sleep(3)
 
 if __name__ == "__main__":
+    start_str = SESSION_START_TIME.strftime("%m/%d %H:%M KST")
     send_telegram_msg(
-        f"🚀 [오라클 서버] 30개 모수 스코어링 & ATR 맞춤 퀀트 엔진 가동\n"
+        f"🚀 [오라클 서버] BTC 국면 방어 & 동적 트레일링 엔진 가동\n"
+        f"• 시작 시점: {start_str}\n"
         f"• 가동 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}\n\n"
         "📱 사용 가능한 명령어:\n"
         "• /status : 시스템 상태 및 포지션 확인\n"
-        "• /log : 최근 매도 이력 및 실현 손익 확인\n"
-        "• /update : GitHub 최신 코드 동기화 후 재시작\n"
-        "• /stop : 신규 매수 일시정지\n"
-        "• /start : 매매 재개"
+        "• /log : 최근 매도 이력 및 세션 누적 손익\n"
+        "• /update : GitHub 최신 코드 동기화 후 재시작"
     )
     asyncio.run(realtime_execution_engine())
