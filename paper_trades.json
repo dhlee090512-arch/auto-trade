@@ -3,7 +3,7 @@
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 140200.0,
-      "highest_price": 140200.0,
+      "highest_price": 140400.0,
       "stop_loss": 138798.0,
       "take_profit": 142303.0,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 1.5,
       "detailed_reason": "SOL/KRW는 현재 5분봉 RSI가 44.4로 과매수 구간이 아니며, VWAP(140,330) 근처에서 가격이 안정적으로 수렴하고 있습니다. 거래량 급증 없이 횡보 조정을 거친 후 지지선을 테스트하는 구간으로, 현 가격대에서 얕은 할인율로 진입하여 박스권 상단 회복을 노리는 단기 스캘핑 전략에 적합합니다.",
       "entry_time": "2026-08-27T16:24:16.618883+09:00",
-      "break_even_triggered": false
-    },
-    "LM": {
-      "symbol": "LM/KRW",
-      "entry_price": 1.579,
-      "highest_price": 1.579,
-      "stop_loss": 1.555315,
-      "take_profit": 1.623212,
-      "buy_amount_krw": 6324,
-      "units": 4005.066497783407,
-      "sl_pct": -1.5,
-      "tp_pct": 2.8,
-      "detailed_reason": "LM/KRW는 5분봉 기준 강력한 거래대금 유입(볼륨 서지 3.3배)과 함께 단기 저항선을 돌파하며 1.58 부근으로 강한 상승세를 나타내고 있습니다. VWAP 대비 갭(7.94%)이 존재하나 RSI(60.7)가 과매수 구간(>70)에 도달하지 않아 추가 상승 여력이 충분합니다. 최근 캔들에서 단기 조정을 거친 후 재차 거래량이 실리는 모멘텀을 활용하여 눌림목 구간에서 진입하기 적합합니다.",
-      "entry_time": "2026-08-27T16:43:14.705133+09:00",
       "break_even_triggered": false
     }
   },
@@ -1937,6 +1923,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-27T14:27:53.971333+09:00",
       "exit_time": "2026-08-27T14:41:04.402442+09:00"
+    },
+    {
+      "symbol": "LM/KRW",
+      "entry_price": 1.579,
+      "exit_price": 1.553,
+      "buy_amount_krw": 6324,
+      "profit_krw": -104,
+      "profit_pct": -1.65,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T16:43:14.705133+09:00",
+      "exit_time": "2026-08-27T16:43:22.364684+09:00"
     }
   ]
 }
