@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 567.0,
-      "highest_price": 567.0,
-      "stop_loss": 561.897,
-      "take_profit": 575.505,
-      "buy_amount_krw": 6324,
-      "units": 11.153439153439153,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "WLD/KRW는 5분봉 RSI가 66.7로 과매수 구간(70)을 아직 하회하며, 안티체이싱 룰을 충족합니다. VWAP 상단에서 안정적인 거래량 증가(1.88배)를 동반한 우상향 패턴을 보이고 있어, 단기 눌림목 매수 후 스캘핑 목표가 달성이 유리한 기술적 구조를 형성하고 있습니다.",
-      "entry_time": "2026-08-27T18:30:28.779213+09:00",
-      "break_even_triggered": false
-    },
     "D": {
       "symbol": "D/KRW",
       "entry_price": 5.058,
@@ -2033,6 +2019,18 @@
       "reason": "📈 트레일링 스탑 (최고 +1.2% 달성 후 이익 보존)",
       "entry_time": "2026-08-27T17:23:49.232221+09:00",
       "exit_time": "2026-08-27T18:50:49.843908+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 567.0,
+      "exit_price": 561.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -67,
+      "profit_pct": -1.06,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-27T18:30:28.779213+09:00",
+      "exit_time": "2026-08-27T18:50:57.091574+09:00"
     }
   ]
 }
