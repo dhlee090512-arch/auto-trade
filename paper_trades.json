@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "GWEI": {
+      "symbol": "GWEI/KRW",
+      "entry_price": 33.63,
+      "highest_price": 33.63,
+      "stop_loss": 33.2937,
+      "take_profit": 34.302600000000005,
+      "buy_amount_krw": 6324,
+      "units": 188.04638715432648,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "GWEI/KRW는 5분봉 RSI 56.1로 과매수 구간(>70)을 회피하였으며, 가격이 VWAP 근처(-0.06% 갭)에서 안정적으로 지지를 받고 있습니다. 거래량이 평소 대비 1.91배 급증하여 상승 모멘텀이 유효하며, 얕은 눌림목(0.05% 할인) 매수 전략을 통해 +2.0%의 수익 목표와 -1.0%의 손절 라인으로 유리한 리스크 대비 리턴 비율을 확보했습니다.",
+      "entry_time": "2026-08-27T19:09:03.050799+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
