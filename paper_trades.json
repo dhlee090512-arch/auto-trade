@@ -13,6 +13,20 @@
       "detailed_reason": "PENGU/KRW는 5분봉 기준 거래량이 급증(volume_surge_ratio 4.45)하며 매수세 유입이 확인되었습니다. RSI(14)가 47.5로 과열권에 진입하지 않아 추격매수 부담이 적고, VWAP 부근에서 지지를 받으며 횡보 후 재상승할 수 있는 탄탄한 눌림목 구조를 형성하고 있습니다. 짧은 손절(-0.9%) 대비 높은 목표가(+1.8%) 설정이 가능한 구간입니다.",
       "entry_time": "2026-08-28T02:44:24.183089+09:00",
       "break_even_triggered": false
+    },
+    "EGG": {
+      "symbol": "EGG/KRW",
+      "entry_price": 0.555,
+      "highest_price": 0.555,
+      "stop_loss": 0.546675,
+      "take_profit": 0.57054,
+      "buy_amount_krw": 6324,
+      "units": 11394.594594594593,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "EGG/KRW는 단기 급등 이후 조정을 거치며 5분봉 RSI(60.5)가 과열 구간을 벗어나 안정적인 상태입니다. VWAP 대비 괴리율이 존재하나 거래량이 동반된 상승 추세의 눌림목 구간으로 판단되며, 현지가 기준 미세한 디스카운트를 적용하여 진입하기에 적합한 모멘텀 스캘핑 자리를 형성하고 있습니다.",
+      "entry_time": "2026-08-28T03:11:42.864520+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
