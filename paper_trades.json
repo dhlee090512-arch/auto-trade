@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1986.0,
+      "highest_price": 1986.0,
+      "stop_loss": 1966.1399999999999,
+      "take_profit": 2015.7899999999997,
+      "buy_amount_krw": 6324,
+      "units": 3.1842900302114803,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "XRP/KRW는 5분봉 기준 RSI(14)가 47.6으로 과매수 구간을 완전히 피했으며, 단기 하락 조정 이후 최근 캔들들에서 저점을 다지며 소폭 반등하는 흐름을 보이고 있습니다. VWAP 대비 이격도가 -0.62%로 가격 매력이 존재하며, 얕은 할인율(0.05%)로 진입하여 리스크 대비 준수한 스캘핑 목표 수익률(+1.5%)을 확보할 수 있는 구간입니다.",
+      "entry_time": "2026-08-28T12:23:34.330509+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
