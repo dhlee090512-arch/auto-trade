@@ -81,16 +81,20 @@ logging.basicConfig(
 )
 
 # ==========================================
-# 1. 텔레그램 및 KST 시간 유틸리티
+# 1. 텔레그램 및 KST 시간 유틸리티 (순정 파싱 보장)
 # ==========================================
 def get_kst_now():
     return datetime.now(timezone(timedelta(hours=9)))
 
 def send_telegram_msg(msg: str):
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+    token = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
+    chat_id = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
+    if not token or not chat_id:
         return
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
+    
+    clean_token = token.split("/")[-1].replace("[", "").replace("]", "").strip()
+    url = f"https://api.telegram.org/bot{clean_token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": msg}
     try:
         requests.post(url, json=payload, timeout=6)
     except Exception as e:
@@ -165,7 +169,7 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 • 실현 손익 : {session_sign_krw}{session_profit_krw:,} KRW"""
 
 # ==========================================
-# 2. 파일 I/O 및 GitHub 동기화
+# 2. 파일 I/O 및 GitHub 동기화 (락 적용)
 # ==========================================
 def load_json_file(file_path, default_value):
     with FILE_IO_LOCK:
@@ -277,7 +281,7 @@ def generate_and_save_reflection(pos: dict, exit_reason: str, profit_pct: float)
         logging.error(f"자가 반성 생성 실패: {e}")
 
 # ==========================================
-# 4. 빗썸 API & 퀀트 지표 (순수 Plain URL)
+# 4. 빗썸 API & 퀀트 지표 (Plain URL)
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -348,7 +352,7 @@ def get_bithumb_tick_size(price: float) -> float:
 
 def get_current_price(coin_code: str) -> float:
     try:
-        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").strip()
+        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").replace("[", "").replace("]", "").strip()
         url = f"[https://api.bithumb.com/public/ticker/](https://api.bithumb.com/public/ticker/){clean_code}_KRW"
         res = requests.get(url, timeout=3).json()
         if res.get("status") == "0000":
@@ -359,7 +363,7 @@ def get_current_price(coin_code: str) -> float:
 
 def get_candles(coin_code, interval="5m", limit=50):
     try:
-        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").strip()
+        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").replace("[", "").replace("]", "").strip()
         url = f"[https://api.bithumb.com/public/candlestick/](https://api.bithumb.com/public/candlestick/){clean_code}_KRW/{interval}"
         res = requests.get(url, timeout=5).json()
         if res.get("status") == "0000":
@@ -829,18 +833,22 @@ async def realtime_execution_engine():
                 status = "HOLDING"
                 exit_reason = ""
 
+                # ① 무제한 트레일링 스탑 (최고 +1.2% 돌파 후 0.4% 반락 시)
                 if highest_profit_pct >= TRAILING_START_PCT and (highest_profit_pct - curr_profit_pct) >= TRAILING_GAP_PCT:
                     status = "CLOSED_TRAILING_STOP"
                     exit_reason = f"📈 트레일링 스탑 (최고 +{highest_profit_pct:.1f}% 달성 후 이익 극대화 청산)"
 
+                # ② 본절선/손절선 도달
                 elif curr_p <= pos["stop_loss"]:
                     status = "CLOSED_STOP_LOSS"
                     exit_reason = "🛡️ 본절 방어선 또는 손절가 도달"
 
+                # ③ 25분 모멘텀 조기 탈출 (손실 시)
                 elif (now_dt - entry_time) >= timedelta(minutes=EARLY_EXIT_MINUTES) and curr_profit_pct <= 0.0:
                     status = "CLOSED_EARLY_EXIT"
                     exit_reason = f"⌛ {EARLY_EXIT_MINUTES}분간 모멘텀 소멸로 조기 탈출"
 
+                # ④ 60분 횡보 청산 (박스권 정체 시)
                 elif (now_dt - entry_time) >= timedelta(minutes=MAX_HOLD_MINUTES) and curr_profit_pct < BREAK_EVEN_TRIGGER_PCT:
                     status = "CLOSED_TIME_EXIT"
                     exit_reason = f"⏰ {MAX_HOLD_MINUTES}분 횡보 박스권 정체로 정리"
@@ -891,25 +899,30 @@ async def realtime_execution_engine():
             await asyncio.sleep(3)
 
 # ==========================================
-# 8. 텔레그램 리스너 (방어 처리 강화)
+# 8. 텔레그램 리스너 (방어 처리)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
-    if not TELEGRAM_BOT_TOKEN: return
-    url = f"[https://api.telegram.org/bot](https://api.telegram.org/bot){TELEGRAM_BOT_TOKEN}/getUpdates"
+    token = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
+    chat_id_env = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
+    if not token:
+        return
+    
+    clean_token = token.split("/")[-1].replace("[", "").replace("]", "").strip()
+    base_url = f"[https://api.telegram.org/bot](https://api.telegram.org/bot){clean_token}/getUpdates"
 
     try:
-        init_res = requests.get(url, params={"timeout": 1}, timeout=5).json()
+        init_res = requests.get(base_url, params={"timeout": 1}, timeout=5).json()
         if init_res.get("ok") and init_res.get("result"):
             LAST_TELEGRAM_UPDATE_ID = init_res["result"][-1]["update_id"]
-            requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=5)
+            requests.get(base_url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=5)
     except Exception as e:
         logging.warning(f"텔레그램 초기화 오류 (무시됨): {e}")
 
     while True:
         try:
             params = {"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 10}
-            res = requests.get(url, params=params, timeout=15).json()
+            res = requests.get(base_url, params=params, timeout=15).json()
             if res.get("ok"):
                 for update in res.get("result", []):
                     LAST_TELEGRAM_UPDATE_ID = update["update_id"]
@@ -917,7 +930,7 @@ def telegram_listener_thread():
                     text = msg.get("text", "").strip()
                     sender_chat_id = str(msg.get("chat", {}).get("id", "")).strip()
 
-                    if TELEGRAM_CHAT_ID and sender_chat_id != TELEGRAM_CHAT_ID:
+                    if chat_id_env and sender_chat_id != chat_id_env:
                         continue
 
                     if text == "/status":
@@ -952,7 +965,7 @@ def telegram_listener_thread():
                     elif text == "/update":
                         send_telegram_msg("🔄 [원격 업데이트] 코드를 동기화하고 서비스를 재시작합니다...")
                         try:
-                            requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=3)
+                            requests.get(base_url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=3)
                         except Exception:
                             pass
 
