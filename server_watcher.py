@@ -2,7 +2,7 @@ import os
 import sys
 
 # ==========================================
-# [중요] 시스템 프록시 환경변수 원천 무효화 (402/통신 에러 차단)
+# [중요] 시스템 프록시 환경변수 원천 무효화 (통신 에러 방지)
 # ==========================================
 for proxy_var in ['http_proxy', 'https_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'all_proxy', 'WEBSHARE_URL']:
     os.environ.pop(proxy_var, None)
@@ -30,19 +30,19 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 환경 변수
 # ==========================================
-PAPER_TRADING = True             # 🧪 True: 모의투자 / False: 빗썸 실전매매
-MIN_CONFIDENCE_SCORE = 65        # 🎯 기본 최소 신뢰도
-MAX_HOLDING_COINS = 3            # 🛡️ 최대 보유 가능 종목 수
-MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
-BUY_RATIO = 0.20                 # 📊 가용 잔고 대비 1회 투입 비중 (20%)
-ENTRY_TIMEOUT_MINUTES = 20       # ⏰ 진입 대기 만료 시간
+PAPER_TRADING = True             # True: 모의투자 / False: 빗썸 실전매매
+MIN_CONFIDENCE_SCORE = 65        # 기본 최소 신뢰도
+MAX_HOLDING_COINS = 3            # 최대 보유 가능 종목 수
+MIN_BUY_KRW = 6000               # 최소 매수 금액 (원)
+BUY_RATIO = 0.20                 # 1회 투입 비중 (20%)
+ENTRY_TIMEOUT_MINUTES = 20       # 진입 대기 만료 시간
 
-# ⏰ 청산 및 추세 추종 파라미터
-EARLY_EXIT_MINUTES = 25          # ⏰ 모멘텀 소멸 조기 탈출 (마이너스 시)
-MAX_HOLD_MINUTES = 60            # ⏰ 비추세/횡보 종목 최대 보유 제한
-BREAK_EVEN_TRIGGER_PCT = 0.7     # 🛡️ 본절 방어선 발동 기준 (+0.7%)
-TRAILING_START_PCT = 1.2         # 📈 트레일링 스탑 활성화 기준 (+1.2%)
-TRAILING_GAP_PCT = 0.4           # 📈 고점 대비 하락 반락 허용폭 (-0.4%)
+# 청산 및 추세 추종 파라미터
+EARLY_EXIT_MINUTES = 25          # 모멘텀 소멸 조기 탈출 (손실 시)
+MAX_HOLD_MINUTES = 60            # 비추세/횡보 종목 최대 보유 제한
+BREAK_EVEN_TRIGGER_PCT = 0.7     # 본절 방어선 발동 기준 (+0.7%)
+TRAILING_START_PCT = 1.2         # 트레일링 스탑 활성화 기준 (+1.2%)
+TRAILING_GAP_PCT = 0.4           # 고점 대비 하락 반락 허용폭 (-0.4%)
 
 TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
 TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
@@ -66,9 +66,8 @@ PROJECT_DIR = "/home/ubuntu/auto-trade"
 
 EMERGENCY_STOP = False
 LAST_TELEGRAM_UPDATE_ID = 0
-FILE_IO_LOCK = threading.Lock()  # 파일 동시성 충돌 방지 락
+FILE_IO_LOCK = threading.Lock()
 
-# 🌟 이번 세션(코드 실행/업데이트 시점) 기준 추적 변수
 SESSION_START_TIME = datetime.now(timezone(timedelta(hours=9)))
 BTC_DEFENSIVE_MODE = False
 
@@ -166,7 +165,7 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 • 실현 손익 : {session_sign_krw}{session_profit_krw:,} KRW"""
 
 # ==========================================
-# 2. 파일 I/O 및 GitHub 동기화 (동시성 락 적용)
+# 2. 파일 I/O 및 GitHub 동기화
 # ==========================================
 def load_json_file(file_path, default_value):
     with FILE_IO_LOCK:
@@ -207,7 +206,7 @@ def sync_file_to_github(file_path, content_data):
         logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
 
 # ==========================================
-# 3. 강화학습 (밴딧 & LLM 자기 반성 메모리)
+# 3. 강화학습 (밴딧 & LLM 자기 반성)
 # ==========================================
 DISCOUNT_ACTIONS = [0.25, 0.40, 0.55, 0.70]
 
@@ -278,7 +277,7 @@ def generate_and_save_reflection(pos: dict, exit_reason: str, profit_pct: float)
         logging.error(f"자가 반성 생성 실패: {e}")
 
 # ==========================================
-# 4. 빗썸 API & 퀀트 지표
+# 4. 빗썸 API & 퀀트 지표 (순수 Plain URL)
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -349,7 +348,8 @@ def get_bithumb_tick_size(price: float) -> float:
 
 def get_current_price(coin_code: str) -> float:
     try:
-        url = f"[https://api.bithumb.com/public/ticker/](https://api.bithumb.com/public/ticker/){coin_code}_KRW"
+        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").strip()
+        url = f"[https://api.bithumb.com/public/ticker/](https://api.bithumb.com/public/ticker/){clean_code}_KRW"
         res = requests.get(url, timeout=3).json()
         if res.get("status") == "0000":
             return float(res["data"]["closing_price"])
@@ -359,7 +359,8 @@ def get_current_price(coin_code: str) -> float:
 
 def get_candles(coin_code, interval="5m", limit=50):
     try:
-        url = f"[https://api.bithumb.com/public/candlestick/](https://api.bithumb.com/public/candlestick/){coin_code}_KRW/{interval}"
+        clean_code = coin_code.replace("KRW-", "").replace("/KRW", "").strip()
+        url = f"[https://api.bithumb.com/public/candlestick/](https://api.bithumb.com/public/candlestick/){clean_code}_KRW/{interval}"
         res = requests.get(url, timeout=5).json()
         if res.get("status") == "0000":
             return [{
@@ -820,7 +821,6 @@ async def realtime_execution_engine():
 
                 highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
 
-                # 본절 방어선 (+0.7% 도달 시 발동)
                 if not pos.get("break_even_triggered", False) and curr_profit_pct >= BREAK_EVEN_TRIGGER_PCT:
                     pos["stop_loss"] = max(pos["stop_loss"], entry_p * 1.001)
                     pos["break_even_triggered"] = True
@@ -829,22 +829,18 @@ async def realtime_execution_engine():
                 status = "HOLDING"
                 exit_reason = ""
 
-                # ① 트레일링 스탑 (목표가를 넘어도 강제 청산 없이, 최고점 +1.2% 찍고 0.4% 반락할 때까지 끝까지 추종)
                 if highest_profit_pct >= TRAILING_START_PCT and (highest_profit_pct - curr_profit_pct) >= TRAILING_GAP_PCT:
                     status = "CLOSED_TRAILING_STOP"
                     exit_reason = f"📈 트레일링 스탑 (최고 +{highest_profit_pct:.1f}% 달성 후 이익 극대화 청산)"
 
-                # ② 손절선 / 본절선 도달
                 elif curr_p <= pos["stop_loss"]:
                     status = "CLOSED_STOP_LOSS"
                     exit_reason = "🛡️ 본절 방어선 또는 손절가 도달"
 
-                # ③ 25분 모멘텀 조기 탈출 (손실 상태일 때만)
                 elif (now_dt - entry_time) >= timedelta(minutes=EARLY_EXIT_MINUTES) and curr_profit_pct <= 0.0:
                     status = "CLOSED_EARLY_EXIT"
                     exit_reason = f"⌛ {EARLY_EXIT_MINUTES}분간 모멘텀 소멸로 조기 탈출"
 
-                # ④ 60분 횡보 청산 (박스권 정체 상태일 때만)
                 elif (now_dt - entry_time) >= timedelta(minutes=MAX_HOLD_MINUTES) and curr_profit_pct < BREAK_EVEN_TRIGGER_PCT:
                     status = "CLOSED_TIME_EXIT"
                     exit_reason = f"⏰ {MAX_HOLD_MINUTES}분 횡보 박스권 정체로 정리"
@@ -895,7 +891,7 @@ async def realtime_execution_engine():
             await asyncio.sleep(3)
 
 # ==========================================
-# 8. 텔레그램 리스너
+# 8. 텔레그램 리스너 (방어 처리 강화)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, LAST_TELEGRAM_UPDATE_ID
@@ -907,8 +903,8 @@ def telegram_listener_thread():
         if init_res.get("ok") and init_res.get("result"):
             LAST_TELEGRAM_UPDATE_ID = init_res["result"][-1]["update_id"]
             requests.get(url, params={"offset": LAST_TELEGRAM_UPDATE_ID + 1, "timeout": 1}, timeout=5)
-    except Exception:
-        pass
+    except Exception as e:
+        logging.warning(f"텔레그램 초기화 오류 (무시됨): {e}")
 
     while True:
         try:
@@ -972,7 +968,8 @@ def telegram_listener_thread():
                         threading.Thread(target=do_restart, daemon=True).start()
 
             time.sleep(1)
-        except Exception:
+        except Exception as e:
+            logging.warning(f"텔레그램 리스너 루프 오류: {e}")
             time.sleep(3)
 
 if __name__ == "__main__":
