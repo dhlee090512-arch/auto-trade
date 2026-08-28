@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "CYS": {
-      "symbol": "CYS/KRW",
-      "entry_price": 1089.0,
-      "highest_price": 1089.0,
-      "stop_loss": 1078.11,
-      "take_profit": 1105.3349999999998,
-      "buy_amount_krw": 6324,
-      "units": 5.807162534435261,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "XRP는 RSI가 75를 초과하여 안티체이싱(Anti-Chasing) 룰에 의해 배제되었으며, SOL은 횡보세로 모멘텀이 부족합니다. CYS/KRW는 5분봉 RSI가 65.6으로 과열권 진입 직전이며, 직전 15분간 유의미한 반등세(ret_15m +1.11%)와 함께 단기 조정을 거친 뒤 반등하는 흐름을 보여 스칼핑 매매에 적합합니다.",
-      "entry_time": "2026-08-28T10:26:10.806959+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2607,6 +2592,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-08-28T10:16:46.685488+09:00",
       "exit_time": "2026-08-28T10:29:58.637958+09:00"
+    },
+    {
+      "symbol": "CYS/KRW",
+      "entry_price": 1089.0,
+      "exit_price": 1078.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -64,
+      "profit_pct": -1.01,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-08-28T10:26:10.806959+09:00",
+      "exit_time": "2026-08-28T10:38:13.099602+09:00"
     }
   ]
 }
