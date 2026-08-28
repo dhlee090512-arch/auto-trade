@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "entry_price": 151100.0,
+      "highest_price": 151100.0,
+      "stop_loss": 149589.0,
+      "take_profit": 153819.8,
+      "buy_amount_krw": 6324,
+      "units": 0.041853077432164126,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 57.8로 과열권(70)을 하회하며, 단기 이평선과 VWAP 부근에서 안정적인 지지를 받고 있습니다. 15분 수익률(0.53%)이 우상향 추세를 보이고 있으며, 최근 캔들에서 소폭 조정을 거친 뒤 반등하는 형태를 보여 얕은 할인율(0.05%)로 단기 스캘핑 진입하기에 최적의 조건입니다.",
+      "entry_time": "2026-08-28T09:24:58.784063+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
