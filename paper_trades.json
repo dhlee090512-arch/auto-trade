@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 572.0,
-      "highest_price": 572.0,
-      "stop_loss": 566.28,
-      "take_profit": 580.5799999999999,
-      "buy_amount_krw": 6324,
-      "units": 11.055944055944057,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI가 46.7로 과매수 구간이 아니며 적절한 중립 수준을 유지하고 있어 추격매수 위험이 낮음. VWAP 부근에서 안정적인 가격 형성과 함께 최근 캔들에서 소폭의 거래량 유입 및 반등 시도가 관찰됨. 얕은 눌림목(0.05% 할인)에서 진입하여 상방 탄력을 활용한 단기 스캘핑 수익 실현이 유리함.",
-      "entry_time": "2026-08-28T09:36:31.798712+09:00",
-      "break_even_triggered": false
-    },
     "SUI": {
       "symbol": "SUI/KRW",
       "entry_price": 1081.0,
@@ -2587,6 +2573,18 @@
       "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
       "entry_time": "2026-08-28T09:34:13.905496+09:00",
       "exit_time": "2026-08-28T09:59:16.365192+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 572.0,
+      "exit_price": 572.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 0,
+      "profit_pct": 0.0,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 25분간 모멘텀 소멸로 조기 탈출 (기회비용 확보)",
+      "entry_time": "2026-08-28T09:36:31.798712+09:00",
+      "exit_time": "2026-08-28T10:01:32.028634+09:00"
     }
   ]
 }
