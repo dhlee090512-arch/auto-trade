@@ -13,6 +13,20 @@
       "detailed_reason": "SUI/KRW는 5분봉 RSI 56.8로 과매수 구간(70 이상)을 피해 안정적인 진입이 가능하며, VWAP 상단에서 거래량이 동반되며 견조한 지지 흐름을 보이고 있습니다. 최근 캔들 패턴이 우상향 추세를 형성하고 있어 얕은 조정을 활용한 단기 스캘핑 매매에 최적의 조건을 갖추고 있습니다.",
       "entry_time": "2026-08-28T09:56:07.785585+09:00",
       "break_even_triggered": false
+    },
+    "HPP": {
+      "symbol": "HPP/KRW",
+      "entry_price": 12.68,
+      "highest_price": 12.68,
+      "stop_loss": 12.489799999999999,
+      "take_profit": 13.03504,
+      "buy_amount_krw": 6324,
+      "units": 498.7381703470032,
+      "sl_pct": -1.5,
+      "tp_pct": 2.8,
+      "detailed_reason": "HPP/KRW는 5분봉 기준 RSI 58.9로 과매수 구간(70 이상)을 회피하였으며, 최근 15분간 완만한 가격 상승세를 보이고 있습니다. VWAP 대비 가격 이격도가 적절하며(1.2%), 단기 눌림목 구간에서 얕은 진입(0.08% 할인)을 통해 리스크를 통제하면서 상승 모멘텀을 활용한 스캘핑이 가능합니다.",
+      "entry_time": "2026-08-28T10:16:46.685488+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
