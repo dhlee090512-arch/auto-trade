@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 21.47,
+      "highest_price": 21.47,
+      "stop_loss": 21.233829999999998,
+      "take_profit": 21.792049999999996,
+      "buy_amount_krw": 6324,
+      "units": 294.5505356311132,
+      "sl_pct": -1.1,
+      "tp_pct": 1.5,
+      "detailed_reason": "HEMI 코인은 5분봉 RSI 14가 29.0으로 과매도 구간에 진입해 있으며, VWAP 대비 -2.15% 하회하여 가격적인 메리트가 있습니다. 최근 저점 부근에서 지지 테스트를 거치고 있어 짧은 반등을 노리는 단기 스캘핑 매매(롱)로 적합합니다. 0G 코인은 RSI가 86.2로 안티추이징(추격 매수 금지) 원칙에 위배되어 제외하였습니다.",
+      "entry_time": "2026-09-01T07:56:12.028096+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
