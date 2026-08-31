@@ -133,17 +133,10 @@ class GeminiBrainDirect:
                 logger.warning(f"Gemini ({m}) 예외: {e}")
         return None
 
-    def get_decision(self, prompt_text):
-        return self._call_api(prompt_text)
-
-    def decide(self, prompt_text):
-        return self._call_api(prompt_text)
-
-    def analyze(self, prompt_text):
-        return self._call_api(prompt_text)
-
-    def ask(self, prompt_text):
-        return self._call_api(prompt_text)
+    def get_decision(self, prompt_text): return self._call_api(prompt_text)
+    def decide(self, prompt_text): return self._call_api(prompt_text)
+    def analyze(self, prompt_text): return self._call_api(prompt_text)
+    def ask(self, prompt_text): return self._call_api(prompt_text)
 
 def get_ai_brain():
     return GeminiBrainDirect()
@@ -200,13 +193,10 @@ def calculate_rsi(closes, period=14):
 def calculate_swing_quant_features(candles_1h, candles_15m):
     closes_1h = [c["close"] for c in candles_1h]
     closes_15m = [c["close"] for c in candles_15m]
-    
     rsi_1h = calculate_rsi(closes_1h, 14)
     rsi_15m = calculate_rsi(closes_15m, 14)
-    
     ma20_1h = sum(closes_1h[-20:]) / 20.0 if len(closes_1h) >= 20 else closes_1h[-1]
     curr_p = closes_15m[-1]
-    
     vol_avg = sum(c["volume"] for c in candles_15m[-10:]) / 10.0 if len(candles_15m) >= 10 else 1.0
     vol_ratio = (candles_15m[-1]["volume"] / vol_avg) if vol_avg > 0 else 1.0
 
@@ -296,7 +286,7 @@ def execute_server_side_strategy():
     logger.info(f"🎯 [1시간 모멘텀 상위 3개 선별]: {summary_str}")
 
     brain = get_ai_brain()
-    now_kst_str = get_kst_now().isoformat()
+    now_kst_str = get_kst_now().strftime("%Y-%m-%d %H:%M:%S")
 
     for item in top_3:
         if len(paper_db.get("active_positions", {})) >= MAX_HOLDING_COINS:
@@ -328,7 +318,17 @@ def execute_server_side_strategy():
             reason = decision.get("reason", "눌림목 지지 확인")
 
             logger.info(f"💡 AI 승인: [{item['symbol']}] 진입목표가={target_p}, SL={sl_pct}%, TP={tp_pct}% | 사유: {reason}")
-            send_telegram_alert(f"💡 [AI 진입 승인]\n종목: {item['symbol']}\n진입목표가: {target_p:,.4f} KRW\n손절(SL): {sl_pct}%\n목표익절(TP): +{tp_pct}%\n사유: {reason}")
+            
+            msg = (
+                f"💡 [AI 매수 타점 승인]\n"
+                f"-----------------------------\n"
+                f"• 종목: {item['symbol']}\n"
+                f"• 진입목표가: {target_p:,.4f} KRW\n"
+                f"• 손절기준(SL): {sl_pct}%\n"
+                f"• 목표익절(TP): +{tp_pct}%\n"
+                f"• 분석사유: {reason}"
+            )
+            send_telegram_alert(msg)
             
             server_state.setdefault("pending_targets", {})[item["code"]] = {
                 "symbol": item["symbol"],
@@ -346,7 +346,14 @@ def execute_server_side_strategy():
 # ==========================================
 async def main_watcher_loop():
     logger.info("⚡ 실시간 모멘텀-스윙 감시 & 무제한 트레일링 엔진 구동 시작")
-    send_telegram_alert("⚡ [자동매매 엔진 가동]\nGemini 3.5 Flash 직통 연동 및 실시간 모멘텀-스윙 감시가 시작되었습니다.")
+    start_msg = (
+        "⚡ [서버 자동매매 엔진 가동]\n"
+        "-----------------------------\n"
+        "• 상태: 실시간 모멘텀-스윙 감시 시작\n"
+        "• 모델: Gemini AI 연동 완료\n"
+        "• 시간(KST): " + get_kst_now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+    send_telegram_alert(start_msg)
     last_strategy_run = 0
 
     while True:
@@ -372,7 +379,13 @@ async def main_watcher_loop():
                     created_dt = parse_kst_iso(plan.get("created_at", ""))
                     if now_dt - created_dt >= timedelta(minutes=ENTRY_TIMEOUT_MINUTES):
                         logger.info(f"⌛ [{plan['symbol']}] 2시간 내 미체결로 자동 취소")
-                        send_telegram_alert(f"⌛ [주문 자동 취소]\n종목: {plan['symbol']}\n2시간 내 목표가 미도달로 대기가 취소되었습니다.")
+                        cancel_msg = (
+                            f"⌛ [주문 대기 취소]\n"
+                            f"-----------------------------\n"
+                            f"• 종목: {plan['symbol']}\n"
+                            f"• 사유: 2시간 내 진입목표가 미도달로 자동 취소"
+                        )
+                        send_telegram_alert(cancel_msg)
                         del pending[coin_code]
                         save_json_file(STATE_FILE, server_state)
                         continue
@@ -396,13 +409,23 @@ async def main_watcher_loop():
                             "buy_amount_krw": plan["buy_amount_krw"],
                             "sl_pct": plan["sl_pct"],
                             "tp_pct": plan["tp_pct"],
-                            "entry_time": now_dt.isoformat()
+                            "entry_time": now_dt.strftime("%Y-%m-%d %H:%M:%S")
                         }
                         del pending[coin_code]
                         save_json_file(STATE_FILE, server_state)
                         save_json_file(PAPER_TRADES_FILE, paper_db)
 
-                        send_telegram_alert(f"🎯 [눌림목 매수 체결 완료]\n종목: {plan['symbol']}\n체결단가: {curr_p:,.4f} KRW\n투자금: {plan['buy_amount_krw']:,} KRW\n목표익절(TP): +{plan['tp_pct']}%\n손절기준(SL): {plan['sl_pct']}%")
+                        buy_msg = (
+                            f"🎯 [15분 눌림목 체결 완료]\n"
+                            f"-----------------------------\n"
+                            f"• 종목: {plan['symbol']}\n"
+                            f"• 체결단가: {curr_p:,.4f} KRW\n"
+                            f"• 매수금액: {plan['buy_amount_krw']:,} KRW\n"
+                            f"• 목표익절(TP): +{plan['tp_pct']}%\n"
+                            f"• 손절기준(SL): {plan['sl_pct']}%\n"
+                            f"• 체결시간(KST): {now_dt.strftime('%m-%d %H:%M')}"
+                        )
+                        send_telegram_alert(buy_msg)
 
             # [2] 보유 포지션 익절 / 손절 / 트레일링 스탑 감시
             for coin_code, pos in list(active_positions.items()):
@@ -440,12 +463,45 @@ async def main_watcher_loop():
                         "exit_price": curr_p,
                         "pnl_pct": round(pnl_pct, 2),
                         "reason": close_reason,
-                        "exit_time": now_dt.isoformat()
+                        "exit_time": now_dt.strftime("%Y-%m-%d %H:%M:%S")
                     })
                     del active_positions[coin_code]
                     save_json_file(PAPER_TRADES_FILE, paper_db)
 
-                    send_telegram_alert(f"🚨 [포지션 청산 완료]\n종목: {pos['symbol']}\n사유: {close_reason}\n진입가: {pos['entry_price']:,.4f} KRW\n청산가: {curr_p:,.4f} KRW\n수익률: {pnl_pct:+.2f}%")
+                    # KST 기준 누적 손익 및 최근 10건 통계 계산
+                    total_trades = len(closed_trades)
+                    wins = sum(1 for t in closed_trades if t.get("pnl_pct", 0) > 0)
+                    losses = total_trades - wins
+                    win_rate = (wins / total_trades * 100.0) if total_trades > 0 else 0.0
+
+                    total_pnl_krw = sum(int(TRADE_ALLOCATION_KRW * (t.get("pnl_pct", 0) / 100.0)) for t in closed_trades)
+                    this_pnl_krw = int(TRADE_ALLOCATION_KRW * (pnl_pct / 100.0))
+
+                    recent_10 = closed_trades[-10:][::-1]
+                    history_lines = []
+                    for idx, t in enumerate(recent_10, 1):
+                        p_pct = t.get("pnl_pct", 0.0)
+                        p_krw = int(TRADE_ALLOCATION_KRW * (p_pct / 100.0))
+                        raw_time = t.get("exit_time", "")
+                        t_time = raw_time[5:16] if len(raw_time) >= 16 else raw_time
+                        history_lines.append(f"{idx}. {t.get('symbol', 'N/A')}: {p_krw:+,}원 ({p_pct:+.2f}%) | {t_time}")
+
+                    history_text = "\n".join(history_lines) if history_lines else "이력 없음"
+
+                    close_msg = (
+                        f"🚨 [포지션 청산 완료]\n"
+                        f"-----------------------------\n"
+                        f"• 종목: {pos['symbol']}\n"
+                        f"• 구분: {close_reason}\n"
+                        f"• 진입단가: {pos['entry_price']:,.4f} KRW ➔ 청산단가: {curr_p:,.4f} KRW\n"
+                        f"• 이번손익: {pnl_pct:+.2f}% ({this_pnl_krw:+,}원)\n"
+                        f"-----------------------------\n"
+                        f"📊 [누적 성과 요약]\n"
+                        f"• 누적 손익: {total_pnl_krw:+,}원 (총 {total_trades}전 {wins}승 {losses}패 | 승률 {win_rate:.1f}%)\n\n"
+                        f"📋 [최근 10건 청산 이력 (KST)]\n"
+                        f"{history_text}"
+                    )
+                    send_telegram_alert(close_msg)
 
         except Exception as e:
             logger.error(f"메인 감시 루프 예외: {e}")
