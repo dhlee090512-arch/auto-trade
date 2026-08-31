@@ -13,20 +13,6 @@
       "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 21.7로 과매도 구간에 진입해 있으며, VWAP 근처에서 지지를 받으며 낙폭을 줄이고 있습니다. 단기 반등 모멘텀을 활용한 롱 스캘핑 진입에 유리한 구조입니다.",
       "entry_time": "2026-09-01T08:01:12.249195+09:00",
       "break_even_triggered": false
-    },
-    "SKR": {
-      "symbol": "SKR/KRW",
-      "entry_price": 40.04,
-      "highest_price": 40.04,
-      "stop_loss": 39.6396,
-      "take_profit": 40.76072,
-      "buy_amount_krw": 6324,
-      "units": 157.94205794205794,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "0G 코인은 5분봉 RSI가 74.3으로 안티체이싱(RSI > 70) 룰에 의해 제외되었습니다. FLOCK 코인 역시 최근 단기 급등으로 인해 진입 리스크가 존재합니다. 반면 SKR 코인은 RSI가 58.1로 과매수 구간을 회피하였으며, VWAP 대비 안정적인 이격률(2.21%)과 최근 거래량 유입 후 눌림목 조정을 거치고 있어 단기 스캘핑 관점의 매수 진입 타점으로 적합합니다.",
-      "entry_time": "2026-09-01T08:05:04.809189+09:00",
-      "break_even_triggered": false
     }
   },
   "closed_trades": [
@@ -2813,6 +2799,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-01T07:56:12.028096+09:00",
       "exit_time": "2026-09-01T08:10:10.697089+09:00"
+    },
+    {
+      "symbol": "SKR/KRW",
+      "entry_price": 40.04,
+      "exit_price": 39.47,
+      "buy_amount_krw": 6324,
+      "profit_krw": -90,
+      "profit_pct": -1.42,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T08:05:04.809189+09:00",
+      "exit_time": "2026-09-01T08:25:44.612785+09:00"
     }
   ]
 }
