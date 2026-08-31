@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SKR": {
+      "symbol": "SKR/KRW",
+      "entry_price": 39.33,
+      "highest_price": 39.33,
+      "stop_loss": 38.936699999999995,
+      "take_profit": 39.91994999999999,
+      "buy_amount_krw": 6324,
+      "units": 160.79328756674295,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SKR/KRW는 5분봉 RSI가 34.6으로 과매도권 진입 직전의 안정적인 눌림목 상태를 보이고 있습니다. 최근 상승 파동 이후 자연스러운 조정 국면이며, 현재 가격(39.41) 부근에서 얕은 진입 구간을 설정하여 반등 시 단기 스캘핑 수익을 노리기에 적합합니다. VWAP 대비 이격이 있으나 하락 압력이 진정되는 캔들 패턴이 나타나며, ATR 4.65%의 변동성을 활용하여 -1.0% 손절과 +1.5% 익절의 손익비가 유리한 타이밍입니다.",
+      "entry_time": "2026-09-01T00:23:59.416580+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
