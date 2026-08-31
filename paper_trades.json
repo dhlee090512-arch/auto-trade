@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "entry_price": 22.33,
-      "highest_price": 22.33,
-      "stop_loss": 22.106699999999996,
-      "take_profit": 22.7766,
-      "buy_amount_krw": 6324,
-      "units": 283.20644872369013,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "HEMI/KRW 코인은 5분봉 기준 RSI 51.2로 과매수 구간을 완전히 피해 있으며, 최근 단기 조정 이후 VWAP(22.2864) 부근에서 안정적인 지지를 받고 반등하는 모습을 보이고 있습니다. 거래량 유입 비율(1.32)이 양호하고 최근 캔들에서 하방 경직성을 확보하며 상승 추세를 시도 중이므로, 현재가 대비 0.05% 할인된 가격에 진입하여 +2.0%의 수익과 -1.0%의 손절 라인을 설정하는 단기 스캘핑 전략으로 매우 유리합니다.",
-      "entry_time": "2026-09-01T05:49:48.896045+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2751,6 +2736,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-09-01T05:11:05.333856+09:00",
       "exit_time": "2026-09-01T05:21:46.751487+09:00"
+    },
+    {
+      "symbol": "HEMI/KRW",
+      "entry_price": 22.33,
+      "exit_price": 22.07,
+      "buy_amount_krw": 6324,
+      "profit_krw": -73,
+      "profit_pct": -1.16,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T05:49:48.896045+09:00",
+      "exit_time": "2026-09-01T05:57:19.466744+09:00"
     }
   ]
 }
