@@ -87,6 +87,16 @@ def save_json_file(path, data):
     except Exception as e:
         logger.error(f"JSON 저장 실패 ({path}): {e}")
 
+def send_telegram_alert(msg):
+    try:
+        token = env_config.get("TELEGRAM_BOT_TOKEN", "")
+        chat_id = env_config.get("TELEGRAM_CHAT_ID", "")
+        if token and chat_id:
+            url = f"https://api.telegram.org/bot{token}/sendMessage"
+            requests.post(url, json={"chat_id": chat_id, "text": msg}, timeout=5)
+    except Exception as e:
+        logger.warning(f"텔레그램 알림 전송 실패: {e}")
+
 # ==========================================
 # 3. Gemini 3.5 기반 AI 브레인 클래스
 # ==========================================
@@ -217,7 +227,6 @@ def calculate_swing_score(q, btc_ret_4h):
     return min(100.0, score)
 
 def execute_real_market_order(coin_code, order_type, amount_krw):
-    # 실전 주문 연동 위치 (모의투자 시 패스)
     return True, {"status": "success"}
 
 # ==========================================
@@ -283,7 +292,8 @@ def execute_server_side_strategy():
         return
 
     top_3 = sorted(scored_candidates, key=lambda x: x["score"], reverse=True)[:3]
-    logger.info(f"🎯 [1시간 모멘텀 상위 3개 선별]: {[f\"{c['symbol']}({int(c['score'])}점)\" for c in top_3]}")
+    summary_str = [c["symbol"] + "(" + str(int(c["score"])) + "점)" for c in top_3]
+    logger.info(f"🎯 [1시간 모멘텀 상위 3개 선별]: {summary_str}")
 
     brain = get_ai_brain()
     now_kst_str = get_kst_now().isoformat()
@@ -318,6 +328,7 @@ def execute_server_side_strategy():
             reason = decision.get("reason", "눌림목 지지 확인")
 
             logger.info(f"💡 AI 승인: [{item['symbol']}] 진입목표가={target_p}, SL={sl_pct}%, TP={tp_pct}% | 사유: {reason}")
+            send_telegram_alert(f"💡 [AI 진입 승인]\n종목: {item['symbol']}\n진입목표가: {target_p:,.4f} KRW\n손절(SL): {sl_pct}%\n목표익절(TP): +{tp_pct}%\n사유: {reason}")
             
             server_state.setdefault("pending_targets", {})[item["code"]] = {
                 "symbol": item["symbol"],
@@ -335,6 +346,7 @@ def execute_server_side_strategy():
 # ==========================================
 async def main_watcher_loop():
     logger.info("⚡ 실시간 모멘텀-스윙 감시 & 무제한 트레일링 엔진 구동 시작")
+    send_telegram_alert("⚡ [자동매매 엔진 가동]\nGemini 3.5 Flash 직통 연동 및 실시간 모멘텀-스윙 감시가 시작되었습니다.")
     last_strategy_run = 0
 
     while True:
@@ -360,6 +372,7 @@ async def main_watcher_loop():
                     created_dt = parse_kst_iso(plan.get("created_at", ""))
                     if now_dt - created_dt >= timedelta(minutes=ENTRY_TIMEOUT_MINUTES):
                         logger.info(f"⌛ [{plan['symbol']}] 2시간 내 미체결로 자동 취소")
+                        send_telegram_alert(f"⌛ [주문 자동 취소]\n종목: {plan['symbol']}\n2시간 내 목표가 미도달로 대기가 취소되었습니다.")
                         del pending[coin_code]
                         save_json_file(STATE_FILE, server_state)
                         continue
@@ -388,6 +401,8 @@ async def main_watcher_loop():
                         del pending[coin_code]
                         save_json_file(STATE_FILE, server_state)
                         save_json_file(PAPER_TRADES_FILE, paper_db)
+
+                        send_telegram_alert(f"🎯 [눌림목 매수 체결 완료]\n종목: {plan['symbol']}\n체결단가: {curr_p:,.4f} KRW\n투자금: {plan['buy_amount_krw']:,} KRW\n목표익절(TP): +{plan['tp_pct']}%\n손절기준(SL): {plan['sl_pct']}%")
 
             # [2] 보유 포지션 익절 / 손절 / 트레일링 스탑 감시
             for coin_code, pos in list(active_positions.items()):
@@ -429,6 +444,8 @@ async def main_watcher_loop():
                     })
                     del active_positions[coin_code]
                     save_json_file(PAPER_TRADES_FILE, paper_db)
+
+                    send_telegram_alert(f"🚨 [포지션 청산 완료]\n종목: {pos['symbol']}\n사유: {close_reason}\n진입가: {pos['entry_price']:,.4f} KRW\n청산가: {curr_p:,.4f} KRW\n수익률: {pnl_pct:+.2f}%")
 
         except Exception as e:
             logger.error(f"메인 감시 루프 예외: {e}")
