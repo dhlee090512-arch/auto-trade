@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SKR": {
+      "symbol": "SKR/KRW",
+      "entry_price": 40.14,
+      "highest_price": 40.14,
+      "stop_loss": 39.7386,
+      "take_profit": 40.74209999999999,
+      "buy_amount_krw": 6324,
+      "units": 157.54857997010464,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SKR/KRW는 5분봉 기준 VWAP(가중이동평균) 상단에 위치하며 갭 퍼센트(+1.69%)가 양수로 우상향 추세를 유지하고 있습니다. RSI(14)가 51.6으로 과열권(70 이상)을 완전히 회피하여 안티 체이싱 조건을 충족하며, 변동성과 거래량 안정을 바탕으로 얕은 눌림목(0.08% 할인) 매수 후 상단 저항선 돌파를 노리는 단기 스캘핑 관점에 적합합니다.",
+      "entry_time": "2026-09-01T08:36:44.435394+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
