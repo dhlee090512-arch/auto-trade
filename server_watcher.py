@@ -1,515 +1,350 @@
 import os
 import sys
+
+# ==========================================
+# [필수] 시스템 프록시 환경변수 원천 무효화 (402 에러 차단)
+# ==========================================
+for proxy_var in ['http_proxy', 'https_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'all_proxy', 'WEBSHARE_URL']:
+    os.environ.pop(proxy_var, None)
+
 import time
 import json
+import base64
 import logging
 import asyncio
 import threading
-from datetime import datetime, timedelta, timezone
+import subprocess
 import requests
+import jwt
+import uuid
+import hashlib
+import urllib.parse
 import re
+from datetime import datetime, timedelta, timezone
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ==========================================
-# 0. 로깅 설정
+# 0. 전역 설정 및 환경 변수
 # ==========================================
+PAPER_TRADING = True             # 🧪 True: 모의투자 / False: 빗썸 실전매매
+MAX_HOLDING_COINS = 3            # 🛡️ 최대 보유 가능 종목 수
+MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
+BUY_RATIO = 0.20                 # 📊 총 평가자산 대비 1회 투입 비중 (20%)
+
+TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
+TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
+GH_TOKEN = os.getenv("GH_TOKEN2") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
+GITHUB_REPOSITORY = "dhlee090512-arch/auto-trade"
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY")
+GROQ_API_KEY3 = os.getenv("GROQ_API_KEY3")
+GROQ_API_KEY2 = os.getenv("GROQ_API_KEY2")
+BITHUMB_API_KEY = os.getenv("BITHUMB_API_KEY")
+BITHUMB_SECRET_KEY = os.getenv("BITHUMB_SECRET_KEY")
+
+STABLE_COINS = {"USDT", "USDC", "DAI", "TUSD", "FDUSD", "USDD", "BUSD", "KRW", "BTC", "ETH"}
+
+STATE_FILE = "server_state.json"
+PAPER_TRADES_FILE = "paper_trades.json"
+TARGETS_FILE = "targets.json"
+PROJECT_DIR = "/home/ubuntu/auto-trade"
+
+EMERGENCY_STOP = False
+LAST_TELEGRAM_UPDATE_ID = 0
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
-    handlers=[logging.StreamHandler(sys.stdout)]
+    handlers=[
+        logging.FileHandler("watcher.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
 )
-logger = logging.getLogger("AutoTradeWatcher")
 
-# ==========================================
-# 1. 환경 변수 로드 (내장 파서)
-# ==========================================
-ENV_FILE = "/home/ubuntu/auto-trade/.env"
-env_config = {}
-
-def load_environment():
-    global env_config
-    if os.path.exists(ENV_FILE):
-        try:
-            with open(ENV_FILE, "r", encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if line and not line.startswith("#") and "=" in line:
-                        k, v = line.split("=", 1)
-                        env_config[k.strip()] = v.strip().strip('"').strip("'")
-        except Exception as e:
-            logger.error(f".env 파일 로드 실패: {e}")
-
-load_environment()
-
-GEMINI_API_KEY = env_config.get("GEMINI_API_KEY", "")
-BITHUMB_API_KEY = env_config.get("BITHUMB_API_KEY", "")
-BITHUMB_SECRET_KEY = env_config.get("BITHUMB_SECRET_KEY", "")
-TELEGRAM_BOT_TOKEN = env_config.get("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID = env_config.get("TELEGRAM_CHAT_ID", "")
-
-# ==========================================
-# 2. 거래 및 감시 상수 설정
-# ==========================================
-STATE_FILE = "/home/ubuntu/auto-trade/server_state.json"
-PAPER_TRADES_FILE = "/home/ubuntu/auto-trade/paper_trades.json"
-LOG_FILE = "/home/ubuntu/auto-trade/bot_log.txt"
-
-PAPER_TRADING = True  # 모의투자 모드
-EMERGENCY_STOP = False
-MAX_HOLDING_COINS = 3
-ENTRY_TIMEOUT_MINUTES = 120
-TRADE_ALLOCATION_KRW = 200000
-
-STABLE_COINS = {"USDT", "USDC", "DAI", "BUSD", "TUSD", "FDUSD", "KRW", "BTC", "ETH"}
 KST = timezone(timedelta(hours=9))
 
 def get_kst_now():
     return datetime.now(KST)
 
-def parse_kst_iso(dt_str):
-    try:
-        return datetime.fromisoformat(dt_str)
-    except Exception:
-        return get_kst_now()
-
-def load_json_file(path, default):
-    if not os.path.exists(path):
-        return default
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return default
-
-def save_json_file(path, data):
-    try:
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        logger.error(f"JSON 저장 실패 ({path}): {e}")
-
-def send_telegram_alert(msg):
-    try:
-        token = env_config.get("TELEGRAM_BOT_TOKEN", "")
-        chat_id = env_config.get("TELEGRAM_CHAT_ID", "")
-        if token and chat_id:
-            url = f"https://api.telegram.org/bot{token}/sendMessage"
-            requests.post(url, json={"chat_id": chat_id, "text": msg}, timeout=5)
-    except Exception as e:
-        logger.warning(f"텔레그램 알림 전송 실패: {e}")
-
 # ==========================================
-# 3. Gemini 3.5 기반 AI 브레인 클래스
+# 1. 텔레그램 유틸리티
 # ==========================================
-class GeminiBrainDirect:
-    def __init__(self):
-        self.key = GEMINI_API_KEY
-        self.models = ["gemini-3.5-flash", "gemini-3.5-flash-lite"]
+def send_telegram_msg(msg: str):
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg}
+    try:
+        requests.post(url, json=payload, timeout=6)
+    except Exception as e:
+        logging.error(f"텔레그램 발송 오류: {e}")
 
-    def _call_api(self, prompt_text):
-        if not self.key:
-            logger.error("GEMINI_API_KEY가 설정되지 않았습니다.")
-            return None
-        
-        for m in self.models:
+def format_portfolio_status_msg(active_positions, closed_trades):
+    held_symbols = [v['symbol'] for v in active_positions.values()]
+    held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)" if held_symbols else "(현재 보유 종목 없음)"
+
+    recent_10 = closed_trades[-10:][::-1] if closed_trades else []
+    
+    if not recent_10:
+        trades_str = "• 매도 이력이 없습니다."
+        win_rate = 0.0
+        total_profit_krw = 0
+    else:
+        trade_lines = []
+        wins = 0
+        total_profit_krw = 0
+        for idx, t in enumerate(recent_10, 1):
+            p_pct = t.get('profit_pct', 0.0)
+            p_krw = t.get('profit_krw', 0)
+            symbol = t.get('symbol', 'UNKNOWN')
+            exit_time_str = t.get('exit_time', '')
             try:
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={self.key}"
-                payload = {
-                    "contents": [{"parts": [{"text": str(prompt_text)}]}],
-                    "generationConfig": {
-                        "response_mime_type": "application/json",
-                        "temperature": 0.2
-                    }
-                }
-                res = requests.post(url, json=payload, timeout=15)
-                if res.status_code == 200:
-                    txt = res.json()["candidates"][0]["content"]["parts"][0]["text"]
-                    match = re.search(r"\{.*\}", txt, re.DOTALL)
-                    if match:
-                        return json.loads(match.group(0))
-                    return json.loads(txt)
-                else:
-                    logger.warning(f"Gemini ({m}) HTTP {res.status_code}: {res.text[:100]}")
-            except Exception as e:
-                logger.warning(f"Gemini ({m}) 예외: {e}")
-        return None
+                dt_obj = datetime.fromisoformat(exit_time_str)
+                time_display = dt_obj.strftime("%m/%d %H:%M KST")
+            except Exception:
+                time_display = "-"
+                
+            sign_pct = "+" if p_pct > 0 else ""
+            sign_k = "+" if p_krw > 0 else ""
+            trade_lines.append(f"{idx}. {symbol}: {sign_k}{p_krw:,}원 ({sign_pct}{p_pct:.2f}%) | {time_display}")
+            if p_pct > 0:
+                wins += 1
+            total_profit_krw += p_krw
+            
+        trades_str = "\n".join(trade_lines)
+        win_rate = round((wins / len(recent_10)) * 100, 1)
 
-    def get_decision(self, prompt_text): return self._call_api(prompt_text)
-    def decide(self, prompt_text): return self._call_api(prompt_text)
-    def analyze(self, prompt_text): return self._call_api(prompt_text)
-    def ask(self, prompt_text): return self._call_api(prompt_text)
+    sign_krw = "+" if total_profit_krw > 0 else ""
+    return f"""💼 [현재 매매 상황]
+• 보유 종목 : {held_str}
 
-def get_ai_brain():
-    return GeminiBrainDirect()
+📜 [최근 10건 매도 이력 (KST)]
+{trades_str}
+
+📊 최근 10건 승률 : {win_rate}%
+💰 최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW"""
 
 # ==========================================
-# 4. 빗썸 API 및 기술적 지표 퀀트 계산
+# 2. 파일 I/O 및 GitHub 동기화
 # ==========================================
-def get_current_price(symbol):
+def load_json_file(file_path, default_value):
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return default_value
+
+def save_json_file(file_path, data):
     try:
-        url = f"https://api.bithumb.com/public/ticker/{symbol}_KRW"
-        res = requests.get(url, timeout=5).json()
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        logging.error(f"JSON 저장 실패 ({file_path}): {e}")
+
+def sync_file_to_github(file_path, content_data):
+    if not GH_TOKEN:
+        return
+    url = f"https://api.github.com/repos/{GITHUB_REPOSITORY}/contents/{file_path}"
+    headers = {"Authorization": f"Bearer {GH_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+    sha = None
+    try:
+        res = requests.get(url, headers=headers, timeout=5)
+        if res.status_code == 200:
+            sha = res.json().get('sha')
+    except Exception:
+        pass
+        
+    json_str = json.dumps(content_data, indent=2, ensure_ascii=False)
+    encoded = base64.b64encode(json_str.encode('utf-8')).decode('utf-8')
+    payload = {"message": f"update: {file_path} from oracle server", "content": encoded}
+    if sha:
+        payload["sha"] = sha
+    try:
+        requests.put(url, headers=headers, json=payload, timeout=8)
+    except Exception as e:
+        logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
+
+# ==========================================
+# 3. 빗썸 API (총 평가자산 및 시세 조회)
+# ==========================================
+def get_bithumb_jwt_headers(query_params: dict = None):
+    if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
+        return {}
+    payload = {
+        'access_key': BITHUMB_API_KEY,
+        'nonce': str(uuid.uuid4()),
+        'timestamp': round(time.time() * 1000)
+    }
+    if query_params:
+        query_string = urllib.parse.urlencode(query_params).encode()
+        m = hashlib.sha512()
+        m.update(query_string)
+        payload['query_hash'] = m.hexdigest()
+        payload['query_hash_alg'] = 'SHA512'
+
+    token = jwt.encode(payload, BITHUMB_SECRET_KEY, algorithm='HS256')
+    return {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+
+def get_real_total_asset_krw():
+    """빗썸 계좌의 총 평가자산(원화 + 코인 평가금액 합산) 조회"""
+    if BITHUMB_API_KEY and BITHUMB_SECRET_KEY:
+        try:
+            url = "https://api.bithumb.com/v1/accounts"
+            headers = get_bithumb_jwt_headers()
+            res = requests.get(url, headers=headers, timeout=5).json()
+            if isinstance(res, list):
+                total_krw = 0.0
+                for acc in res:
+                    curr = acc.get("currency", "")
+                    bal = float(acc.get("balance", 0.0))
+                    locked = float(acc.get("locked", 0.0))
+                    total_units = bal + locked
+                    if curr == "KRW":
+                        total_krw += total_units
+                    else:
+                        price = get_current_price(curr) or float(acc.get("avg_buy_price", 0.0))
+                        total_krw += (total_units * price)
+                if total_krw > 0:
+                    return total_krw
+        except Exception as e:
+            logging.error(f"빗썸 총 자산 조회 실패: {e}")
+    return 100000.0
+
+def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
+    if PAPER_TRADING:
+        return True, "모의투자 체결"
+    try:
+        url = "https://api.bithumb.com/v1/orders"
+        market = f"KRW-{coin_code.upper()}"
+        if side == "bid":
+            body = {"market": market, "side": "bid", "price": str(amount_or_units), "ord_type": "price"}
+        else:
+            body = {"market": market, "side": "ask", "volume": str(amount_or_units), "ord_type": "market"}
+
+        headers = get_bithumb_jwt_headers(body)
+        res = requests.post(url, json=body, headers=headers, timeout=5).json()
+        if "uuid" in res:
+            return True, res["uuid"]
+        return False, str(res)
+    except Exception as e:
+        return False, str(e)
+
+def get_current_price(coin_code: str) -> float:
+    try:
+        url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
+        res = requests.get(url, timeout=3).json()
         if res.get("status") == "0000":
             return float(res["data"]["closing_price"])
     except Exception:
         pass
     return None
 
-def get_candles(symbol, interval="15m", limit=30):
+def get_candles(coin_code, interval="15m", limit=40):
     try:
-        url = f"https://api.bithumb.com/public/candlestick/{symbol}_KRW/{interval}"
-        res = requests.get(url, timeout=6).json()
+        url = f"https://api.bithumb.com/public/candlestick/{coin_code}_KRW/{interval}"
+        res = requests.get(url, timeout=5).json()
         if res.get("status") == "0000":
-            data = res["data"][-limit:]
-            candles = []
-            for d in data:
-                candles.append({
-                    "time": d[0],
-                    "open": float(d[1]),
-                    "close": float(d[2]),
-                    "high": float(d[3]),
-                    "low": float(d[4]),
-                    "volume": float(d[5])
-                })
-            return candles
+            return [{
+                "timestamp": int(c[0]),
+                "open": float(c[1]),
+                "close": float(c[2]),
+                "high": float(c[3]),
+                "low": float(c[4]),
+                "volume": round(float(c[5]), 2)
+            } for c in res['data'][-limit:]]
     except Exception:
         pass
     return []
 
 def calculate_rsi(closes, period=14):
-    if len(closes) < period + 1:
-        return 50.0
+    if len(closes) < period + 1: return 50.0
     gains, losses = [], []
     for i in range(1, len(closes)):
-        diff = closes[i] - closes[i - 1]
-        gains.append(max(diff, 0))
-        losses.append(max(-diff, 0))
+        delta = closes[i] - closes[i-1]
+        gains.append(max(delta, 0))
+        losses.append(max(-delta, 0))
     avg_gain = sum(gains[-period:]) / period
     avg_loss = sum(losses[-period:]) / period
-    if avg_loss == 0:
-        return 100.0
+    if avg_loss == 0: return 100.0
     rs = avg_gain / avg_loss
-    return 100.0 - (100.0 / (1.0 + rs))
+    return round(100.0 - (100.0 / (1.0 + rs)), 1)
 
-def calculate_swing_quant_features(candles_1h, candles_15m):
-    closes_1h = [c["close"] for c in candles_1h]
-    closes_15m = [c["close"] for c in candles_15m]
+def calculate_quant_features(candles_1h, candles_15m):
+    closes_1h = [c['close'] for c in candles_1h]
+    closes_15m = [c['close'] for c in candles_15m]
+    
     rsi_1h = calculate_rsi(closes_1h, 14)
     rsi_15m = calculate_rsi(closes_15m, 14)
     ma20_1h = sum(closes_1h[-20:]) / 20.0 if len(closes_1h) >= 20 else closes_1h[-1]
-    curr_p = closes_15m[-1]
-    vol_avg = sum(c["volume"] for c in candles_15m[-10:]) / 10.0 if len(candles_15m) >= 10 else 1.0
-    vol_ratio = (candles_15m[-1]["volume"] / vol_avg) if vol_avg > 0 else 1.0
+    
+    vol_avg_15m = sum(c['volume'] for c in candles_15m[-10:]) / 10.0 if len(candles_15m) >= 10 else 1.0
+    vol_surge_ratio = round(candles_15m[-1]['volume'] / vol_avg_15m, 2) if vol_avg_15m > 0 else 1.0
 
     return {
-        "rsi_1h": round(rsi_1h, 2),
-        "rsi_15m": round(rsi_15m, 2),
-        "ma20_1h": round(ma20_1h, 2),
-        "curr_price": curr_p,
-        "vol_ratio": round(vol_ratio, 2)
+        "rsi_1h": rsi_1h,
+        "rsi_15m": rsi_15m,
+        "ma20_1h": round(ma20_1h, 4),
+        "curr_price": closes_15m[-1],
+        "vol_surge_ratio": vol_surge_ratio
     }
 
-def calculate_swing_score(q, btc_ret_4h):
-    score = 50.0
-    if q["rsi_1h"] >= 55.0: score += 15.0
-    if q["rsi_15m"] <= 45.0: score += 15.0
-    if q["curr_price"] >= q["ma20_1h"]: score += 10.0
-    if q["vol_ratio"] >= 1.5: score += 10.0
-    return min(100.0, score)
-
-def execute_real_market_order(coin_code, order_type, amount_krw):
-    return True, {"status": "success"}
-
 # ==========================================
-# 5. 전략 실행부 (퀀트 선별 + Gemini 3.5)
+# 4. 장세 적응형 다이렉트 AI 브레인
 # ==========================================
-def execute_server_side_strategy():
-    logger.info("🧠 [서버 1시간 모멘텀 + 15분 눌림목 분석 시작 (모수 30개)]")
-    
-    server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
-    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-    held_codes = set(list(paper_db.get("active_positions", {}).keys()) + list(server_state.get("pending_targets", {}).keys()))
-
-    btc_candles = get_candles("BTC", interval="1h", limit=5)
-    btc_ret_4h = 0.0
-    if len(btc_candles) >= 4:
-        btc_ret_4h = (btc_candles[-1]["close"] - btc_candles[-4]["close"]) / btc_candles[-4]["close"] * 100.0
-
-    url = "https://api.bithumb.com/public/ticker/ALL_KRW"
-    try:
-        res = requests.get(url, timeout=8).json()
-    except Exception as e:
-        logger.error(f"빗썸 전체 시세 조회 실패: {e}")
-        return
-
-    if res.get("status") != "0000":
-        return
-
-    raw_list = []
-    for sym, info in res["data"].items():
-        if sym == "date" or sym.upper() in STABLE_COINS or sym in held_codes:
-            continue
-        try:
-            raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), float(info['acc_trade_value_24H'])))
-        except Exception:
-            pass
-
-    sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:30]
-    scored_candidates = []
-
-    for sym, price, change, _ in sorted_list:
-        candles_1h = get_candles(sym, interval="1h", limit=40)
-        candles_15m = get_candles(sym, interval="15m", limit=30)
-        if len(candles_1h) < 20 or len(candles_15m) < 20:
-            continue
-
-        q = calculate_swing_quant_features(candles_1h, candles_15m)
-        if q.get("rsi_1h", 50) > 70.0:
-            continue
-
-        score = calculate_swing_score(q, btc_ret_4h)
-        scored_candidates.append({
-            "symbol": f"{sym}/KRW",
-            "code": sym,
-            "price": price,
-            "change_24h": change,
-            "score": score,
-            "quant": q,
-            "candles_15m": [{"c": c['close'], "h": c['high'], "l": c['low'], "v": c['volume']} for c in candles_15m[-15:]]
+def call_ai_api(system_instruction, user_prompt):
+    providers = []
+    if GEMINI_API_KEY:
+        providers.append({
+            "name": "Gemini 3.5 Flash-Lite",
+            "key": GEMINI_API_KEY,
+            "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+            "model": "gemini-3.5-flash-lite"
+        })
+    if SAMBANOVA_API_KEY:
+        providers.append({
+            "name": "SambaNova Llama-3.3-70B",
+            "key": SAMBANOVA_API_KEY,
+            "base_url": "https://api.sambanova.ai/v1",
+            "model": "Meta-Llama-3.3-70B-Instruct"
+        })
+    if GROQ_API_KEY3 or GROQ_API_KEY2:
+        providers.append({
+            "name": "Groq SpecDec",
+            "key": GROQ_API_KEY3 or GROQ_API_KEY2,
+            "base_url": "https://api.groq.com/openai/v1",
+            "model": "llama-3.3-70b-specdec"
         })
 
-    if not scored_candidates:
-        logger.info("선별된 대상 종목이 없습니다.")
-        return
-
-    top_3 = sorted(scored_candidates, key=lambda x: x["score"], reverse=True)[:3]
-    summary_str = [c["symbol"] + "(" + str(int(c["score"])) + "점)" for c in top_3]
-    logger.info(f"🎯 [1시간 모멘텀 상위 3개 선별]: {summary_str}")
-
-    brain = get_ai_brain()
-    now_kst_str = get_kst_now().strftime("%Y-%m-%d %H:%M:%S")
-
-    for item in top_3:
-        if len(paper_db.get("active_positions", {})) >= MAX_HOLDING_COINS:
-            break
-
-        prompt = f"""
-당신은 암호화폐 퀀트-스윙 트레이딩 전문가입니다.
-종목: {item['symbol']} (현재가: {item['price']} KRW, 24H 변동: {item['change_24h']}%)
-퀀트 지표: {json.dumps(item['quant'])}
-최근 15분봉 데이터: {json.dumps(item['candles_15m'])}
-
-위 데이터를 바탕으로 15분 눌림목 매수 타점을 분석하여 아래 JSON 규격으로만 응답하세요:
-{{
-  "decision": "BUY_PULLBACK" 또는 "HOLD",
-  "target_entry_price": 0.0,
-  "stop_loss_pct": -3.5,
-  "take_profit_pct": 5.0,
-  "reason": "분석 요약 1줄"
-}}
-"""
-        decision = brain.decide(prompt)
-        if not decision:
-            continue
-
-        if decision.get("decision") == "BUY_PULLBACK":
-            target_p = float(decision.get("target_entry_price", item["price"]))
-            sl_pct = float(decision.get("stop_loss_pct", -3.5))
-            tp_pct = float(decision.get("take_profit_pct", 5.0))
-            reason = decision.get("reason", "눌림목 지지 확인")
-
-            logger.info(f"💡 AI 승인: [{item['symbol']}] 진입목표가={target_p}, SL={sl_pct}%, TP={tp_pct}% | 사유: {reason}")
-            
-            msg = (
-                f"💡 [AI 매수 타점 승인]\n"
-                f"-----------------------------\n"
-                f"• 종목: {item['symbol']}\n"
-                f"• 진입목표가: {target_p:,.4f} KRW\n"
-                f"• 손절기준(SL): {sl_pct}%\n"
-                f"• 목표익절(TP): +{tp_pct}%\n"
-                f"• 분석사유: {reason}"
-            )
-            send_telegram_alert(msg)
-            
-            server_state.setdefault("pending_targets", {})[item["code"]] = {
-                "symbol": item["symbol"],
-                "target_entry": target_p,
-                "sl_pct": sl_pct,
-                "tp_pct": tp_pct,
-                "buy_amount_krw": TRADE_ALLOCATION_KRW,
-                "created_at": now_kst_str,
-                "reason": reason
-            }
-            save_json_file(STATE_FILE, server_state)
-
-# ==========================================
-# 6. 메인 감시 루프
-# ==========================================
-async def main_watcher_loop():
-    logger.info("⚡ 실시간 모멘텀-스윙 감시 & 무제한 트레일링 엔진 구동 시작")
-    start_msg = (
-        "⚡ [서버 자동매매 엔진 가동]\n"
-        "-----------------------------\n"
-        "• 상태: 실시간 모멘텀-스윙 감시 시작\n"
-        "• 모델: Gemini AI 연동 완료\n"
-        "• 시간(KST): " + get_kst_now().strftime("%Y-%m-%d %H:%M:%S")
-    )
-    send_telegram_alert(start_msg)
-    last_strategy_run = 0
-
-    while True:
+    for prov in providers:
         try:
-            now = time.time()
-            now_dt = get_kst_now()
-
-            # 15분(900초) 주기 퀀트 + AI 분석
-            if now - last_strategy_run >= 900:
-                last_strategy_run = now
-                asyncio.create_task(asyncio.to_thread(execute_server_side_strategy))
-
-            server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
-            paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-
-            pending = server_state.get("pending_targets", {})
-            active_positions = paper_db.get("active_positions", {})
-            closed_trades = paper_db.get("closed_trades", [])
-
-            # [1] 진입 대기 감시
-            if not EMERGENCY_STOP and len(active_positions) < MAX_HOLDING_COINS:
-                for coin_code, plan in list(pending.items()):
-                    created_dt = parse_kst_iso(plan.get("created_at", ""))
-                    if now_dt - created_dt >= timedelta(minutes=ENTRY_TIMEOUT_MINUTES):
-                        logger.info(f"⌛ [{plan['symbol']}] 2시간 내 미체결로 자동 취소")
-                        cancel_msg = (
-                            f"⌛ [주문 대기 취소]\n"
-                            f"-----------------------------\n"
-                            f"• 종목: {plan['symbol']}\n"
-                            f"• 사유: 2시간 내 진입목표가 미도달로 자동 취소"
-                        )
-                        send_telegram_alert(cancel_msg)
-                        del pending[coin_code]
-                        save_json_file(STATE_FILE, server_state)
-                        continue
-
-                    curr_p = get_current_price(coin_code)
-                    if curr_p and curr_p <= plan["target_entry"]:
-                        if not PAPER_TRADING:
-                            success, order_res = execute_real_market_order(coin_code, "bid", plan["buy_amount_krw"])
-                            if not success:
-                                logger.error(f"실전 매수 주문 실패: {order_res}")
-                                continue
-
-                        logger.info(f"🎯 [{plan['symbol']}] 15분 눌림목 체결 완료 (체결가: {curr_p})")
-                        units = plan["buy_amount_krw"] / curr_p
-
-                        active_positions[coin_code] = {
-                            "symbol": plan["symbol"],
-                            "entry_price": curr_p,
-                            "highest_price": curr_p,
-                            "units": units,
-                            "buy_amount_krw": plan["buy_amount_krw"],
-                            "sl_pct": plan["sl_pct"],
-                            "tp_pct": plan["tp_pct"],
-                            "entry_time": now_dt.strftime("%Y-%m-%d %H:%M:%S")
-                        }
-                        del pending[coin_code]
-                        save_json_file(STATE_FILE, server_state)
-                        save_json_file(PAPER_TRADES_FILE, paper_db)
-
-                        buy_msg = (
-                            f"🎯 [15분 눌림목 체결 완료]\n"
-                            f"-----------------------------\n"
-                            f"• 종목: {plan['symbol']}\n"
-                            f"• 체결단가: {curr_p:,.4f} KRW\n"
-                            f"• 매수금액: {plan['buy_amount_krw']:,} KRW\n"
-                            f"• 목표익절(TP): +{plan['tp_pct']}%\n"
-                            f"• 손절기준(SL): {plan['sl_pct']}%\n"
-                            f"• 체결시간(KST): {now_dt.strftime('%m-%d %H:%M')}"
-                        )
-                        send_telegram_alert(buy_msg)
-
-            # [2] 보유 포지션 익절 / 손절 / 트레일링 스탑 감시
-            for coin_code, pos in list(active_positions.items()):
-                curr_p = get_current_price(coin_code)
-                if not curr_p:
-                    continue
-
-                if curr_p > pos["highest_price"]:
-                    pos["highest_price"] = curr_p
-                    save_json_file(PAPER_TRADES_FILE, paper_db)
-
-                pnl_pct = ((curr_p - pos["entry_price"]) / pos["entry_price"]) * 100.0
-                dd_pct = ((curr_p - pos["highest_price"]) / pos["highest_price"]) * 100.0
-
-                should_close = False
-                close_reason = ""
-
-                # 1) 손절 조건
-                if pnl_pct <= pos["sl_pct"]:
-                    should_close = True
-                    close_reason = f"손절 도달 ({pnl_pct:.2f}%)"
-                # 2) 1차 익절 도달 후 고점 대비 1.5% 하락 시 트레일링 스탑
-                elif pnl_pct >= pos["tp_pct"] and dd_pct <= -1.5:
-                    should_close = True
-                    close_reason = f"트레일링 익절 ({pnl_pct:.2f}%, 고점대비 {dd_pct:.2f}%)"
-
-                if should_close:
-                    logger.info(f"🚨 [{pos['symbol']}] 포지션 청산: {close_reason} (청산가: {curr_p})")
-                    if not PAPER_TRADING:
-                        execute_real_market_order(coin_code, "ask", pos["units"] * curr_p)
-
-                    closed_trades.append({
-                        "symbol": pos["symbol"],
-                        "entry_price": pos["entry_price"],
-                        "exit_price": curr_p,
-                        "pnl_pct": round(pnl_pct, 2),
-                        "reason": close_reason,
-                        "exit_time": now_dt.strftime("%Y-%m-%d %H:%M:%S")
-                    })
-                    del active_positions[coin_code]
-                    save_json_file(PAPER_TRADES_FILE, paper_db)
-
-                    # KST 기준 누적 손익 및 최근 10건 통계 계산
-                    total_trades = len(closed_trades)
-                    wins = sum(1 for t in closed_trades if t.get("pnl_pct", 0) > 0)
-                    losses = total_trades - wins
-                    win_rate = (wins / total_trades * 100.0) if total_trades > 0 else 0.0
-
-                    total_pnl_krw = sum(int(TRADE_ALLOCATION_KRW * (t.get("pnl_pct", 0) / 100.0)) for t in closed_trades)
-                    this_pnl_krw = int(TRADE_ALLOCATION_KRW * (pnl_pct / 100.0))
-
-                    recent_10 = closed_trades[-10:][::-1]
-                    history_lines = []
-                    for idx, t in enumerate(recent_10, 1):
-                        p_pct = t.get("pnl_pct", 0.0)
-                        p_krw = int(TRADE_ALLOCATION_KRW * (p_pct / 100.0))
-                        raw_time = t.get("exit_time", "")
-                        t_time = raw_time[5:16] if len(raw_time) >= 16 else raw_time
-                        history_lines.append(f"{idx}. {t.get('symbol', 'N/A')}: {p_krw:+,}원 ({p_pct:+.2f}%) | {t_time}")
-
-                    history_text = "\n".join(history_lines) if history_lines else "이력 없음"
-
-                    close_msg = (
-                        f"🚨 [포지션 청산 완료]\n"
-                        f"-----------------------------\n"
-                        f"• 종목: {pos['symbol']}\n"
-                        f"• 구분: {close_reason}\n"
-                        f"• 진입단가: {pos['entry_price']:,.4f} KRW ➔ 청산단가: {curr_p:,.4f} KRW\n"
-                        f"• 이번손익: {pnl_pct:+.2f}% ({this_pnl_krw:+,}원)\n"
-                        f"-----------------------------\n"
-                        f"📊 [누적 성과 요약]\n"
-                        f"• 누적 손익: {total_pnl_krw:+,}원 (총 {total_trades}전 {wins}승 {losses}패 | 승률 {win_rate:.1f}%)\n\n"
-                        f"📋 [최근 10건 청산 이력 (KST)]\n"
-                        f"{history_text}"
-                    )
-                    send_telegram_alert(close_msg)
-
+            client = OpenAI(base_url=prov['base_url'], api_key=prov['key'])
+            res = client.chat.completions.create(
+                model=prov['model'],
+                messages=[
+                    {"role": "system", "content": system_instruction + "\nStrictly output valid JSON ONLY."},
+                    {"role": "user", "content": user_prompt}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.1
+            )
+            return res.choices[0].message.content
         except Exception as e:
-            logger.error(f"메인 감시 루프 예외: {e}")
+            logging.warning(f"AI 호출 실패 ({prov['name']}): {e}")
+    return None
 
-        await asyncio.sleep(2)
-
-if __name__ == "__main__":
-    try:
-        asyncio.run(main_watcher_loop())
-    except KeyboardInterrupt:
-        logger.info("사용자에 의해 감시 엔진이 종료되었습니다.")
+def clean_and_parse_json(raw_text):
+    if not raw_text: return None
+    cleaned = raw_text.strip()
+    if "```json" in cleaned:
+        cleaned = cleaned.split("```json")[1].split("```")[0].strip()
+    elif "```" in cleaned:
+        cleaned = cleaned.split("
