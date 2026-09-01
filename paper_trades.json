@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 514.0,
+      "highest_price": 514.0,
+      "stop_loss": 508.86,
+      "take_profit": 521.7099999999999,
+      "buy_amount_krw": 6324,
+      "units": 12.303501945525293,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "WLD/KRW는 5분봉 기준 전반적으로 우상향 추세를 형성하며 VWAP(510.4) 상단에서 안정적인 가격대(515.0)를 유지하고 있습니다. RSI(14)가 61.5로 과매수 구간(70)을 하회하면서도 모멘텀이 살아있고, 최근 캔들에서 지속적인 매수세 유입이 확인되어 단기 스캘핑 관점에서 얕은 조정을 활용한 롱 포지션 진입이 유리합니다.",
+      "entry_time": "2026-09-01T15:05:33.047495+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
