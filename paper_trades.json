@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "entry_price": 295.0,
+      "highest_price": 295.0,
+      "stop_loss": 292.05,
+      "take_profit": 300.9,
+      "buy_amount_krw": 6324,
+      "units": 21.43728813559322,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ACE/KRW는 최근 5분봉 기준 거래량이 급증(3.09배)하며 단기 상승 모멘텀을 형성하고 있습니다. VWAP(290.75) 상단에서 가격이 지지받으며 295.0원에 거래 중이고, RSI(14)가 59.4로 과매수 구간(70)을 회피하면서도 매수세가 유입되는 안정적인 위치에 있습니다. 얕은 눌림목 조정을 활용하여 0.1% 할인된 가격에 진입하고 스캘핑 목표 수익률 2.0%, 손절 1.0%로 설정하여 리스크 대비 기대수익을 최적화합니다.",
+      "entry_time": "2026-09-02T07:09:28.120697+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
