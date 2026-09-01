@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 297.0,
-      "highest_price": 297.0,
-      "stop_loss": 294.03,
-      "take_profit": 301.455,
-      "buy_amount_krw": 6324,
-      "units": 21.292929292929294,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "ACE/KRW는 5분봉 기준 VWAP(293.8) 상단에 위치하며 갭 퍼센트가 양수(+1.42%)로 우상향 모멘텀을 유지 중입니다. RSI(14)가 43.5로 과매수 구간(70)을 멀리 하회하여 추격 매수 위험이 없고, 단기 조정을 거친 뒤 반등하는 눌림목 구간에서 얕은 진입이 가능합니다. ATR 기반 변동성을 고려하여 손절 -1.0%, 익절 +1.5%의 합리적인 리스크 대비 리워드 스캘핑 전략을 수립합니다.",
-      "entry_time": "2026-09-02T08:50:20.035324+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3459,6 +3444,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T08:40:02.591723+09:00",
       "exit_time": "2026-09-02T08:45:47.224206+09:00"
+    },
+    {
+      "symbol": "ACE/KRW",
+      "entry_price": 297.0,
+      "exit_price": 302.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 106,
+      "profit_pct": 1.68,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-02T08:50:20.035324+09:00",
+      "exit_time": "2026-09-02T08:54:51.703060+09:00"
     }
   ]
 }
