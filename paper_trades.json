@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 21.5,
+      "highest_price": 21.5,
+      "stop_loss": 21.285,
+      "take_profit": 21.93,
+      "buy_amount_krw": 6324,
+      "units": 294.13953488372096,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "HEMI/KRW 종목은 최근 5분봉 기준 거래량이 3.11배 급증하며 뚜렷한 매수세가 유입되었습니다. RSI가 58.9로 과매수 구간(70 이상)을 피해 안정적인 상승 여력을 확보하고 있으며, 단기 VWAP(중심선) 위에서 가격이 유지되면서 강한 추세 지속성을 보이고 있습니다. 얕은 눌림목(0.05%) 진입을 통해 리스크를 관리하며 +2.0% 익절, -1.0% 손절 구간을 설정합니다.",
+      "entry_time": "2026-09-01T20:31:53.313699+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
