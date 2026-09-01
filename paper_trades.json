@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 21.59,
+      "highest_price": 21.59,
+      "stop_loss": 21.3741,
+      "take_profit": 21.913849999999996,
+      "buy_amount_krw": 6324,
+      "units": 292.9133858267717,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "HEMI/KRW 코인은 최근 5분봉 기준 거래량이 급증(volume_surge_ratio: 1.74)하며 저점 부근에서 반등을 시도하고 있습니다. RSI(14)가 44.6으로 과매수 구간이 아니며, VWAP(21.7914) 부근에서 횡보하다가 최근 캔들에서 소폭 상승세를 보이고 있어 얕은 할인율로 매수 진입하기 적절합니다. 스캘핑 목표 수익률 1.5%, 손절률 -1.0%로 설정하여 리스크 관리를 수행합니다.",
+      "entry_time": "2026-09-01T22:32:22.880299+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
