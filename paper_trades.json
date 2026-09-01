@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SKR": {
-      "symbol": "SKR/KRW",
-      "entry_price": 39.32,
-      "highest_price": 39.32,
-      "stop_loss": 38.9268,
-      "take_profit": 39.9098,
-      "buy_amount_krw": 6324,
-      "units": 160.83418107833162,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "SKR/KRW 코인은 최근 고점 형성 이후 조정을 거치며 5분봉 기준 RSI(43.6)가 과매수 구간이 아니며, VWAP 대비 하향 이격(-0.8%)을 보이고 있어 단기적인 기술적 반등을 노리기 적합한 자리입니다. 최근 캔들에서 하방 경직성을 확인하고 거래량이 수반된 반등 시도 패턴이 포착되어, 소폭 할인된 가격에 매수 후 목표가 1.5%, 손절가 -1.0%로 설정하여 단기 스캘핑을 진행합니다.",
-      "entry_time": "2026-09-01T08:57:05.396543+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2835,6 +2820,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-01T08:36:44.435394+09:00",
       "exit_time": "2026-09-01T08:38:32.528374+09:00"
+    },
+    {
+      "symbol": "SKR/KRW",
+      "entry_price": 39.32,
+      "exit_price": 40.05,
+      "buy_amount_krw": 6324,
+      "profit_krw": 118,
+      "profit_pct": 1.86,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-01T08:57:05.396543+09:00",
+      "exit_time": "2026-09-01T09:00:50.516203+09:00"
     }
   ]
 }
