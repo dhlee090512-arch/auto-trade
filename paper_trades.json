@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "HNT": {
-      "symbol": "HNT/KRW",
-      "entry_price": 988.0,
-      "highest_price": 988.0,
-      "stop_loss": 978.12,
-      "take_profit": 1005.784,
-      "buy_amount_krw": 6324,
-      "units": 6.40080971659919,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "HNT/KRW는 강력한 거래량 유입과 함께 단기 상승 추세를 형성하며 VWAP(940.7) 상단에서 견조한 가격 방어력을 보이고 있습니다. RSI가 51로 과매수 구간이 아니며, 단기 변동성을 활용한 눌림목 매수 전략으로 유효합니다.",
-      "entry_time": "2026-09-01T14:21:01.561168+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2907,6 +2892,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-01T09:30:06.851718+09:00",
       "exit_time": "2026-09-01T09:41:07.000647+09:00"
+    },
+    {
+      "symbol": "HNT/KRW",
+      "entry_price": 988.0,
+      "exit_price": 971.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -109,
+      "profit_pct": -1.72,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T14:21:01.561168+09:00",
+      "exit_time": "2026-09-01T14:28:22.585776+09:00"
     }
   ]
 }
