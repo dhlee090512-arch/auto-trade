@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 511.0,
+      "highest_price": 511.0,
+      "stop_loss": 506.401,
+      "take_profit": 519.176,
+      "buy_amount_krw": 6324,
+      "units": 12.37573385518591,
+      "sl_pct": -0.9,
+      "tp_pct": 1.6,
+      "detailed_reason": "WLD/KRW는 5분봉 기준 과열권(RSI 59.1)에 진입하지 않았으며, VWAP(510.38) 부근에서 안정적인 지지를 받고 우상향 패턴을 형성 중입니다. 단기 이평선과 볼륨이 건전하게 유지되고 있어 얕은 조정을 활용한 매수 진입(롱 스캘핑)에 유리한 구간입니다.",
+      "entry_time": "2026-09-01T23:23:40.710095+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
