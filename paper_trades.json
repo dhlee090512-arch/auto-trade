@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "entry_price": 107142000.0,
-      "highest_price": 107142000.0,
-      "stop_loss": 106070580.0,
-      "take_profit": 109070556.0,
-      "buy_amount_krw": 6324,
-      "units": 5.9024472195777565e-05,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "전저점 부근에서의 강한 지지 확보 이후 점진적인 반등 흐름이 관찰됨. 5분봉 RSI가 59.6으로 과매수 구간(>70)을 피하면서도 매수 우위의 심리를 보여주고 있으며, VWAP 근처에서 안정적인 가격 방어가 이루어짐에 따라 얕은 조정을 활용한 매수 진입이 유효함.",
-      "entry_time": "2026-09-02T04:32:02.937357+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3303,6 +3288,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-02T03:34:17.470175+09:00",
       "exit_time": "2026-09-02T04:09:17.862063+09:00"
+    },
+    {
+      "symbol": "BTC/KRW",
+      "entry_price": 107142000.0,
+      "exit_price": 107032000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -6,
+      "profit_pct": -0.1,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-02T04:32:02.937357+09:00",
+      "exit_time": "2026-09-02T05:07:04.550975+09:00"
     }
   ]
 }
