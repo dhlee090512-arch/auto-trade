@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-01T17:46:18.282366+09:00",
+  "updated_at": "2026-09-01T17:51:20.687130+09:00",
   "paper_trading": true,
   "targets": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "current_price": 1889.0,
-      "target_entry": 1888.0555000000002,
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "current_price": 499.0,
+      "target_entry": 498.75050000000005,
       "sl_pct": -1.0,
-      "tp_pct": 1.5,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "XRP/KRW 5분봉 기준 RSI(14)가 21.4로 심각한 과매도 구간에 진입해 있으며, VWAP 대비 하방 이격(-0.88%)이 발생한 뒤 최근 캔들들에서 하락세가 둔화되며 1888 KRW 부근에서 지지력을 다지는 형상입니다. 70 이하의 RSI 필터 조건(21.4)을 충족하며, 단기 낙폭 과대에 따른 기술적 반등(Dead Cat Bounce 또는 Mean Reversion)을 노리는 롱 스칼핑 전략에 적합합니다.",
-      "created_at": "2026-09-01T17:46:18.282366+09:00"
+      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 18.8로 극심한 과매도 상태이며, 단기 하락 압력이 완화되면서 VWAP(-1.57%) 대비 갭을 메우는 기술적 반등이 유력한 구간입니다. 500원 부근에서 얕은 진입 할인가를 설정하여 스캘핑 반등 매매를 수행하기에 최적의 조건을 갖추고 있습니다.",
+      "created_at": "2026-09-01T17:51:20.687130+09:00"
     }
   }
 }
