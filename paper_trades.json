@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "SC": {
-      "symbol": "SC/KRW",
-      "entry_price": 1.244,
-      "highest_price": 1.244,
-      "stop_loss": 1.23156,
-      "take_profit": 1.266392,
-      "buy_amount_krw": 6324,
-      "units": 5083.6012861736335,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SC/KRW는 현재 5분봉 RSI가 52.0으로 과매수 구간(70 이상)을 완전히 피해 Anti-Chasing 룰에 부합합니다. VWAP와 현재 가격이 거의 밀착(vwap_gap_pct 0.13%)되어 있어 안정적인 눌림목 혹은 지지 기반 매수가 가능하며, 최근 캔들들에서 점진적인 거래대금 유입과 함께 단기 박스권 상단을 테스트하는 흐름을 보여 스캘핑 관점의 리스크 대비 보상비율이 우수합니다.",
-      "entry_time": "2026-09-02T07:53:16.088906+09:00",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 138200.0,
@@ -3425,6 +3411,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T07:54:38.469353+09:00",
       "exit_time": "2026-09-02T08:10:20.856229+09:00"
+    },
+    {
+      "symbol": "SC/KRW",
+      "entry_price": 1.244,
+      "exit_price": 1.223,
+      "buy_amount_krw": 6324,
+      "profit_krw": -107,
+      "profit_pct": -1.69,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T07:53:16.088906+09:00",
+      "exit_time": "2026-09-02T08:12:12.020620+09:00"
     }
   ]
 }
