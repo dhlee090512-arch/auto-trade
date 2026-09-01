@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "0G": {
-      "symbol": "0G/KRW",
-      "entry_price": 322.0,
-      "highest_price": 322.0,
-      "stop_loss": 318.78,
-      "take_profit": 328.44,
-      "buy_amount_krw": 6324,
-      "units": 19.63975155279503,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "0G/KRW 코인은 5분봉 기준 거래량 급증 비율(1.51)이 높고 VWAP 대비 4.03% 상승하며 강한 상승 모멘텀을 보이고 있습니다. RSI(14)가 62.2로 과매수 구간(70)을 회피하여 추격매수 리스크가 낮으며, 최근 직전 고점을 갱신한 이후 눌림목 구간을 형성하고 있어 얕은 할인율로 진입하기 최적의 조건을 갖추고 있습니다.",
-      "entry_time": "2026-09-01T09:30:06.851718+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2895,6 +2880,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-01T09:40:13.848844+09:00",
       "exit_time": "2026-09-01T09:40:39.932975+09:00"
+    },
+    {
+      "symbol": "0G/KRW",
+      "entry_price": 322.0,
+      "exit_price": 318.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -78,
+      "profit_pct": -1.24,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T09:30:06.851718+09:00",
+      "exit_time": "2026-09-01T09:41:07.000647+09:00"
     }
   ]
 }
