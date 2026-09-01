@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 137700.0,
-      "highest_price": 138400.0,
-      "stop_loss": 136323.0,
-      "take_profit": 140454.0,
-      "buy_amount_krw": 6324,
-      "units": 0.045925925925925926,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 13.3으로 극단적인 과매도 국면에 진입해 있으며, 최근 거래량이 급증(volume_surge_ratio: 2.35)하며 하락 압력이 소진되는 모습이 포착되었습니다. VWAP 대비 괴리율(-1.2%)이 벌어져 있어 기술적 반등(Mean Reversion) 기대감이 매우 높으며, 안티-체이싱 규칙에 부합하고 얕은 진입 가격 설정이 가능하여 단기 스캘핑 롱 포지션 진입에 최적의 조건을 갖추고 있습니다.",
-      "entry_time": "2026-09-02T03:34:17.470175+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3291,6 +3276,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-02T03:28:27.254426+09:00",
       "exit_time": "2026-09-02T04:08:16.581310+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 137700.0,
+      "exit_price": 138100.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 18,
+      "profit_pct": 0.29,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-02T03:34:17.470175+09:00",
+      "exit_time": "2026-09-02T04:09:17.862063+09:00"
     }
   ]
 }
