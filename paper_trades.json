@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "0G": {
+      "symbol": "0G/KRW",
+      "entry_price": 327.0,
+      "highest_price": 327.0,
+      "stop_loss": 323.73,
+      "take_profit": 331.905,
+      "buy_amount_krw": 6324,
+      "units": 19.339449541284402,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "0G/KRW는 5분봉 RSI 14가 21.4로 과매도 구간에 진입해 있으며, 최근 가격 조정 이후 단기 반발 매수세 유입 가능성이 높습니다. VWAP 대비 괴리율이 -1.21%로 하회하고 있어 평균단가 회귀 목적의 기술적 반등을 노리기 적합하며, 얕은 할인율로 진입하여 1.5%의 익절과 1.0%의 손절로 리스크 관리가 가능한 스캘핑 구간입니다.",
+      "entry_time": "2026-09-01T14:59:18.151172+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
