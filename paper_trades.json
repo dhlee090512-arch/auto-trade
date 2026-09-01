@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SKR": {
-      "symbol": "SKR/KRW",
-      "entry_price": 41.11,
-      "highest_price": 41.11,
-      "stop_loss": 40.6989,
-      "take_profit": 41.9322,
-      "buy_amount_krw": 6324,
-      "units": 153.83118462661153,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "SKR/KRW는 최근 5분봉 기준 거래량이 급증(volume_surge_ratio 1.72)하며 상방으로 강한 모멘텀을 형성 중입니다. VWAP(40.23)를 상회하며 가격이 우상향하고 있고, RSI(14)가 59.4로 과매수 구간(70 이상)을 피해 추가 상승 여력이 충분합니다. 얕은 눌림목 구간에서 분할 매수 관점으로 접근하기 유리하며, 보수적인 손절매(-1.0%)와 목표가(+2.0%) 설정으로 스캘핑 수익 극대화가 가능합니다.",
-      "entry_time": "2026-09-01T09:19:54.890116+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -2859,6 +2844,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-09-01T09:15:00.283007+09:00",
       "exit_time": "2026-09-01T09:15:55.235794+09:00"
+    },
+    {
+      "symbol": "SKR/KRW",
+      "entry_price": 41.11,
+      "exit_price": 40.61,
+      "buy_amount_krw": 6324,
+      "profit_krw": -77,
+      "profit_pct": -1.22,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T09:19:54.890116+09:00",
+      "exit_time": "2026-09-01T09:23:06.408314+09:00"
     }
   ]
 }
