@@ -13,6 +13,20 @@
       "detailed_reason": "SKR/KRW 코인은 최근 5분 봉 기준 전형적인 거래량 급증(volume_surge_ratio 2.25)을 동반한 단기 상승 추세 전환을 보여주고 있습니다. RSI가 51.6으로 과매수 구간이 아니며(Anti-Chasing 규칙 충족), VWAP 위에서 안정적으로 가격이 형성되어 있어 추가 상승 모멘텀이 충분합니다. ATR 비율을 고려한 현실적인 진입가 설정과 함께 상방으로 1.8% 익절, 하방으로 1.0% 손절의 스캘핑 전략에 최적화된 구조입니다.",
       "entry_time": "2026-09-01T09:25:23.360709+09:00",
       "break_even_triggered": false
+    },
+    "0G": {
+      "symbol": "0G/KRW",
+      "entry_price": 322.0,
+      "highest_price": 322.0,
+      "stop_loss": 318.78,
+      "take_profit": 328.44,
+      "buy_amount_krw": 6324,
+      "units": 19.63975155279503,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "0G/KRW 코인은 5분봉 기준 거래량 급증 비율(1.51)이 높고 VWAP 대비 4.03% 상승하며 강한 상승 모멘텀을 보이고 있습니다. RSI(14)가 62.2로 과매수 구간(70)을 회피하여 추격매수 리스크가 낮으며, 최근 직전 고점을 갱신한 이후 눌림목 구간을 형성하고 있어 얕은 할인율로 진입하기 최적의 조건을 갖추고 있습니다.",
+      "entry_time": "2026-09-01T09:30:06.851718+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
