@@ -14,20 +14,6 @@
       "entry_time": "2026-09-02T07:53:16.088906+09:00",
       "break_even_triggered": false
     },
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 299.0,
-      "highest_price": 299.0,
-      "stop_loss": 296.01,
-      "take_profit": 304.98,
-      "buy_amount_krw": 6324,
-      "units": 21.150501672240804,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "ACE/KRW는 현재 5분봉 RSI 66.7로 70 미만이며, 과매수권에 진입하지 않은 상태에서 거래량이 동반되며 전고점 부근(300원)을 테스트 중입니다. VWAP(291.8원) 대비 2.8% 위에서 안정적인 상승 흐름을 유지하고 있으며, 단기 눌림목 구간에서 얕은 할인을 적용한 매수 진입이 유효합니다. 손절은 -1.0%, 익절은 +2.0%로 설정하여 리스크 대비 보상 비율을 확보했습니다.",
-      "entry_time": "2026-09-02T07:54:38.469353+09:00",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 138200.0,
@@ -3427,6 +3413,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T07:17:04.784603+09:00",
       "exit_time": "2026-09-02T07:25:36.771273+09:00"
+    },
+    {
+      "symbol": "ACE/KRW",
+      "entry_price": 299.0,
+      "exit_price": 296.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -63,
+      "profit_pct": -1.0,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T07:54:38.469353+09:00",
+      "exit_time": "2026-09-02T08:10:20.856229+09:00"
     }
   ]
 }
