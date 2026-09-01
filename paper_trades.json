@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SC": {
+      "symbol": "SC/KRW",
+      "entry_price": 1.211,
+      "highest_price": 1.211,
+      "stop_loss": 1.19889,
+      "take_profit": 1.2334035,
+      "buy_amount_krw": 6324,
+      "units": 5222.130470685383,
+      "sl_pct": -1.0,
+      "tp_pct": 1.85,
+      "detailed_reason": "SC/KRW는 최근 단기 저점을 다진 이후 연속적인 양봉을 형성하며 우상향 흐름을 강하게 보여주고 있습니다. 현재 RSI가 63.9로 과열권(70) 미만이면서도 매수세가 살아있는 안전한 구간이며, VWAP(1.2016) 상단에서 가격이 지지를 받으며 안정적인 상승 채널을 구축하고 있습니다. 최근 캔들들에서 저점이 지속적으로 높아지는 패턴이 확인되므로, 소폭의 눌림목(0.08% 할인)을 활용한 매수 진입 시 높은 확률로 단기 목표가 도달이 가능할 것으로 판단됩니다.",
+      "entry_time": "2026-09-02T05:54:15.977029+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
