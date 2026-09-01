@@ -27,6 +27,20 @@
       "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 30.5로 과매도 구간에 진입해 있으며, VWAP(3,365,106 KRW) 대비 약 -0.54% 하락한 상태입니다. 단기 낙폭 과대에 따른 기술적 반등 가능성이 높고, 변동성(ATR 비율 0.22%)이 안정적이며 안티 체이싱 조건(RSI < 70)을 충족하므로 얕은 할인율로 매수 진입하기에 적합합니다.",
       "entry_time": "2026-09-02T03:27:55.504105+09:00",
       "break_even_triggered": false
+    },
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 106496000.0,
+      "highest_price": 106496000.0,
+      "stop_loss": 105431040.0,
+      "take_profit": 108412928.0,
+      "buy_amount_krw": 6324,
+      "units": 5.938251201923077e-05,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "BTC/KRW는 5분봉 기준 RSI 20.2로 강한 과매도 구간에 위치하며, VWAP 대비 -0.69% 이격되어 있어 단기 기술적 반등 가능성이 높습니다. 거래량 급증과 함께 하방 경직성이 확보되는 구간으로 판단되어 얕은 분할 매수 진입을 계획합니다.",
+      "entry_time": "2026-09-02T03:28:27.254426+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
