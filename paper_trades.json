@@ -27,6 +27,20 @@
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 13.3으로 극단적인 과매도 국면에 진입해 있으며, 최근 거래량이 급증(volume_surge_ratio: 2.35)하며 하락 압력이 소진되는 모습이 포착되었습니다. VWAP 대비 괴리율(-1.2%)이 벌어져 있어 기술적 반등(Mean Reversion) 기대감이 매우 높으며, 안티-체이싱 규칙에 부합하고 얕은 진입 가격 설정이 가능하여 단기 스캘핑 롱 포지션 진입에 최적의 조건을 갖추고 있습니다.",
       "entry_time": "2026-09-02T03:34:17.470175+09:00",
       "break_even_triggered": false
+    },
+    "SC": {
+      "symbol": "SC/KRW",
+      "entry_price": 1.24,
+      "highest_price": 1.24,
+      "stop_loss": 1.2276,
+      "take_profit": 1.2648,
+      "buy_amount_krw": 6324,
+      "units": 5100.0,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "SC/KRW는 5분봉 기준 RSI가 63.8로 과매수 구간(70)을 하회하며 안티 체이싱 룰을 충족합니다. 거래량 급증 비율(volume_surge_ratio)이 2.93배로 강한 매수 유입이 확인되며, VWAP 상향 돌파 후 지지를 받으며 우상향 모멘텀을 형성 중입니다. ATR 대비 적절한 변동성을 활용하여 얕은 눌림목(0.08% 할인) 매수 진입이 유효합니다.",
+      "entry_time": "2026-09-02T04:03:35.455533+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
