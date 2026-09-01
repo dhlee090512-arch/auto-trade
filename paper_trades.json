@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "BTC": {
-      "symbol": "BTC/KRW",
-      "entry_price": 106496000.0,
-      "highest_price": 107020000.0,
-      "stop_loss": 105431040.0,
-      "take_profit": 108412928.0,
-      "buy_amount_krw": 6324,
-      "units": 5.938251201923077e-05,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "BTC/KRW는 5분봉 기준 RSI 20.2로 강한 과매도 구간에 위치하며, VWAP 대비 -0.69% 이격되어 있어 단기 기술적 반등 가능성이 높습니다. 거래량 급증과 함께 하방 경직성이 확보되는 구간으로 판단되어 얕은 분할 매수 진입을 계획합니다.",
-      "entry_time": "2026-09-02T03:28:27.254426+09:00",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 137700.0,
@@ -3293,6 +3279,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T04:03:35.455533+09:00",
       "exit_time": "2026-09-02T04:05:46.157298+09:00"
+    },
+    {
+      "symbol": "BTC/KRW",
+      "entry_price": 106496000.0,
+      "exit_price": 106913000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 25,
+      "profit_pct": 0.39,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-02T03:28:27.254426+09:00",
+      "exit_time": "2026-09-02T04:08:16.581310+09:00"
     }
   ]
 }
