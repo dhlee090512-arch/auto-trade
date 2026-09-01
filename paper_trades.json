@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "entry_price": 22.09,
-      "highest_price": 22.09,
-      "stop_loss": 21.84701,
-      "take_profit": 22.5318,
-      "buy_amount_krw": 6324,
-      "units": 286.2833861475781,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "HEMI/KRW는 5분봉 기준 강력한 거래량 유입과 함께 VWAP(+5.69%) 위에서 강한 상승 추세를 형성하고 있습니다. RSI(14)가 67.6으로 과매수 구간(70 이상) 직전의 건강한 모멘텀을 유지하고 있으며, 최근 캔들에서 전고점을 돌파하는 강한 매수세가 확인되어 단기 스칼핑 매매에 매우 유리한 조건입니다.",
-      "entry_time": "2026-09-01T20:50:53.997680+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3039,6 +3024,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-09-01T20:31:53.313699+09:00",
       "exit_time": "2026-09-01T20:36:10.273831+09:00"
+    },
+    {
+      "symbol": "HEMI/KRW",
+      "entry_price": 22.09,
+      "exit_price": 21.84,
+      "buy_amount_krw": 6324,
+      "profit_krw": -71,
+      "profit_pct": -1.13,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T20:50:53.997680+09:00",
+      "exit_time": "2026-09-01T21:00:33.948744+09:00"
     }
   ]
 }
