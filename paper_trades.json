@@ -17,7 +17,7 @@
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 498.0,
-      "highest_price": 498.0,
+      "highest_price": 500.0,
       "stop_loss": 493.02,
       "take_profit": 506.964,
       "buy_amount_krw": 6324,
@@ -26,20 +26,6 @@
       "tp_pct": 1.8,
       "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 18.8로 극심한 과매도 상태이며, 단기 하락 압력이 완화되면서 VWAP(-1.57%) 대비 갭을 메우는 기술적 반등이 유력한 구간입니다. 500원 부근에서 얕은 진입 할인가를 설정하여 스캘핑 반등 매매를 수행하기에 최적의 조건을 갖추고 있습니다.",
       "entry_time": "2026-09-01T17:53:02.966196+09:00",
-      "break_even_triggered": false
-    },
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "entry_price": 21.68,
-      "highest_price": 21.68,
-      "stop_loss": 21.4632,
-      "take_profit": 22.1136,
-      "buy_amount_krw": 6324,
-      "units": 291.69741697416976,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "HEMI/KRW는 최근 5분 봉에서 대량 거래량(9,508,879)을 동반하며 전고점을 돌파하는 강한 상승세가 출현했습니다. RSI(14)는 63.1로 과열권(70) 미만이므로 추격 매수 부담이 적고, 단기 VWAP(20.9251) 위에서 강한 지지를 받으며 가격이 안착하고 있습니다. 거래량 급증 비율(3.57)과 최근 양봉의 강력한 몸통 흐름을 고려할 때 단기 모멘텀을 활용한 롱 스캘핑 진입에 매우 유리한 구간입니다.",
-      "entry_time": "2026-09-01T18:21:29.433777+09:00",
       "break_even_triggered": false
     }
   },
@@ -3019,6 +3005,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-01T17:41:25.285384+09:00",
       "exit_time": "2026-09-01T18:16:26.632358+09:00"
+    },
+    {
+      "symbol": "HEMI/KRW",
+      "entry_price": 21.68,
+      "exit_price": 21.29,
+      "buy_amount_krw": 6324,
+      "profit_krw": -114,
+      "profit_pct": -1.8,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-01T18:21:29.433777+09:00",
+      "exit_time": "2026-09-01T18:21:42.292159+09:00"
     }
   ]
 }
