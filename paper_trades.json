@@ -27,6 +27,20 @@
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI가 13.3으로 극단적인 과매도 국면에 진입해 있으며, 최근 거래량이 급증(volume_surge_ratio: 2.35)하며 하락 압력이 소진되는 모습이 포착되었습니다. VWAP 대비 괴리율(-1.2%)이 벌어져 있어 기술적 반등(Mean Reversion) 기대감이 매우 높으며, 안티-체이싱 규칙에 부합하고 얕은 진입 가격 설정이 가능하여 단기 스캘핑 롱 포지션 진입에 최적의 조건을 갖추고 있습니다.",
       "entry_time": "2026-09-02T03:34:17.470175+09:00",
       "break_even_triggered": false
+    },
+    "SC": {
+      "symbol": "SC/KRW",
+      "entry_price": 1.219,
+      "highest_price": 1.219,
+      "stop_loss": 1.205591,
+      "take_profit": 1.2433800000000002,
+      "buy_amount_krw": 6324,
+      "units": 5187.85890073831,
+      "sl_pct": -1.1,
+      "tp_pct": 2.0,
+      "detailed_reason": "SC/KRW는 5분봉 기준 RSI 66.7로 과매수 구간(70 이상)을 회피하였으며, 최근 거래량 증가(surge_ratio 1.44)와 함께 단기 저점을 다지고 우상향 반등 모멘텀을 형성 중입니다. VWAP 근처에서 안정적인 지지를 받고 있으며, 얕은 눌림목(0.05% 할인) 진입을 통해 손익비 좋은 스캘핑 트레이드 수행이 가능합니다. 반면 ACE/KRW는 RSI 85.5로 과열권이라 안티 체이싱 룰에 의해 제외되었으며, ETH/KRW는 약세 흐름으로 모멘텀이 부족합니다.",
+      "entry_time": "2026-09-02T03:58:43.722306+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
