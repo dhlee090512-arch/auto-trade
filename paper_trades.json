@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3301000.0,
-      "highest_price": 3301000.0,
-      "stop_loss": 3267990.0,
-      "take_profit": 3367020.0,
-      "buy_amount_krw": 6324,
-      "units": 0.0019157830960315056,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 20.8로 극단적인 과매도 구간에 진입해 있으며, 최근 급락 과정에서 거래량이 강하게 동반(volume_surge_ratio 4.84)되어 단기 낙폭 과대에 따른 강력한 기술적 반등(Dead Cat Bounce 또는 되돌림)이 임박한 시점입니다. VWAP 대비 가격 이격(-0.78%)이 존재하여 평균 회귀 성향에 따른 매수세 유입이 유리합니다. 철저한 단기 스캘핑 관점에서 얕은 진입가 할인율을 적용하고, 설정된 손절 및 익절 범위 내에서 리스크를 관리합니다.",
-      "entry_time": "2026-09-02T10:48:27.948299+09:00",
-      "break_even_triggered": false
-    },
     "SOL": {
       "symbol": "SOL/KRW",
       "entry_price": 136000.0,
@@ -3557,6 +3543,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-02T10:39:55.801567+09:00",
       "exit_time": "2026-09-02T11:14:57.792605+09:00"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3301000.0,
+      "exit_price": 3314000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 25,
+      "profit_pct": 0.39,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-02T10:48:27.948299+09:00",
+      "exit_time": "2026-09-02T11:42:15.430693+09:00"
     }
   ]
 }
