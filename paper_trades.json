@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "T": {
-      "symbol": "T/KRW",
-      "entry_price": 6.993,
-      "highest_price": 6.993,
-      "stop_loss": 6.92307,
-      "take_profit": 7.132860000000001,
-      "buy_amount_krw": 6324,
-      "units": 904.3329043329043,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "T/KRW는 5분봉 RSI 29.2로 과매도 구간에 진입해 있으며 최근 캔들에서 대량 거래량이 유입되면서 단기 낙폭 과대 반발 매수세가 유입될 수 있는 최적의 스캘핑 환경을 제공합니다. VWAP 대비 이격도가 -1.08%로 벌어져 있어 평균 회귀 성향에 따른 반등 탄력을 기대할 수 있으며, 얕은 눌림목 구간에서 리스크 관리 범 내 익절 및 손절 라인을 설정하여 매매를 수행합니다.",
-      "entry_time": "2026-09-03T05:34:25.602759+09:00",
-      "break_even_triggered": false
-    },
     "SKR": {
       "symbol": "SKR/KRW",
       "entry_price": 32.6,
@@ -4013,6 +3999,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-03T05:09:21.171416+09:00",
       "exit_time": "2026-09-03T05:44:21.754647+09:00"
+    },
+    {
+      "symbol": "T/KRW",
+      "entry_price": 6.993,
+      "exit_price": 7.147,
+      "buy_amount_krw": 6324,
+      "profit_krw": 139,
+      "profit_pct": 2.2,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-03T05:34:25.602759+09:00",
+      "exit_time": "2026-09-03T05:58:16.007545+09:00"
     }
   ]
 }
