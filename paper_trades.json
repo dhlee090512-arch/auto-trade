@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "entry_price": 5.991,
+      "highest_price": 5.991,
+      "stop_loss": 5.931089999999999,
+      "take_profit": 6.080864999999999,
+      "buy_amount_krw": 6324,
+      "units": 1055.5833750625939,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SOPH/KRW 코인은 5분봉 RSI가 41.4로 과매수 구간이 아니며, VWAP 근처(vwap_gap_pct -0.55%)에서 가격이 안정적으로 횡보 및 지지를 테스트 중입니다. 뇌동매매 방지 규칙을 충족하며, 단기 반등을 노리기 적합한 얕은 진입 할인율과 손익비를 설정할 수 있는 구간입니다.",
+      "entry_time": "2026-09-03T01:33:50.959361+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
