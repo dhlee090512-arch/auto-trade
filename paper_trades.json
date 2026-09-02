@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "entry_price": 133900.0,
+      "highest_price": 133900.0,
+      "stop_loss": 132427.1,
+      "take_profit": 136310.2,
+      "buy_amount_krw": 6324,
+      "units": 0.04722927557879014,
+      "sl_pct": -1.1,
+      "tp_pct": 1.8,
+      "detailed_reason": "SOL/KRW는 5분봉 기준 RSI 27.3으로 강한 과매도 구간에 진입해 있으며, VWAP 대비 -1.23% 하회하여 단기 낙폭 과대 반발 매수세 유입 가능성이 높음. ATR 대비 변동성이 안정적이고 134,000원 부근에서 얕은 할인을 통한 매수 접근 시 짧은 손절(-1.1%)과 목표가(+1.8%) 설정으로 유리한 리스크 대비 리워드(R:R) 확보 가능.",
+      "entry_time": "2026-09-02T20:27:29.432188+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
