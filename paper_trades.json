@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "T": {
+      "symbol": "T/KRW",
+      "entry_price": 8.213,
+      "highest_price": 8.213,
+      "stop_loss": 8.13087,
+      "take_profit": 8.37726,
+      "buy_amount_krw": 6324,
+      "units": 769.9987824181177,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "T/KRW는 최근 단기 상승세를 보이며 거래량이 유입되고 있으나, 5분봉 RSI가 62.1로 과매수 구간(70)을 하회하여 추격 매수 부담이 적습니다. VWAP 대비 괴리율이 다소 존재하나 직전 고점 부근에서 눌림목 조정을 거치며 횡보세를 보이고 있어, 단기 반등을 노린 얕은 진입(0.05% 할인)으로 2.0% 익절과 -1.0% 손절의 손익비 좋은 스캘핑 전략을 수행하기에 적합합니다.",
+      "entry_time": "2026-09-02T21:27:40.118840+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
