@@ -14,20 +14,6 @@
       "entry_time": "2026-09-02T10:25:22.033723+09:00",
       "break_even_triggered": false
     },
-    "ACE": {
-      "symbol": "ACE/KRW",
-      "entry_price": 307.0,
-      "highest_price": 307.0,
-      "stop_loss": 303.93,
-      "take_profit": 312.526,
-      "buy_amount_krw": 6324,
-      "units": 20.599348534201955,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ACE/KRW 5분봉 차트 분석 결과, 14 RSI가 43.1로 과매수 구간이 아니며 적절한 조정 후 반등 흐름을 보이고 있습니다. VWAP(304.23) 상단에서 가격이 지지받으며 횡보 후 재차 상승하려는 모멘텀이 포착되어 진입하기에 적합합니다. 단기 스캘핑 관점에서 1.8%의 익절가와 -1.0%의 손절가를 설정하여 효율적인 리스크 관리가 가능합니다.",
-      "entry_time": "2026-09-02T10:36:03.872752+09:00",
-      "break_even_triggered": false
-    },
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 1847.0,
@@ -3535,6 +3521,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-02T09:50:29.159598+09:00",
       "exit_time": "2026-09-02T10:25:29.526601+09:00"
+    },
+    {
+      "symbol": "ACE/KRW",
+      "entry_price": 307.0,
+      "exit_price": 303.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -82,
+      "profit_pct": -1.3,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T10:36:03.872752+09:00",
+      "exit_time": "2026-09-02T10:41:23.307810+09:00"
     }
   ]
 }
