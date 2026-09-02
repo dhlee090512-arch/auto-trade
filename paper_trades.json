@@ -27,6 +27,20 @@
       "detailed_reason": "SOL/KRW는 5분봉 기준 RSI(46.2)가 과매수 구간(70 이상)에 해당하지 않으며, 최근 캔들에서 전반적인 박스권 하단 지지를 확인한 후 반등세를 보이고 있습니다. VWAP 부근에서 안정적인 가격 형성을 보이며 소폭의 거래량 유입과 함께 단기 상승 모멘텀을 형성할 가능성이 높아 얕은 눌림목 타점을 설정합니다.",
       "entry_time": "2026-09-02T16:06:25.008989+09:00",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3336000.0,
+      "highest_price": 3336000.0,
+      "stop_loss": 3302640.0,
+      "take_profit": 3396048.0,
+      "buy_amount_krw": 6324,
+      "units": 0.00189568345323741,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ETH/KRW는 5분봉 RSI 60.0으로 과매수 구간(70)을 회피하였으며, 최근 캔들에서 강한 거래량과 함께 VWAP 상단 위(vwap_gap_pct +0.23%)에서 안정적인 상승 모멘텀을 유지하고 있습니다. ATR 대비 변동성 비율이 적절하고 얕은 눌림목(0.05% 할인) 진입이 가능하여 단기 스캘핑 매수 관점에 적합합니다.",
+      "entry_time": "2026-09-02T16:16:45.486541+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
