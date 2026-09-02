@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3321000.0,
-      "highest_price": 3321000.0,
-      "stop_loss": 3287790.0,
-      "take_profit": 3380778.0,
-      "buy_amount_krw": 6324,
-      "units": 0.001904245709123758,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 11.8로 극단적인 과매도 구간에 진입해 있습니다. VWAP 대비 가격 이격도(-0.28%)가 존재하며 단기 낙폭 과대에 따른 기술적 반등이 강하게 출현할 수 있는 자리입니다. 안티체이싱 규칙에 부합하며 스캘핑 타겟 범위 내에서 유리한 롱 진입이 가능합니다.",
-      "entry_time": "2026-09-02T17:30:13.664794+09:00",
-      "break_even_triggered": false
-    },
     "BTC": {
       "symbol": "BTC/KRW",
       "entry_price": 105856000.0,
@@ -3773,6 +3759,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-02T17:32:13.502854+09:00",
       "exit_time": "2026-09-02T18:07:14.860062+09:00"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3321000.0,
+      "exit_price": 3287000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -65,
+      "profit_pct": -1.02,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T17:30:13.664794+09:00",
+      "exit_time": "2026-09-02T18:16:59.079282+09:00"
     }
   ]
 }
