@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "T": {
-      "symbol": "T/KRW",
-      "entry_price": 8.243,
-      "highest_price": 8.243,
-      "stop_loss": 8.16057,
-      "take_profit": 8.407860000000001,
-      "buy_amount_krw": 6324,
-      "units": 767.1964090743661,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "T/KRW 코인은 5분봉 기준 RSI 59.6으로 과매수 구간에 진입하지 않았으며, 전반적인 거래량 유입과 함께 VWAP(중심가격선) 상단에서 안정적인 지지 흐름을 형성 중입니다. 직전 고점 부근의 매물대를 테스트하며 완만한 상승 채널을 유지하고 있어, 현재가 부근에서의 진입(0.05% 할인)을 통해 짧고 효율적인 스캘핑 수익 실현(+2.0% 익절, -1.0% 손절)이 유리합니다.",
-      "entry_time": "2026-09-02T22:02:42.429580+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3819,6 +3804,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T21:33:03.424727+09:00",
       "exit_time": "2026-09-02T21:33:10.616711+09:00"
+    },
+    {
+      "symbol": "T/KRW",
+      "entry_price": 8.243,
+      "exit_price": 8.141,
+      "buy_amount_krw": 6324,
+      "profit_krw": -78,
+      "profit_pct": -1.24,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T22:02:42.429580+09:00",
+      "exit_time": "2026-09-02T22:07:10.485882+09:00"
     }
   ]
 }
