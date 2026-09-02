@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "ETH": {
-      "symbol": "ETH/KRW",
-      "entry_price": 3324000.0,
-      "highest_price": 3324000.0,
-      "stop_loss": 3290760.0,
-      "take_profit": 3373859.9999999995,
-      "buy_amount_krw": 6324,
-      "units": 0.0019025270758122744,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "ETH/KRW는 5분봉 기준 RSI가 64.0으로 과매수 구간(70)을 하회하여 안티 체이싱 조건을 충족하며, VWAP(3319110원) 상단에서 안정적인 가격 흐름을 보이고 있습니다. 최근 상승세 속에서 단기 눌림목 형성을 활용한 얕은 진입(0.1% 할인)이 가능하며, 변동성(ATR 0.15%)을 고려한 합리적인 손절(-1.0%) 및 익절(+1.5%) 타겟 설정이 유효합니다.",
-      "entry_time": "2026-09-02T12:51:55.806062+09:00",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 502.0,
@@ -3619,6 +3605,18 @@
       "reason": "📈 트레일링 스탑 (최고 +1.7% 달성 후 이익 보존)",
       "entry_time": "2026-09-02T10:50:32.994112+09:00",
       "exit_time": "2026-09-02T13:06:53.920758+09:00"
+    },
+    {
+      "symbol": "ETH/KRW",
+      "entry_price": 3324000.0,
+      "exit_price": 3322000.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -4,
+      "profit_pct": -0.06,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-02T12:51:55.806062+09:00",
+      "exit_time": "2026-09-02T13:26:57.417283+09:00"
     }
   ]
 }
