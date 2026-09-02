@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 20.52,
+      "highest_price": 20.52,
+      "stop_loss": 20.314799999999998,
+      "take_profit": 20.9304,
+      "buy_amount_krw": 6324,
+      "units": 308.187134502924,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "HEMI/KRW는 최근 5분봉 기준 거래량이 점진적으로 유입되며 단기 상승 흐름의 주도권을 유지하고 있습니다. 현재 가격(20.56)이 VWAP(20.23) 위에 위치하여 매수세가 우세하며, RSI(14)가 58로 과매수 구간(70 이상)을 피해 안정적인 상승 여력을 확보하고 있습니다. 단기 조정 시 얕은 눌림목(0.05% 할인)에서 매수 진입하기 유리한 기술적 구조를 형성하고 있습니다.",
+      "entry_time": "2026-09-03T02:38:46.841653+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
