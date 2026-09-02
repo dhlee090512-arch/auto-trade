@@ -13,6 +13,20 @@
       "detailed_reason": "T/KRW는 5분봉 RSI 29.2로 과매도 구간에 진입해 있으며 최근 캔들에서 대량 거래량이 유입되면서 단기 낙폭 과대 반발 매수세가 유입될 수 있는 최적의 스캘핑 환경을 제공합니다. VWAP 대비 이격도가 -1.08%로 벌어져 있어 평균 회귀 성향에 따른 반등 탄력을 기대할 수 있으며, 얕은 눌림목 구간에서 리스크 관리 범 내 익절 및 손절 라인을 설정하여 매매를 수행합니다.",
       "entry_time": "2026-09-03T05:34:25.602759+09:00",
       "break_even_triggered": false
+    },
+    "SKR": {
+      "symbol": "SKR/KRW",
+      "entry_price": 32.6,
+      "highest_price": 32.6,
+      "stop_loss": 32.2414,
+      "take_profit": 33.2194,
+      "buy_amount_krw": 6324,
+      "units": 193.98773006134968,
+      "sl_pct": -1.1,
+      "tp_pct": 1.9,
+      "detailed_reason": "SKR/KRW는 5분봉 RSI 66.2로 과매수 구간(70 이상)을 회피하였으며, 최근 단기 조정 이후 거래 동반 반등 흐름이 포착되어 진입 타점으로 적합합니다. VWAP 상단에 위치하며 얕은 눌림목 구간에서 분할 매수 관점으로 접근하기 좋습니다.",
+      "entry_time": "2026-09-03T05:49:18.499402+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
