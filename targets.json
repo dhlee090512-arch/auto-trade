@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-02T14:35:57.842788+09:00",
+  "updated_at": "2026-09-02T14:45:58.891008+09:00",
   "paper_trading": true,
   "targets": {
-    "SKR": {
-      "symbol": "SKR/KRW",
-      "current_price": 32.5,
-      "target_entry": 32.48375,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "current_price": 107019000.0,
+      "target_entry": 106933384.8,
+      "sl_pct": -0.9,
+      "tp_pct": 1.5,
       "buy_amount_krw": 6324,
-      "detailed_reason": "SKR/KRW 종목은 5분봉 기준 RSI가 55.9로 과매수 구간(70 이상)을 피해 안정적이며, VWAP 근처(-0.52% 갭)에서 가격이 수렴하는 양상을 보이고 있습니다. 단기 상승 모멘텀 유지 속에서 리스크 대비 리워드가 확보되는 자리입니다.",
-      "created_at": "2026-09-02T14:35:57.842788+09:00"
+      "detailed_reason": "BTC는 완만한 상승세를 타며 VWAP 상단에 위치하고 있으며 RSI가 67.5로 70 미만 조건을 만족합니다. 변동성(ATR pct)이 낮고 안정적인 우상향 흐름을 보여 스캘핑 진입에 적합합니다.",
+      "created_at": "2026-09-02T14:45:58.891008+09:00"
     }
   }
 }
