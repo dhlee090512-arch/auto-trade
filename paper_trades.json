@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "SOPH": {
-      "symbol": "SOPH/KRW",
-      "entry_price": 6.05,
-      "highest_price": 6.05,
-      "stop_loss": 5.9895,
-      "take_profit": 6.140749999999999,
-      "buy_amount_krw": 6324,
-      "units": 1045.2892561983472,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "SOPH/KRW 종목은 5분봉 기준 RSI(14)가 58.2로 과매수 구간(70 이상)을 회피했으며, VWAP 근처(-0.23% 갭)에서 가격이 안정적으로 수렴하고 있습니다. 최근 단기 변동성 이후 6.0~6.07원 부근에서 횡보하며 지지선을 형성하고 있어 소폭 할인된 가격에 진입하여 반등을 노리는 단기 스캘핑 전략에 적합합니다.",
-      "entry_time": "2026-09-02T23:43:06.827057+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -3879,6 +3864,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T23:23:17.161834+09:00",
       "exit_time": "2026-09-02T23:30:30.545409+09:00"
+    },
+    {
+      "symbol": "SOPH/KRW",
+      "entry_price": 6.05,
+      "exit_price": 5.989,
+      "buy_amount_krw": 6324,
+      "profit_krw": -64,
+      "profit_pct": -1.01,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-02T23:43:06.827057+09:00",
+      "exit_time": "2026-09-03T00:05:43.018295+09:00"
     }
   ]
 }
