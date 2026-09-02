@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "entry_price": 6.05,
+      "highest_price": 6.05,
+      "stop_loss": 5.9895,
+      "take_profit": 6.140749999999999,
+      "buy_amount_krw": 6324,
+      "units": 1045.2892561983472,
+      "sl_pct": -1.0,
+      "tp_pct": 1.5,
+      "detailed_reason": "SOPH/KRW 종목은 5분봉 기준 RSI(14)가 58.2로 과매수 구간(70 이상)을 회피했으며, VWAP 근처(-0.23% 갭)에서 가격이 안정적으로 수렴하고 있습니다. 최근 단기 변동성 이후 6.0~6.07원 부근에서 횡보하며 지지선을 형성하고 있어 소폭 할인된 가격에 진입하여 반등을 노리는 단기 스캘핑 전략에 적합합니다.",
+      "entry_time": "2026-09-02T23:43:06.827057+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
