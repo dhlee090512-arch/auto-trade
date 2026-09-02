@@ -13,6 +13,20 @@
       "detailed_reason": "SOL/KRW는 최근 단기 하락 압력을 받으며 5분봉 RSI가 30.8로 과매도 국면에 근접해 있으며, VWAP 근처에서 횡보 중 바닥 다지기 패턴을 형성하고 있습니다. RSI 70 이하의 안티체이싱 조건을 충족하며, 과매도 구간에서의 기술적 반등을 노리는 단기 스캘핑 진입 전략으로 적합합니다.",
       "entry_time": "2026-09-02T10:25:22.033723+09:00",
       "break_even_triggered": false
+    },
+    "ACE": {
+      "symbol": "ACE/KRW",
+      "entry_price": 307.0,
+      "highest_price": 307.0,
+      "stop_loss": 303.93,
+      "take_profit": 312.526,
+      "buy_amount_krw": 6324,
+      "units": 20.599348534201955,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "ACE/KRW 5분봉 차트 분석 결과, 14 RSI가 43.1로 과매수 구간이 아니며 적절한 조정 후 반등 흐름을 보이고 있습니다. VWAP(304.23) 상단에서 가격이 지지받으며 횡보 후 재차 상승하려는 모멘텀이 포착되어 진입하기에 적합합니다. 단기 스캘핑 관점에서 1.8%의 익절가와 -1.0%의 손절가를 설정하여 효율적인 리스크 관리가 가능합니다.",
+      "entry_time": "2026-09-02T10:36:03.872752+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
