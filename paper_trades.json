@@ -27,6 +27,20 @@
       "detailed_reason": "BTC는 완만한 상승세를 타며 VWAP 상단에 위치하고 있으며 RSI가 67.5로 70 미만 조건을 만족합니다. 변동성(ATR pct)이 낮고 안정적인 우상향 흐름을 보여 스캘핑 진입에 적합합니다.",
       "entry_time": "2026-09-02T14:55:39.710027+09:00",
       "break_even_triggered": false
+    },
+    "HEMI": {
+      "symbol": "HEMI/KRW",
+      "entry_price": 20.56,
+      "highest_price": 20.56,
+      "stop_loss": 20.3544,
+      "take_profit": 20.9712,
+      "buy_amount_krw": 6324,
+      "units": 307.5875486381323,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "HEMI/KRW 5분봉 차트 분석 결과, 최근 급등 이후 조정을 거치며 VWAP(20.19) 위인 20.59 부근에서 안정적인 지지를 받고 있습니다. RSI 14는 55.4로 과매수 구간(70 이상)을 완전히 회피하여 추격매수 위험이 낮고, 단기 변동성(ATR pct 3.39%)을 활용한 스캘핑 매매에 적합한 조건을 갖추고 있습니다. 시장 가격 근처에서 얕은 진입 할인가를 적용하여 매수한 뒤, 전고점 부근을 타겟으로 하는 +2.0% 수익 실현과 -1.0% 손절 라인을 설정하여 리스크 관리를 철저히 합니다.",
+      "entry_time": "2026-09-02T14:56:34.416176+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
