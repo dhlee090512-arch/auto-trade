@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "SKR": {
-      "symbol": "SKR/KRW",
-      "entry_price": 32.44,
-      "highest_price": 32.5,
-      "stop_loss": 32.1156,
-      "take_profit": 33.02392,
-      "buy_amount_krw": 6324,
-      "units": 194.94451294697905,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "SKR/KRW 종목은 5분봉 기준 RSI가 55.9로 과매수 구간(70 이상)을 피해 안정적이며, VWAP 근처(-0.52% 갭)에서 가격이 수렴하는 양상을 보이고 있습니다. 단기 상승 모멘텀 유지 속에서 리스크 대비 리워드가 확보되는 자리입니다.",
-      "entry_time": "2026-09-02T14:36:39.955011+09:00",
-      "break_even_triggered": false
-    },
     "BTC": {
       "symbol": "BTC/KRW",
       "entry_price": 106876000.0,
@@ -3677,6 +3663,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-02T14:56:34.416176+09:00",
       "exit_time": "2026-09-02T14:59:11.679419+09:00"
+    },
+    {
+      "symbol": "SKR/KRW",
+      "entry_price": 32.44,
+      "exit_price": 33.13,
+      "buy_amount_krw": 6324,
+      "profit_krw": 135,
+      "profit_pct": 2.13,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-02T14:36:39.955011+09:00",
+      "exit_time": "2026-09-02T15:01:51.264439+09:00"
     }
   ]
 }
