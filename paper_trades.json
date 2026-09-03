@@ -14,20 +14,6 @@
       "entry_time": "2026-09-03T10:47:55.099792+09:00",
       "break_even_triggered": true
     },
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "entry_price": 1870.0,
-      "highest_price": 1870.0,
-      "stop_loss": 1853.17,
-      "take_profit": 1898.0499999999997,
-      "buy_amount_krw": 6324,
-      "units": 3.381818181818182,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
-      "detailed_reason": "SUI/KRW는 RSI 73.9로 과매수 구간에 진입하여 안티체이싱 규칙에 따라 배제되었으며, WLD/KRW는 모멘텀이 다소 약합니다. 반면 XRP/KRW는 RSI가 60.0으로 건전한 상승 여력을 유지하고 있고, VWAP(1860.18) 상단에서 안정적인 가격 흐름을 보이고 있으며 최근 캔들에서 거래량이 점진적으로 유입되는 추세를 보여 단기 스캘핑 매매에 적합합니다.",
-      "entry_time": "2026-09-03T11:25:44.836169+09:00",
-      "break_even_triggered": false
-    },
     "WLD": {
       "symbol": "WLD/KRW",
       "entry_price": 512.0,
@@ -4135,6 +4121,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-03T10:59:12.580474+09:00",
       "exit_time": "2026-09-03T11:38:12.242882+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "entry_price": 1870.0,
+      "exit_price": 1877.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 23,
+      "profit_pct": 0.37,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-03T11:25:44.836169+09:00",
+      "exit_time": "2026-09-03T12:01:55.094364+09:00"
     }
   ]
 }
