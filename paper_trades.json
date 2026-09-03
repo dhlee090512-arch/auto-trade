@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "T": {
-      "symbol": "T/KRW",
-      "entry_price": 7.172,
-      "highest_price": 7.172,
-      "stop_loss": 7.10028,
-      "take_profit": 7.31544,
-      "buy_amount_krw": 6324,
-      "units": 881.7624093697714,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "T/KRW는 최근 5분 봉 시리즈에서 거래량이 급증(volume_surge_ratio 2.92)하며 직전 저항선을 돌파하는 강한 모멘텀을 보였습니다. RSI 14가 60.1로 과매수 구간(70 이상)을 회피하여 안티 체이싱 룰을 충족합니다. VWAP 상단에 위치하며 얕은 눌림목(entry_discount_pct 0.08%) 진입을 통해 효율적인 스캘핑 리스크 관리가 가능합니다.",
-      "entry_time": "2026-09-03T09:01:05.831527+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4035,6 +4020,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-03T06:46:32.715963+09:00",
       "exit_time": "2026-09-03T06:48:27.466540+09:00"
+    },
+    {
+      "symbol": "T/KRW",
+      "entry_price": 7.172,
+      "exit_price": 7.322,
+      "buy_amount_krw": 6324,
+      "profit_krw": 132,
+      "profit_pct": 2.09,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-03T09:01:05.831527+09:00",
+      "exit_time": "2026-09-03T09:05:46.370290+09:00"
     }
   ]
 }
