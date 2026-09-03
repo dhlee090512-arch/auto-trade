@@ -13,6 +13,20 @@
       "detailed_reason": "XRP/KRW는 최근 5분봉 기준 거래량이 급증(volume_surge_ratio 1.85)하며 전고점을 돌파하는 강한 모멘텀을 형성하고 있습니다. RSI(14)가 55.0으로 과매수 구간(70 이상)에 진입하지 않아 추세 지속 가능성이 높으며, VWAP 상단에서 안정적으로 지지를 받고 있습니다. 따라서 현마가 근처에서 얕은 진입을 수행하고 손절은 -1.0%, 익절은 +1.8%로 설정하여 긍정적인 손익비를 확보하는 스캘핑 전략이 유효합니다.",
       "entry_time": "2026-09-03T10:15:01.798539+09:00",
       "break_even_triggered": false
+    },
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 510.0,
+      "highest_price": 510.0,
+      "stop_loss": 504.9,
+      "take_profit": 520.2,
+      "buy_amount_krw": 6324,
+      "units": 12.4,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "WLD/KRW는 5분봉 RSI가 66.7로 과매수 구간(>70)을 회피하였으며, 1.63배의 유의미한 거래량 급증과 함께 VWAP 상단 위에서 견조한 가격 흐름을 유지하고 있습니다. 단기 상승 추세 속에서 눌림목 구간의 얕은 조정을 활용해 분할 진입하기에 적합합니다.",
+      "entry_time": "2026-09-03T10:31:13.301210+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
