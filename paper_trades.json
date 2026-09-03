@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "entry_price": 70.92,
-      "highest_price": 70.92,
-      "stop_loss": 70.13988,
-      "take_profit": 72.33840000000001,
-      "buy_amount_krw": 6324,
-      "units": 89.17089678510997,
-      "sl_pct": -1.1,
-      "tp_pct": 2.0,
-      "detailed_reason": "BTR/KRW는 최근 5분봉 기준 거래량이 크게 유입되며 전고점 부근을 돌파하는 강한 상승 모멘텀을 형성하고 있습니다. VWAP을 상회하여 가격이 우상향하고 있고, RSI(14)가 53.8로 과매수 구간이 아니며 널널한 상승 여력을 확보하고 있습니다. 따라서 소폭의 눌림목(0.08% 할인)을 활용한 매수 진입 시 단기 스캘핑 목표가(2.0%) 달성 가능성이 높습니다.",
-      "entry_time": "2026-09-03T19:01:46.982689+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4215,6 +4200,18 @@
       "reason": "🎯 익절 목표가 달성",
       "entry_time": "2026-09-03T18:36:42.079707+09:00",
       "exit_time": "2026-09-03T18:50:10.128784+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "entry_price": 70.92,
+      "exit_price": 72.34,
+      "buy_amount_krw": 6324,
+      "profit_krw": 126,
+      "profit_pct": 2.0,
+      "status": "CLOSED_TAKE_PROFIT",
+      "reason": "🎯 익절 목표가 달성",
+      "entry_time": "2026-09-03T19:01:46.982689+09:00",
+      "exit_time": "2026-09-03T19:03:11.691680+09:00"
     }
   ]
 }
