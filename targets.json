@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-03T11:25:24.538229+09:00",
+  "updated_at": "2026-09-03T11:50:31.333445+09:00",
   "paper_trading": true,
   "targets": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "current_price": 1871.0,
-      "target_entry": 1870.0645000000002,
-      "sl_pct": -0.9,
-      "tp_pct": 1.5,
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "current_price": 513.0,
+      "target_entry": 512.7435,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
       "buy_amount_krw": 6324,
-      "detailed_reason": "SUI/KRW는 RSI 73.9로 과매수 구간에 진입하여 안티체이싱 규칙에 따라 배제되었으며, WLD/KRW는 모멘텀이 다소 약합니다. 반면 XRP/KRW는 RSI가 60.0으로 건전한 상승 여력을 유지하고 있고, VWAP(1860.18) 상단에서 안정적인 가격 흐름을 보이고 있으며 최근 캔들에서 거래량이 점진적으로 유입되는 추세를 보여 단기 스캘핑 매매에 적합합니다.",
-      "created_at": "2026-09-03T11:25:24.538229+09:00"
+      "detailed_reason": "SUI(RSI 74.1)와 HEMI(RSI 87.7)는 과매수 구간으로 추세 추종 시 추격 매수(Anti-Chasing) 위험이 높음. 반면 WLD/KRW는 5분봉 RSI가 62.5로 안정적이며, VWAP 위에서 꾸준한 우상향 패턴과 점진적인 저점 높이기(Higher Lows)를 보여주고 있음. 현재가 대비 0.05% 미세 할인된 가격으로 합리적인 롱 진입이 가능하며, 1.8% 익절과 -1.0% 손절의 리스크 대비 리워드 비율이 우수함.",
+      "created_at": "2026-09-03T11:50:31.333445+09:00"
     }
   }
 }
