@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EDGEX": {
+      "symbol": "EDGEX/KRW",
+      "entry_price": 663.0,
+      "highest_price": 663.0,
+      "stop_loss": 656.37,
+      "take_profit": 676.26,
+      "buy_amount_krw": 6324,
+      "units": 9.538461538461538,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "EDGEX/KRW 종목은 최근 5분봉 기준 급등 후 조정을 거치며 RSI가 28.1로 과매도 구간에 진입하였습니다. 단기 거래량이 급증(2.38배)한 이력이 있으며, VWAP 대비 괴리율(-6.64%)이 벌어져 있어 기술적 반등(단기 되돌림)을 노리기 매우 적합한 스캘핑 구간입니다. 70 이하의 RSI 조건과 스캘핑 목표 범위 내에서 리스크 관리가 가능합니다.",
+      "entry_time": "2026-09-03T18:36:42.079707+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
