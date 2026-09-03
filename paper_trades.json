@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "entry_price": 501.0,
+      "highest_price": 501.0,
+      "stop_loss": 495.99,
+      "take_profit": 510.01800000000003,
+      "buy_amount_krw": 6324,
+      "units": 12.622754491017965,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI가 56.2로 과매수 구간(70 이상)을 피해 안정적인 진입이 가능합니다. 최근 캔들에서 거래량이 동반되며 전고점 부근을 돌파하려는 강한 모멘텀이 포착되었고, VWAP(거래소가중평균가격) 상단에 위치하여 단기 상승 추세가 유효합니다. 반면 T/KRW는 RSI 73.4로 안티체이싱 규칙에 위배되며, HEMI/KRW는 횡보세가 짙어 제외했습니다. 따라서 WLD의 눌림목 구간에서 0.1% 할인된 가격으로 매수하여 1.8%의 수익을 타겟팅합니다.",
+      "entry_time": "2026-09-03T09:26:37.719361+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
