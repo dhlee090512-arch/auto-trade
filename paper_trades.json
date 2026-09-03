@@ -1,19 +1,5 @@
 {
   "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 545.0,
-      "highest_price": 545.0,
-      "stop_loss": 539.55,
-      "take_profit": 554.8100000000001,
-      "buy_amount_krw": 6324,
-      "units": 11.603669724770642,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "WLD/KRW는 5분봉 RSI가 33.3으로 과매도권 부근에 위치하여 단기 반등 모멘텀이 형성되기 좋은 구간입니다. VWAP(544.45) 위인 546.0원에 가격이 형성되어 있으며 최근 저점을 다진 뒤 소폭 거래량이 유입되는 모습을 보여줍니다. 0.1%의 현실적인 할인율로 숏텀 진입이 가능하며, ATR 대비 적절한 손익비(+1.8% 익절, -1.0% 손절)를 설정하여 승률을 높인 단타 트레이드 플랜입니다.",
-      "entry_time": "2026-09-04T04:34:38.642567+09:00",
-      "break_even_triggered": false
-    },
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 2003.0,
@@ -4447,6 +4433,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-04T04:06:03.573403+09:00",
       "exit_time": "2026-09-04T04:29:26.425146+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 545.0,
+      "exit_price": 547.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 23,
+      "profit_pct": 0.37,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-04T04:34:38.642567+09:00",
+      "exit_time": "2026-09-04T05:09:39.403423+09:00"
     }
   ]
 }
