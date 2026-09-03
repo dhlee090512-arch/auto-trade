@@ -27,6 +27,20 @@
       "detailed_reason": "SOL/KRW는 5분봉 RSI가 56.2로 과매수 구간(70 이상)을 피해 Anti-Chasing 규칙을 완벽히 충족하며, VWAP 근처(-0.05%)에서 가격이 안정적으로 수렴하고 있습니다. ATR 대비 변동성이 적절하여 리스크 관리가 유리하므로, 소폭 할인된 가격에 진입하여 단기 반등을 노리는 스캘핑 전략을 수립합니다.",
       "entry_time": "2026-09-03T10:59:12.580474+09:00",
       "break_even_triggered": false
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "entry_price": 1870.0,
+      "highest_price": 1870.0,
+      "stop_loss": 1853.17,
+      "take_profit": 1898.0499999999997,
+      "buy_amount_krw": 6324,
+      "units": 3.381818181818182,
+      "sl_pct": -0.9,
+      "tp_pct": 1.5,
+      "detailed_reason": "SUI/KRW는 RSI 73.9로 과매수 구간에 진입하여 안티체이싱 규칙에 따라 배제되었으며, WLD/KRW는 모멘텀이 다소 약합니다. 반면 XRP/KRW는 RSI가 60.0으로 건전한 상승 여력을 유지하고 있고, VWAP(1860.18) 상단에서 안정적인 가격 흐름을 보이고 있으며 최근 캔들에서 거래량이 점진적으로 유입되는 추세를 보여 단기 스캘핑 매매에 적합합니다.",
+      "entry_time": "2026-09-03T11:25:44.836169+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
