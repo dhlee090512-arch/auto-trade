@@ -3,7 +3,7 @@
     "XRP": {
       "symbol": "XRP/KRW",
       "entry_price": 1982.0,
-      "highest_price": 1982.0,
+      "highest_price": 1994.0,
       "stop_loss": 1964.162,
       "take_profit": 2017.676,
       "buy_amount_krw": 6324,
@@ -12,20 +12,6 @@
       "tp_pct": 1.8,
       "detailed_reason": "XRP/KRW는 5분봉 RSI 41.1로 과매수 구간(70 이상)을 완전히 피해 있으며, VWAP 근처에서 안정적인 지지 테스트를 거치고 있는 우수한 단기 스캘핑 대상입니다. EDGEX와 WLD는 RSI가 60 중후반으로 추격 매수 위험이 높고 급등락에 따른 변동성이 과도합니다. 반면 XRP는 횡보 후 거래량이 유입되며 추세 반등을 모색하는 자리로, 0.05%의 얕은 할인율로 진입하여 1.8% 익절 및 -0.9% 손절의 리스크 대비 리워드 비율이 매우 훌륭합니다.",
       "entry_time": "2026-09-04T01:18:04.699017+09:00",
-      "break_even_triggered": false
-    },
-    "EDGEX": {
-      "symbol": "EDGEX/KRW",
-      "entry_price": 885.0,
-      "highest_price": 885.0,
-      "stop_loss": 876.15,
-      "take_profit": 902.7,
-      "buy_amount_krw": 6324,
-      "units": 7.145762711864407,
-      "sl_pct": -1.0,
-      "tp_pct": 2.0,
-      "detailed_reason": "EDGEX/KRW는 5분봉 기준 강력한 거래량 유입과 함께 단기 상승 추세를 형성하고 있습니다. RSI가 66.4로 과매수 구간(70)에 진입하기 직전이며 안티체이싱 필터를 충족합니다. VWAP 대비 괴리율이 존재하나 거래량이 동반된 주가 상승 모멘텀이 매우 강하며, 얕은 눌림목(0.1%)에서 매수 진입 시 짧은 손절(-1.0%) 대비 높은 수익 타겟(2.0%)을 노릴 수 있는 우수한 스캘핑 환경입니다.",
-      "entry_time": "2026-09-04T01:34:53.846888+09:00",
       "break_even_triggered": false
     }
   },
@@ -4349,6 +4335,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-04T00:37:50.754371+09:00",
       "exit_time": "2026-09-04T01:12:52.535983+09:00"
+    },
+    {
+      "symbol": "EDGEX/KRW",
+      "entry_price": 885.0,
+      "exit_price": 876.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -65,
+      "profit_pct": -1.02,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-04T01:34:53.846888+09:00",
+      "exit_time": "2026-09-04T01:36:06.554651+09:00"
     }
   ]
 }
