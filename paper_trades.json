@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTC": {
+      "symbol": "BTC/KRW",
+      "entry_price": 110635000.0,
+      "highest_price": 110635000.0,
+      "stop_loss": 109528650.0,
+      "take_profit": 112626430.0,
+      "buy_amount_krw": 6324,
+      "units": 5.716093460478149e-05,
+      "sl_pct": -1.0,
+      "tp_pct": 1.8,
+      "detailed_reason": "BTC/KRW는 5분봉 기준 RSI가 24.8로 강력한 과매도 구간에 진입해 있으며 단기 반등 모멘텀 형성이 기대됩니다. VWAP 대비 괴리율이 -0.43%로 가격 회복 여력이 충분하고, 최근 하락세가 진정되며 횡보 후 반등을 시도하는 캔들 패턴을 보여 데이트레이딩 관점의 롱 포지션 진입이 유리합니다.",
+      "entry_time": "2026-09-04T07:50:52.954358+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
