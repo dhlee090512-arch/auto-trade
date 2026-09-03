@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "HEMI": {
-      "symbol": "HEMI/KRW",
-      "entry_price": 25.42,
-      "highest_price": 25.42,
-      "stop_loss": 25.1658,
-      "take_profit": 25.877560000000003,
-      "buy_amount_krw": 6324,
-      "units": 248.78048780487802,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "detailed_reason": "HEMI/KRW는 최근 단기 상승 후 25.42 부근으로 조정받는 과정에서 5m RSI가 36.8로 과매도 국면 근처에 위치해 있음. VWAP(26.64) 대비 가격 괴리율(-4.59%)이 벌어져 있어 기술적 반등(Mean Reversion) 기대 가능. 숏 및 체이스 방지 룰을 준수하며, 현재가 부근 얕은 할인율 적용 후 리스크 대비 손익비가 우수한 구간에서 매수 진입.",
-      "entry_time": "2026-09-03T16:11:39.537426+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4155,6 +4140,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-03T15:01:39.747868+09:00",
       "exit_time": "2026-09-03T15:02:15.320574+09:00"
+    },
+    {
+      "symbol": "HEMI/KRW",
+      "entry_price": 25.42,
+      "exit_price": 25.16,
+      "buy_amount_krw": 6324,
+      "profit_krw": -65,
+      "profit_pct": -1.02,
+      "status": "CLOSED_STOP_LOSS",
+      "reason": "🛡️ 본절 방어선 또는 손절가 도달",
+      "entry_time": "2026-09-03T16:11:39.537426+09:00",
+      "exit_time": "2026-09-03T16:12:47.295956+09:00"
     }
   ]
 }
