@@ -3,8 +3,8 @@
     "ONDO": {
       "symbol": "ONDO/KRW",
       "entry_price": 479.0,
-      "highest_price": 479.0,
-      "stop_loss": 474.21,
+      "highest_price": 484.0,
+      "stop_loss": 479.4789999999999,
       "take_profit": 487.622,
       "buy_amount_krw": 6324,
       "units": 13.20250521920668,
@@ -12,21 +12,7 @@
       "tp_pct": 1.8,
       "detailed_reason": "ONDO/KRW는 5분봉 기준 RSI 64.3으로 과매수 구간(70)을 회피하였으며, 최근 캔들들에서 우상향 흐름을 유지하며 VWAP(478.54) 위에서 안정적으로 지지를 받고 있습니다. 변동성과 거래량 지표가 단기 스캘핑에 적합한 조건을 형성하고 있어, 현재가 부근에서 얕은 조정을 활용한 매수 진입이 유효합니다.",
       "entry_time": "2026-09-03T10:47:55.099792+09:00",
-      "break_even_triggered": false
-    },
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "entry_price": 137600.0,
-      "highest_price": 137600.0,
-      "stop_loss": 136224.0,
-      "take_profit": 139664.0,
-      "buy_amount_krw": 6324,
-      "units": 0.045959302325581396,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "SOL/KRW는 5분봉 RSI가 56.2로 과매수 구간(70 이상)을 피해 Anti-Chasing 규칙을 완벽히 충족하며, VWAP 근처(-0.05%)에서 가격이 안정적으로 수렴하고 있습니다. ATR 대비 변동성이 적절하여 리스크 관리가 유리하므로, 소폭 할인된 가격에 진입하여 단기 반등을 노리는 스캘핑 전략을 수립합니다.",
-      "entry_time": "2026-09-03T10:59:12.580474+09:00",
-      "break_even_triggered": false
+      "break_even_triggered": true
     },
     "XRP": {
       "symbol": "XRP/KRW",
@@ -4123,6 +4109,18 @@
       "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
       "entry_time": "2026-09-03T10:31:13.301210+09:00",
       "exit_time": "2026-09-03T11:12:06.784971+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "entry_price": 137600.0,
+      "exit_price": 138100.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": 23,
+      "profit_pct": 0.36,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-03T10:59:12.580474+09:00",
+      "exit_time": "2026-09-03T11:38:12.242882+09:00"
     }
   ]
 }
