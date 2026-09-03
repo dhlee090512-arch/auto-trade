@@ -1,5 +1,20 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "entry_price": 73.61,
+      "highest_price": 73.61,
+      "stop_loss": 72.87389999999999,
+      "take_profit": 75.0822,
+      "buy_amount_krw": 6324,
+      "units": 85.91224018475751,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "BTR/KRW는 최근 5분 봉 시리즈에서 거래량이 크게 동반되며(볼륨 서지 비율 1.14) 강한 상승 흐름을 형성하고 있습니다. VWAP(가중평균가) 대비 가격 이격도가 7.66%로 강세 국면에 있으며, RSI가 63.4 수준으로 70을 넘지 않아 과매수권에 진입하지 않은 안정적인 추종 매수 구간입니다. 최근 봉들이 지속적인 지지선을 구축하며 상승 에너지를 유지하고 있어 단기 스캘핑 목표가 달성 확률이 높습니다.",
+      "entry_time": "2026-09-03T19:56:53.679540+09:00",
+      "break_even_triggered": false
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
