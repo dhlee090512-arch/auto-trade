@@ -1,20 +1,5 @@
 {
-  "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "entry_price": 519.0,
-      "highest_price": 522.0,
-      "stop_loss": 513.81,
-      "take_profit": 526.785,
-      "buy_amount_krw": 6324,
-      "units": 12.184971098265896,
-      "sl_pct": -1.0,
-      "tp_pct": 1.5,
-      "detailed_reason": "WLD/KRW는 5분봉 기준 RSI 55로 과매수 구간(70 이상)을 완전히 회피하여 안전한 진입이 가능합니다. VWAP(517.78) 상단에서 안정적인 지지를 받으며 우상향 추세를 형성하고 있고, 최근 캔들들에서 점진적인 저점 및 고점 높이기가 관찰되어 단기 모멘텀이 양호합니다. ATR 비율이 0.44%로 변동성이 적당히 통제되어 있으며, 틱 비율과 볼륨 유입이 점진적으로 증가하고 있어 얕은 조정 시 매수 관점으로 접근하기 매우 유리합니다.",
-      "entry_time": "2026-09-03T22:26:30.518396+09:00",
-      "break_even_triggered": false
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4263,6 +4248,18 @@
       "reason": "🛡️ 본절 방어선 또는 손절가 도달",
       "entry_time": "2026-09-03T22:42:48.487390+09:00",
       "exit_time": "2026-09-03T22:44:21.130806+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 519.0,
+      "exit_price": 517.0,
+      "buy_amount_krw": 6324,
+      "profit_krw": -25,
+      "profit_pct": -0.39,
+      "status": "CLOSED_EARLY_EXIT",
+      "reason": "⌛ 35분간 모멘텀 소멸로 조기 청산 (기회비용 확보)",
+      "entry_time": "2026-09-03T22:26:30.518396+09:00",
+      "exit_time": "2026-09-03T23:01:31.823396+09:00"
     }
   ]
 }
