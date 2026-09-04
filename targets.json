@@ -1,16 +1,18 @@
 {
-  "updated_at": "2026-09-04T13:15:20.702618+09:00",
+  "updated_at": "2026-09-04T18:08:09.212018+09:00",
   "paper_trading": true,
   "targets": {
-    "EDGEX": {
-      "symbol": "EDGEX/KRW",
-      "current_price": 837.0,
-      "target_entry": 836.163,
-      "sl_pct": -1.0,
-      "tp_pct": 1.8,
-      "buy_amount_krw": 6324,
-      "detailed_reason": "EDGEX/KRW 코인은 5분봉 RSI 14 지표가 34.0으로 과매도 구간 근처에 위치하며, 단기 급락 이후 횡보하며 지지선을 형성하는 모습을 보이고 있습니다. VWAP 대비 -1.85% 괴리율을 보이고 있어 기술적 반등 여력이 존재하며, 안티 체이싱 룰(RSI > 70)을 충족하므로 얕은 할인율로 진입하여 반등을 노리는 스캘핑 전략에 적합합니다.",
-      "created_at": "2026-09-04T13:15:20.702618+09:00"
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "code": "ONDO",
+      "mode": "SCALPING",
+      "current_price": 502.0,
+      "target_entry": 501.8996,
+      "sl_pct": -1.1,
+      "timeout_mins": 5,
+      "buy_amount_krw": 6345,
+      "detailed_reason": "ONDO/KRW는 1시간봉 RSI(51.6)가 안정적이며, 15분봉 RSI(66.7)가 강한 상승 모멘텀을 나타내고 있습니다. 직전 캔들에서 502 KRW 고점을 돌파하며 거래량이 유입되었고, 틱 비율(0.199)과 볼륨 서지 비율(0.96)이 우수하여 단기 스칼핑 최적의 조건을 충족합니다.",
+      "created_at": "2026-09-04T18:08:09.212018+09:00"
     }
   }
 }
