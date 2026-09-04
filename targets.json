@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-04T19:13:24.644033+09:00",
+  "updated_at": "2026-09-05T02:24:48.167075+09:00",
   "paper_trading": true,
   "targets": {
-    "HNT": {
-      "symbol": "HNT/KRW",
-      "code": "HNT",
+    "XCN": {
+      "symbol": "XCN/KRW",
+      "code": "XCN",
       "mode": "SWING",
-      "current_price": 871.0,
-      "target_entry": 867.516,
+      "current_price": 5.396,
+      "target_entry": 5.3744,
       "sl_pct": -2.5,
       "timeout_mins": 40,
       "buy_amount_krw": 6345,
-      "detailed_reason": "HNT는 24시간 동안 26.45% 급등세를 보이며 거래량 급증(vol_surge_ratio 1.49)을 동반한 강한 추세를 형성 중입니다. 1시간봉 RSI(46.8)와 15분봉 RSI(52.0)가 과열권에서 벗어나 안정적인 조정을 거치고 있어 딥 풀백(Deep Pullback) 후 상승 추세 추종(SWING) 매매에 최적의 조건을 갖추고 있습니다. 최근 EDGEX 등에서 발생한 손절 패턴을 방지하기 위해 충분한 진입 할인율과 방어적 손절가를 설정하였습니다.",
-      "created_at": "2026-09-04T19:13:24.644033+09:00"
+      "detailed_reason": "대다수 코인이 24시간 기준 하락세 속에서 약세를 보이는 반면, XCN/KRW는 +14.63%의 강한 상승 모멘텀을 유지하고 있으며 1시간 및 15분 RSI(59.3, 64.0)와 거래량 급증(vol_surge_ratio 1.18)이 동반된 뚜렷한 추세 추종형 후보입니다. 최근 손실 이력(EDGEX 등)의 변동성 리스크를 고려하여, 깊은 눌림목(0.4% 할인 진입)을 활용하는 SWING 모드로 진입합니다.",
+      "created_at": "2026-09-05T02:24:48.167075+09:00"
     }
   }
 }
