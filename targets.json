@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-04T19:08:39.440232+09:00",
+  "updated_at": "2026-09-04T19:13:24.644033+09:00",
   "paper_trading": true,
   "targets": {
     "HNT": {
       "symbol": "HNT/KRW",
       "code": "HNT",
       "mode": "SWING",
-      "current_price": 870.0,
-      "target_entry": 866.52,
+      "current_price": 871.0,
+      "target_entry": 867.516,
       "sl_pct": -2.5,
       "timeout_mins": 40,
       "buy_amount_krw": 6345,
-      "detailed_reason": "HNT/KRW는 24시간 동안 27.51% 상승하며 강한 상방 모멘텀을 유지하고 있으며, 볼륨 서지 비율(1.2)과 15분 RSI(53.0)가 안정적인 상승 추세를 가리키고 있습니다. 최근 EDGEX 등에서 발생한 고점 추격 손실을 방지하기 위해, MA20_1h 부근 및 단기 눌림목을 활용한 SWING 전략(0.4% 할인 매수)으로 진입하여 리스크 대비 기대 수익을 극대화합니다.",
-      "created_at": "2026-09-04T19:08:39.440232+09:00"
+      "detailed_reason": "HNT는 24시간 동안 26.45% 급등세를 보이며 거래량 급증(vol_surge_ratio 1.49)을 동반한 강한 추세를 형성 중입니다. 1시간봉 RSI(46.8)와 15분봉 RSI(52.0)가 과열권에서 벗어나 안정적인 조정을 거치고 있어 딥 풀백(Deep Pullback) 후 상승 추세 추종(SWING) 매매에 최적의 조건을 갖추고 있습니다. 최근 EDGEX 등에서 발생한 손절 패턴을 방지하기 위해 충분한 진입 할인율과 방어적 손절가를 설정하였습니다.",
+      "created_at": "2026-09-04T19:13:24.644033+09:00"
     }
   }
 }
