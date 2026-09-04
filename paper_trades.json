@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EDGEX": {
+      "symbol": "EDGEX/KRW",
+      "mode": "SCALPING",
+      "entry_price": 846.0,
+      "highest_price": 846.0,
+      "buy_amount_krw": 6345,
+      "units": 7.5,
+      "sl_pct": -1.2,
+      "entry_time": "2026-09-05T08:31:01.261796+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788564661.2617931,
+          846.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
