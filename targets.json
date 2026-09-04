@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-05T02:24:48.167075+09:00",
+  "updated_at": "2026-09-05T08:30:23.378965+09:00",
   "paper_trading": true,
   "targets": {
-    "XCN": {
-      "symbol": "XCN/KRW",
-      "code": "XCN",
-      "mode": "SWING",
-      "current_price": 5.396,
-      "target_entry": 5.3744,
-      "sl_pct": -2.5,
-      "timeout_mins": 40,
+    "EDGEX": {
+      "symbol": "EDGEX/KRW",
+      "code": "EDGEX",
+      "mode": "SCALPING",
+      "current_price": 847.0,
+      "target_entry": 846.5765,
+      "sl_pct": -1.2,
+      "timeout_mins": 5,
       "buy_amount_krw": 6345,
-      "detailed_reason": "대다수 코인이 24시간 기준 하락세 속에서 약세를 보이는 반면, XCN/KRW는 +14.63%의 강한 상승 모멘텀을 유지하고 있으며 1시간 및 15분 RSI(59.3, 64.0)와 거래량 급증(vol_surge_ratio 1.18)이 동반된 뚜렷한 추세 추종형 후보입니다. 최근 손실 이력(EDGEX 등)의 변동성 리스크를 고려하여, 깊은 눌림목(0.4% 할인 진입)을 활용하는 SWING 모드로 진입합니다.",
-      "created_at": "2026-09-05T02:24:48.167075+09:00"
+      "detailed_reason": "EDGEX/KRW는 거래량 급증 비율(vol_surge_ratio 2.3)과 함께 15분봉 기준 RSI(69.5) 및 가격 상승 모멘텀이 매우 강하게 유지되고 있습니다. 최근 메모리의 손절 종목들과 달리 뚜렷한 거래대금 유입과 함께 단기 돌파 국면에 위치하여 스칼핑 모드에 최적화되어 있습니다.",
+      "created_at": "2026-09-05T08:30:23.378965+09:00"
     }
   }
 }
