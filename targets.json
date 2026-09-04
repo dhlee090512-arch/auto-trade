@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-04T18:08:09.212018+09:00",
+  "updated_at": "2026-09-04T19:08:39.440232+09:00",
   "paper_trading": true,
   "targets": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "code": "ONDO",
-      "mode": "SCALPING",
-      "current_price": 502.0,
-      "target_entry": 501.8996,
-      "sl_pct": -1.1,
-      "timeout_mins": 5,
+    "HNT": {
+      "symbol": "HNT/KRW",
+      "code": "HNT",
+      "mode": "SWING",
+      "current_price": 870.0,
+      "target_entry": 866.52,
+      "sl_pct": -2.5,
+      "timeout_mins": 40,
       "buy_amount_krw": 6345,
-      "detailed_reason": "ONDO/KRW는 1시간봉 RSI(51.6)가 안정적이며, 15분봉 RSI(66.7)가 강한 상승 모멘텀을 나타내고 있습니다. 직전 캔들에서 502 KRW 고점을 돌파하며 거래량이 유입되었고, 틱 비율(0.199)과 볼륨 서지 비율(0.96)이 우수하여 단기 스칼핑 최적의 조건을 충족합니다.",
-      "created_at": "2026-09-04T18:08:09.212018+09:00"
+      "detailed_reason": "HNT/KRW는 24시간 동안 27.51% 상승하며 강한 상방 모멘텀을 유지하고 있으며, 볼륨 서지 비율(1.2)과 15분 RSI(53.0)가 안정적인 상승 추세를 가리키고 있습니다. 최근 EDGEX 등에서 발생한 고점 추격 손실을 방지하기 위해, MA20_1h 부근 및 단기 눌림목을 활용한 SWING 전략(0.4% 할인 매수)으로 진입하여 리스크 대비 기대 수익을 극대화합니다.",
+      "created_at": "2026-09-04T19:08:39.440232+09:00"
     }
   }
 }
