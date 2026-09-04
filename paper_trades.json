@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "HNT": {
+      "symbol": "HNT/KRW",
+      "mode": "SWING",
+      "entry_price": 834.0,
+      "highest_price": 834.0,
+      "buy_amount_krw": 6345,
+      "units": 7.607913669064748,
+      "sl_pct": -2.5,
+      "entry_time": "2026-09-04T19:50:05.677093+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788519005.6770904,
+          834.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
