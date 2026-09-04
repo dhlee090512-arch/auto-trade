@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "XCN": {
+      "symbol": "XCN/KRW",
+      "mode": "SWING",
+      "entry_price": 5.373,
+      "highest_price": 5.373,
+      "buy_amount_krw": 6345,
+      "units": 1180.9045226130652,
+      "sl_pct": -2.5,
+      "entry_time": "2026-09-05T02:27:31.813353+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788542851.8133504,
+          5.373
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
