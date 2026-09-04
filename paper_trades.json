@@ -13,6 +13,20 @@
       "detailed_reason": "EDGEX/KRW는 5분봉 기준 RSI가 58.6으로 과열권(70 이상)에 도달하지 않아 추격 매수 부담이 적습니다. 최근 거래량이 동반되며 전고점 부근에서 가격 방어가 이루어지고 있고, VWAP(거래량가중평균가격) 상단에서 안정적인 흐름을 보이고 있어 단기 모멘텀을 활용한 스캘핑 매매 타점으로 적합합니다.",
       "entry_time": "2026-09-04T12:06:21.447286+09:00",
       "break_even_triggered": false
+    },
+    "ETH": {
+      "symbol": "ETH/KRW",
+      "entry_price": 3429000.0,
+      "highest_price": 3429000.0,
+      "stop_loss": 3394710.0,
+      "take_profit": 3497580.0,
+      "buy_amount_krw": 6324,
+      "units": 0.0018442694663167104,
+      "sl_pct": -1.0,
+      "tp_pct": 2.0,
+      "detailed_reason": "ETH/KRW는 최근 5분봉 기준 거래량 급증(4.67배)과 함께 단기 저점을 다지고 강한 반등세를 보이고 있습니다. RSI가 55.3으로 과매수 구간이 아니며, VWAP(3425569) 부근에서 안정적인 지지를 받고 상승 탄력이 붙는 시점이므로 단기 스캘핑 매수 관점에 적합합니다.",
+      "entry_time": "2026-09-04T12:11:28.961063+09:00",
+      "break_even_triggered": false
     }
   },
   "closed_trades": [
