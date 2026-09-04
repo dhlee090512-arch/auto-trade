@@ -1,24 +1,5 @@
 {
-  "active_positions": {
-    "XCN": {
-      "symbol": "XCN/KRW",
-      "mode": "SWING",
-      "entry_price": 5.373,
-      "highest_price": 5.373,
-      "buy_amount_krw": 6345,
-      "units": 1180.9045226130652,
-      "sl_pct": -2.5,
-      "entry_time": "2026-09-05T02:27:31.813353+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1788542851.8133504,
-          5.373
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4542,6 +4523,17 @@
       "reason": "📈 계단식 트레일링 익절 (고점 +3.48% 대비 -1.0% 반락)",
       "entry_time": "2026-09-04T19:50:05.677093+09:00",
       "exit_time": "2026-09-04T20:15:18.306632+09:00"
+    },
+    {
+      "symbol": "XCN/KRW",
+      "entry_price": 5.373,
+      "exit_price": 5.226,
+      "buy_amount_krw": 6345,
+      "profit_krw": -174,
+      "profit_pct": -2.74,
+      "reason": "🛡️ 손절가 도달 (-2.74%)",
+      "entry_time": "2026-09-05T02:27:31.813353+09:00",
+      "exit_time": "2026-09-05T04:34:37.899689+09:00"
     }
   ]
 }
