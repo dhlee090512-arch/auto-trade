@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-06T04:28:07.663350+09:00",
+  "updated_at": "2026-09-06T06:38:26.061218+09:00",
   "paper_trading": true,
   "targets": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "code": "ONDO",
       "mode": "SCALPING",
-      "current_price": 141800.0,
-      "target_entry": 141771.64,
+      "current_price": 507.0,
+      "target_entry": 506.7972,
       "sl_pct": -1.2,
       "timeout_mins": 5,
       "buy_amount_krw": 6345,
-      "detailed_reason": "SOL/KRW는 1시간 RSI 70.5 및 15분 RSI 65.0으로 강한 상승 모멘텀을 유지하고 있으며, 이동평균선(MA20_1h: 140,340) 상단에서 안정적인 가격 방어를 보여주고 있습니다. 거래량 유입 비율(vol_surge_ratio 0.68)이 우수하여 단기 스캘핑 타겟으로 최적입니다. 최근 손실 종목들의 패턴을 반면교사 삼아 타이트한 손실 제어(-1.2%)와 빠른 익절 구조를 적용합니다.",
-      "created_at": "2026-09-06T04:28:07.663350+09:00"
+      "detailed_reason": "ONDO/KRW는 24시간 양의 수익률(3.68%)을 유지하면서도 1시간 RSI(52.2)와 15분 RSI(64.3)가 상승 모멘텀을 가리키고 있습니다. 특히 볼륨 서지 비율(vol_surge_ratio)이 1.54로 시장 내 다른 후보군 대비 확실한 거래량 유입이 관측되어, 최근 손실 패턴을 회피하고 고확률 스캘핑 타점을 형성하기에 가장 적합합니다.",
+      "created_at": "2026-09-06T06:38:26.061218+09:00"
     }
   }
 }
