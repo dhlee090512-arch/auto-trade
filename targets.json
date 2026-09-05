@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-05T08:30:23.378965+09:00",
+  "updated_at": "2026-09-06T04:28:07.663350+09:00",
   "paper_trading": true,
   "targets": {
-    "EDGEX": {
-      "symbol": "EDGEX/KRW",
-      "code": "EDGEX",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
       "mode": "SCALPING",
-      "current_price": 847.0,
-      "target_entry": 846.5765,
+      "current_price": 141800.0,
+      "target_entry": 141771.64,
       "sl_pct": -1.2,
       "timeout_mins": 5,
       "buy_amount_krw": 6345,
-      "detailed_reason": "EDGEX/KRW는 거래량 급증 비율(vol_surge_ratio 2.3)과 함께 15분봉 기준 RSI(69.5) 및 가격 상승 모멘텀이 매우 강하게 유지되고 있습니다. 최근 메모리의 손절 종목들과 달리 뚜렷한 거래대금 유입과 함께 단기 돌파 국면에 위치하여 스칼핑 모드에 최적화되어 있습니다.",
-      "created_at": "2026-09-05T08:30:23.378965+09:00"
+      "detailed_reason": "SOL/KRW는 1시간 RSI 70.5 및 15분 RSI 65.0으로 강한 상승 모멘텀을 유지하고 있으며, 이동평균선(MA20_1h: 140,340) 상단에서 안정적인 가격 방어를 보여주고 있습니다. 거래량 유입 비율(vol_surge_ratio 0.68)이 우수하여 단기 스캘핑 타겟으로 최적입니다. 최근 손실 종목들의 패턴을 반면교사 삼아 타이트한 손실 제어(-1.2%)와 빠른 익절 구조를 적용합니다.",
+      "created_at": "2026-09-06T04:28:07.663350+09:00"
     }
   }
 }
