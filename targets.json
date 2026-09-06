@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-06T06:58:29.355830+09:00",
+  "updated_at": "2026-09-06T09:08:47.580498+09:00",
   "paper_trading": true,
   "targets": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "code": "ONDO",
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "code": "SOPH",
       "mode": "SCALPING",
-      "current_price": 509.0,
-      "target_entry": 508.7455,
+      "current_price": 5.657,
+      "target_entry": 5.6542,
       "sl_pct": -1.2,
       "timeout_mins": 5,
       "buy_amount_krw": 6345,
-      "detailed_reason": "ONDO는 1시간봉 기준 안정적인 상승 추세(RSI 56.0)를 유지하면서 최근 15분봉에서 거래량이 급증(vol_surge_ratio 1.64)하며 고점 부근을 돌파(RSI 15m 68.8, 틱 비율 0.196)하는 강한 모멘텀을 보이고 있음. 최근 손절 사례들을 반영하여 짧은 타임프레임에서 확실한 거래량 유입이 확인된 종목을 대상으로 팽팽한 스캘핑 전략을 적용함.",
-      "created_at": "2026-09-06T06:58:29.355830+09:00"
+      "detailed_reason": "SOPH/KRW는 직전 15분 봉에서 대규모 거래량(vol_surge_ratio 4.15)과 함께 가격 급등(5.645원, 15m RSI 74.2)을 기록하며 강한 모멘텀을 형성 중입니다. 최근 EGG 및 PROM의 성공적인 익절 트레이드 패턴과 유사한 폭발적인 수급 유입 국면이므로 SCALPING 모드로 진입합니다.",
+      "created_at": "2026-09-06T09:08:47.580498+09:00"
     }
   }
 }
