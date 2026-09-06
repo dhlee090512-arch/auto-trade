@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "mode": "SCALPING",
+      "entry_price": 5.65,
+      "highest_price": 5.65,
+      "buy_amount_krw": 6345,
+      "units": 1123.0088495575221,
+      "sl_pct": -1.2,
+      "entry_time": "2026-09-06T09:09:03.842125+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788653343.8421218,
+          5.65
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
