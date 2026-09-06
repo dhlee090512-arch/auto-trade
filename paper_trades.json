@@ -1,24 +1,5 @@
 {
-  "active_positions": {
-    "SOPH": {
-      "symbol": "SOPH/KRW",
-      "mode": "SCALPING",
-      "entry_price": 5.65,
-      "highest_price": 5.65,
-      "buy_amount_krw": 6345,
-      "units": 1123.0088495575221,
-      "sl_pct": -1.2,
-      "entry_time": "2026-09-06T09:09:03.842125+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1788653343.8421218,
-          5.65
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4564,6 +4545,17 @@
       "reason": "🛡️ 손절가 도달 (-1.30%)",
       "entry_time": "2026-09-05T08:31:01.261796+09:00",
       "exit_time": "2026-09-05T08:32:53.130546+09:00"
+    },
+    {
+      "symbol": "SOPH/KRW",
+      "entry_price": 5.65,
+      "exit_price": 5.577,
+      "buy_amount_krw": 6345,
+      "profit_krw": -82,
+      "profit_pct": -1.29,
+      "reason": "🛡️ 손절가 도달 (-1.29%)",
+      "entry_time": "2026-09-06T09:09:03.842125+09:00",
+      "exit_time": "2026-09-06T09:10:44.425822+09:00"
     }
   ]
 }
