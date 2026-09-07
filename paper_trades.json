@@ -1,24 +1,5 @@
 {
-  "active_positions": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "mode": "SCALPING",
-      "entry_price": 639.0,
-      "highest_price": 639.0,
-      "buy_amount_krw": 6000,
-      "units": 9.389671361502348,
-      "sl_pct": -1.2,
-      "entry_time": "2026-09-08T06:25:58.947643+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1788816358.9476395,
-          639.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4586,6 +4567,17 @@
       "reason": "🛡️ 손절가 도달 (-1.30%)",
       "entry_time": "2026-09-07T23:56:14.377420+09:00",
       "exit_time": "2026-09-08T00:05:57.654289+09:00"
+    },
+    {
+      "symbol": "WLD/KRW",
+      "entry_price": 639.0,
+      "exit_price": 646.0,
+      "buy_amount_krw": 6000,
+      "profit_krw": 66,
+      "profit_pct": 1.1,
+      "reason": "📈 계단식 트레일링 익절 (고점 +1.72% 대비 -0.6% 반락)",
+      "entry_time": "2026-09-08T06:25:58.947643+09:00",
+      "exit_time": "2026-09-08T07:28:04.821366+09:00"
     }
   ]
 }
