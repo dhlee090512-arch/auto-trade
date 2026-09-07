@@ -74,7 +74,7 @@ def get_kst_now():
 
 def parse_dt_safe(dt_str):
     """
-    타임존 왜곡 없는 정밀 KST datetime 파서 (눈가림용 now 대체 완전 배제)
+    타임존 왜곡 없는 정밀 KST datetime 파서 (눈가림용 now 대체 배제)
     파싱 실패 시 None을 반환하여 호출자가 비정상 데이터를 안전하게 격리하도록 유도.
     """
     if not dt_str or not isinstance(dt_str, str):
@@ -216,8 +216,21 @@ def get_bithumb_jwt_headers(query_params: dict = None):
         'Content-Type': 'application/json'
     }
 
+def get_current_price(coin_code: str):
+    """현재가 조회 실패 시 None 반환 (대체값 조작 배제)"""
+    try:
+        url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
+        res = requests.get(url, timeout=3).json()
+        if res.get("status") == "0000":
+            price = float(res["data"]["closing_price"])
+            if price > 0:
+                return price
+    except Exception:
+        pass
+    return None
+
 def get_bithumb_account_summary():
-    """총 평가자산과 가용 원화(KRW) 동시 조회 (눈가림 기본값 반환 배제)"""
+    """총 평가자산과 가용 원화(KRW) 동시 조회 (빗썸 포인트 P 등 비거래 자산 파싱 예외 차단)"""
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
         return None, None
     try:
@@ -232,13 +245,19 @@ def get_bithumb_account_summary():
                 bal = float(acc.get("balance", 0.0))
                 locked = float(acc.get("locked", 0.0))
                 total_units = bal + locked
+
                 if curr == "KRW":
                     available_krw = bal
                     total_krw += total_units
+                elif curr in ["P", "POINT"]:
+                    continue
                 else:
-                    price = get_current_price(curr) or float(acc.get("avg_buy_price", 0.0))
-                    total_krw += (total_units * price)
-            return total_krw, available_krw
+                    try:
+                        price = get_current_price(curr) or float(acc.get("avg_buy_price", 0.0))
+                        total_krw += (total_units * price)
+                    except Exception:
+                        pass
+            return round(total_krw, 2), round(available_krw, 2)
     except Exception as e:
         logging.error(f"빗썸 계좌 잔고 조회 실패: {e}")
     return None, None
@@ -274,19 +293,6 @@ def get_bithumb_tick_size(price: float) -> float:
     elif price < 500000.0: return 100.0
     elif price < 1000000.0: return 500.0
     else: return 1000.0
-
-def get_current_price(coin_code: str):
-    """현재가 조회 실패 시 None 반환 (대체값으로 조작하지 않음)"""
-    try:
-        url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
-        res = requests.get(url, timeout=3).json()
-        if res.get("status") == "0000":
-            price = float(res["data"]["closing_price"])
-            if price > 0:
-                return price
-    except Exception:
-        pass
-    return None
 
 def get_candles(coin_code, interval="15m", limit=40):
     try:
@@ -481,7 +487,7 @@ def execute_server_side_strategy():
         logging.info(f"🛑 [매크로 방어] {btc_reason} ➔ 신규 매수 올스톱 및 현금 보존")
         return
 
-    # 3. 자금 및 가용 잔고 정밀 검증 (눈가림 배제)
+    # 3. 자금 및 가용 잔고 정밀 검증
     total_asset, available_krw = get_bithumb_account_summary()
     if total_asset is None or available_krw is None:
         if PAPER_TRADING:
@@ -491,10 +497,11 @@ def execute_server_side_strategy():
             return
 
     dynamic_ratio = calculate_dynamic_buy_ratio(closed_trades)
-    target_buy_krw = round(total_asset * dynamic_ratio)
+    calc_buy_krw = round(total_asset * dynamic_ratio)
+    target_buy_krw = max(calc_buy_krw, MIN_BUY_KRW)
 
-    if target_buy_krw < MIN_BUY_KRW:
-        logging.info(f"⏸️ 산출된 매수 금액({target_buy_krw:,}원)이 최소 주문금액(6,000원) 미만으로 관망")
+    if available_krw < MIN_BUY_KRW:
+        logging.info(f"⏸️ 가용 원화 부족 (최소 {MIN_BUY_KRW:,}원 필요 / 현재 보유: {available_krw:,.0f}원) ➔ 관망")
         return
 
     if target_buy_krw > available_krw:
@@ -502,7 +509,7 @@ def execute_server_side_strategy():
         return
 
     held_codes = set(active_positions.keys())
-    logging.info(f"🧠 [장세 적응형 퀀트 선별 & AI 전략 분석 시작] (배정 비중: {int(dynamic_ratio*100)}%)")
+    logging.info(f"🧠 [장세 적응형 퀀트 선별 & AI 전략 분석 시작] (배정 비중: {int(dynamic_ratio*100)}%, 목표 투입금: {target_buy_krw:,}원)")
 
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     try:
@@ -533,7 +540,6 @@ def execute_server_side_strategy():
         if len(c_1h) < 20 or len(c_15m) < 20: continue
 
         q = calculate_quant_features(c_1h, c_15m)
-        # 1틱 변동률 노이즈 필터 (0.20% 초과 종목 배제)
         if q["tick_ratio_pct"] > MAX_TICK_RATIO_PCT: continue
         if q["rsi_1h"] > 72.0: continue
         if q["curr_price"] < (q["ma20_1h"] * 0.95): continue
