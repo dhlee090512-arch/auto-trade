@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "mode": "SCALPING",
+      "entry_price": 1131.0,
+      "highest_price": 1131.0,
+      "buy_amount_krw": 6753,
+      "units": 5.970822281167108,
+      "sl_pct": -1.2,
+      "entry_time": "2026-09-08T10:30:10.060419+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788831010.0604157,
+          1131.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
