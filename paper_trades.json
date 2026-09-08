@@ -1,24 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "mode": "SCALPING",
-      "entry_price": 69.7,
-      "highest_price": 69.7,
-      "buy_amount_krw": 6749,
-      "units": 96.82926829268293,
-      "sl_pct": -1.2,
-      "entry_time": "2026-09-09T01:53:41.370729+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1788886421.3707252,
-          69.7
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
@@ -4608,6 +4589,17 @@
       "reason": "🛡️ 손절가 도달 (-1.24%)",
       "entry_time": "2026-09-08T10:30:10.060419+09:00",
       "exit_time": "2026-09-08T11:11:58.121732+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "entry_price": 69.7,
+      "exit_price": 68.41,
+      "buy_amount_krw": 6749,
+      "profit_krw": -125,
+      "profit_pct": -1.85,
+      "reason": "🛡️ 손절가 도달 (-1.85%)",
+      "entry_time": "2026-09-09T01:53:41.370729+09:00",
+      "exit_time": "2026-09-09T01:57:12.323282+09:00"
     }
   ]
 }
