@@ -1,5 +1,24 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "mode": "SCALPING",
+      "entry_price": 69.7,
+      "highest_price": 69.7,
+      "buy_amount_krw": 6749,
+      "units": 96.82926829268293,
+      "sl_pct": -1.2,
+      "entry_time": "2026-09-09T01:53:41.370729+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1788886421.3707252,
+          69.7
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
