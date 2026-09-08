@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-08T19:12:30.347757+09:00",
+  "updated_at": "2026-09-09T01:53:26.959187+09:00",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "code": "WLD",
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "code": "BTR",
       "mode": "SCALPING",
-      "current_price": 654.0,
-      "target_entry": 653.673,
+      "current_price": 69.74,
+      "target_entry": 69.7051,
       "sl_pct": -1.2,
       "timeout_mins": 5,
       "buy_amount_krw": 6749,
-      "detailed_reason": "WLD/KRW는 24시간 동안 6.69% 상승하며 강한 추세를 보이고 있으며, 1시간봉 기준 거래량 급증 비율(1.98)과 15분봉 RSI(71.7)가 단기 모멘텀의 지속성을 지지하고 있음. 최근 손절 이력이 있는 종목들과 달리 거래대금과 변동성 비율이 건전하여 스캘핑 타겟으로 최적임.",
-      "created_at": "2026-09-08T19:12:30.347757+09:00"
+      "detailed_reason": "BTR/KRW는 24시간 동안 +14.2% 강한 상승세를 보이고 있으며, 1시간봉 및 15분봉 RSI가 모두 70대(각각 71.3, 71.2)로 강한 모멘텀을 유지 중입니다. 거래량 폭증 비율(1.44)도 우수하여 스칼핑 타겟으로 적합합니다.",
+      "created_at": "2026-09-09T01:53:26.959187+09:00"
     }
   }
 }
