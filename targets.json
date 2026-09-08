@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-09-09T01:53:26.959187+09:00",
+  "updated_at": "2026-09-09T06:39:07.607785+09:00",
   "paper_trading": true,
   "targets": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "code": "BTR",
+    "QKC": {
+      "symbol": "QKC/KRW",
+      "code": "QKC",
       "mode": "SCALPING",
-      "current_price": 69.74,
-      "target_entry": 69.7051,
+      "current_price": 3.693,
+      "target_entry": 3.6912,
       "sl_pct": -1.2,
       "timeout_mins": 5,
-      "buy_amount_krw": 6749,
-      "detailed_reason": "BTR/KRW는 24시간 동안 +14.2% 강한 상승세를 보이고 있으며, 1시간봉 및 15분봉 RSI가 모두 70대(각각 71.3, 71.2)로 강한 모멘텀을 유지 중입니다. 거래량 폭증 비율(1.44)도 우수하여 스칼핑 타겟으로 적합합니다.",
-      "created_at": "2026-09-09T01:53:26.959187+09:00"
+      "buy_amount_krw": 6748,
+      "detailed_reason": "QKC/KRW는 24시간 동안 20.77% 급등하며 강한 거래대금(볼륨 서지 비율 2.3)과 함께 변동성이 집중되고 있습니다. 15분봉 RSI(61.3)가 상승 추세를 유지하며 캔들이 고점을 갱신하고 있어 단기 모멘텀을 활용한 스캘핑 전략에 최적의 조건을 갖추고 있습니다.",
+      "created_at": "2026-09-09T06:39:07.607785+09:00"
     }
   }
 }
