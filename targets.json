@@ -1,18 +1,21 @@
 {
-  "updated_at": "2026-09-09T09:19:32.624522+09:00",
+  "updated_at": "2026-09-14T21:06:32.671173+09:00",
   "paper_trading": true,
   "targets": {
-    "QKC": {
-      "symbol": "QKC/KRW",
-      "code": "QKC",
-      "mode": "SCALPING",
-      "current_price": 4.295,
-      "target_entry": 4.2929,
-      "sl_pct": -1.2,
-      "timeout_mins": 5,
-      "buy_amount_krw": 6748,
-      "detailed_reason": "QKC/KRW는 24시간 동안 30.62% 급등하며 거래량이 폭발적으로 유입됨(vol_surge_ratio: 2.49). 최근 15분봉 기준 RSI(72.1)가 과매수 영역에 근접해 있으나 강한 모멘텀을 형성하고 있어 단기 스캘핑 관점에서 변동성을 활용한 진입 기회로 판단됨. 최근 손절 이력을 감안하여 엄격한 손절가(-1.2%)와 진입 제한 시간(5분)을 설정함.",
-      "created_at": "2026-09-09T09:19:32.624522+09:00"
+    "MED": {
+      "symbol": "MED/KRW",
+      "code": "MED",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 2.339,
+      "target_entry": 2.3343,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6897,
+      "detailed_reason": "15분봉 RSI 24.6 수준의 과매도 상태로 슬롯 2(범위 내 하단 볼린저 밴드 반등) 전략에 부합하며, 2.3112 부근 진입 시 중심선(2.4352)까지의 기대 수익률 확보 가능.",
+      "created_at": "2026-09-14T21:06:32.671173+09:00"
     }
   }
 }
