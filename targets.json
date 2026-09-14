@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T00:47:20.000224+09:00",
+  "updated_at": "2026-09-15T01:27:28.465855+09:00",
   "paper_trading": true,
   "targets": {
-    "MED": {
-      "symbol": "MED/KRW",
-      "code": "MED",
+    "GHX": {
+      "symbol": "GHX/KRW",
+      "code": "GHX",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 2.313,
-      "target_entry": 2.3084,
+      "current_price": 12.79,
+      "target_entry": 12.7644,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8626,
-      "detailed_reason": "15분봉 RSI(36.7) 과매도 구간 진입 및 볼린저 하단 지지를 활용한 SLOT_2_RANGE 오버솔 바운스 셋업으로, 중간 이동평균선(2.3712)까지의 기술적 반등 기대.",
-      "created_at": "2026-09-15T00:47:20.000224+09:00"
+      "buy_amount_krw": 8627,
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI dipped to 29.5 indicating short-term oversold conditions near the lower Bollinger Band support (12.7192), with expected reversion toward the 1h moving average center line (13.3385).",
+      "created_at": "2026-09-15T01:27:28.465855+09:00"
     }
   }
 }
