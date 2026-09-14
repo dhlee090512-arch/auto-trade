@@ -1,5 +1,27 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "VTHO": {
+      "symbol": "VTHO/KRW",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 0.924,
+      "highest_price": 0.924,
+      "buy_amount_krw": 6897,
+      "units": 7464.285714285714,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-14T21:22:38.057990+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789388558.0579877,
+          0.924
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
