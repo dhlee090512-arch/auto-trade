@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T06:53:55.423833+09:00",
+  "updated_at": "2026-09-15T06:58:56.207738+09:00",
   "paper_trading": true,
   "targets": {
     "SOPH": {
@@ -7,15 +7,15 @@
       "code": "SOPH",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 5.205,
-      "target_entry": 5.1946,
-      "sl_pct": -2.29,
+      "current_price": 5.327,
+      "target_entry": 5.3163,
+      "sl_pct": -2.41,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6900,
-      "detailed_reason": "SOPH/KRW는 15분봉 RSI(13.8)의 극단적 과매도 상태와 함께 12.39배에 달하는 압도적인 볼륨 서지를 동반하여 볼린저 하단 지지선에서의 강력한 반등 탄력성이 확보됨. 최근 1시간 거래대금(1.46억)이 풍부하여 신뢰도가 높음.",
-      "created_at": "2026-09-15T06:48:54.816970+09:00"
+      "detailed_reason": "SOPH/KRW는 15분봉 RSI가 15.4로 극도의 과매도 구간에 진입해 있으며, 볼린저 하단 지지와 함께 거래량 급증 비율(vol_surge_ratio 20.58)이 매우 높아 강한 반등 모멘텀이 예상되는 최적의 SLOT_2_RANGE 셋업입니다.",
+      "created_at": "2026-09-15T06:58:56.207738+09:00"
     },
     "VTHO": {
       "symbol": "VTHO/KRW",
