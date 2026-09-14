@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-14T21:41:39.061619+09:00",
+  "updated_at": "2026-09-14T21:56:42.820681+09:00",
   "paper_trading": true,
   "targets": {
     "WLD": {
@@ -7,15 +7,15 @@
       "code": "WLD",
       "mode": "SCALPING",
       "slot": "SLOT_1_PULSE",
-      "current_price": 522.0,
-      "target_entry": 520.434,
+      "current_price": 519.0,
+      "target_entry": 517.443,
       "sl_pct": -1.8,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6897,
-      "detailed_reason": "Slot 1 criteria met: 15m volume surge of 2.36x with first red-candle pullback on strong 1h trading value (353M KRW) and healthy RSI levels.",
-      "created_at": "2026-09-14T21:41:39.061619+09:00"
+      "buy_amount_krw": 6896,
+      "detailed_reason": "15분봉 거래량 2.5배 급증 후 첫 음봉 눌림목 구간으로, 슬롯 1 기준에 부합하며 1시간 수급 유입 및 RSI 중립 구간에서 안정적인 반등 기대",
+      "created_at": "2026-09-14T21:56:42.820681+09:00"
     }
   }
 }
