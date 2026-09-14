@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T00:07:24.501059+09:00",
+  "updated_at": "2026-09-15T00:12:14.302927+09:00",
   "paper_trading": true,
   "targets": {
     "POWR": {
@@ -22,15 +22,15 @@
       "code": "CP",
       "mode": "SCALPING",
       "slot": "SLOT_1_PULSE",
-      "current_price": 17.57,
-      "target_entry": 17.5173,
+      "current_price": 17.62,
+      "target_entry": 17.5671,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 8628,
-      "detailed_reason": "15분봉 기준 거래량이 36.79배 폭증하며 유입된 강력한 수급 이후, 1시간봉 기준 첫 음봉 눌림목 구간에서 지지력을 형성하여 숏텀 스칼핑 반등 기대",
-      "created_at": "2026-09-15T00:07:24.501059+09:00"
+      "buy_amount_krw": 8627,
+      "detailed_reason": "15분봉 기준 거래량이 40.76배 급증한 후 출현한 첫 음봉 눌림목 구간으로, 단기 수급 유입이 강력하며 1시간 이평선 부근 지지 테스트를 거치는 최적의 Slot 1 스칼핑 타점임.",
+      "created_at": "2026-09-15T00:12:14.302927+09:00"
     }
   }
 }
