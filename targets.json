@@ -1,36 +1,21 @@
 {
-  "updated_at": "2026-09-14T22:36:52.156448+09:00",
+  "updated_at": "2026-09-14T22:56:56.033879+09:00",
   "paper_trading": true,
   "targets": {
-    "REZ": {
-      "symbol": "REZ/KRW",
-      "code": "REZ",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 5.643,
-      "target_entry": 5.6345,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6897,
-      "detailed_reason": "15분봉 RSI 18.1의 극단적 과매도 상태이며 볼린저 하단 지지선 부근에서 20MA 중심선(6.2009)을 향한 기술적 반등 가능성이 높음.",
-      "created_at": "2026-09-14T22:11:46.109842+09:00"
-    },
-    "FIL": {
-      "symbol": "FIL/KRW",
-      "code": "FIL",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 1326.0,
-      "target_entry": 1323.348,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6899,
-      "detailed_reason": "Slot 2 range-bound strategy: 15m RSI is oversold at 35.2 near the lower Bollinger Band, with expected rebound toward the 1h MA20 mean at 1344.3.",
-      "created_at": "2026-09-14T22:36:52.156448+09:00"
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "code": "WLD",
+      "mode": "SCALPING",
+      "slot": "SLOT_1_PULSE",
+      "current_price": 521.0,
+      "target_entry": 519.437,
+      "sl_pct": -1.8,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8625,
+      "detailed_reason": "Slot 1 Volume Pulse 조건 충족: 15분봉 거래량 2.46배 급증 후 1시간 이평선 부근 첫 음봉 눌림목 형성. RSI 50~60 구간으로 추가 상승 여력 확보 및 실시간 수급 유입 확인.",
+      "created_at": "2026-09-14T22:56:56.033879+09:00"
     }
   }
 }
