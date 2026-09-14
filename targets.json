@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T00:37:17.936248+09:00",
+  "updated_at": "2026-09-15T00:42:17.871494+09:00",
   "paper_trading": true,
   "targets": {
     "ELF": {
@@ -17,20 +17,20 @@
       "detailed_reason": "ELF는 1시간봉 RSI가 21.2로 극심한 과매도 구간에 진입해 있으며, 볼린저밴드 하단 지지와 함께 15분봉 RSI 37.1을 기록하며 기술적 반등 모멘텀이 포착됨. 1시간 ATR 비율(5.26%)이 높아 충분한 반등 폭(기대수익 1.77%)을 확보할 수 있어 SLOT_2_RANGE 전략에 가장 적합함.",
       "created_at": "2026-09-15T00:17:14.020953+09:00"
     },
-    "CVC": {
-      "symbol": "CVC/KRW",
-      "code": "CVC",
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "code": "SOPH",
       "mode": "SCALPING",
       "slot": "SLOT_1_PULSE",
-      "current_price": 47.22,
-      "target_entry": 47.0783,
-      "sl_pct": -2.8,
+      "current_price": 5.634,
+      "target_entry": 5.6171,
+      "sl_pct": -2.09,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 8626,
-      "detailed_reason": "CVC/KRW는 15분봉 거래량이 2.87배 급증한 이후 첫 음봉 눌림목을 형성하고 있으며, 12.6억 원의 강한 실시간 거래대금과 함께 RSI 55~61 구간의 안정적인 모멘텀을 유지하고 있어 SLOT_1_PULSE 전략에 부합합니다.",
-      "created_at": "2026-09-15T00:37:17.936248+09:00"
+      "buy_amount_krw": 8627,
+      "detailed_reason": "SOPH는 15분봉 기준 8.04배의 강력한 볼륨 서지와 함께 1시간 동안 4.3억 원의 실시간 수급이 유입되며 첫 음봉 눌림목 패턴을 형성함. RSI 15m(60.5)이 건강한 모멘텀을 유지하고 있어 슬롯 1(PULSE) 전략의 최적 진입 조건에 부합함.",
+      "created_at": "2026-09-15T00:42:17.871494+09:00"
     }
   }
 }
