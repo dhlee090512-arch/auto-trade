@@ -1,5 +1,27 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "MED": {
+      "symbol": "MED/KRW",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 2.319,
+      "highest_price": 2.319,
+      "buy_amount_krw": 6897,
+      "units": 2974.126778783959,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-14T21:07:20.471585+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789387640.4715817,
+          2.319
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "TRUMP/KRW",
