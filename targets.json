@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T00:12:14.302927+09:00",
+  "updated_at": "2026-09-15T00:17:14.020953+09:00",
   "paper_trading": true,
   "targets": {
     "POWR": {
@@ -31,6 +31,21 @@
       "buy_amount_krw": 8627,
       "detailed_reason": "15분봉 기준 거래량이 40.76배 급증한 후 출현한 첫 음봉 눌림목 구간으로, 단기 수급 유입이 강력하며 1시간 이평선 부근 지지 테스트를 거치는 최적의 Slot 1 스칼핑 타점임.",
       "created_at": "2026-09-15T00:12:14.302927+09:00"
+    },
+    "ELF": {
+      "symbol": "ELF/KRW",
+      "code": "ELF",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 97.05,
+      "target_entry": 96.8559,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8627,
+      "detailed_reason": "ELF는 1시간봉 RSI가 21.2로 극심한 과매도 구간에 진입해 있으며, 볼린저밴드 하단 지지와 함께 15분봉 RSI 37.1을 기록하며 기술적 반등 모멘텀이 포착됨. 1시간 ATR 비율(5.26%)이 높아 충분한 반등 폭(기대수익 1.77%)을 확보할 수 있어 SLOT_2_RANGE 전략에 가장 적합함.",
+      "created_at": "2026-09-15T00:17:14.020953+09:00"
     }
   }
 }
