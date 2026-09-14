@@ -1,22 +1,7 @@
 {
-  "updated_at": "2026-09-15T07:03:58.549502+09:00",
+  "updated_at": "2026-09-15T07:19:00.323572+09:00",
   "paper_trading": true,
   "targets": {
-    "SOPH": {
-      "symbol": "SOPH/KRW",
-      "code": "SOPH",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 5.353,
-      "target_entry": 5.345,
-      "sl_pct": -2.34,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6900,
-      "detailed_reason": "15분봉 RSI 18.5의 강한 과매도 구간 진입 및 볼린저 하단 지지 확인. 최근 1시간 거래대금 1,150만 원 이상 유입되며 중심선(5.5307) 회복 반등 기대율(3.18%)이 우수함.",
-      "created_at": "2026-09-15T07:03:58.549502+09:00"
-    },
     "VTHO": {
       "symbol": "VTHO/KRW",
       "code": "VTHO",
@@ -31,6 +16,21 @@
       "buy_amount_krw": 6900,
       "detailed_reason": "1시 및 15분봉 RSI가 각각 13.4, 14.8로 극도의 과매도 상태이며 볼린저 하단 지지를 확인하여 높은 확률의 기술적 반등 기대",
       "created_at": "2026-09-15T06:53:55.423833+09:00"
+    },
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 522.0,
+      "target_entry": 520.956,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6900,
+      "detailed_reason": "15분봉 RSI 17.3 극단적 과매도 상태로 하단 볼린저밴드 부근 지지 확인. 슬롯2 레인지 바운스 전략에 부합하며 중심선(554.6 KRW)까지의 기술적 반등 여력 충분.",
+      "created_at": "2026-09-15T07:19:00.323572+09:00"
     }
   }
 }
