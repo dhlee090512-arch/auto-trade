@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T01:27:28.465855+09:00",
+  "updated_at": "2026-09-15T01:32:31.594919+09:00",
   "paper_trading": true,
   "targets": {
     "GHX": {
@@ -16,6 +16,21 @@
       "buy_amount_krw": 8627,
       "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI dipped to 29.5 indicating short-term oversold conditions near the lower Bollinger Band support (12.7192), with expected reversion toward the 1h moving average center line (13.3385).",
       "created_at": "2026-09-15T01:27:28.465855+09:00"
+    },
+    "VTHO": {
+      "symbol": "VTHO/KRW",
+      "code": "VTHO",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 0.9112,
+      "target_entry": 0.9089,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8628,
+      "detailed_reason": "15분봉 RSI(38.0) 과매도 상태이며 볼린저 하단 지지를 활용한 단기 반등 타점 확보. MA20 중심선까지의 상승 여력(기대익 1.36%)과 합리적인 손절 폭(-2.8%)을 제공하는 SLOT_2_RANGE 조건 충족.",
+      "created_at": "2026-09-15T01:32:31.594919+09:00"
     }
   }
 }
