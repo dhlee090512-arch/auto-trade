@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T19:32:06.036121+09:00",
+  "updated_at": "2026-09-15T20:42:22.694795+09:00",
   "paper_trading": true,
   "targets": {
-    "CVC": {
-      "symbol": "CVC/KRW",
-      "code": "CVC",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 40.52,
-      "target_entry": 40.4592,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6893,
-      "detailed_reason": "15분봉 RSI 27.3으로 강한 과매도 구간 진입 및 볼린저 하단 지지 확인, 단기 반등 기대감 유효",
-      "created_at": "2026-09-15T19:32:06.036121+09:00"
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "code": "WLD",
+      "mode": "SCALPING",
+      "slot": "SLOT_1_PULSE",
+      "current_price": 509.0,
+      "target_entry": 507.473,
+      "sl_pct": -1.8,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8616,
+      "detailed_reason": "15분봉 기준 거래량 3.29배 급증 동반 후 첫 음봉 눌림목 형성, 1시간 거래대금 4.1억 유입 및 RSI 15분선 52.9로 건강한 조정 구간으로 판단되어 Slot 1 전략에 최적화됨.",
+      "created_at": "2026-09-15T20:42:22.694795+09:00"
     }
   }
 }
