@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T12:10:18.733388+09:00",
+  "updated_at": "2026-09-15T12:15:19.282083+09:00",
   "paper_trading": true,
   "targets": {
     "NEAR": {
@@ -16,6 +16,21 @@
       "buy_amount_krw": 8621,
       "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI 35.8로 과매도 구간 진입 및 볼린저밴드 하단 근처 지지 기반 1시간봉 이동평균선 중심선(3333.3 KRW)까지의 반등 기대",
       "created_at": "2026-09-15T12:10:18.733388+09:00"
+    },
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "code": "WLD",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 513.0,
+      "target_entry": 511.974,
+      "sl_pct": -2.2,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8621,
+      "detailed_reason": "WLD/KRW는 15분봉 RSI 25.0으로 강한 과매도 구간에 진입해 있으며, 볼린저밴드 하단 지지와 함께 거래량 서지 비율(4.64)이 우수하여 하단 반등 셋업(SLOT_2_RANGE) 조건에 가장 부합합니다.",
+      "created_at": "2026-09-15T12:15:19.282083+09:00"
     }
   }
 }
