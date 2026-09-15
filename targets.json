@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T14:25:54.394898+09:00",
+  "updated_at": "2026-09-15T14:35:58.937717+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
-      "mode": "SCALPING",
-      "slot": "SLOT_1_PULSE",
-      "current_price": 548.0,
-      "target_entry": 546.356,
+    "WAXP": {
+      "symbol": "WAXP/KRW",
+      "code": "WAXP",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 7.18,
+      "target_entry": 7.1656,
       "sl_pct": -2.8,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8618,
-      "detailed_reason": "15분봉 거래량 4.89배 급증 동반 후 첫 음봉 눌림목 형성, 1시간 실시간 수급 유입 및 RSI 62.5 구간으로 상승 모멘텀 유지되어 SLOT_1_PULSE 전략에 부합함",
-      "created_at": "2026-09-15T14:25:54.394898+09:00"
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8619,
+      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며, 15분봉 RSI 31.9 과매도 구간에서 볼린저밴드 하단 지지를 확인한 후 중심선(7.3361)까지의 기술적 반등 기대",
+      "created_at": "2026-09-15T14:35:58.937717+09:00"
     }
   }
 }
