@@ -30,12 +30,11 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 인터락 파라미터
 # ==========================================
-PAPER_TRADING = True             # 🧪 True: 모의투자 / False: 빗썸 실전매매
 MAX_HOLDING_COINS = 3            # 🛡️ 최대 동시 보유 종목 수
 MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
 DEFAULT_BUY_RATIO = 0.20         # 📊 기본 1회 투입 비중 (20%)
-MAX_TICK_RATIO_PCT = 0.20        # 🛡️ 1틱 변동률 상한선 (0.20% 초과 가벼운 종목 배제)
-MIN_24H_ACC_TRADE_VALUE = 1_500_000_000  # 🛡️ 24시간 누적 거래대금 하한선 (15억 완화: 실시간 수급 포착)
+MAX_TICK_RATIO_PCT = 0.20        # 🛡️ 1틱 변동률 상한선 (0.20% 초과 종목 배제)
+MIN_24H_ACC_TRADE_VALUE = 1_500_000_000  # 🛡️ 24시간 누적 거래대금 하한선 (15억 원)
 DAILY_LOSS_LIMIT_PCT = -3.0      # 🛑 일일 누적 손실 서킷브레이커 (-3.0% 도달 시 당일 매매 중단)
 
 TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
@@ -58,6 +57,10 @@ TARGETS_FILE = "targets.json"
 RESTART_FLAG_FILE = "last_restart_notify.txt"
 PROJECT_DIR = "/home/ubuntu/auto-trade"
 
+# 런타임 동적 상태 변수
+PAPER_TRADING = True
+PENDING_PAPER_DRAIN = False       # 실전 -> 모의 전환 시 잔여 포지션 소진 대기 플래그
+UPDATE_BASELINE_TIME = None       # 이번 업데이트 배포 기준 시각 (KST ISO)
 EMERGENCY_STOP = False
 CIRCUIT_BREAKER_ACTIVE = False
 LAST_TELEGRAM_UPDATE_ID = 0
@@ -97,7 +100,45 @@ def parse_dt_safe(dt_str):
     return None
 
 # ==========================================
-# 1. 텔레그램 유틸리티 & 재시작 알림 중복 방지
+# 1. 영구 상태 로드 및 베이스라인 초기화
+# ==========================================
+def load_json_file(file_path, default_value):
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return default_value
+
+def save_json_file(file_path, data):
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        logging.error(f"JSON 저장 실패 ({file_path}): {e}")
+
+def init_server_state():
+    """서버 시작 시 실행 모드 및 업데이트 베이스라인 시각 영구 동기화"""
+    global PAPER_TRADING, UPDATE_BASELINE_TIME, PENDING_PAPER_DRAIN
+    state = load_json_file(STATE_FILE, {})
+    
+    # 1. 모드 복원 (기본값: True)
+    PAPER_TRADING = state.get("paper_trading", True)
+    PENDING_PAPER_DRAIN = state.get("pending_paper_drain", False)
+    
+    # 2. 업데이트 베이스라인 시각 설정 (파일에 없으면 현재 시각으로 최초 생성)
+    if "update_baseline_time" not in state or not state["update_baseline_time"]:
+        state["update_baseline_time"] = get_kst_now().isoformat()
+    
+    UPDATE_BASELINE_TIME = state["update_baseline_time"]
+    state["last_started_at"] = get_kst_now().isoformat()
+    save_json_file(STATE_FILE, state)
+
+init_server_state()
+
+# ==========================================
+# 2. 텔레그램 리포트 & GitHub 동기화
 # ==========================================
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -122,75 +163,17 @@ def notify_startup_once():
     if now_ts - last_notify_ts > 600:
         with open(RESTART_FLAG_FILE, "w") as f:
             f.write(str(now_ts))
+        mode_str = "🧪 모의투자" if PAPER_TRADING else "🔥 실전매매"
         send_telegram_msg(
-            f"🚀 [오라클 서버] 듀얼 슬롯 퀀트 엔진 가동\n"
-            f"• 슬롯 1 (수급 펄스): 15분 볼륨 2배 + 1시간 수급 3억 첫 음봉 눌림\n"
+            f"🚀 [오라클 서버] 고도화 퀀트 엔진 가동\n"
+            f"• 모드: {mode_str} (감시주기: 1초)\n"
+            f"• 슬롯 1 (수급 펄스): 15분 볼륨 2배 + 1시간 수급 3억 첫 눌림\n"
             f"• 슬롯 2 (박스권 반등): RSI 과매도 + 볼린저 하단 지지 평균회귀\n"
-            f"• 안전 장치: BTC 급락 차단, ATR 동적 손절, -3% 서킷브레이커\n\n"
-            f"📱 명령어: /status, /log, /stop, /start, /update"
+            f"• 안전 장치: 실측 반락 트레일링, BTC 급락 차단, -3% 서킷브레이커\n\n"
+            f"📱 명령어: /status, /log, /paper, /real, /stop, /start, /update"
         )
     else:
         logging.info("ℹ️ 최근 재시작 알림 발송 이력으로 시작 메시지 전송 생략")
-
-def format_portfolio_status_msg(active_positions, closed_trades):
-    held_symbols = [v['symbol'] for v in active_positions.values()]
-    held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)" if held_symbols else "(현재 보유 종목 없음)"
-
-    recent_10 = closed_trades[-10:][::-1] if closed_trades else []
-    
-    if not recent_10:
-        trades_str = "• 매도 이력이 없습니다."
-        win_rate = 0.0
-        total_profit_krw = 0
-    else:
-        trade_lines = []
-        wins = 0
-        total_profit_krw = 0
-        for idx, t in enumerate(recent_10, 1):
-            p_pct = t.get('profit_pct', 0.0)
-            p_krw = t.get('profit_krw', 0)
-            symbol = t.get('symbol', 'UNKNOWN')
-            dt_obj = parse_dt_safe(t.get('exit_time', ''))
-            time_display = dt_obj.strftime("%m/%d %H:%M KST") if dt_obj else "-"
-                
-            sign_pct = "+" if p_pct > 0 else ""
-            sign_k = "+" if p_krw > 0 else ""
-            trade_lines.append(f"{idx}. {symbol}: {sign_k}{p_krw:,}원 ({sign_pct}{p_pct:.2f}%) | {time_display}")
-            if p_pct > 0:
-                wins += 1
-            total_profit_krw += p_krw
-            
-        trades_str = "\n".join(trade_lines)
-        win_rate = round((wins / len(recent_10)) * 100, 1)
-
-    sign_krw = "+" if total_profit_krw > 0 else ""
-    return f"""💼 [현재 매매 상황]
-• 보유 종목 : {held_str}
-
-📜 [최근 10건 매도 이력 (KST)]
-{trades_str}
-
-📊 최근 10건 승률 : {win_rate}%
-💰 최근 10건 실현 손익 : {sign_krw}{total_profit_krw:,} KRW"""
-
-# ==========================================
-# 2. 파일 I/O 및 GitHub 동기화
-# ==========================================
-def load_json_file(file_path, default_value):
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return default_value
-
-def save_json_file(file_path, data):
-    try:
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-    except Exception as e:
-        logging.error(f"JSON 저장 실패 ({file_path}): {e}")
 
 def sync_file_to_github(file_path, content_data):
     if not GH_TOKEN:
@@ -215,8 +198,79 @@ def sync_file_to_github(file_path, content_data):
     except Exception as e:
         logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
 
+def format_portfolio_status_msg(active_positions, closed_trades):
+    """최근 10건 내역과 업데이트 이후 총 누적 수익을 분리 집계하여 텔레그램 메시지 생성"""
+    held_symbols = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in active_positions.values()]
+    held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)" if held_symbols else "(현재 보유 종목 없음)"
+
+    recent_10 = closed_trades[-10:][::-1] if closed_trades else []
+    
+    if not recent_10:
+        trades_str = "• 매도 이력이 없습니다."
+        win_rate_10 = 0.0
+        profit_10_krw = 0
+    else:
+        trade_lines = []
+        wins_10 = 0
+        profit_10_krw = 0
+        for idx, t in enumerate(recent_10, 1):
+            p_pct = t.get('profit_pct', 0.0)
+            p_krw = t.get('profit_krw', 0)
+            symbol = t.get('symbol', 'UNKNOWN')
+            dt_obj = parse_dt_safe(t.get('exit_time', ''))
+            time_display = dt_obj.strftime("%m/%d %H:%M KST") if dt_obj else "-"
+                
+            sign_pct = "+" if p_pct > 0 else ""
+            sign_k = "+" if p_krw > 0 else ""
+            trade_lines.append(f"{idx}. {symbol}: {sign_k}{p_krw:,}원 ({sign_pct}{p_pct:.2f}%) | {time_display}")
+            if p_pct > 0:
+                wins_10 += 1
+            profit_10_krw += p_krw
+            
+        trades_str = "\n".join(trade_lines)
+        win_rate_10 = round((wins_10 / len(recent_10)) * 100, 1)
+
+    # 업데이트 베이스라인 이후 전수 누적 집계
+    baseline_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
+    baseline_display = baseline_dt.strftime("%m/%d %H:%M") if baseline_dt else "최근 업데이트"
+    
+    total_cum_trades = 0
+    total_cum_wins = 0
+    total_cum_profit_krw = 0
+
+    for t in closed_trades:
+        exit_dt = parse_dt_safe(t.get('exit_time', ''))
+        if baseline_dt and exit_dt and exit_dt >= baseline_dt:
+            total_cum_trades += 1
+            p_krw = t.get('profit_krw', 0)
+            p_pct = t.get('profit_pct', 0.0)
+            total_cum_profit_krw += p_krw
+            if p_pct > 0:
+                total_cum_wins += 1
+
+    if total_cum_trades > 0:
+        cum_win_rate = round((total_cum_wins / total_cum_trades) * 100, 1)
+        cum_sign = "+" if total_cum_profit_krw > 0 else ""
+        cum_stats_str = f"• 총 거래: {total_cum_trades}건 ({total_cum_wins}승 {total_cum_trades - total_cum_wins}패 | 승률 {cum_win_rate}%)\n• 총 누적 손익: {cum_sign}{total_cum_profit_krw:,} KRW"
+    else:
+        cum_stats_str = "• 업데이트 이후 청산 완료된 거래가 아직 없습니다."
+
+    sign_10 = "+" if profit_10_krw > 0 else ""
+    return f"""💼 [현재 매매 상황]
+• 모드 : {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
+• 보유 종목 : {held_str}
+
+📜 [최근 10건 매도 이력 (KST)]
+{trades_str}
+
+📊 최근 10건 승률 : {win_rate_10}%
+💰 최근 10건 실현 손익 : {sign_10}{profit_10_krw:,} KRW
+━━━━━━━━━━━━━━━━━━━━
+📈 [업데이트 이후 총 누적 성과] ({baseline_display} KST 이후)
+{cum_stats_str}"""
+
 # ==========================================
-# 3. 빗썸 API & 자금 정밀 검증
+# 3. 빗썸 API 연동 & 호가 규격
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -280,7 +334,7 @@ def get_bithumb_account_summary():
                         pass
             return round(total_krw, 2), round(available_krw, 2)
     except Exception as e:
-        logging.error(f"빗썸 계좌 잔고 조회 실패: {e}")
+        logging.error(f"빗썸 잔고 조회 실패: {e}")
     return None, None
 
 def execute_real_market_order(coin_code: str, side: str, amount_or_units: float):
@@ -394,7 +448,7 @@ def calculate_quant_features(candles_1h, candles_15m):
     tick_ratio_pct = round((tick_size / curr_p) * 100.0, 3) if curr_p > 0 else 1.0
     atr_pct = round((atr_1h / curr_p) * 100.0, 2) if curr_p > 0 else 0.0
 
-    # ATR 기반 동적 맞춤 손절폭 연산 (1.2 * ATR_PCT, -1.8% ~ -2.8% 범위 클램핑)
+    # ATR 동적 손절폭 (-1.8% ~ -2.8% 클램핑)
     dynamic_sl_pct = -round(min(max(atr_pct * 1.2, 1.8), 2.8), 2)
     recent_1h_trade_val = candles_1h[-1]['volume'] * candles_1h[-1]['close'] if candles_1h else 0.0
 
@@ -450,8 +504,7 @@ def check_btc_trend():
         return False, f"BTC 하락 추세 경보 (현재가 {curr_btc:,.0f} KRW, MA20 대비 {((curr_btc-ma20)/ma20)*100:.2f}%)"
     return True, "BTC 추세 양호"
 
-def build_reflection_prompt(closed_trades):
-    # 손실 트라우마 차단: 과거 손실을 나열하지 않고 핵심 원칙만 전달
+def build_reflection_prompt():
     return (
         "Core Quantitative Principles:\n"
         "1. Prioritize active, confirmed setups (confidence >= 60) over indefinite NONE.\n"
@@ -529,12 +582,9 @@ def clean_and_parse_json(raw_text):
     return None
 
 # ==========================================
-# 6. 듀얼 슬롯 퀀트 스크리닝 및 전략 선별
+# 6. 듀얼 슬롯 퀀트 스크리닝
 # ==========================================
 def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candles_5m):
-    """
-    슬롯 1 (초단기 수급 펄스) vs 슬롯 2 (박스권 평균회귀) 퀀트 판별
-    """
     if len(candles_1h) < 20 or len(candles_15m) < 20 or len(candles_5m) < 5:
         return None, None
 
@@ -544,10 +594,7 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
 
     bb_15m = calculate_bollinger_bands(candles_15m, period=20, num_std=2.0)
     
-    # ----------------------------------------------------
-    # [슬롯 1] 초단기 수급 펄스 (Momentum Pulse)
-    # 1시간 수급 >= 3억, 15분 거래량 서지 >= 2.0배, 15m RSI 50~75, 1h RSI <= 75
-    # ----------------------------------------------------
+    # [슬롯 1] 초단기 수급 펄스: 1시간 거래대금 >= 3억, 15분 거래량 서지 >= 2.0배
     if q["recent_1h_trade_val"] >= 300_000_000 and q["vol_surge_ratio"] >= 2.0 and (50.0 <= q["rsi_15m"] <= 75.0) and q["rsi_1h"] <= 75.0:
         target_discount = 0.30
         target_entry = round(price * (1.0 - (target_discount / 100.0)), 4)
@@ -566,13 +613,10 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
             "recent_1h_val": q["recent_1h_trade_val"],
             "vol_surge_ratio": q["vol_surge_ratio"],
             "quant": q,
-            "reason": f"15분 거래량 {q['vol_surge_ratio']}배 급증 및 1시간 실시간 수급({q['recent_1h_trade_val']/100000000:.1f}억) 첫 음봉 눌림목"
+            "reason": f"15분 거래량 {q['vol_surge_ratio']}배 급증 및 1시간 수급({q['recent_1h_trade_val']/100000000:.1f}억) 첫 음봉 눌림목"
         }
 
-    # ----------------------------------------------------
-    # [슬롯 2] 박스권 평균회귀 (Range Mean-Reversion)
-    # 24시간 거래대금 >= 15억, 15m RSI <= 38, 볼린저 밴드 하단 근접 (하단의 101% 이하)
-    # ----------------------------------------------------
+    # [슬롯 2] 박스권 평균회귀: 24시간 거래대금 >= 15억, 15m RSI <= 38, 볼린저 하단 근접
     if bb_15m and val_24h >= 1_500_000_000 and q["rsi_15m"] <= 38.0 and q["rsi_1h"] <= 65.0:
         lower_band = bb_15m['lower']
         mid_band = bb_15m['ma']
@@ -601,6 +645,12 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
 
 def execute_server_side_strategy():
     global CIRCUIT_BREAKER_ACTIVE
+    
+    # 모의 전환 대기(Drain) 중에는 신규 분석 스킵
+    if PENDING_PAPER_DRAIN:
+        logging.info("⏳ 모의투자 전환 대기(실전 포지션 청산 대기) 중으로 신규 진입을 탐색하지 않습니다.")
+        return
+
     paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
     active_positions = paper_db.get("active_positions", {})
     closed_trades = paper_db.get("closed_trades", [])
@@ -662,9 +712,7 @@ def execute_server_side_strategy():
             raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), val_24h))
         except Exception: pass
 
-    # 거래대금 상위 35개 정밀 스크리닝
     sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:35]
-    
     pulse_candidates = []
     range_candidates = []
 
@@ -685,11 +733,9 @@ def execute_server_side_strategy():
     target_pool = []
     engine_type = ""
     
-    # 1순위: 지금 불붙은 수급 펄스 종목이 있다면 최우선 채택
     if pulse_candidates:
         target_pool = sorted(pulse_candidates, key=lambda x: x['vol_surge_ratio'], reverse=True)[:5]
         engine_type = "SLOT_1_PULSE"
-    # 2순위: 펄스 종목이 없으면 박스권 과매도 반등 종목 채택
     elif range_candidates:
         target_pool = sorted(range_candidates, key=lambda x: x['quant']['rsi_15m'])[:5]
         engine_type = "SLOT_2_RANGE"
@@ -698,7 +744,7 @@ def execute_server_side_strategy():
         logging.info("⏸️ 슬롯 1(수급) 및 슬롯 2(박스권) 조건 충족 후보가 없어 관망합니다.")
         return
 
-    reflection_text = build_reflection_prompt(closed_trades)
+    reflection_text = build_reflection_prompt()
 
     sys_prompt = (
         "You are an elite quantitative crypto hedge fund trader.\n"
@@ -769,7 +815,7 @@ def execute_server_side_strategy():
         "created_at": now_iso
     }
 
-    server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
+    server_state = load_json_file(STATE_FILE, {})
     server_state.setdefault("pending_targets", {})[code] = plan_data
     server_state["last_updated"] = now_iso
     save_json_file(STATE_FILE, server_state)
@@ -798,11 +844,11 @@ def execute_server_side_strategy():
     send_telegram_msg(portfolio_msg)
 
 # ==========================================
-# 7. 실시간 감시 & 계단식 트레일링 실행 루프
+# 7. 실시간 감시 엔진 (1초 주기 & 실측 반락 트레일링)
 # ==========================================
 async def realtime_execution_engine():
-    global EMERGENCY_STOP
-    logging.info("⚡ 듀얼 슬롯 하이브리드 실행 엔진 가동")
+    global EMERGENCY_STOP, PAPER_TRADING, PENDING_PAPER_DRAIN
+    logging.info("⚡ 듀얼 슬롯 하이브리드 실행 엔진 가동 (감시주기: 1초)")
     last_strategy_run = 0
 
     t = threading.Thread(target=telegram_listener_thread, daemon=True)
@@ -818,15 +864,24 @@ async def realtime_execution_engine():
                 last_strategy_run = now
                 asyncio.create_task(asyncio.to_thread(execute_server_side_strategy))
 
-            server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": ""})
+            server_state = load_json_file(STATE_FILE, {})
             paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
 
             pending = server_state.get("pending_targets", {})
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # [1] 진입 대기 감시 (지정가 눌림목 체결 & 급락 투매 회피)
-            if not EMERGENCY_STOP and not CIRCUIT_BREAKER_ACTIVE and len(active_positions) < MAX_HOLDING_COINS:
+            # [안전 프로토콜] 실전 -> 모의 대기(Drain) 상태에서 보유 포지션이 0개가 되면 자동 전환
+            if PENDING_PAPER_DRAIN and len(active_positions) == 0:
+                PENDING_PAPER_DRAIN = False
+                PAPER_TRADING = True
+                server_state["paper_trading"] = True
+                server_state["pending_paper_drain"] = False
+                save_json_file(STATE_FILE, server_state)
+                send_telegram_msg("🎉 [모드 전환 완료] 모든 실전 포지션이 정상 청산되어 모의투자(PAPER) 모드로 자동 전환되었습니다.")
+
+            # [1] 진입 대기 감시 (지정가 눌림목 체결)
+            if not EMERGENCY_STOP and not CIRCUIT_BREAKER_ACTIVE and not PENDING_PAPER_DRAIN and len(active_positions) < MAX_HOLDING_COINS:
                 for coin_code, plan in list(pending.items()):
                     created_dt = parse_dt_safe(plan.get("created_at", ""))
                     if created_dt is None:
@@ -916,13 +971,13 @@ async def realtime_execution_engine():
                 tp_trigger = pos.get("tp_trigger_pct", 1.4)
                 trailing_pullback = pos.get("trailing_pullback", 0.5)
 
-                # 익절 본절 락
+                # 본절 락 (+0.3% 확보)
                 if not pos.get("break_even_triggered", False) and highest_profit_pct >= tp_trigger:
                     pos["break_even_triggered"] = True
                     pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), 0.3)
                     logging.info(f"🛡️ [{pos['symbol']}] 최고수익 +{highest_profit_pct:.2f}% 달성으로 본절 락(+0.3%) 가동")
 
-                # 트레일링 구간 확장
+                # 계단식 구간 확장
                 if highest_profit_pct >= 4.0:
                     pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), 3.0)
                     trailing_pullback = 1.0
@@ -935,10 +990,13 @@ async def realtime_execution_engine():
                 should_close = False
                 close_reason = ""
 
+                # 실제 발생한 고점 대비 반락치 계산
+                actual_pullback = round(highest_profit_pct - curr_profit_pct, 2)
+
                 # ① 트레일링 스탑
-                if highest_profit_pct >= tp_trigger and (highest_profit_pct - curr_profit_pct) >= trailing_pullback:
+                if highest_profit_pct >= tp_trigger and actual_pullback >= trailing_pullback:
                     should_close = True
-                    close_reason = f"📈 트레일링 익절 (고점 +{highest_profit_pct:.2f}% 대비 -{trailing_pullback}% 반락)"
+                    close_reason = f"📈 트레일링 익절 (고점 +{highest_profit_pct:.2f}% 대비 -{actual_pullback:.2f}% 실측 반락)"
 
                 # ② 본절 락 하한선 보호
                 elif pos.get("break_even_triggered", False) and curr_profit_pct <= pos.get("locked_floor_profit_pct", 0.3):
@@ -1003,16 +1061,17 @@ async def realtime_execution_engine():
                     portfolio_msg = format_portfolio_status_msg(active_positions, closed_trades)
                     send_telegram_msg(portfolio_msg)
 
-            await asyncio.sleep(2)
+            # ⏱️ 1초 감시 루프
+            await asyncio.sleep(1)
         except Exception as e:
             logging.error(f"감시 루프 오류: {e}")
-            await asyncio.sleep(3)
+            await asyncio.sleep(2)
 
 # ==========================================
-# 8. 텔레그램 명령 리스너
+# 8. 텔레그램 명령 리스너 (/paper, /real 포함)
 # ==========================================
 def telegram_listener_thread():
-    global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID
+    global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID, PAPER_TRADING, PENDING_PAPER_DRAIN
     if not TELEGRAM_BOT_TOKEN: return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
 
@@ -1038,30 +1097,118 @@ def telegram_listener_thread():
                     if TELEGRAM_CHAT_ID and sender_chat_id != TELEGRAM_CHAT_ID:
                         continue
 
-                    if text == "/status":
-                        server_state = load_json_file(STATE_FILE, {"pending_targets": {}, "last_updated": "-"})
-                        paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-                        held = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in paper_db.get('active_positions', {}).values()]
-                        pending = list(server_state.get('pending_targets', {}).keys())
+                    server_state = load_json_file(STATE_FILE, {})
+                    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+                    active_positions = paper_db.get("active_positions", {})
+                    closed_trades = paper_db.get("closed_trades", [])
+
+                    # ----------------------------------------------------
+                    # [명령어 1] /real (실전투자 전환: 가상 포지션 즉시 청산)
+                    # ----------------------------------------------------
+                    if text == "/real":
+                        if not PAPER_TRADING and not PENDING_PAPER_DRAIN:
+                            send_telegram_msg("ℹ️ 이미 실전매매(REAL) 모드로 동작 중입니다.")
+                            continue
+
+                        PENDING_PAPER_DRAIN = False
+                        PAPER_TRADING = False
+                        
+                        # 가상 보유 종목이 있다면 현재가로 전량 가상 강제 청산
+                        cleared_count = len(active_positions)
+                        now_iso = get_kst_now().isoformat()
+                        
+                        for code, pos in list(active_positions.items()):
+                            curr_p = get_current_price(code) or pos["entry_price"]
+                            profit_pct = round(((curr_p - pos["entry_price"]) / pos["entry_price"]) * 100.0, 2)
+                            buy_krw = pos.get("buy_amount_krw", MIN_BUY_KRW)
+                            profit_krw = round(buy_krw * (profit_pct / 100.0))
+                            
+                            closed_trades.append({
+                                "symbol": pos["symbol"],
+                                "slot": pos.get("slot", "UNKNOWN"),
+                                "entry_price": pos["entry_price"],
+                                "exit_price": curr_p,
+                                "buy_amount_krw": buy_krw,
+                                "profit_krw": profit_krw,
+                                "profit_pct": profit_pct,
+                                "reason": "모드 전환(실전 전환)에 따른 가상 강제 청산",
+                                "entry_time": pos.get("entry_time", ""),
+                                "exit_time": now_iso
+                            })
+                            del active_positions[code]
+
+                        paper_db["active_positions"] = {}
+                        paper_db["closed_trades"] = closed_trades
+                        server_state["pending_targets"] = {}
+                        server_state["paper_trading"] = False
+                        server_state["pending_paper_drain"] = False
+                        save_json_file(PAPER_TRADES_FILE, paper_db)
+                        save_json_file(STATE_FILE, server_state)
+                        sync_file_to_github(PAPER_TRADES_FILE, paper_db)
+
+                        tot_asset, avail_krw = get_bithumb_account_summary()
+                        avail_str = f"{avail_krw:,.0f} KRW" if avail_krw is not None else "조회 실패"
+                        send_telegram_msg(
+                            f"🔥 [모드 전환 완료: 실전매매 가동]\n"
+                            f"• 기존 가상 포지션({cleared_count}개)을 즉시 가상 청산 완료했습니다.\n"
+                            f"• 빗썸 실계좌 가용 잔고: {avail_str}\n"
+                            f"• 지금부터 실제 원화 주문이 체결됩니다."
+                        )
+
+                    # ----------------------------------------------------
+                    # [명령어 2] /paper (모의투자 전환: 실전 포지션 청산 대기)
+                    # ----------------------------------------------------
+                    elif text == "/paper":
+                        if PAPER_TRADING:
+                            send_telegram_msg("ℹ️ 이미 모의투자(PAPER) 모드로 동작 중입니다.")
+                            continue
+
+                        # 신규 대기 주문 즉시 취소
+                        server_state["pending_targets"] = {}
+                        save_json_file(STATE_FILE, server_state)
+
+                        if len(active_positions) > 0:
+                            PENDING_PAPER_DRAIN = True
+                            server_state["pending_paper_drain"] = True
+                            save_json_file(STATE_FILE, server_state)
+                            held_names = [v['symbol'] for v in active_positions.values()]
+                            send_telegram_msg(
+                                f"⏳ [모드 전환 예약: 모의투자 대기]\n"
+                                f"• 신규 실전 주문 진입을 즉시 차단했습니다.\n"
+                                f"• 현재 실전 보유 종목: {', '.join(held_names)} ({len(held_names)}개)\n"
+                                f"• 보유 포지션이 정상 청산되는 즉시 모의투자 모드로 자동 전환됩니다."
+                            )
+                        else:
+                            PAPER_TRADING = True
+                            PENDING_PAPER_DRAIN = False
+                            server_state["paper_trading"] = True
+                            server_state["pending_paper_drain"] = False
+                            save_json_file(STATE_FILE, server_state)
+                            send_telegram_msg("🧪 [모드 전환 완료] 실전 보유 종목이 없어 즉시 모의투자(PAPER) 모드로 전환되었습니다.")
+
+                    elif text == "/status":
+                        held = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in active_positions.values()]
+                        pending_keys = list(server_state.get('pending_targets', {}).keys())
                         
                         if EMERGENCY_STOP:
                             status_str = "🛑 일시정지 (STOP)"
                         elif CIRCUIT_BREAKER_ACTIVE:
                             status_str = "🚨 일일 서킷브레이커 발동 중"
+                        elif PENDING_PAPER_DRAIN:
+                            status_str = "⏳ 모의투자 전환 대기 중 (실전 포지션 소진 중)"
                         else:
-                            status_str = "🟢 듀얼 슬롯 감시 중 (RUNNING)"
+                            status_str = "🟢 1초 실시간 감시 중 (RUNNING)"
 
                         res_msg = f"""📊 [시스템 상태 보고]
 • 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
 • 상태: {status_str}
-• 진입 대기: {', '.join(pending) if pending else '(없음)'}
+• 진입 대기: {', '.join(pending_keys) if pending_keys else '(없음)'}
 • 보유 종목: {', '.join(held) if held else '(없음)'}
-• 누적 복기 거래: {len(paper_db.get('closed_trades', []))}건"""
+• 누적 복기 거래: {len(closed_trades)}건"""
                         send_telegram_msg(res_msg)
 
                     elif text == "/log":
-                        paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
-                        summary_msg = format_portfolio_status_msg(paper_db.get("active_positions", {}), paper_db.get("closed_trades", []))
+                        summary_msg = format_portfolio_status_msg(active_positions, closed_trades)
                         send_telegram_msg(summary_msg)
 
                     elif text == "/stop":
