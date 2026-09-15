@@ -1,36 +1,21 @@
 {
-  "updated_at": "2026-09-15T22:25:58.385168+09:00",
-  "paper_trading": true,
+  "updated_at": "2026-09-15T22:30:55.904253+09:00",
+  "paper_trading": false,
   "targets": {
-    "LA": {
-      "symbol": "LA/KRW",
-      "code": "LA",
+    "CPOOL": {
+      "symbol": "CPOOL/KRW",
+      "code": "CPOOL",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 88.35,
-      "target_entry": 88.1733,
+      "current_price": 32.28,
+      "target_entry": 32.1993,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6892,
-      "detailed_reason": "15분봉 RSI 26.9 과매도 구간 진입 및 볼린저 하단 지지를 활용한 단기 평균회귀 반등 전략 수행. 최근 1시간 거래대금이 충분하여 신뢰도 확보.",
-      "created_at": "2026-09-15T22:20:24.369245+09:00"
-    },
-    "DEBIT": {
-      "symbol": "DEBIT/KRW",
-      "code": "DEBIT",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 3591.0,
-      "target_entry": 3583.818,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6892,
-      "detailed_reason": "Slot 2 range-bound strategy: 15m RSI is oversold at 38.0 near the lower Bollinger Band support (3532.59), presenting a favorable risk-reward bounce setup toward the 1h moving average center line (3650.8).",
-      "created_at": "2026-09-15T22:25:58.385168+09:00"
+      "detailed_reason": "15분봉 RSI 22.1의 강한 과매도 구간 진입 및 1시간봉 볼린저 하단 부근 지지 확인, 중심선(33.18원)까지의 기술적 반등 여력(약 2.8% 기대수익) 확보로 SLOT_2_RANGE 조건 충족",
+      "created_at": "2026-09-15T22:30:55.904253+09:00"
     }
   }
 }
