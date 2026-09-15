@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T02:20:05.461575+09:00",
+  "updated_at": "2026-09-16T02:25:05.160903+09:00",
   "paper_trading": true,
   "targets": {
     "LA": {
@@ -7,15 +7,15 @@
       "code": "LA",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 85.16,
-      "target_entry": 85.03,
+      "current_price": 85.19,
+      "target_entry": 85.06,
       "sl_pct": -2.69,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6000,
-      "detailed_reason": "15분봉 RSI 30.0 과매도 진입 및 볼린저 하단 지지를 활용한 SLOT_2_RANGE 반등 매수세 유입 구간으로 판단됨.",
-      "created_at": "2026-09-16T02:20:05.461575+09:00",
+      "detailed_reason": "1시간봉 RSI 20.4 및 15분봉 RSI 30.1의 과매도 상태로 볼린저 하단 지지 후 MA 중심선(87.177)까지의 기술적 반등 기대. 거래대금 1136만 KRW로 유동성 양호.",
+      "created_at": "2026-09-16T02:25:05.160903+09:00",
       "order_uuid": null
     }
   }
