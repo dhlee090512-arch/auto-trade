@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T22:15:22.944557+09:00",
+  "updated_at": "2026-09-15T22:20:24.369245+09:00",
   "paper_trading": true,
   "targets": {
-    "CPOOL": {
-      "symbol": "CPOOL/KRW",
-      "code": "CPOOL",
+    "LA": {
+      "symbol": "LA/KRW",
+      "code": "LA",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 32.58,
-      "target_entry": 32.4986,
+      "current_price": 88.35,
+      "target_entry": 88.1733,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6893,
-      "detailed_reason": "15분봉 RSI(22.3)의 강한 과매도 상태와 볼린저밴드 하단 지지력을 바탕으로 한 기술적 반등 구간. 1시간봉 기준 거래대금이 풍부하며(약 2,500만 KRW) 볼린저 밴드 중심선(33.25)까지의 기대 수익률이 가장 우수함.",
-      "created_at": "2026-09-15T22:15:22.944557+09:00"
+      "buy_amount_krw": 6892,
+      "detailed_reason": "15분봉 RSI 26.9 과매도 구간 진입 및 볼린저 하단 지지를 활용한 단기 평균회귀 반등 전략 수행. 최근 1시간 거래대금이 충분하여 신뢰도 확보.",
+      "created_at": "2026-09-15T22:20:24.369245+09:00"
     }
   }
 }
