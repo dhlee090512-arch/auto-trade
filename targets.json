@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T10:44:52.116433+09:00",
+  "updated_at": "2026-09-15T11:40:11.820467+09:00",
   "paper_trading": true,
   "targets": {
-    "VTHO": {
-      "symbol": "VTHO/KRW",
-      "code": "VTHO",
+    "MED": {
+      "symbol": "MED/KRW",
+      "code": "MED",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 0.8085,
-      "target_entry": 0.8069,
+      "current_price": 2.267,
+      "target_entry": 2.2625,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6897,
-      "detailed_reason": "1시간봉 RSI(10.0) 극단적 과매도 상태이며 15분봉 RSI(30.3) 과매도 구간에서 볼린저 하단 지지를 확인. 1.54배의 유의미한 볼륨 서지가 동반되어 단기 반등 기대감이 높음.",
-      "created_at": "2026-09-15T10:44:52.116433+09:00"
+      "buy_amount_krw": 8622,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(36.7) 과매도권 진입 및 1시간봉 볼린저밴드 하단 근접에 따른 기술적 반등 기대. MA20 중심선(2.3104)을 목표가로 설정하여 리스크 대비 기대수익비 확보.",
+      "created_at": "2026-09-15T11:40:11.820467+09:00"
     }
   }
 }
