@@ -32,7 +32,7 @@ load_dotenv()
 # ==========================================
 MAX_HOLDING_COINS = 3            # 🛡️ 최대 동시 보유 종목 수
 MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
-DEFAULT_BUY_RATIO = 0.20         # 📊 기본 1회 투입 비중 (20%)
+DEFAULT_BUY_RATIO = 0.20         # 📊 기본 1회 투입 비중 (총 자산의 20%)
 MAX_TICK_RATIO_PCT = 0.20        # 🛡️ 1틱 변동률 상한선 (0.20% 초과 종목 배제)
 MIN_24H_ACC_TRADE_VALUE = 1_500_000_000  # 🛡️ 24시간 누적 거래대금 하한선 (15억 원)
 DAILY_LOSS_LIMIT_PCT = -3.0      # 🛑 일일 누적 손실 서킷브레이커 (-3.0% 도달 시 당일 매매 중단)
@@ -165,6 +165,7 @@ def notify_startup_once():
         send_telegram_msg(
             f"🚀 [오라클 서버] 고도화 퀀트 엔진 가동\n"
             f"• 모드: {mode_str} (감시주기: 1초)\n"
+            f"• 사이징: 총 자산(코인 평가액 포함) 기준 비중 동적 배분\n"
             f"• 슬롯 1 (수급 펄스): 15분 볼륨 2배 + 1시간 수급 3억 첫 눌림\n"
             f"• 슬롯 2 (박스권 반등): RSI 과매도 + 볼린저 하단 지지 평균회귀\n"
             f"• 안전 장치: 실측 반락 트레일링, BTC 급락 차단, -3% 서킷브레이커\n\n"
@@ -197,7 +198,6 @@ def sync_file_to_github(file_path, content_data):
         logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
 
 def format_portfolio_status_msg(active_positions, closed_trades):
-    """최근 10건 내역과 업데이트 이후 총 누적 수익을 분리 집계하여 텔레그램 메시지 생성"""
     held_symbols = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in active_positions.values()]
     held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}개 보유 중)" if held_symbols else "(현재 보유 종목 없음)"
 
@@ -303,6 +303,7 @@ def get_current_price(coin_code: str):
     return None
 
 def get_bithumb_account_summary():
+    """총 자산(원화 잔고 + 모든 코인의 실시간 평가액) 및 가용 원화 정밀 계산"""
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
         return None, None
     try:
@@ -324,11 +325,16 @@ def get_bithumb_account_summary():
                 elif curr in ["P", "POINT"]:
                     continue
                 else:
-                    try:
-                        price = get_current_price(curr) or float(acc.get("avg_buy_price", 0.0))
+                    if total_units <= 0:
+                        continue
+                    # 코인 평가금 계산: 실시간 시세 조회 후 매수 평균가 폴백
+                    price = get_current_price(curr)
+                    if not price or price <= 0:
+                        price = float(acc.get("avg_buy_price", 0.0))
+                    
+                    if price > 0:
                         total_krw += (total_units * price)
-                    except Exception:
-                        pass
+                        
             return round(total_krw, 2), round(available_krw, 2)
     except Exception as e:
         logging.error(f"빗썸 잔고 조회 실패: {e}")
@@ -654,6 +660,7 @@ def execute_server_side_strategy():
         logging.info("💼 최대 보유 종목(3개) 도달로 신규 탐색 생략")
         return
 
+    # 총 자산(코인 평가액 + 원화) 및 실제 가용 원화 조회
     total_asset, available_krw = get_bithumb_account_summary()
     if total_asset is None or available_krw is None:
         if PAPER_TRADING:
@@ -662,6 +669,7 @@ def execute_server_side_strategy():
             logging.error("❌ 빗썸 잔고 수신 실패로 신규 전략 수립 중단")
             return
 
+    # 일일 서킷브레이커 검사
     cb_ok, cb_reason = check_daily_circuit_breaker(closed_trades, total_asset)
     if not cb_ok:
         if not CIRCUIT_BREAKER_ACTIVE:
@@ -672,21 +680,29 @@ def execute_server_side_strategy():
     else:
         CIRCUIT_BREAKER_ACTIVE = False
 
+    # BTC 매크로 급락 필터
     btc_ok, btc_reason = check_btc_trend()
     if not btc_ok:
         logging.info(f"🛑 [매크로 방어] {btc_reason} ➔ 신규 매수 차단")
         return
 
+    # 1회 기본 투입 비율 산정 (최근 승률 연동 15%~25%)
     dynamic_ratio = calculate_dynamic_buy_ratio(closed_trades)
-    calc_buy_krw = round(total_asset * dynamic_ratio)
-    target_buy_krw = max(calc_buy_krw, MIN_BUY_KRW)
+    
+    # 💰 [핵심 수정] 총 자산(코인 포함 전체 평가액) 기준으로 목표 매수 금액 산정
+    target_buy_krw = round(total_asset * dynamic_ratio)
 
-    if available_krw < MIN_BUY_KRW or target_buy_krw > available_krw:
-        logging.info(f"⏸️ 가용 원화 부족 (필요: {target_buy_krw:,}원 / 보유: {available_krw:,.0f}원) ➔ 관망")
+    # 가용 원화 최소 주문 가능 여부 검사
+    if available_krw < MIN_BUY_KRW:
+        logging.info(f"⏸️ 가용 원화 부족 (가용: {available_krw:,.0f} KRW < 최소 주문: {MIN_BUY_KRW:,} KRW) ➔ 관망")
         return
 
+    # 💰 [핵심 수정] 가용 원화 한도 내에서 목표 금액을 최대한 집행 (부족할 경우 남은 가용 원화 전액 배정)
+    actual_buy_krw = min(target_buy_krw, int(available_krw))
+    actual_buy_krw = max(actual_buy_krw, MIN_BUY_KRW)
+
     held_codes = set(active_positions.keys())
-    logging.info(f"🧠 [듀얼 슬롯 퀀트 & AI 분석 가동] (배정 비중: {int(dynamic_ratio*100)}%, 목표 투입금: {target_buy_krw:,}원)")
+    logging.info(f"🧠 [듀얼 슬롯 퀀트 & AI 분석 가동] (총자산: {total_asset:,.0f}원 | 목표액: {target_buy_krw:,}원 | 실제배정: {actual_buy_krw:,}원)")
 
     url = "https://api.bithumb.com/public/ticker/ALL_KRW"
     try:
@@ -805,7 +821,7 @@ def execute_server_side_strategy():
         "tp_trigger_pct": chosen_setup.get("tp_trigger_pct", 1.4),
         "trailing_pullback": chosen_setup.get("trailing_pullback", 0.5),
         "timeout_mins": timeout_mins,
-        "buy_amount_krw": target_buy_krw,
+        "buy_amount_krw": actual_buy_krw,
         "detailed_reason": reason_msg,
         "created_at": now_iso
     }
@@ -825,7 +841,7 @@ def execute_server_side_strategy():
 • 종목 : {selected} (신뢰도: {confidence}점)
 • 현재가 : {curr_p:,.4f} KRW
 • 진입 목표가 : {target_entry:,.4f} KRW (-{discount:.2f}%)
-• 배정 투자금 : {target_buy_krw:,} KRW (총자산 {int(dynamic_ratio*100)}%)
+• 배정 투자금 : {actual_buy_krw:,} KRW (총자산 {total_asset:,.0f}원의 {int(dynamic_ratio*100)}% 기준)
 
 🛡️ 손절선 : {sl_pct}%
 📈 익절 목표 : +{plan_data['tp_trigger_pct']}% 도달 시 트레일링 가동
@@ -1055,7 +1071,7 @@ async def realtime_execution_engine():
                     portfolio_msg = format_portfolio_status_msg(active_positions, closed_trades)
                     send_telegram_msg(portfolio_msg)
 
-            # ⏱️ 1초 정밀 감시 루프
+            # ⏱️ 1초 감시 루프
             await asyncio.sleep(1)
         except Exception as e:
             logging.error(f"감시 루프 오류: {e}")
@@ -1141,9 +1157,11 @@ def telegram_listener_thread():
 
                         tot_asset, avail_krw = get_bithumb_account_summary()
                         avail_str = f"{avail_krw:,.0f} KRW" if avail_krw is not None else "조회 실패"
+                        tot_str = f"{tot_asset:,.0f} KRW" if tot_asset is not None else "조회 실패"
                         send_telegram_msg(
                             f"🔥 [모드 전환 완료: 실전매매 가동]\n"
                             f"• 기존 가상 포지션({cleared_count}개)을 즉시 가상 청산 완료했습니다.\n"
+                            f"• 빗썸 실계좌 총 자산: {tot_str}\n"
                             f"• 빗썸 실계좌 가용 잔고: {avail_str}\n"
                             f"• 지금부터 실제 원화 주문이 체결됩니다."
                         )
