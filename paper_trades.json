@@ -1,27 +1,5 @@
 {
-  "active_positions": {
-    "LA": {
-      "symbol": "LA/KRW",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 87.76,
-      "highest_price": 87.76,
-      "buy_amount_krw": 6862,
-      "units": 78.1905,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-15T23:08:09.826705+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789481289.8267014,
-          87.76
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -58,6 +36,18 @@
       "reason": "모드 전환(실전 전환)에 따른 가상 강제 청산",
       "entry_time": "2026-09-15T22:32:46.986857+09:00",
       "exit_time": "2026-09-15T22:53:32.939525+09:00"
+    },
+    {
+      "symbol": "LA/KRW",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 87.76,
+      "exit_price": 85.29,
+      "buy_amount_krw": 6862,
+      "profit_krw": -193,
+      "profit_pct": -2.81,
+      "reason": "🛡️ 손절가 도달 (-2.81%)",
+      "entry_time": "2026-09-15T23:08:09.826705+09:00",
+      "exit_time": "2026-09-16T02:18:29.038722+09:00"
     }
   ]
 }
