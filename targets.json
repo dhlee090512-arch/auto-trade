@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T20:52:26.170448+09:00",
+  "updated_at": "2026-09-15T21:07:25.777360+09:00",
   "paper_trading": true,
   "targets": {
     "LA": {
@@ -17,20 +17,20 @@
       "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(33.7) 과매도 구간 진입 및 볼린저 하단 지지력을 바탕으로 한 중심선(MA20) 회귀 반등 기대",
       "created_at": "2026-09-15T20:47:24.595423+09:00"
     },
-    "PUFFER": {
-      "symbol": "PUFFER/KRW",
-      "code": "PUFFER",
-      "mode": "SCALPING",
-      "slot": "SLOT_1_PULSE",
-      "current_price": 37.6,
-      "target_entry": 37.4872,
+    "CVC": {
+      "symbol": "CVC/KRW",
+      "code": "CVC",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 39.54,
+      "target_entry": 39.4609,
       "sl_pct": -2.8,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8616,
-      "detailed_reason": "15분봉 기준 거래량 2.54배 급증 후 첫 음봉 눌림목 형성 중이며, 1시간 거래대금 13.5억 유입으로 강한 수급 모멘텀 확인. RSI 65.8로 과열권 해소 중이며 슬롯 1 볼륨 서지 풀백 전략에 완벽히 부합함.",
-      "created_at": "2026-09-15T20:52:26.170448+09:00"
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6892,
+      "detailed_reason": "15분봉 RSI 20.0의 극심한 과매도 상태이며 볼린저 밴드 하단 부근에서 지지를 받고 MA20 중앙선까지의 반등(기대수익 5.51%) 셋업이 유효함.",
+      "created_at": "2026-09-15T21:07:25.777360+09:00"
     }
   }
 }
