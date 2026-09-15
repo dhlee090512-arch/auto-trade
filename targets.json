@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T03:05:09.053863+09:00",
+  "updated_at": "2026-09-16T03:15:09.283659+09:00",
   "paper_trading": true,
   "targets": {
     "CVC": {
@@ -16,6 +16,22 @@
       "buy_amount_krw": 6000,
       "detailed_reason": "15분봉 RSI(35.1) 과매도 구간 및 하단 볼린저밴드 근처 지지력을 활용한 SLOT_2_RANGE 반등 타점 확보",
       "created_at": "2026-09-16T03:05:09.053863+09:00",
+      "order_uuid": null
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
+      "mode": "SCALPING",
+      "slot": "SLOT_1_PULSE",
+      "current_price": 1911.0,
+      "target_entry": 1905.0,
+      "sl_pct": -1.8,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6000,
+      "detailed_reason": "15분봉 거래량이 2.02배 급증한 상태에서 1시간 이동평균선 부근의 첫 음봉 눌림목이 형성되었으며, RSI 및 수급 지표가 단기 반등 조건을 충족함.",
+      "created_at": "2026-09-16T03:15:09.283659+09:00",
       "order_uuid": null
     }
   }
