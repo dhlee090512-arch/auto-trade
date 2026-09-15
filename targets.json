@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T22:30:55.904253+09:00",
+  "updated_at": "2026-09-15T22:35:56.618792+09:00",
   "paper_trading": false,
   "targets": {
-    "CPOOL": {
-      "symbol": "CPOOL/KRW",
-      "code": "CPOOL",
+    "D": {
+      "symbol": "D/KRW",
+      "code": "D",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 32.28,
-      "target_entry": 32.1993,
+      "current_price": 3.744,
+      "target_entry": 3.7365,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6892,
-      "detailed_reason": "15분봉 RSI 22.1의 강한 과매도 구간 진입 및 1시간봉 볼린저 하단 부근 지지 확인, 중심선(33.18원)까지의 기술적 반등 여력(약 2.8% 기대수익) 확보로 SLOT_2_RANGE 조건 충족",
-      "created_at": "2026-09-15T22:30:55.904253+09:00"
+      "buy_amount_krw": 6874,
+      "detailed_reason": "SLOT_2_RANGE 전략에 따라 15분봉 RSI 36.6으로 과매도 구간에 진입했으며, 볼린저밴드 하단 지지를 바탕으로 MA20 중심선(4.2111)까지의 반등 기대 및 거래대금(약 9.59억 원)이 풍부하여 선정함.",
+      "created_at": "2026-09-15T22:35:56.618792+09:00"
     }
   }
 }
