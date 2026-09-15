@@ -12886,27 +12886,10 @@
         [
           1789498201.3338044,
           36.78
-        ]
-      ]
-    },
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 1839.0,
-      "highest_price": 1839.0,
-      "buy_amount_krw": 6000,
-      "units": 3.2626427406199023,
-      "sl_pct": -2.2,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-16T03:50:01.979938+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
+        ],
         [
           1789498201.9799347,
-          1839.0
+          36.78
         ]
       ]
     }
@@ -12971,6 +12954,18 @@
       "reason": "🛡️ 손절가 도달 (-1.94%)",
       "entry_time": "2026-09-16T03:16:53.790166+09:00",
       "exit_time": "2026-09-16T03:37:01.881733+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 1839.0,
+      "exit_price": 1769.0,
+      "buy_amount_krw": 6000,
+      "profit_krw": -229,
+      "profit_pct": -3.81,
+      "reason": "🛡️ 손절가 도달 (-3.81%)",
+      "entry_time": "2026-09-16T03:50:01.979938+09:00",
+      "exit_time": "2026-09-16T03:50:01.979938+09:00"
     }
   ]
 }
