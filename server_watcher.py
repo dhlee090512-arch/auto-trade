@@ -123,11 +123,9 @@ def init_server_state():
     global PAPER_TRADING, UPDATE_BASELINE_TIME, PENDING_PAPER_DRAIN
     state = load_json_file(STATE_FILE, {})
     
-    # 1. 모드 복원 (기본값: True)
     PAPER_TRADING = state.get("paper_trading", True)
     PENDING_PAPER_DRAIN = state.get("pending_paper_drain", False)
     
-    # 2. 업데이트 베이스라인 시각 설정 (파일에 없으면 현재 시각으로 최초 생성)
     if "update_baseline_time" not in state or not state["update_baseline_time"]:
         state["update_baseline_time"] = get_kst_now().isoformat()
     
@@ -230,7 +228,6 @@ def format_portfolio_status_msg(active_positions, closed_trades):
         trades_str = "\n".join(trade_lines)
         win_rate_10 = round((wins_10 / len(recent_10)) * 100, 1)
 
-    # 업데이트 베이스라인 이후 전수 누적 집계
     baseline_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
     baseline_display = baseline_dt.strftime("%m/%d %H:%M") if baseline_dt else "최근 업데이트"
     
@@ -448,7 +445,6 @@ def calculate_quant_features(candles_1h, candles_15m):
     tick_ratio_pct = round((tick_size / curr_p) * 100.0, 3) if curr_p > 0 else 1.0
     atr_pct = round((atr_1h / curr_p) * 100.0, 2) if curr_p > 0 else 0.0
 
-    # ATR 동적 손절폭 (-1.8% ~ -2.8% 클램핑)
     dynamic_sl_pct = -round(min(max(atr_pct * 1.2, 1.8), 2.8), 2)
     recent_1h_trade_val = candles_1h[-1]['volume'] * candles_1h[-1]['close'] if candles_1h else 0.0
 
@@ -646,7 +642,6 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
 def execute_server_side_strategy():
     global CIRCUIT_BREAKER_ACTIVE
     
-    # 모의 전환 대기(Drain) 중에는 신규 분석 스킵
     if PENDING_PAPER_DRAIN:
         logging.info("⏳ 모의투자 전환 대기(실전 포지션 청산 대기) 중으로 신규 진입을 탐색하지 않습니다.")
         return
@@ -871,7 +866,7 @@ async def realtime_execution_engine():
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # [안전 프로토콜] 실전 -> 모의 대기(Drain) 상태에서 보유 포지션이 0개가 되면 자동 전환
+            # 실전 -> 모의 대기(Drain) 상태에서 보유 포지션이 0개가 되면 자동 전환
             if PENDING_PAPER_DRAIN and len(active_positions) == 0:
                 PENDING_PAPER_DRAIN = False
                 PAPER_TRADING = True
@@ -880,7 +875,7 @@ async def realtime_execution_engine():
                 save_json_file(STATE_FILE, server_state)
                 send_telegram_msg("🎉 [모드 전환 완료] 모든 실전 포지션이 정상 청산되어 모의투자(PAPER) 모드로 자동 전환되었습니다.")
 
-            # [1] 진입 대기 감시 (지정가 눌림목 체결)
+            # [1] 진입 대기 감시
             if not EMERGENCY_STOP and not CIRCUIT_BREAKER_ACTIVE and not PENDING_PAPER_DRAIN and len(active_positions) < MAX_HOLDING_COINS:
                 for coin_code, plan in list(pending.items()):
                     created_dt = parse_dt_safe(plan.get("created_at", ""))
@@ -990,7 +985,6 @@ async def realtime_execution_engine():
                 should_close = False
                 close_reason = ""
 
-                # 실제 발생한 고점 대비 반락치 계산
                 actual_pullback = round(highest_profit_pct - curr_profit_pct, 2)
 
                 # ① 트레일링 스탑
@@ -1061,14 +1055,14 @@ async def realtime_execution_engine():
                     portfolio_msg = format_portfolio_status_msg(active_positions, closed_trades)
                     send_telegram_msg(portfolio_msg)
 
-            # ⏱️ 1초 감시 루프
+            # ⏱️ 1초 정밀 감시 루프
             await asyncio.sleep(1)
         except Exception as e:
             logging.error(f"감시 루프 오류: {e}")
             await asyncio.sleep(2)
 
 # ==========================================
-# 8. 텔레그램 명령 리스너 (/paper, /real 포함)
+# 8. 텔레그램 명령 리스너 (/paper, /real, 만료예정시각)
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID, PAPER_TRADING, PENDING_PAPER_DRAIN
@@ -1103,7 +1097,7 @@ def telegram_listener_thread():
                     closed_trades = paper_db.get("closed_trades", [])
 
                     # ----------------------------------------------------
-                    # [명령어 1] /real (실전투자 전환: 가상 포지션 즉시 청산)
+                    # [명령어 1] /real (실전 전환: 가상 포지션 즉시 청산)
                     # ----------------------------------------------------
                     if text == "/real":
                         if not PAPER_TRADING and not PENDING_PAPER_DRAIN:
@@ -1113,7 +1107,6 @@ def telegram_listener_thread():
                         PENDING_PAPER_DRAIN = False
                         PAPER_TRADING = False
                         
-                        # 가상 보유 종목이 있다면 현재가로 전량 가상 강제 청산
                         cleared_count = len(active_positions)
                         now_iso = get_kst_now().isoformat()
                         
@@ -1156,14 +1149,13 @@ def telegram_listener_thread():
                         )
 
                     # ----------------------------------------------------
-                    # [명령어 2] /paper (모의투자 전환: 실전 포지션 청산 대기)
+                    # [명령어 2] /paper (모의 전환: 실전 포지션 청산 대기)
                     # ----------------------------------------------------
                     elif text == "/paper":
                         if PAPER_TRADING:
                             send_telegram_msg("ℹ️ 이미 모의투자(PAPER) 모드로 동작 중입니다.")
                             continue
 
-                        # 신규 대기 주문 즉시 취소
                         server_state["pending_targets"] = {}
                         save_json_file(STATE_FILE, server_state)
 
@@ -1186,9 +1178,26 @@ def telegram_listener_thread():
                             save_json_file(STATE_FILE, server_state)
                             send_telegram_msg("🧪 [모드 전환 완료] 실전 보유 종목이 없어 즉시 모의투자(PAPER) 모드로 전환되었습니다.")
 
+                    # ----------------------------------------------------
+                    # [명령어 3] /status (만료 예정 시각 표기 적용)
+                    # ----------------------------------------------------
                     elif text == "/status":
                         held = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in active_positions.values()]
-                        pending_keys = list(server_state.get('pending_targets', {}).keys())
+                        
+                        pending_items = []
+                        for code, plan in server_state.get('pending_targets', {}).items():
+                            sym = plan.get('symbol', f"{code}/KRW")
+                            slot_label = "S1" if plan.get('slot') == "SLOT_1_PULSE" else "S2"
+                            created_dt = parse_dt_safe(plan.get("created_at", ""))
+                            timeout_mins = plan.get("timeout_mins", 10)
+                            
+                            if created_dt:
+                                expire_dt = created_dt + timedelta(minutes=timeout_mins)
+                                time_str = f"{expire_dt.strftime('%H:%M')} 취소예정"
+                            else:
+                                time_str = "-"
+                                
+                            pending_items.append(f"{sym}({slot_label} | {time_str})")
                         
                         if EMERGENCY_STOP:
                             status_str = "🛑 일시정지 (STOP)"
@@ -1202,7 +1211,7 @@ def telegram_listener_thread():
                         res_msg = f"""📊 [시스템 상태 보고]
 • 모드: {'🧪 모의투자' if PAPER_TRADING else '🔥 실전매매'}
 • 상태: {status_str}
-• 진입 대기: {', '.join(pending_keys) if pending_keys else '(없음)'}
+• 진입 대기: {', '.join(pending_items) if pending_items else '(없음)'}
 • 보유 종목: {', '.join(held) if held else '(없음)'}
 • 누적 복기 거래: {len(closed_trades)}건"""
                         send_telegram_msg(res_msg)
