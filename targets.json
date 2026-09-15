@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T14:45:58.001404+09:00",
+  "updated_at": "2026-09-15T16:36:23.832382+09:00",
   "paper_trading": true,
   "targets": {
-    "WAXP": {
-      "symbol": "WAXP/KRW",
-      "code": "WAXP",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 7.169,
-      "target_entry": 7.1547,
-      "sl_pct": -2.8,
+      "current_price": 3207.0,
+      "target_entry": 3200.586,
+      "sl_pct": -2.2,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8619,
-      "detailed_reason": "15분봉 RSI 31.1로 과매도 구간 진입 및 볼린저 하단 지지 확인. 슬롯 2 레인지 매매 전략에 부합하며 중심선(7.3355)까지의 반등 기대.",
-      "created_at": "2026-09-15T14:45:58.001404+09:00"
+      "buy_amount_krw": 6894,
+      "detailed_reason": "NEAR/KRW는 15분봉 RSI 27.3 과매도 상태이며 볼린저 밴드 하단 지지와 함께 3.9배의 강력한 거래량 서지를 동반하여 신뢰도 높은 반등 구간을 형성하고 있음.",
+      "created_at": "2026-09-15T16:36:23.832382+09:00"
     }
   }
 }
