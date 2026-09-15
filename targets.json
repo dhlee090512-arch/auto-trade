@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T10:39:49.116450+09:00",
+  "updated_at": "2026-09-15T10:44:52.116433+09:00",
   "paper_trading": true,
   "targets": {
-    "B3": {
-      "symbol": "B3/KRW",
-      "code": "B3",
+    "VTHO": {
+      "symbol": "VTHO/KRW",
+      "code": "VTHO",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 0.7737,
-      "target_entry": 0.7722,
+      "current_price": 0.8085,
+      "target_entry": 0.8069,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6897,
-      "detailed_reason": "1시간봉 RSI 24.2 및 15분봉 RSI 25.9의 강한 과매도 상태이며 볼린저 하단 지지와 함께 거래량 비율(1.97)이 동반되어 반등 탄력이 가장 우수할 것으로 판단됨",
-      "created_at": "2026-09-15T10:39:49.116450+09:00"
+      "detailed_reason": "1시간봉 RSI(10.0) 극단적 과매도 상태이며 15분봉 RSI(30.3) 과매도 구간에서 볼린저 하단 지지를 확인. 1.54배의 유의미한 볼륨 서지가 동반되어 단기 반등 기대감이 높음.",
+      "created_at": "2026-09-15T10:44:52.116433+09:00"
     }
   }
 }
