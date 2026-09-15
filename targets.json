@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T11:40:11.820467+09:00",
+  "updated_at": "2026-09-15T12:10:18.733388+09:00",
   "paper_trading": true,
   "targets": {
-    "MED": {
-      "symbol": "MED/KRW",
-      "code": "MED",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 2.267,
-      "target_entry": 2.2625,
-      "sl_pct": -2.8,
+      "current_price": 3293.0,
+      "target_entry": 3288.0605,
+      "sl_pct": -2.28,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8622,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(36.7) 과매도권 진입 및 1시간봉 볼린저밴드 하단 근접에 따른 기술적 반등 기대. MA20 중심선(2.3104)을 목표가로 설정하여 리스크 대비 기대수익비 확보.",
-      "created_at": "2026-09-15T11:40:11.820467+09:00"
+      "buy_amount_krw": 8621,
+      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI 35.8로 과매도 구간 진입 및 볼린저밴드 하단 근처 지지 기반 1시간봉 이동평균선 중심선(3333.3 KRW)까지의 반등 기대",
+      "created_at": "2026-09-15T12:10:18.733388+09:00"
     }
   }
 }
