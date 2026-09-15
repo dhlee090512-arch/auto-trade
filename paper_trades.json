@@ -1,27 +1,5 @@
 {
-  "active_positions": {
-    "CPOOL": {
-      "symbol": "CPOOL/KRW",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 31.99,
-      "highest_price": 31.99,
-      "buy_amount_krw": 6892,
-      "units": 215.44232572678962,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-15T22:32:46.986857+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789479166.9868534,
-          31.99
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -46,6 +24,18 @@
       "reason": "모드 전환(실전 전환)에 따른 가상 강제 청산",
       "entry_time": "2026-09-15T22:16:25.108053+09:00",
       "exit_time": "2026-09-15T22:26:23.548205+09:00"
+    },
+    {
+      "symbol": "CPOOL/KRW",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 31.99,
+      "exit_price": 31.83,
+      "buy_amount_krw": 6892,
+      "profit_krw": -34,
+      "profit_pct": -0.5,
+      "reason": "모드 전환(실전 전환)에 따른 가상 강제 청산",
+      "entry_time": "2026-09-15T22:32:46.986857+09:00",
+      "exit_time": "2026-09-15T22:53:32.939525+09:00"
     }
   ]
 }
