@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T14:20:52.869384+09:00",
+  "updated_at": "2026-09-15T14:25:54.394898+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -7,15 +7,15 @@
       "code": "LSK",
       "mode": "SCALPING",
       "slot": "SLOT_1_PULSE",
-      "current_price": 545.0,
-      "target_entry": 543.365,
+      "current_price": 548.0,
+      "target_entry": 546.356,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6894,
-      "detailed_reason": "LSK는 SLOT_1_PULSE 기준에 따라 15분봉 거래량이 2.74배 급증한 이후 1시간 실시간 수급(약 5.0억)이 유입되며 나타난 첫 음봉 눌림목 구간으로, 단기 반등 모멘텀과 리스크 대비 보상 비율이 우수하여 진입함.",
-      "created_at": "2026-09-15T14:20:52.869384+09:00"
+      "buy_amount_krw": 8618,
+      "detailed_reason": "15분봉 거래량 4.89배 급증 동반 후 첫 음봉 눌림목 형성, 1시간 실시간 수급 유입 및 RSI 62.5 구간으로 상승 모멘텀 유지되어 SLOT_1_PULSE 전략에 부합함",
+      "created_at": "2026-09-15T14:25:54.394898+09:00"
     }
   }
 }
