@@ -1,22 +1,7 @@
 {
-  "updated_at": "2026-09-15T20:47:24.595423+09:00",
+  "updated_at": "2026-09-15T20:52:26.170448+09:00",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "code": "WLD",
-      "mode": "SCALPING",
-      "slot": "SLOT_1_PULSE",
-      "current_price": 509.0,
-      "target_entry": 507.473,
-      "sl_pct": -1.8,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8616,
-      "detailed_reason": "15분봉 기준 거래량 3.29배 급증 동반 후 첫 음봉 눌림목 형성, 1시간 거래대금 4.1억 유입 및 RSI 15분선 52.9로 건강한 조정 구간으로 판단되어 Slot 1 전략에 최적화됨.",
-      "created_at": "2026-09-15T20:42:22.694795+09:00"
-    },
     "LA": {
       "symbol": "LA/KRW",
       "code": "LA",
@@ -31,6 +16,21 @@
       "buy_amount_krw": 8616,
       "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(33.7) 과매도 구간 진입 및 볼린저 하단 지지력을 바탕으로 한 중심선(MA20) 회귀 반등 기대",
       "created_at": "2026-09-15T20:47:24.595423+09:00"
+    },
+    "PUFFER": {
+      "symbol": "PUFFER/KRW",
+      "code": "PUFFER",
+      "mode": "SCALPING",
+      "slot": "SLOT_1_PULSE",
+      "current_price": 37.6,
+      "target_entry": 37.4872,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8616,
+      "detailed_reason": "15분봉 기준 거래량 2.54배 급증 후 첫 음봉 눌림목 형성 중이며, 1시간 거래대금 13.5억 유입으로 강한 수급 모멘텀 확인. RSI 65.8로 과열권 해소 중이며 슬롯 1 볼륨 서지 풀백 전략에 완벽히 부합함.",
+      "created_at": "2026-09-15T20:52:26.170448+09:00"
     }
   }
 }
