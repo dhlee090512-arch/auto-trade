@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-15T22:25:24.907215+09:00",
+  "updated_at": "2026-09-15T22:25:58.385168+09:00",
   "paper_trading": true,
   "targets": {
     "LA": {
@@ -22,15 +22,15 @@
       "code": "DEBIT",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 3564.0,
-      "target_entry": 3556.872,
+      "current_price": 3591.0,
+      "target_entry": 3583.818,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6892,
-      "detailed_reason": "Slot 2 range-bound setup confirmed with 15m RSI at 37.6 indicating oversold conditions near the lower Bollinger Band support, offering a high-probability bounce towards the 1h moving average center line (3650.5).",
-      "created_at": "2026-09-15T22:25:24.907215+09:00"
+      "detailed_reason": "Slot 2 range-bound strategy: 15m RSI is oversold at 38.0 near the lower Bollinger Band support (3532.59), presenting a favorable risk-reward bounce setup toward the 1h moving average center line (3650.8).",
+      "created_at": "2026-09-15T22:25:58.385168+09:00"
     }
   }
 }
