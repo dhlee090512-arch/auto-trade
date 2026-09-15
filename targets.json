@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-15T16:41:25.467780+09:00",
+  "updated_at": "2026-09-15T19:32:06.036121+09:00",
   "paper_trading": true,
   "targets": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "CVC": {
+      "symbol": "CVC/KRW",
+      "code": "CVC",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 3207.0,
-      "target_entry": 3200.586,
-      "sl_pct": -2.2,
+      "current_price": 40.52,
+      "target_entry": 40.4592,
+      "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6894,
-      "detailed_reason": "1시간봉 RSI(12.2) 및 15분봉 RSI(27.3) 극심한 과매도 상태이며 볼린저밴드 하단 지지와 함께 거래량 급증 비율(3.93)이 동반되어 단기 반등 모멘텀이 매우 강력함.",
-      "created_at": "2026-09-15T16:41:25.467780+09:00"
+      "buy_amount_krw": 6893,
+      "detailed_reason": "15분봉 RSI 27.3으로 강한 과매도 구간 진입 및 볼린저 하단 지지 확인, 단기 반등 기대감 유효",
+      "created_at": "2026-09-15T19:32:06.036121+09:00"
     }
   }
 }
