@@ -1,23 +1,7 @@
 {
-  "updated_at": "2026-09-16T21:26:38.498074+09:00",
+  "updated_at": "2026-09-16T21:31:38.762647+09:00",
   "paper_trading": true,
   "targets": {
-    "AMO": {
-      "symbol": "AMO/KRW",
-      "code": "AMO",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 0.3947,
-      "target_entry": 0.3937,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 8492,
-      "detailed_reason": "AMO는 SLOT_2_RANGE 조건에 부합하며, 15분봉 RSI(29.6) 과매도 구간에서 볼린저밴드 하단 지지를 받고 1시간봉 MA20 중심선(0.408)까지의 안정적인 반등 여력(기대수익 3.37%)과 상대적으로 양호한 거래대금(약 6,750만)을 확보하여 선정함.",
-      "created_at": "2026-09-16T21:01:36.698312+09:00",
-      "order_uuid": null
-    },
     "FOLD": {
       "symbol": "FOLD/KRW",
       "code": "FOLD",
@@ -32,6 +16,22 @@
       "buy_amount_krw": 8490,
       "detailed_reason": "15분봉 기준 11.45배의 압도적인 거래량 급증 후 첫 음봉 눌림목 형성 중이며, RSI 66~73 구간의 강한 모멘텀과 10.4억 원 규모의 1시간 거래대금이 유입되어 상승 지속 가능성이 높음.",
       "created_at": "2026-09-16T21:26:38.498074+09:00",
+      "order_uuid": null
+    },
+    "MAY": {
+      "symbol": "MAY/KRW",
+      "code": "MAY",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 6.273,
+      "target_entry": 6.264,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8489,
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15분봉 RSI 21.8 과매도 구간 및 볼린저밴드 하단 지지 확인, 단기 반등 기대감 유효.",
+      "created_at": "2026-09-16T21:31:38.762647+09:00",
       "order_uuid": null
     }
   }
