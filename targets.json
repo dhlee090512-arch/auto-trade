@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T06:17:15.131032+09:00",
+  "updated_at": "2026-09-17T06:22:15.464136+09:00",
   "paper_trading": true,
   "targets": {
     "MAY": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 5.462,
-      "target_entry": 5.451,
+      "current_price": 5.507,
+      "target_entry": 5.496,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8496,
-      "ordered_volume": 1558.6130985140342,
-      "order_uuid": "mock_order_cc027e81",
-      "detailed_reason": "SLOT_2_RANGE 전략 적용. 15분봉 RSI 32.7 과매도 구간 진입 및 볼린저밴드 하단 지지 확인, 2.26배 볼륨 서지 발생으로 이동평균선(5.9507)까지의 기술적 반등 기대.",
-      "created_at": "2026-09-17T06:17:15.131032+09:00"
+      "buy_amount_krw": 8495,
+      "ordered_volume": 1545.6695778748178,
+      "order_uuid": "mock_order_6f7991aa",
+      "detailed_reason": "15분봉 RSI(33.8) 과매도 구간 및 볼린저 하단 지지를 활용한 SLOT_2_RANGE 반등 매수 전략 실행",
+      "created_at": "2026-09-17T06:22:15.464136+09:00"
     }
   }
 }
