@@ -30,6 +30,7 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터
 # ==========================================
+BUILD_VERSION = "2026.09.16-v2"  # 🔖 코드 업데이트 감지용 빌드 태그
 MAX_HOLDING_COINS = 2            # 🛡️ 최대 동시 보유 종목 수 (2개 집중)
 MIN_BUY_KRW = 6000               # 💵 최소 매수 금액 (원)
 DEFAULT_BUY_RATIO = 0.20         # 📊 기본 1회 투입 비중 (총 자산의 20%)
@@ -106,7 +107,7 @@ def parse_dt_safe(dt_str):
     return None
 
 # ==========================================
-# 1. 영구 상태 로드 및 베이스라인 초기화
+# 1. 영구 상태 로드 및 업데이트 기준시각 자동 갱신
 # ==========================================
 def load_json_file(file_path, default_value):
     if os.path.exists(file_path):
@@ -131,17 +132,23 @@ def init_server_state():
     PAPER_TRADING = state.get("paper_trading", True)
     PENDING_PAPER_DRAIN = state.get("pending_paper_drain", False)
     
-    if "update_baseline_time" not in state or not state["update_baseline_time"]:
-        state["update_baseline_time"] = get_kst_now().isoformat()
+    # 🔄 [핵심] 빌드 버전이 바뀌었거나 기준 시각이 없으면 현재 시각으로 자동 갱신
+    last_build = state.get("build_version", "")
+    now_kst_iso = get_kst_now().isoformat()
+    
+    if last_build != BUILD_VERSION or "update_baseline_time" not in state or not state["update_baseline_time"]:
+        state["update_baseline_time"] = now_kst_iso
+        state["build_version"] = BUILD_VERSION
+        logging.info(f"🔄 [버전 업데이트 감지] 누적 성과 기준 시각을 갱신합니다: {now_kst_iso} (Build: {BUILD_VERSION})")
     
     UPDATE_BASELINE_TIME = state["update_baseline_time"]
-    state["last_started_at"] = get_kst_now().isoformat()
+    state["last_started_at"] = now_kst_iso
     save_json_file(STATE_FILE, state)
 
 init_server_state()
 
 # ==========================================
-# 2. 텔레그램 리포트 & GitHub 동기화 (모의/실전 분리)
+# 2. 텔레그램 리포트 & GitHub 동기화
 # ==========================================
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -167,13 +174,16 @@ def notify_startup_once():
         with open(RESTART_FLAG_FILE, "w") as f:
             f.write(str(now_ts))
         mode_str = "🧪 모의투자" if PAPER_TRADING else "🔥 실전매매"
+        baseline_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
+        base_str = baseline_dt.strftime("%m/%d %H:%M KST") if baseline_dt else "-"
         send_telegram_msg(
-            f"🚀 [오라클 서버] 고도화 퀀트 엔진 가동\n"
+            f"🚀 [오라클 서버] 고도화 퀀트 엔진 가동 ({BUILD_VERSION})\n"
             f"• 모드: {mode_str} (0.5초 초정밀 감시 / 최대 2종목)\n"
+            f"• 누적 성과 기준 시각: {base_str} 이후\n"
             f"• 매수: 빗썸 거래소 사전 지정가 예약 (완전 체결 시 장부 편입)\n"
-            f"• 손절: 종목별 ATR 1차 손절선(-1.4%~-1.8%) + 3초 지속 버퍼 / 비상 탈출선 이중화\n"
-            f"• 장부: 실전투자/모의투자 성과 및 복기 데이터 100% 완전 분리\n\n"
-            f"📱 명령어: /status, /log, /paper, /real, /stop, /start, /update"
+            f"• 손절: 종목별 ATR 1차 손절선 + 3초 지속 버퍼 / 비상 탈출선 이중화\n"
+            f"• 장부: 실전/모의 전용 매매 기록 완전 분리 집계\n\n"
+            f"📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update"
         )
     else:
         logging.info("ℹ️ 최근 재시작 알림 발송 이력으로 시작 메시지 전송 생략")
@@ -202,18 +212,14 @@ def sync_file_to_github(file_path, content_data):
         logging.error(f"GitHub 동기화 실패 ({file_path}): {e}")
 
 def format_portfolio_status_msg(active_positions, closed_trades):
-    """현재 모드(실전/모의)에 완벽히 매칭되는 내역만 엄격히 분리 필터링"""
     current_mode_is_paper = PAPER_TRADING
     mode_tag_name = "🧪 모의투자" if current_mode_is_paper else "🔥 실전매매"
 
-    # 1. 현재 모드에 해당하는 보유 종목 필터링
     mode_active = {k: v for k, v in active_positions.items() if v.get("is_paper", True) == current_mode_is_paper}
     held_symbols = [f"{v['symbol']}({v.get('slot', 'S1')})" for v in mode_active.values()]
     held_str = f"{', '.join(held_symbols)} ({len(held_symbols)}/2개 보유 중)" if held_symbols else "(현재 보유 종목 없음)"
 
-    # 2. 현재 모드에 해당하는 청산 내역만 필터링
     mode_closed = [t for t in closed_trades if t.get("is_paper", True) == current_mode_is_paper]
-
     recent_10 = mode_closed[-10:][::-1] if mode_closed else []
     
     if not recent_10:
@@ -369,9 +375,6 @@ def get_real_account_coin_info(coin_code: str):
     return None, None
 
 def execute_real_limit_buy_order(coin_code: str, price: float, krw_amount: float):
-    """
-    🎯 [지정가 사전 예약 매수] 타점 포착 즉시 빗썸 호가창 미체결로 접수
-    """
     if PAPER_TRADING:
         return True, "mock_order_" + str(uuid.uuid4())[:8], (krw_amount / price)
     try:
@@ -395,9 +398,6 @@ def execute_real_limit_buy_order(coin_code: str, price: float, krw_amount: float
         return False, str(e), 0.0
 
 def check_bithumb_order_status(order_uuid: str):
-    """
-    미체결 주문의 상태를 확인 (done: 완전 체결, cancel: 취소됨, wait: 대기 중)
-    """
     if PAPER_TRADING or not order_uuid or order_uuid.startswith("mock_"):
         return "wait", 0.0, 0.0
     try:
@@ -486,7 +486,7 @@ def get_candles(coin_code, interval="15m", limit=40):
     return []
 
 # ==========================================
-# 4. 정량 퀀트 지표 (종목별 ATR 동적 손절 & 비상 탈출선 산출)
+# 4. 정량 퀀트 지표 (종목별 ATR 동적 손절 산출)
 # ==========================================
 def calculate_rsi(closes, period=14):
     if len(closes) < period + 1: return 50.0
@@ -547,7 +547,6 @@ def calculate_quant_features(candles_1h, candles_15m):
     tick_ratio_pct = round((tick_size / curr_p) * 100.0, 3) if curr_p > 0 else 1.0
     atr_pct = round((atr_1h / curr_p) * 100.0, 2) if curr_p > 0 else 0.0
 
-    # 🛡️ [종목별 변동성 반영 동적 손절선]
     # 1차 손절선: 변동성에 맞춰 -1.4% ~ -1.8% 범위 내에서 유동적 산출
     dynamic_sl_pct = -round(min(max(atr_pct * 0.9, 1.4), 1.8), 2)
     # 비상 탈출선: 1차 손절선 대비 0.8% 아래로 설정 (-2.2% ~ -2.6% 범위)
@@ -573,7 +572,6 @@ def calculate_quant_features(candles_1h, candles_15m):
 # 5. 리스크 관리 모듈 (실전/모의 철저 분리)
 # ==========================================
 def check_daily_circuit_breaker(closed_trades, total_asset):
-    """서킷브레이커는 현재 운용 모드에 매칭되는 거래만 집계"""
     now_kst = get_kst_now()
     today_start = now_kst.replace(hour=0, minute=0, second=0, microsecond=0)
     
@@ -622,7 +620,6 @@ def build_reflection_prompt():
     )
 
 def calculate_dynamic_buy_ratio(closed_trades):
-    # 현재 모드 전용 최근 성과 기반 투입 비중 조절
     mode_closed = [t for t in closed_trades if t.get("is_paper", True) == PAPER_TRADING]
     if not mode_closed or len(mode_closed) < 3:
         return DEFAULT_BUY_RATIO
@@ -692,7 +689,7 @@ def clean_and_parse_json(raw_text):
     return None
 
 # ==========================================
-# 6. 듀얼 슬롯 퀀트 스크리닝 & 거래소 사전 지정가 예약
+# 6. 듀얼 슬롯 퀀트 스크리닝 & 사전 지정가 예약
 # ==========================================
 def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candles_5m):
     if len(candles_1h) < 20 or len(candles_15m) < 20 or len(candles_5m) < 5:
@@ -768,7 +765,7 @@ def execute_server_side_strategy():
     closed_trades = paper_db.get("closed_trades", [])
     pending = server_state.get("pending_targets", {})
     
-    # 🛡️ 현재 모드 기준 (보유 + 거래소 미체결 합산) 최대 2종목 제한
+    # 🛡️ 현재 모드 기준 (보유 + 미체결 대기 합산) 최대 2종목 제한
     mode_active = {k: v for k, v in active_positions.items() if v.get("is_paper", True) == PAPER_TRADING}
     mode_pending = {k: v for k, v in pending.items() if v.get("is_paper", True) == PAPER_TRADING}
 
@@ -918,7 +915,7 @@ def execute_server_side_strategy():
     emergency_sl_pct = chosen_setup.get("emergency_sl_pct", -2.3)
     timeout_mins = chosen_setup.get("timeout_mins", 10)
 
-    # 🎯 [핵심] 타점 포착 즉시 빗썸 거래소 호가창에 사전 지정가 주문 접수!
+    # 🎯 타점 포착 즉시 빗썸 호가창에 사전 지정가 주문 접수
     success, order_uuid, ordered_volume = execute_real_limit_buy_order(code, target_entry, actual_buy_krw)
     if not success:
         logging.error(f"❌ [{code}] 빗썸 호가창 지정가 사전 주문 접수 실패: {order_uuid}")
@@ -947,7 +944,7 @@ def execute_server_side_strategy():
         "created_at": now_iso
     }
 
-    # 🎯 active_positions(보유 목록)에는 절대 넣지 않고, pending_targets(미체결)에만 보관!
+    # pending_targets에만 보관 (active_positions에는 넣지 않음)
     server_state = load_json_file(STATE_FILE, {})
     server_state.setdefault("pending_targets", {})[code] = plan_data
     server_state["last_updated"] = now_iso
@@ -976,11 +973,11 @@ def execute_server_side_strategy():
     send_telegram_msg(plan_msg)
 
 # ==========================================
-# 7. 실시간 감시 엔진 (0.5초 정밀 감시 & 완결 체결 시 편입)
+# 7. 실시간 감시 엔진 (완전 체결 시 장부 편입 & 3초 손절)
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP, PAPER_TRADING, PENDING_PAPER_DRAIN
-    logging.info("⚡ 듀얼 슬롯 하이브리드 엔진 가동 (0.5초 감시 / 미체결 분리 / 모의·실전 분리)")
+    logging.info(f"⚡ 듀얼 슬롯 하이브리드 엔진 가동 (Build: {BUILD_VERSION} / 0.5초 감시)")
     last_strategy_run = 0
 
     t = threading.Thread(target=telegram_listener_thread, daemon=True)
@@ -1014,7 +1011,7 @@ async def realtime_execution_engine():
                     save_json_file(STATE_FILE, server_state)
                     send_telegram_msg("🎉 [모드 전환 완료] 모든 실전 포지션이 청산되어 모의투자(PAPER) 모드로 자동 전환되었습니다.")
 
-            # [1] 미체결 예약 매수 주문 감시 & 타점 유효성 상실 취소
+            # [1] 미체결 예약 매수 주문 감시 & 타점 무효화 철회
             for coin_code, plan in list(pending.items()):
                 created_dt = parse_dt_safe(plan.get("created_at", ""))
                 order_uuid = plan.get("order_uuid")
@@ -1029,7 +1026,7 @@ async def realtime_execution_engine():
                     send_telegram_msg(f"⌛ [{plan['symbol']}] 지정가 주문 유효시간 만료로 자동 취소되었습니다.")
                     continue
 
-                # ② 타점 유효성 상실 검사 (전제 조건 붕괴 시 철회)
+                # ② 타점 유효성 상실 검사
                 c_5m = get_candles(coin_code, interval="5m", limit=5)
                 invalidate_reason = ""
                 
@@ -1056,21 +1053,19 @@ async def realtime_execution_engine():
                 is_filled = False
                 
                 if plan.get("is_paper", True):
-                    # 모의투자: 현재가가 목표가에 도달하면 가상 체결
                     if curr_p and curr_p <= plan["target_entry"]:
                         is_filled = True
                 else:
-                    # 실전매매: 빗썸 거래소 주문 상태 API로 'done' 확인
                     order_state, exec_vol, fee = check_bithumb_order_status(order_uuid)
                     if order_state == "done":
                         is_filled = True
                     elif order_state == "cancel":
-                        logging.info(f"ℹ️ [{plan['symbol']}] 사용자가 주문을 수동 취소하여 대기 목록에서 삭제합니다.")
+                        logging.info(f"ℹ️ [{plan['symbol']}] 사용자가 주문을 직접 취소하여 대기 목록에서 삭제합니다.")
                         del pending[coin_code]
                         save_json_file(STATE_FILE, server_state)
                         continue
 
-                # ④ 🎯 완전 체결 시점에만 비로소 '보유 종목(active_positions)'에 등록!
+                # ④ 🎯 완전 체결 시점에만 'active_positions' 정식 편입
                 if is_filled:
                     target_limit_price = plan["target_entry"]
                     real_entry_price = target_limit_price
@@ -1106,7 +1101,7 @@ async def realtime_execution_engine():
                         "locked_floor_profit_pct": 0.0,
                         "price_history": [(now, real_entry_price)]
                     }
-                    del pending[coin_code] # 대기 목록에서 제거
+                    del pending[coin_code]
                     paper_db["active_positions"] = active_positions
                     save_json_file(PAPER_TRADES_FILE, paper_db)
                     save_json_file(STATE_FILE, server_state)
@@ -1124,7 +1119,7 @@ async def realtime_execution_engine():
 ⏰ 체결 시각 : {now_dt.strftime('%m/%d %H:%M KST')}"""
                     send_telegram_msg(buy_msg)
 
-            # [2] 보유 포지션 실시간 감시 & 청산 (3초 노이즈 버퍼 + 비상 탈출선)
+            # [2] 보유 포지션 실시간 감시 & 청산 (3초 버퍼 + 비상 탈출선)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p: continue
@@ -1192,7 +1187,6 @@ async def realtime_execution_engine():
                         should_close = True
                         close_reason = f"🛡️ 1차 손절선({pos['sl_pct']}%) 3초 지속 이탈 ({curr_profit_pct:.2f}%)"
                 else:
-                    # 가격이 다시 손절선 위로 반등하면 타이머 리셋 (노이즈 방어 성공)
                     if pos.get("sl_breach_start_time") is not None:
                         logging.info(f"🌱 [{pos['symbol']}] 손절선 회복으로 타이머 리셋 ({curr_profit_pct:.2f}%)")
                         pos["sl_breach_start_time"] = None
@@ -1216,7 +1210,6 @@ async def realtime_execution_engine():
                     buy_krw = pos.get("buy_amount_krw", MIN_BUY_KRW)
                     profit_krw = round(buy_krw * (profit_pct / 100.0))
 
-                    # 🎯 장부에 is_paper 플래그를 영구 각인하여 완전 분리
                     closed_trades.append({
                         "symbol": pos["symbol"],
                         "is_paper": pos.get("is_paper", True),
@@ -1252,7 +1245,7 @@ async def realtime_execution_engine():
                     portfolio_msg = format_portfolio_status_msg(active_positions, closed_trades)
                     send_telegram_msg(portfolio_msg)
 
-            # ⏱️ 0.5초 초정밀 폴링 (대기나 보유가 없으면 2초 대기)
+            # ⏱️ 0.5초 초정밀 폴링
             if len(active_positions) > 0 or len(pending) > 0:
                 await asyncio.sleep(0.5)
             else:
@@ -1263,10 +1256,10 @@ async def realtime_execution_engine():
             await asyncio.sleep(2)
 
 # ==========================================
-# 8. 텔레그램 명령 리스너 (/paper, /real, /status, /log)
+# 8. 텔레그램 명령 리스너 (/paper, /real, /status, /log, /reset_stats)
 # ==========================================
 def telegram_listener_thread():
-    global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID, PAPER_TRADING, PENDING_PAPER_DRAIN
+    global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID, PAPER_TRADING, PENDING_PAPER_DRAIN, UPDATE_BASELINE_TIME
     if not TELEGRAM_BOT_TOKEN: return
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
 
@@ -1298,12 +1291,18 @@ def telegram_listener_thread():
                     closed_trades = paper_db.get("closed_trades", [])
                     pending = server_state.get("pending_targets", {})
 
-                    if text == "/real":
+                    if text == "/reset_stats":
+                        now_kst_iso = get_kst_now().isoformat()
+                        UPDATE_BASELINE_TIME = now_kst_iso
+                        server_state["update_baseline_time"] = now_kst_iso
+                        save_json_file(STATE_FILE, server_state)
+                        send_telegram_msg(f"⏱️ [누적 성과 기준 시각 초기화]\n지금 시각({get_kst_now().strftime('%m/%d %H:%M KST')}) 이후 발생한 매매부터 누적 손익 및 승률로 새롭게 집계됩니다.")
+
+                    elif text == "/real":
                         if not PAPER_TRADING and not PENDING_PAPER_DRAIN:
                             send_telegram_msg("ℹ️ 이미 실전매매(REAL) 모드로 동작 중입니다.")
                             continue
 
-                        # 대기 중이던 가상 미체결 주문 정리
                         for p in pending.values():
                             cancel_bithumb_order(p.get("order_uuid"))
                         server_state["pending_targets"] = {}
@@ -1314,7 +1313,6 @@ def telegram_listener_thread():
                         cleared_count = len(active_positions)
                         now_iso = get_kst_now().isoformat()
                         
-                        # 기존 장부 잔여 포지션 일괄 가상 청산
                         for code, pos in list(active_positions.items()):
                             curr_p = get_current_price(code) or pos["entry_price"]
                             profit_pct = round(((curr_p - pos["entry_price"]) / pos["entry_price"]) * 100.0, 2)
@@ -1360,7 +1358,6 @@ def telegram_listener_thread():
                             send_telegram_msg("ℹ️ 이미 모의투자(PAPER) 모드로 동작 중입니다.")
                             continue
 
-                        # 거래소에 걸려있던 미체결 주문 전량 취소
                         for p in pending.values():
                             cancel_bithumb_order(p.get("order_uuid"))
                         server_state["pending_targets"] = {}
