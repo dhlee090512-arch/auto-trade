@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-16T22:21:36.443431+09:00",
+  "updated_at": "2026-09-16T22:36:38.505052+09:00",
   "paper_trading": true,
   "targets": {
-    "MAY": {
-      "symbol": "MAY/KRW",
-      "code": "MAY",
+    "VTHO": {
+      "symbol": "VTHO/KRW",
+      "code": "VTHO",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 6.032,
-      "target_entry": 6.02,
+      "current_price": 0.9242,
+      "target_entry": 0.9222,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6791,
-      "ordered_volume": 1128.0730897009967,
-      "order_uuid": "mock_order_b9b11e2f",
-      "detailed_reason": "15분봉 RSI 10.2 극단적 과매도 상태이며 볼린저밴드 하단 부근에서 지지 후 중심선(6.5391)까지의 기술적 반등 여력이 충분함",
-      "created_at": "2026-09-16T22:21:36.443431+09:00"
+      "ordered_volume": 7363.912383430926,
+      "order_uuid": "mock_order_34bcbe58",
+      "detailed_reason": "1시간봉 RSI(27.3) 과매도 진입 및 15분봉 RSI(36.5) 회복세, 볼린저 하단(0.9204) 지지력을 바탕으로 한 기술적 반등 기대 (SLOT_2_RANGE 조건 부합)",
+      "created_at": "2026-09-16T22:36:38.505052+09:00"
     }
   }
 }
