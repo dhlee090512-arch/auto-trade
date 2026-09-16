@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T07:12:18.168845+09:00",
+  "updated_at": "2026-09-17T07:17:18.925200+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 778.0,
-      "target_entry": 776.0,
+      "current_price": 773.0,
+      "target_entry": 771.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8492,
-      "ordered_volume": 10.943298969072165,
-      "order_uuid": "mock_order_a45f4959",
-      "detailed_reason": "LSK는 15분봉 RSI가 23.8로 강한 과매도 구간에 진입해 있으며, 4.09배의 높은 거래량 급증과 함께 볼린저밴드 하단 부근에서 반등할 확률이 매우 높음. 1시간봉 기준 MA20 및 상위 밸류에이션(988.85 KRW)까지의 기대 수익률이 27.43%로 매우 매력적임.",
-      "created_at": "2026-09-17T07:12:18.168845+09:00"
+      "buy_amount_krw": 8493,
+      "ordered_volume": 11.01556420233463,
+      "order_uuid": "mock_order_3fd3bb71",
+      "detailed_reason": "LSK는 15분봉 RSI 25.8의 강한 과매도 구간 진입과 함께 볼린저밴드 하단 부근에서 지지를 형성하고 있으며, 최근 1시간 거래대금이 약 25억 원으로 유동성이 풍부하여 중심선(972.3)까지의 기술적 반등 기대 수익률(25.46%)이 매우 매력적임.",
+      "created_at": "2026-09-17T07:17:18.925200+09:00"
     }
   }
 }
