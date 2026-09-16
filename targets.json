@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T10:35:45.960793+09:00",
+  "updated_at": "2026-09-16T10:40:46.362715+09:00",
   "paper_trading": true,
   "targets": {
     "CAP": {
@@ -18,20 +18,20 @@
       "created_at": "2026-09-16T10:20:45.022850+09:00",
       "order_uuid": null
     },
-    "GWEI": {
-      "symbol": "GWEI/KRW",
-      "code": "GWEI",
+    "ASTR": {
+      "symbol": "ASTR/KRW",
+      "code": "ASTR",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 27.94,
-      "target_entry": 27.88,
-      "sl_pct": -2.41,
+      "current_price": 8.7,
+      "target_entry": 8.687,
+      "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8520,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 37.8로 과매도 국면 진입 및 1시간봉 볼린저밴드 하단 인근 지지 확인, 뚜렷한 중심선(28.365) 회귀 반등 기대됨.",
-      "created_at": "2026-09-16T10:35:45.960793+09:00",
+      "buy_amount_krw": 8519,
+      "detailed_reason": "1시간봉 RSI(25.0)의 강한 과매도 구간 진입 및 볼린저 하단 지지 확인, 15분봉 RSI(35.9) 반등 모멘텀 형성 및 거래대금(9.4억 KRW) 유입으로 인한 중심선(9.1052)까지의 단기 반등 기대",
+      "created_at": "2026-09-16T10:40:46.362715+09:00",
       "order_uuid": null
     }
   }
