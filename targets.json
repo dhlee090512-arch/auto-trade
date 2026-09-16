@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-16T09:20:40.777363+09:00",
+  "updated_at": "2026-09-16T10:05:44.208259+09:00",
   "paper_trading": true,
   "targets": {
-    "ASTR": {
-      "symbol": "ASTR/KRW",
-      "code": "ASTR",
+    "CAP": {
+      "symbol": "CAP/KRW",
+      "code": "CAP",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 8.936,
-      "target_entry": 8.918,
+      "current_price": 76.26,
+      "target_entry": 76.11,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6815,
-      "detailed_reason": "ASTR/KRW는 15분봉 RSI(35.2) 과매도 상태이며 볼린저 하단 지지와 거래량 급증 비율(1.8)이 동반되어 단기 반등 확률이 높음",
-      "created_at": "2026-09-16T09:20:40.777363+09:00",
+      "buy_amount_krw": 6816,
+      "detailed_reason": "CAP 코인은 15분봉 RSI(33.5)와 1시간봉 RSI(18.7)의 과매도 국면을 형성 중이며, 볼린저 하단 지지 구간에서 중심선(78.22)까지의 기술적 반등 기대 확률이 높음.",
+      "created_at": "2026-09-16T10:05:44.208259+09:00",
       "order_uuid": null
     }
   }
