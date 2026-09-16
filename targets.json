@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T19:36:28.885964+09:00",
+  "updated_at": "2026-09-16T19:41:29.436009+09:00",
   "paper_trading": true,
   "targets": {
     "ASTR": {
@@ -7,15 +7,15 @@
       "code": "ASTR",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 8.548,
-      "target_entry": 8.535,
+      "current_price": 8.539,
+      "target_entry": 8.526,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8489,
-      "detailed_reason": "ASTR/KRW는 15분봉 RSI 29.7로 확실한 과매도 구간에 진입해 있으며, 볼린저밴드 하단 지지와 함께 1시간봉 기준 거래대금(5.7억 상당) 및 볼륨 서지 비율(1.36)이 안정적으로 유지되어 슬롯 2의 반등 타점으로 가장 적합함.",
-      "created_at": "2026-09-16T19:36:28.885964+09:00",
+      "buy_amount_krw": 8490,
+      "detailed_reason": "Slot 2 range-bound oversold setup. ASTR shows confirmed 15m RSI (29.3) and 1h RSI (23.6) oversold conditions with a strong volume surge ratio (1.59) at the lower Bollinger Band support, validating high probability mean-reversion toward MA20.",
+      "created_at": "2026-09-16T19:41:29.436009+09:00",
       "order_uuid": null
     }
   }
