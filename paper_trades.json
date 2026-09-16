@@ -1,5 +1,27 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "AMO": {
+      "symbol": "AMO/KRW",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 0.4027,
+      "highest_price": 0.4027,
+      "buy_amount_krw": 8520,
+      "units": 21157.189,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-16T18:23:58.990692+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789550638.9906886,
+          0.4027
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
