@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T20:26:33.088873+09:00",
+  "updated_at": "2026-09-16T20:31:33.927154+09:00",
   "paper_trading": true,
   "targets": {
     "AMO": {
@@ -16,6 +16,22 @@
       "buy_amount_krw": 8489,
       "detailed_reason": "AMO는 15분봉 RSI 26.4로 강한 과매도 구간에 위치하며, 볼린저 하단 지지와 함께 24.05배의 압도적인 거래량 급증(vol_surge_ratio)을 동반하여 신뢰도 높은 반등 탄력이 기대됨.",
       "created_at": "2026-09-16T20:26:33.088873+09:00",
+      "order_uuid": null
+    },
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 6.946,
+      "target_entry": 6.932,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8490,
+      "detailed_reason": "MEV/KRW는 15분봉 RSI 26.6으로 강한 과매도 구간에 진입해 있으며, 볼린저 하단 지지와 함께 1시간봉 중심선(7.4966)까지의 반등 여력(기대수익률 8.24%)이 높아 SLOT_2_RANGE 전략에 가장 적합함.",
+      "created_at": "2026-09-16T20:31:33.927154+09:00",
       "order_uuid": null
     }
   }
