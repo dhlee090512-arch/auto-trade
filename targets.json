@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T00:46:46.380061+09:00",
+  "updated_at": "2026-09-17T06:17:15.131032+09:00",
   "paper_trading": true,
   "targets": {
-    "LA": {
-      "symbol": "LA/KRW",
-      "code": "LA",
+    "MAY": {
+      "symbol": "MAY/KRW",
+      "code": "MAY",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 88.09,
-      "target_entry": 87.91,
+      "current_price": 5.462,
+      "target_entry": 5.451,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8490,
-      "ordered_volume": 96.57604368103743,
-      "order_uuid": "mock_order_4d0805c3",
-      "detailed_reason": "LA/KRW 코인은 SLOT_2_RANGE 전략에 부합하며 15분봉 RSI 22.7로 강한 과매도 상태이고, 볼린저밴드 하단 지지를 바탕으로 MA20(90.26)까지의 기술적 반등 기대감이 유효함.",
-      "created_at": "2026-09-17T00:46:46.380061+09:00"
+      "buy_amount_krw": 8496,
+      "ordered_volume": 1558.6130985140342,
+      "order_uuid": "mock_order_cc027e81",
+      "detailed_reason": "SLOT_2_RANGE 전략 적용. 15분봉 RSI 32.7 과매도 구간 진입 및 볼린저밴드 하단 지지 확인, 2.26배 볼륨 서지 발생으로 이동평균선(5.9507)까지의 기술적 반등 기대.",
+      "created_at": "2026-09-17T06:17:15.131032+09:00"
     }
   }
 }
