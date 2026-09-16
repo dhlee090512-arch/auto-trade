@@ -1,27 +1,5 @@
 {
-  "active_positions": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 67.74,
-      "highest_price": 67.74,
-      "buy_amount_krw": 8489,
-      "units": 125.31739002066726,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-16T18:46:42.871112+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789552002.871109,
-          67.74
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -274,6 +252,18 @@
       "reason": "모드 전환(실전 전환)에 따른 가상 강제 청산",
       "entry_time": "2026-09-16T18:23:58.990692+09:00",
       "exit_time": "2026-09-16T18:33:33.248756+09:00"
+    },
+    {
+      "symbol": "FOLD/KRW",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 67.74,
+      "exit_price": 68.2,
+      "buy_amount_krw": 8489,
+      "profit_krw": 58,
+      "profit_pct": 0.68,
+      "reason": "📈 트레일링 익절 (고점 +2.17% 대비 -1.49% 실측 반락)",
+      "entry_time": "2026-09-16T18:46:42.871112+09:00",
+      "exit_time": "2026-09-16T18:51:09.989621+09:00"
     }
   ]
 }
