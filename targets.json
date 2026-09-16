@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-16T13:26:01.785428+09:00",
+  "updated_at": "2026-09-16T13:31:01.829314+09:00",
   "paper_trading": true,
   "targets": {
-    "MAY": {
-      "symbol": "MAY/KRW",
-      "code": "MAY",
+    "STEEM": {
+      "symbol": "STEEM/KRW",
+      "code": "STEEM",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 6.665,
-      "target_entry": 6.648,
+      "current_price": 77.77,
+      "target_entry": 77.61,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8521,
-      "detailed_reason": "1파동 이후 15분봉 RSI(17.0) 극단적 과매도 구간 진입 및 볼린저 하단 지지 확인, 단기 반등 모멘텀 우수",
-      "created_at": "2026-09-16T13:26:01.785428+09:00",
+      "buy_amount_krw": 8520,
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI is deeply oversold at 29.8 with price testing the lower Bollinger Band area, expecting a mean-reversion bounce toward the 1h MA20/center line at 81.071.",
+      "created_at": "2026-09-16T13:31:01.829314+09:00",
       "order_uuid": null
     }
   }
