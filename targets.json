@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T21:01:36.698312+09:00",
+  "updated_at": "2026-09-16T21:06:36.919799+09:00",
   "paper_trading": true,
   "targets": {
     "AMO": {
@@ -16,6 +16,22 @@
       "buy_amount_krw": 8492,
       "detailed_reason": "AMO는 SLOT_2_RANGE 조건에 부합하며, 15분봉 RSI(29.6) 과매도 구간에서 볼린저밴드 하단 지지를 받고 1시간봉 MA20 중심선(0.408)까지의 안정적인 반등 여력(기대수익 3.37%)과 상대적으로 양호한 거래대금(약 6,750만)을 확보하여 선정함.",
       "created_at": "2026-09-16T21:01:36.698312+09:00",
+      "order_uuid": null
+    },
+    "MAY": {
+      "symbol": "MAY/KRW",
+      "code": "MAY",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "current_price": 6.385,
+      "target_entry": 6.371,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8492,
+      "detailed_reason": "15분봉 RSI 23.3 과매도 상태로 하방 경직성 확보 및 볼린저 하단 지지 활용 단기 반등 타점 (슬롯2 조건 충족)",
+      "created_at": "2026-09-16T21:06:36.919799+09:00",
       "order_uuid": null
     }
   }
