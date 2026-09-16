@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T07:37:23.741615+09:00",
+  "updated_at": "2026-09-17T07:42:24.447457+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 753.0,
-      "target_entry": 751.0,
+      "current_price": 754.0,
+      "target_entry": 752.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 8492,
-      "ordered_volume": 11.307589880159787,
-      "order_uuid": "mock_order_c2854a97",
-      "detailed_reason": "LSK는 15분봉 RSI가 23.9로 강한 과매도 상태이며, 볼린저 하단 지지선 근처에서 반등 기대감이 높고 거래대금(약 53.6억 원)이 풍부하여 SLOT_2_RANGE 전략에 가장 적합함.",
-      "created_at": "2026-09-17T07:37:23.741615+09:00"
+      "ordered_volume": 11.292553191489361,
+      "order_uuid": "mock_order_7fb07292",
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(24.1)로 강한 과매도 상태 진입 및 볼린저밴드 하단 지지 확인, 1시간봉 기준 거래대금이 56억 원 이상으로 유동성이 풍부하며 중심선(953.9)까지의 반등 여력(기대수익률 26.01%)이 매우 우수함.",
+      "created_at": "2026-09-17T07:42:24.447457+09:00"
     }
   }
 }
