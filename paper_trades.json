@@ -1,5 +1,30 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.364,
+      "highest_price": 5.364,
+      "buy_amount_krw": 8492,
+      "units": 1583.1469052945563,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-17T07:53:11.971577+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789599191.971574,
+          5.364
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
