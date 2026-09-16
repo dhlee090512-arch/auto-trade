@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T18:26:23.392785+09:00",
+  "updated_at": "2026-09-16T18:31:23.987287+09:00",
   "paper_trading": false,
   "targets": {
     "FOLD": {
@@ -7,15 +7,15 @@
       "code": "FOLD",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 68.48,
-      "target_entry": 68.38,
+      "current_price": 67.31,
+      "target_entry": 67.18,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8520,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 34.9로 과매도 구간 진입 및 볼린저 하단 지지 활용 20MA(71.413)까지의 단기 반등 기대",
-      "created_at": "2026-09-16T18:26:23.392785+09:00",
+      "buy_amount_krw": 8489,
+      "detailed_reason": "15분봉 RSI 29.1 과매도 구간 진입 및 볼린저 하단 지지를 활용한 SLOT_2_RANGE 오버솔 반등 셋업 유효",
+      "created_at": "2026-09-16T18:31:23.987287+09:00",
       "order_uuid": null
     }
   }
