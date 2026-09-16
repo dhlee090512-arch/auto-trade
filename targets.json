@@ -1,37 +1,21 @@
 {
-  "updated_at": "2026-09-16T19:01:25.843487+09:00",
+  "updated_at": "2026-09-16T19:06:26.087126+09:00",
   "paper_trading": true,
   "targets": {
-    "CVC": {
-      "symbol": "CVC/KRW",
-      "code": "CVC",
+    "IOST": {
+      "symbol": "IOST/KRW",
+      "code": "IOST",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 36.92,
-      "target_entry": 36.85,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 8489,
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI 28.5의 과매도 구간 진입 및 볼린저 하단 지지 후 1시간봉 중심선(37.8545)까지의 안정적인 반등 기대 타점 확보.",
-      "created_at": "2026-09-16T18:36:24.393313+09:00",
-      "order_uuid": null
-    },
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "code": "FOLD",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 67.28,
-      "target_entry": 67.11,
+      "current_price": 1.08,
+      "target_entry": 1.078,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 8490,
-      "detailed_reason": "FOLD/KRW는 15분봉 RSI가 19.9로 강한 과매도 상태이며 볼린저 하단 지지를 받고 1시간봉 중심선(70.9245)까지의 반등 기대 수익률(5.42%)이 우수함.",
-      "created_at": "2026-09-16T19:01:25.843487+09:00",
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI(32.8) approaching oversold with solid liquidity (16.7M KRW trade volume), targeting 1.1225 MA midpoint bounce from lower Bollinger Band support.",
+      "created_at": "2026-09-16T19:06:26.087126+09:00",
       "order_uuid": null
     }
   }
