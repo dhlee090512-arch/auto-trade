@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-16T22:04:54.072300+09:00",
+  "updated_at": "2026-09-16T22:11:41.666451+09:00",
   "paper_trading": true,
   "targets": {
-    "MAY": {
-      "symbol": "MAY/KRW",
-      "code": "MAY",
-      "mode": "SWING",
+    "IOST": {
+      "symbol": "IOST/KRW",
+      "code": "IOST",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 6.195,
-      "target_entry": 6.183,
+      "slot": "SLOT_1_PULSE",
+      "current_price": 1.191,
+      "target_entry": 1.187,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6791,
-      "ordered_volume": 1098.3341420022643,
-      "order_uuid": "mock_order_29445b20",
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 10.4 극단적 과매도 구간 진입 및 볼린저밴드 하단 지지 확인, 6.5786 중심선까지의 기술적 반등 기대값 우수",
-      "created_at": "2026-09-16T22:04:54.072300+09:00"
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6790,
+      "ordered_volume": 5720.303285593934,
+      "order_uuid": "mock_order_49bbd8b3",
+      "detailed_reason": "Slot 1 PULSE setup confirmed with a 2.88x 15m volume surge and a healthy first red-candle pullback on the 1h timeframe, supported by robust trading value (300M KRW) and favorable RSI metrics.",
+      "created_at": "2026-09-16T22:11:41.666451+09:00"
     }
   }
 }
