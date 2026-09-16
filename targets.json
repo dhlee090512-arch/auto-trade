@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T18:41:24.516301+09:00",
+  "updated_at": "2026-09-16T18:46:25.275274+09:00",
   "paper_trading": true,
   "targets": {
     "CVC": {
@@ -23,15 +23,15 @@
       "code": "FOLD",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 67.08,
-      "target_entry": 66.95,
+      "current_price": 67.84,
+      "target_entry": 67.74,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 8489,
-      "detailed_reason": "15분봉 RSI 28.6 과매도 구간 진입 및 볼린저 하단 지지 활용 단기 반등 타점 확보, 중심선(71.2005)까지의 기대 수익률 양호",
-      "created_at": "2026-09-16T18:41:24.516301+09:00",
+      "detailed_reason": "15분봉 RSI 31.6 과매도 상태이며, 1시간봉 볼린저 하단 지지를 바탕으로 한 단기 반등(SLOT_2_RANGE) 타점이 유효함.",
+      "created_at": "2026-09-16T18:46:25.275274+09:00",
       "order_uuid": null
     }
   }
