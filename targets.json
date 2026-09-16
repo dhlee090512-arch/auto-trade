@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T07:27:21.002455+09:00",
+  "updated_at": "2026-09-17T07:32:22.566688+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
+    "D": {
+      "symbol": "D/KRW",
+      "code": "D",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 717.0,
-      "target_entry": 715.0,
+      "current_price": 3.936,
+      "target_entry": 3.928,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 8492,
-      "ordered_volume": 11.876923076923077,
-      "order_uuid": "mock_order_fd146938",
-      "detailed_reason": "LSK는 15분봉 RSI가 21.0으로 강한 과매도 구간에 진입해 있으며, 3.15배의 높은 볼륨 서지와 함께 최근 1시간 거래대금(약 40억 원)이 매우 풍부하여 SLOT_2_RANGE 전략의 볼린저 하단 반등 기대감에 가장 부합하는 최적의 셋업임.",
-      "created_at": "2026-09-17T07:27:21.002455+09:00"
+      "ordered_volume": 2161.9144602851325,
+      "order_uuid": "mock_order_23fac259",
+      "detailed_reason": "15분봉 RSI 24.2로 강한 과매도 구간 진입 및 볼린저 하단 지지 확인. SLOT_2_RANGE 전략에 부합하는 중심선 회귀 반등 기대.",
+      "created_at": "2026-09-17T07:32:22.566688+09:00"
     }
   }
 }
