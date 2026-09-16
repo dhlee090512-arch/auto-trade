@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T08:12:26.521961+09:00",
+  "updated_at": "2026-09-17T08:17:27.179725+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
+    "IOST": {
+      "symbol": "IOST/KRW",
+      "code": "IOST",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 693.0,
-      "target_entry": 691.0,
+      "current_price": 1.103,
+      "target_entry": 1.101,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8493,
-      "ordered_volume": 12.290882778581766,
-      "order_uuid": "mock_order_d22a94bb",
-      "detailed_reason": "LSK는 15분봉 RSI가 20.5로 강한 과매도 국면을 형성하였으며, 볼린저밴드 하단 지지선 부근에서 반등 기대감이 매우 높음. 예상 수익률(32.52%)과 거래대금 규모 측면에서 가장 우수한 SLOT_2_RANGE 셋업.",
-      "created_at": "2026-09-17T08:12:26.521961+09:00"
+      "buy_amount_krw": 8494,
+      "ordered_volume": 7714.80472297911,
+      "order_uuid": "mock_order_f3650a88",
+      "detailed_reason": "15분봉 RSI 21.4로 강한 과매도 구간에 진입하였으며, 볼린저밴드 하단 지지를 활용한 중심선(MA20) 회복 반등 기대 세팅이 유효함.",
+      "created_at": "2026-09-17T08:17:27.179725+09:00"
     }
   }
 }
