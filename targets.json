@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T07:57:25.333962+09:00",
+  "updated_at": "2026-09-17T08:12:26.521961+09:00",
   "paper_trading": true,
   "targets": {
-    "PUFFER": {
-      "symbol": "PUFFER/KRW",
-      "code": "PUFFER",
-      "mode": "SCALPING",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "current_price": 33.62,
-      "target_entry": 33.52,
+      "slot": "SLOT_2_RANGE",
+      "current_price": 693.0,
+      "target_entry": 691.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8492,
-      "ordered_volume": 253.3412887828162,
-      "order_uuid": "mock_order_4fc78bec",
-      "detailed_reason": "Slot 1 pulse setup confirmed with a 2.04x volume surge, solid 1H trade value (3.79억), and an optimal first red-candle pullback on the 15m chart with RSI at 74.4 showing strong momentum.",
-      "created_at": "2026-09-17T07:57:25.333962+09:00"
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 8493,
+      "ordered_volume": 12.290882778581766,
+      "order_uuid": "mock_order_d22a94bb",
+      "detailed_reason": "LSK는 15분봉 RSI가 20.5로 강한 과매도 국면을 형성하였으며, 볼린저밴드 하단 지지선 부근에서 반등 기대감이 매우 높음. 예상 수익률(32.52%)과 거래대금 규모 측면에서 가장 우수한 SLOT_2_RANGE 셋업.",
+      "created_at": "2026-09-17T08:12:26.521961+09:00"
     }
   }
 }
