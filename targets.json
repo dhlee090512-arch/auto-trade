@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T20:41:34.481620+09:00",
+  "updated_at": "2026-09-16T20:56:35.835220+09:00",
   "paper_trading": true,
   "targets": {
     "AMO": {
@@ -7,31 +7,15 @@
       "code": "AMO",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 0.3924,
-      "target_entry": 0.3916,
+      "current_price": 0.3944,
+      "target_entry": 0.3936,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8489,
-      "detailed_reason": "AMO는 15분봉 RSI 26.4로 강한 과매도 구간에 위치하며, 볼린저 하단 지지와 함께 24.05배의 압도적인 거래량 급증(vol_surge_ratio)을 동반하여 신뢰도 높은 반등 탄력이 기대됨.",
-      "created_at": "2026-09-16T20:26:33.088873+09:00",
-      "order_uuid": null
-    },
-    "MAY": {
-      "symbol": "MAY/KRW",
-      "code": "MAY",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 6.341,
-      "target_entry": 6.328,
-      "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 8491,
-      "detailed_reason": "1시간봉 RSI 극단적 과매도(16.2) 상태에서 15분봉 기준 볼린저 하단 지지를 확인하며 중심선(6.7384)까지의 기술적 반등 기대 가능",
-      "created_at": "2026-09-16T20:41:34.481620+09:00",
+      "buy_amount_krw": 8492,
+      "detailed_reason": "Slot 2 Range 전략에 따라 15분봉 RSI 29.2 과매도 구간 및 볼린저 하단 지지를 활용한 안정적인 반등 기대. 거래대금 및 스프레드 조건 충족.",
+      "created_at": "2026-09-16T20:56:35.835220+09:00",
       "order_uuid": null
     }
   }
