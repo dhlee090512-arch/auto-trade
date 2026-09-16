@@ -1,30 +1,5 @@
 {
-  "active_positions": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 751.0,
-      "highest_price": 751.0,
-      "buy_amount_krw": 8492,
-      "units": 11.307589880159787,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-17T07:38:22.521697+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789598302.5216932,
-          751.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -504,6 +479,19 @@
       "reason": "📈 트레일링 익절 (고점 +2.32% 대비 -0.87% 반락)",
       "entry_time": "2026-09-16T19:41:35.975374+09:00",
       "exit_time": "2026-09-17T07:08:28.527946+09:00"
+    },
+    {
+      "symbol": "LSK/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 751.0,
+      "exit_price": 763.0,
+      "buy_amount_krw": 8492,
+      "profit_krw": 136,
+      "profit_pct": 1.6,
+      "reason": "📈 트레일링 익절 (고점 +2.40% 대비 -0.80% 반락)",
+      "entry_time": "2026-09-17T07:38:22.521697+09:00",
+      "exit_time": "2026-09-17T07:40:48.780704+09:00"
     }
   ]
 }
