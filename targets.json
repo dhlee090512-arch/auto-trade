@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T18:46:25.275274+09:00",
+  "updated_at": "2026-09-16T19:01:25.843487+09:00",
   "paper_trading": true,
   "targets": {
     "CVC": {
@@ -23,15 +23,15 @@
       "code": "FOLD",
       "mode": "SWING",
       "slot": "SLOT_2_RANGE",
-      "current_price": 67.84,
-      "target_entry": 67.74,
+      "current_price": 67.28,
+      "target_entry": 67.11,
       "sl_pct": -2.8,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8489,
-      "detailed_reason": "15분봉 RSI 31.6 과매도 상태이며, 1시간봉 볼린저 하단 지지를 바탕으로 한 단기 반등(SLOT_2_RANGE) 타점이 유효함.",
-      "created_at": "2026-09-16T18:46:25.275274+09:00",
+      "buy_amount_krw": 8490,
+      "detailed_reason": "FOLD/KRW는 15분봉 RSI가 19.9로 강한 과매도 상태이며 볼린저 하단 지지를 받고 1시간봉 중심선(70.9245)까지의 반등 기대 수익률(5.42%)이 우수함.",
+      "created_at": "2026-09-16T19:01:25.843487+09:00",
       "order_uuid": null
     }
   }
