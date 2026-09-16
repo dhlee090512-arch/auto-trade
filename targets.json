@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T22:56:39.016899+09:00",
+  "updated_at": "2026-09-16T23:01:39.342287+09:00",
   "paper_trading": true,
   "targets": {
     "VTHO": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 0.896,
-      "target_entry": 0.8942,
+      "current_price": 0.9032,
+      "target_entry": 0.9014,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6791,
-      "ordered_volume": 7594.497875195706,
-      "order_uuid": "mock_order_ec3d3b82",
-      "detailed_reason": "1시간봉 RSI 22.7 및 15분봉 RSI 32.3의 강한 과매도 구간 진입 후 볼린저밴드 하단 지지를 확인하였으며, 1.84배의 유의미한 거래량 유입과 함께 이동평균선(MA20) 중심선을 향한 기술적 반등 기대 확률이 가장 높음.",
-      "created_at": "2026-09-16T22:56:39.016899+09:00"
+      "buy_amount_krw": 6790,
+      "ordered_volume": 7532.7268693144,
+      "order_uuid": "mock_order_80074fbd",
+      "detailed_reason": "15분봉 RSI 27.0으로 강한 과매도 상태이며, 볼린저 하단 지지 구간에서 중심선(0.9366)까지의 반등 기대 확률이 높음. 슬롯 2 레인지 매매 전략에 가장 부합함.",
+      "created_at": "2026-09-16T23:01:39.342287+09:00"
     }
   }
 }
