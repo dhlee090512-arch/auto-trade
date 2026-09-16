@@ -1,5 +1,30 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "D": {
+      "symbol": "D/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 3.924,
+      "highest_price": 3.924,
+      "buy_amount_krw": 8493,
+      "units": 2164.3730886850153,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-17T07:48:38.695419+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789598918.6954162,
+          3.924
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
