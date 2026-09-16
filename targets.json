@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T21:21:37.443722+09:00",
+  "updated_at": "2026-09-16T21:26:38.498074+09:00",
   "paper_trading": true,
   "targets": {
     "AMO": {
@@ -18,20 +18,20 @@
       "created_at": "2026-09-16T21:01:36.698312+09:00",
       "order_uuid": null
     },
-    "MAY": {
-      "symbol": "MAY/KRW",
-      "code": "MAY",
-      "mode": "SWING",
-      "slot": "SLOT_2_RANGE",
-      "current_price": 6.283,
-      "target_entry": 6.27,
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
+      "mode": "SCALPING",
+      "slot": "SLOT_1_PULSE",
+      "current_price": 77.53,
+      "target_entry": 77.3,
       "sl_pct": -2.8,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 8491,
-      "detailed_reason": "SLOT_2_RANGE 전략 적용, 15분봉 RSI 21.7 극심한 과매도 구간에서 볼린저 하단 지지 확인 및 중심선(6.65 수렴)까지의 단기 반등 기대치가 높음.",
-      "created_at": "2026-09-16T21:21:37.443722+09:00",
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8490,
+      "detailed_reason": "15분봉 기준 11.45배의 압도적인 거래량 급증 후 첫 음봉 눌림목 형성 중이며, RSI 66~73 구간의 강한 모멘텀과 10.4억 원 규모의 1시간 거래대금이 유입되어 상승 지속 가능성이 높음.",
+      "created_at": "2026-09-16T21:26:38.498074+09:00",
       "order_uuid": null
     }
   }
