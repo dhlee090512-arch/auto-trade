@@ -1,5 +1,27 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "STEEM": {
+      "symbol": "STEEM/KRW",
+      "mode": "SWING",
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 77.61,
+      "highest_price": 77.61,
+      "buy_amount_krw": 8520,
+      "units": 109.7796675686123,
+      "sl_pct": -2.8,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-16T13:33:08.772550+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789533188.7725477,
+          77.61
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
