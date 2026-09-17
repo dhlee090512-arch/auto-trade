@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T17:28:11.064133+09:00",
+  "updated_at": "2026-09-17T17:58:12.101926+09:00",
   "paper_trading": true,
   "targets": {
     "XRP": {
@@ -8,18 +8,18 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 1793.0,
-      "target_entry": 1787.0,
+      "current_price": 1796.0,
+      "target_entry": 1790.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
       "buy_amount_krw": 8501,
-      "ordered_volume": 4.757134862898713,
-      "order_uuid": "mock_order_c05dbecf",
-      "detailed_reason": "15분봉 거래량 2.04배 급증 후 발생하는 첫 음봉 눌림목 구간으로, MA20 상단 지지력과 1시간 RSI 66.4의 강한 추세 유지력 확인. 11.3억 KRW 규모의 수급 유입 동반.",
-      "created_at": "2026-09-17T17:28:11.064133+09:00"
+      "ordered_volume": 4.749162011173184,
+      "order_uuid": "mock_order_e0d5bf8e",
+      "detailed_reason": "15분봉 거래량 2.17배 급증 후 발생한 첫 음봉 눌림목 패턴으로 1시간 28.5억 KRW 규모의 양호한 수급을 동반하여 상승 추세 지속 가능성이 높음.",
+      "created_at": "2026-09-17T17:58:12.101926+09:00"
     }
   }
 }
