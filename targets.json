@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T18:58:16.007467+09:00",
+  "updated_at": "2026-09-17T20:08:21.105383+09:00",
   "paper_trading": true,
   "targets": {
-    "MOODENG": {
-      "symbol": "MOODENG/KRW",
-      "code": "MOODENG",
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 55.07,
-      "target_entry": 54.96,
+      "current_price": 6.227,
+      "target_entry": 6.215,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6802,
-      "ordered_volume": 123.7627365356623,
-      "order_uuid": "mock_order_3af533ba",
-      "detailed_reason": "Slot 2 레인지 매매 조건 부합. 15분봉 RSI(37.1) 과매도 구간 진입 후 볼린저 하단 지지를 바탕으로 한 기술적 반등 구간으로 판단되며, MA20 기준선(56.5)을 향한 업사이드 확보.",
-      "created_at": "2026-09-17T18:58:16.007467+09:00"
+      "buy_amount_krw": 6801,
+      "ordered_volume": 1094.2880128720838,
+      "order_uuid": "mock_order_fca9c4df",
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 31.9로 과매도 구간 진입 및 볼린저 하단 지지 활용 반등 기대",
+      "created_at": "2026-09-17T20:08:21.105383+09:00"
     }
   }
 }
