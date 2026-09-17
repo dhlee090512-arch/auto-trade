@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T07:53:45.118930+09:00",
+  "updated_at": "2026-09-18T08:08:45.916769+09:00",
   "paper_trading": true,
   "targets": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 139800.0,
-      "target_entry": 139600.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "current_price": 4319.0,
+      "target_entry": 4316.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6800,
-      "ordered_volume": 0.04871060171919771,
-      "order_uuid": "mock_order_a3a7b385",
-      "entry_bid_ratio": 0.51,
-      "detailed_reason": "15분봉 거래량 2.08배 급증 후 첫 음봉 눌림목 패턴 형성 완료, 1시간 RSI 66.0 및 MA20 상단 지지력 확보로 상승 펄스 지속 가능성 높음",
-      "created_at": "2026-09-18T07:53:45.118930+09:00"
+      "buy_amount_krw": 6801,
+      "ordered_volume": 1.5757645968489342,
+      "order_uuid": "mock_order_ae998f6e",
+      "entry_bid_ratio": 0.336,
+      "detailed_reason": "15분봉 거래량 5.67배 급증과 함께 1시간봉 기준 강한 수급(6.6억 원)이 유입된 상태에서 발생한 첫 음봉 눌림목 구간으로, 슬롯 1의 핵심 조건인 거래량 폭증 후 조정 패턴에 정확히 부합함.",
+      "created_at": "2026-09-18T08:08:45.916769+09:00"
     }
   }
 }
