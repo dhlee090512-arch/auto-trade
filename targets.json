@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T09:42:34.562725+09:00",
+  "updated_at": "2026-09-17T09:47:35.248097+09:00",
   "paper_trading": true,
   "targets": {
     "MEV": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 6.279,
-      "target_entry": 6.266,
+      "current_price": 6.421,
+      "target_entry": 6.408,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6800,
-      "ordered_volume": 1085.221832109799,
-      "order_uuid": "mock_order_7afdca86",
-      "detailed_reason": "Slot 2 range-bound setup confirmed with 15m RSI at 34.6 indicating oversold conditions near the lower Bollinger Band, supported by volume surge ratio of 2.27 and attractive risk-reward profile targeting the 1h moving average.",
-      "created_at": "2026-09-17T09:42:34.562725+09:00"
+      "buy_amount_krw": 6799,
+      "ordered_volume": 1061.0174781523096,
+      "order_uuid": "mock_order_72237333",
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI is at 37.7 indicating oversold conditions near the lower Bollinger Band, aligning with expected mean reversion towards the 1h moving average.",
+      "created_at": "2026-09-17T09:47:35.248097+09:00"
     }
   }
 }
