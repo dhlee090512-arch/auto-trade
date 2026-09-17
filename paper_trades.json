@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 639.0,
-      "highest_price": 639.0,
-      "buy_amount_krw": 6803,
-      "units": 10.646322378716745,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789661863.5904167,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T01:17:43.590420+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789661863.5904167,
-          639.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -791,6 +765,19 @@
       "reason": "실전 모드 전환에 따른 가상 포지션 초기화",
       "entry_time": "2026-09-17T23:30:20.990910+09:00",
       "exit_time": "2026-09-18T01:08:38.925212+09:00"
+    },
+    {
+      "symbol": "LSK/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 639.0,
+      "exit_price": 633.0,
+      "buy_amount_krw": 6803,
+      "profit_krw": -64,
+      "profit_pct": -0.94,
+      "reason": "⚡ 진입 20초 모멘텀 실패 스크래치 탈출 (-0.94%)",
+      "entry_time": "2026-09-18T01:17:43.590420+09:00",
+      "exit_time": "2026-09-18T01:18:03.964708+09:00"
     }
   ]
 }
