@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T14:07:58.056707+09:00",
+  "updated_at": "2026-09-17T15:43:03.693848+09:00",
   "paper_trading": true,
   "targets": {
-    "PUFFER": {
-      "symbol": "PUFFER/KRW",
-      "code": "PUFFER",
+    "SOPH": {
+      "symbol": "SOPH/KRW",
+      "code": "SOPH",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 32.0,
-      "target_entry": 31.95,
+      "current_price": 5.481,
+      "target_entry": 5.47,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6800,
-      "ordered_volume": 212.8325508607199,
-      "order_uuid": "mock_order_4164be46",
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 34.4로 과매도 구간 진입, 볼린저 하단 지지 확인 및 거래량 서지 비율(2.5)이 우수하여 MA20 중심선까지의 반등 기대",
-      "created_at": "2026-09-17T14:07:58.056707+09:00"
+      "buy_amount_krw": 8501,
+      "ordered_volume": 1554.1133455210238,
+      "order_uuid": "mock_order_36588f5e",
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 27.5로 과매도 구간 진입 및 볼린저 하단 지지 활용한 기술적 반등 매수세 유입 기대",
+      "created_at": "2026-09-17T15:43:03.693848+09:00"
     }
   }
 }
