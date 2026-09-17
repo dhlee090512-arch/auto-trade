@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T06:43:39.193809+09:00",
+  "updated_at": "2026-09-18T07:13:40.477359+09:00",
   "paper_trading": true,
   "targets": {
-    "KSM": {
-      "symbol": "KSM/KRW",
-      "code": "KSM",
+    "PUFFER": {
+      "symbol": "PUFFER/KRW",
+      "code": "PUFFER",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 5850.0,
-      "target_entry": 5835.0,
+      "current_price": 33.0,
+      "target_entry": 32.86,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6802,
-      "ordered_volume": 1.1657240788346186,
-      "order_uuid": "mock_order_2c33732b",
-      "entry_bid_ratio": 0.312,
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며, 15분봉 RSI(22.0) 과매도 구간 진입 후 볼린저 하단 지지를 확인하여 중심선(6193.5)까지의 반등 기대",
-      "created_at": "2026-09-18T06:43:39.193809+09:00"
+      "buy_amount_krw": 6800,
+      "ordered_volume": 206.93852708460133,
+      "order_uuid": "mock_order_4527ea38",
+      "entry_bid_ratio": 0.372,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 37.3 과매도권 진입 및 볼린저밴드 하단 지지 활용, 중심선(MA20) 부근 반등을 노리는 단기 스윙 롱 진입",
+      "created_at": "2026-09-18T07:13:40.477359+09:00"
     }
   }
 }
