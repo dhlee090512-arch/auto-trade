@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T08:23:46.943829+09:00",
+  "updated_at": "2026-09-18T08:28:47.873338+09:00",
   "paper_trading": true,
   "targets": {
     "BTR": {
@@ -8,19 +8,19 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 71.41,
-      "target_entry": 71.38,
+      "current_price": 71.37,
+      "target_entry": 71.21,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
       "buy_amount_krw": 6000,
-      "ordered_volume": 84.05715886803027,
-      "order_uuid": "mock_order_0ecf4842",
-      "entry_bid_ratio": 0.386,
-      "detailed_reason": "15분봉 기준 7.6배의 강력한 거래량 급증 이후 첫 음봉 눌림목 형성 중이며, 1시간 봉 수급 유입 및 이평선 지지력이 확인되어 SLOT_1_PULSE 전략에 부합함.",
-      "created_at": "2026-09-18T08:23:46.943829+09:00"
+      "ordered_volume": 84.25782895660723,
+      "order_uuid": "mock_order_1bb9f23e",
+      "entry_bid_ratio": 0.467,
+      "detailed_reason": "15분봉 기준 8.56배의 강력한 볼륨 서지와 함께 최근 1시간 동안 3.4억 원의 수급이 유입된 후 첫 음봉 눌림목을 형성하여 Slot 1 기준에 완벽히 부합함",
+      "created_at": "2026-09-18T08:28:47.873338+09:00"
     }
   }
 }
