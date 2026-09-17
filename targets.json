@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T09:27:30.671447+09:00",
+  "updated_at": "2026-09-17T09:37:33.336190+09:00",
   "paper_trading": true,
   "targets": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "code": "FOLD",
-      "mode": "SCALPING",
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "current_price": 84.02,
-      "target_entry": 83.77,
+      "slot": "SLOT_2_RANGE",
+      "current_price": 6.369,
+      "target_entry": 6.356,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8499,
-      "ordered_volume": 101.45636862838725,
-      "order_uuid": "mock_order_e31c83ba",
-      "detailed_reason": "15분봉 기준 거래량 2.52배 급증 후 발생한 첫 음봉 눌림목 구간이며, 7.3억 원 규모의 강력한 1시간 수급 유입 및 RSI 과열 해소 진입 타점으로 적합함",
-      "created_at": "2026-09-17T09:27:30.671447+09:00"
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6799,
+      "ordered_volume": 1069.6979232221522,
+      "order_uuid": "mock_order_dd43d3c4",
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI is at 36.2 indicating oversold conditions near the lower Bollinger Band, offering a solid risk-to-reward bounce setup toward the 1h MA20 mean reversion target with defined stop loss controls.",
+      "created_at": "2026-09-17T09:37:33.336190+09:00"
     }
   }
 }
