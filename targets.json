@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T07:13:40.477359+09:00",
+  "updated_at": "2026-09-18T07:53:45.118930+09:00",
   "paper_trading": true,
   "targets": {
-    "PUFFER": {
-      "symbol": "PUFFER/KRW",
-      "code": "PUFFER",
-      "mode": "SWING",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 33.0,
-      "target_entry": 32.86,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
+      "slot": "SLOT_1_PULSE",
+      "current_price": 139800.0,
+      "target_entry": 139600.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
       "buy_amount_krw": 6800,
-      "ordered_volume": 206.93852708460133,
-      "order_uuid": "mock_order_4527ea38",
-      "entry_bid_ratio": 0.372,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 37.3 과매도권 진입 및 볼린저밴드 하단 지지 활용, 중심선(MA20) 부근 반등을 노리는 단기 스윙 롱 진입",
-      "created_at": "2026-09-18T07:13:40.477359+09:00"
+      "ordered_volume": 0.04871060171919771,
+      "order_uuid": "mock_order_a3a7b385",
+      "entry_bid_ratio": 0.51,
+      "detailed_reason": "15분봉 거래량 2.08배 급증 후 첫 음봉 눌림목 패턴 형성 완료, 1시간 RSI 66.0 및 MA20 상단 지지력 확보로 상승 펄스 지속 가능성 높음",
+      "created_at": "2026-09-18T07:53:45.118930+09:00"
     }
   }
 }
