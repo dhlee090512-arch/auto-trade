@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T06:08:33.684232+09:00",
+  "updated_at": "2026-09-18T06:23:36.530906+09:00",
   "paper_trading": true,
   "targets": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "code": "FOLD",
+    "KSM": {
+      "symbol": "KSM/KRW",
+      "code": "KSM",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 80.15,
-      "target_entry": 79.99,
+      "current_price": 5920.0,
+      "target_entry": 5905.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6801,
-      "ordered_volume": 85.02312789098637,
-      "order_uuid": "mock_order_5281497a",
-      "entry_bid_ratio": 0.433,
-      "detailed_reason": "15분봉 RSI 과매도 구간(37.9) 진입 및 볼린저 밴드 하단 지지력을 바탕으로 한 단기 반등(SLOT_2_RANGE) 조건 충족",
-      "created_at": "2026-09-18T06:08:33.684232+09:00"
+      "ordered_volume": 1.151735817104149,
+      "order_uuid": "mock_order_2f79d2d9",
+      "entry_bid_ratio": 0.468,
+      "detailed_reason": "15분봉 RSI 30.8로 과매도 구간 진입 및 볼린저 하단 지지 확인. 중심선(6226 KRW)까지의 밴드 회복 바운스 기대 구간.",
+      "created_at": "2026-09-18T06:23:36.530906+09:00"
     }
   }
 }
