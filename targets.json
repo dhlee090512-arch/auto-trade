@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T15:43:03.693848+09:00",
+  "updated_at": "2026-09-17T16:43:07.263640+09:00",
   "paper_trading": true,
   "targets": {
-    "SOPH": {
-      "symbol": "SOPH/KRW",
-      "code": "SOPH",
-      "mode": "SWING",
+    "WLD": {
+      "symbol": "WLD/KRW",
+      "code": "WLD",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 5.481,
-      "target_entry": 5.47,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 8501,
-      "ordered_volume": 1554.1133455210238,
-      "order_uuid": "mock_order_36588f5e",
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 27.5로 과매도 구간 진입 및 볼린저 하단 지지 활용한 기술적 반등 매수세 유입 기대",
-      "created_at": "2026-09-17T15:43:03.693848+09:00"
+      "slot": "SLOT_1_PULSE",
+      "current_price": 518.0,
+      "target_entry": 516.0,
+      "sl_pct": -1.45,
+      "emergency_sl_pct": -2.25,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8500,
+      "ordered_volume": 16.472868217054263,
+      "order_uuid": "mock_order_a1093634",
+      "detailed_reason": "15분봉 기준 거래량 3.78배 급증 후 첫 음봉 눌림목 형성 중이며, 1시간 봉 RSI(75.0)의 강한 상승 모멘텀 유지 속 MA20(505.8원) 상단에서 안정적인 지지 반등이 예상됨.",
+      "created_at": "2026-09-17T16:43:07.263640+09:00"
     }
   }
 }
