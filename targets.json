@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T20:13:21.325764+09:00",
+  "updated_at": "2026-09-17T20:33:22.166920+09:00",
   "paper_trading": true,
   "targets": {
     "MEV": {
@@ -8,18 +8,18 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 6.296,
-      "target_entry": 6.28,
+      "current_price": 6.075,
+      "target_entry": 6.063,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8501,
-      "ordered_volume": 1353.6624203821655,
-      "order_uuid": "mock_order_dce86a65",
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 33.5로 과매도 구간 진입 및 볼린저 하단 지지 활용한 이평선 회귀 반등 기대",
-      "created_at": "2026-09-17T20:13:21.325764+09:00"
+      "buy_amount_krw": 6801,
+      "ordered_volume": 1121.7219198416626,
+      "order_uuid": "mock_order_e2e61c0d",
+      "detailed_reason": "15분봉 RSI 27.4로 과매도 구간 진입 및 볼린저밴드 하단 근접에 따른 기술적 반등 기대 (Slot 2 Range Bounce 조건 충족)",
+      "created_at": "2026-09-17T20:33:22.166920+09:00"
     }
   }
 }
