@@ -1,25 +1,26 @@
 {
-  "updated_at": "2026-09-17T23:28:33.536582+09:00",
+  "updated_at": "2026-09-18T01:13:06.272970+09:00",
   "paper_trading": true,
   "targets": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
-      "mode": "SCALPING",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "current_price": 1815.0,
-      "target_entry": 1809.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 8504,
-      "ordered_volume": 4.700939745715865,
-      "order_uuid": "mock_order_ce5d2ad5",
-      "detailed_reason": "15분봉 거래량 2.21배 급증 이후 형성된 건강한 첫 음봉 눌림목 구간으로, 1시간봉 수급(30.6억) 및 이평선 지지력이 탄탄하여 SLOT_1 볼륨 서지 셋업 조건에 완벽히 부합함.",
-      "created_at": "2026-09-17T23:28:33.536582+09:00"
+      "slot": "SLOT_2_RANGE",
+      "current_price": 640.0,
+      "target_entry": 639.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6803,
+      "ordered_volume": 10.646322378716745,
+      "order_uuid": "mock_order_2066201e",
+      "entry_bid_ratio": 0.553,
+      "detailed_reason": "15분봉 및 1시간봉 RSI 과매도 구간 진입 후 볼린저밴드 하단 지지를 활용한 단기 반등 타점 확보. MA20 중심선 회귀를 목표로 한 전형적인 슬롯 2 레인지 매매 전략 실행.",
+      "created_at": "2026-09-18T01:13:06.272970+09:00"
     }
   }
 }
