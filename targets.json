@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T10:42:40.808534+09:00",
+  "updated_at": "2026-09-17T11:27:45.493180+09:00",
   "paper_trading": true,
   "targets": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 136700.0,
-      "target_entry": 136200.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "current_price": 8.399,
+      "target_entry": 8.374,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 8500,
-      "ordered_volume": 0.06240822320117474,
-      "order_uuid": "mock_order_33beca99",
-      "detailed_reason": "15분봉 거래량 2.52배 급증 후 발생하는 전형적인 첫 음봉 눌림목 패턴으로, 1시간봉 수급이 탄탄하며 단기 모멘텀(RSI 15m 75.0) 유지 중. 136,200원 부근 타점 진입 시 리스크 대비 기대 수익비 우수.",
-      "created_at": "2026-09-17T10:42:40.808534+09:00"
+      "buy_amount_krw": 8498,
+      "ordered_volume": 1014.8077382374014,
+      "order_uuid": "mock_order_d457611d",
+      "detailed_reason": "15분봉 기준 3.46배 거래량 급증 후 첫 음봉 눌림목이 형성되었으며, RSI(1h 61.6, 15m 63.8)가 과열권 진입 전 안정적인 상승 모멘텀을 유지하고 있어 SLOT_1_PULSE 전략에 부합함.",
+      "created_at": "2026-09-17T11:27:45.493180+09:00"
     }
   }
 }
