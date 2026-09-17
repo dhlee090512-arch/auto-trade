@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T01:13:06.272970+09:00",
+  "updated_at": "2026-09-18T01:23:05.874298+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -8,19 +8,19 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 640.0,
-      "target_entry": 639.0,
+      "current_price": 628.0,
+      "target_entry": 625.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6803,
-      "ordered_volume": 10.646322378716745,
-      "order_uuid": "mock_order_2066201e",
-      "entry_bid_ratio": 0.553,
-      "detailed_reason": "15분봉 및 1시간봉 RSI 과매도 구간 진입 후 볼린저밴드 하단 지지를 활용한 단기 반등 타점 확보. MA20 중심선 회귀를 목표로 한 전형적인 슬롯 2 레인지 매매 전략 실행.",
-      "created_at": "2026-09-18T01:13:06.272970+09:00"
+      "buy_amount_krw": 6000,
+      "ordered_volume": 9.6,
+      "order_uuid": "mock_order_b0ca52f7",
+      "entry_bid_ratio": 0.314,
+      "detailed_reason": "LSK는 15분봉 RSI 과매도 구간(22.7)에 진입하였으며, 1시간봉 볼린저 하단 지지를 바탕으로 중심선(660.9)까지의 기술적 반등 기대율(5.24%)이 높아 SLOT_2_RANGE 전략 조건에 부합합니다.",
+      "created_at": "2026-09-18T01:23:05.874298+09:00"
     }
   }
 }
