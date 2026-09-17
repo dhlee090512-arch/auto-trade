@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T04:03:23.101894+09:00",
+  "updated_at": "2026-09-18T05:38:31.223189+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -8,19 +8,19 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 610.0,
-      "target_entry": 609.0,
+      "current_price": 595.0,
+      "target_entry": 594.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6802,
-      "ordered_volume": 11.169129720853858,
-      "order_uuid": "mock_order_5e8c1271",
-      "entry_bid_ratio": 0.33,
-      "detailed_reason": "LSK/KRW는 15분봉 RSI 31.8로 과매도 구간에 진입해 있으며, 볼린저 하단 지지를 바탕으로 중심선(638.75)까지의 기술적 반등 여력이 충분함. SLOT_2_RANGE 전략의 조건에 부합.",
-      "created_at": "2026-09-18T04:03:23.101894+09:00"
+      "ordered_volume": 11.451178451178452,
+      "order_uuid": "mock_order_2f1fc0d2",
+      "entry_bid_ratio": 0.483,
+      "detailed_reason": "Slot 2 range-bound bounce strategy: LSK shows strong oversold conditions with 15m RSI at 26.1 and testing of the lower Bollinger Band around 593.0. Expecting a mean reversion toward the 1h moving average.",
+      "created_at": "2026-09-18T05:38:31.223189+09:00"
     }
   }
 }
