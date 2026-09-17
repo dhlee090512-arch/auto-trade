@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T08:08:45.916769+09:00",
+  "updated_at": "2026-09-18T08:13:46.583933+09:00",
   "paper_trading": true,
   "targets": {
     "NEAR": {
@@ -8,19 +8,19 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 4319.0,
-      "target_entry": 4316.0,
+      "current_price": 4312.0,
+      "target_entry": 4308.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
       "buy_amount_krw": 6801,
-      "ordered_volume": 1.5757645968489342,
-      "order_uuid": "mock_order_ae998f6e",
-      "entry_bid_ratio": 0.336,
-      "detailed_reason": "15분봉 거래량 5.67배 급증과 함께 1시간봉 기준 강한 수급(6.6억 원)이 유입된 상태에서 발생한 첫 음봉 눌림목 구간으로, 슬롯 1의 핵심 조건인 거래량 폭증 후 조정 패턴에 정확히 부합함.",
-      "created_at": "2026-09-18T08:08:45.916769+09:00"
+      "ordered_volume": 1.5786908077994428,
+      "order_uuid": "mock_order_3e486f58",
+      "entry_bid_ratio": 0.608,
+      "detailed_reason": "15분봉 기준 거래량이 6.43배 급증한 이후 나타나는 전형적인 첫 음봉 눌림목 구간으로, 단기 수급(7.5억 KRW) 유입이 강력하여 반등 기대 확률이 높음.",
+      "created_at": "2026-09-18T08:13:46.583933+09:00"
     }
   }
 }
