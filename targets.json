@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T09:12:30.032229+09:00",
+  "updated_at": "2026-09-17T09:27:30.671447+09:00",
   "paper_trading": true,
   "targets": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "code": "MEV",
-      "mode": "SWING",
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 6.417,
-      "target_entry": 6.404,
+      "slot": "SLOT_1_PULSE",
+      "current_price": 84.02,
+      "target_entry": 83.77,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
       "buy_amount_krw": 8499,
-      "ordered_volume": 1327.1392879450343,
-      "order_uuid": "mock_order_efbb9cf7",
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI(34.4) 과매도 구간 형성 및 볼린저 하단 지지 확인. 특히 거래대금(약 5.91억 KRW) 및 볼륨 서지 비율(6.66)이 우수하여 단기 반등 모멘텀이 매우 강함.",
-      "created_at": "2026-09-17T09:12:30.032229+09:00"
+      "ordered_volume": 101.45636862838725,
+      "order_uuid": "mock_order_e31c83ba",
+      "detailed_reason": "15분봉 기준 거래량 2.52배 급증 후 발생한 첫 음봉 눌림목 구간이며, 7.3억 원 규모의 강력한 1시간 수급 유입 및 RSI 과열 해소 진입 타점으로 적합함",
+      "created_at": "2026-09-17T09:27:30.671447+09:00"
     }
   }
 }
