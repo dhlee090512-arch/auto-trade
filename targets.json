@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T12:53:06.430723+09:00",
+  "updated_at": "2026-09-17T13:52:57.287386+09:00",
   "paper_trading": true,
   "targets": {
-    "VTHO": {
-      "symbol": "VTHO/KRW",
-      "code": "VTHO",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 0.9117,
-      "target_entry": 0.9099,
+      "current_price": 678.0,
+      "target_entry": 676.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 8499,
-      "ordered_volume": 9340.586877678865,
-      "order_uuid": "mock_order_3105459a",
-      "detailed_reason": "15분봉 RSI(32.7) 과매도 구간 진입 및 볼린저 하단 지지 확인, 슬롯 2 레인지 매매 전략 기준 중심선(0.9266)까지의 반등 기대감이 유효함.",
-      "created_at": "2026-09-17T12:53:06.430723+09:00"
+      "buy_amount_krw": 8500,
+      "ordered_volume": 12.57396449704142,
+      "order_uuid": "mock_order_53aba5a2",
+      "detailed_reason": "15분봉 RSI 37.5 과매도 구간 진입 및 볼린저 밴드 하단 지지력을 바탕으로 한 기술적 반등 매수세 유입 기대 (Slot 2 Range Bounce Setup)",
+      "created_at": "2026-09-17T13:52:57.287386+09:00"
     }
   }
 }
