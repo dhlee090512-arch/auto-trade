@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "KSM": {
-      "symbol": "KSM/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 5905.0,
-      "highest_price": 5905.0,
-      "buy_amount_krw": 6801,
-      "units": 1.151735817104149,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789680254.536848,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T06:24:14.536851+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789680254.536848,
-          5905.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -856,6 +830,19 @@
       "reason": "🚨 비상 하드 손절선 도달 (-2.63%) 즉시 탈출",
       "entry_time": "2026-09-18T04:30:38.445175+09:00",
       "exit_time": "2026-09-18T05:34:43.532586+09:00"
+    },
+    {
+      "symbol": "KSM/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5905.0,
+      "exit_price": 5880.0,
+      "buy_amount_krw": 6801,
+      "profit_krw": -29,
+      "profit_pct": -0.42,
+      "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 24.9%)",
+      "entry_time": "2026-09-18T06:24:14.536851+09:00",
+      "exit_time": "2026-09-18T06:27:49.998103+09:00"
     }
   ]
 }
