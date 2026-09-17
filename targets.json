@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T05:38:31.223189+09:00",
+  "updated_at": "2026-09-18T06:08:33.684232+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 595.0,
-      "target_entry": 594.0,
+      "current_price": 80.15,
+      "target_entry": 79.99,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6802,
-      "ordered_volume": 11.451178451178452,
-      "order_uuid": "mock_order_2f1fc0d2",
-      "entry_bid_ratio": 0.483,
-      "detailed_reason": "Slot 2 range-bound bounce strategy: LSK shows strong oversold conditions with 15m RSI at 26.1 and testing of the lower Bollinger Band around 593.0. Expecting a mean reversion toward the 1h moving average.",
-      "created_at": "2026-09-18T05:38:31.223189+09:00"
+      "buy_amount_krw": 6801,
+      "ordered_volume": 85.02312789098637,
+      "order_uuid": "mock_order_5281497a",
+      "entry_bid_ratio": 0.433,
+      "detailed_reason": "15분봉 RSI 과매도 구간(37.9) 진입 및 볼린저 밴드 하단 지지력을 바탕으로 한 단기 반등(SLOT_2_RANGE) 조건 충족",
+      "created_at": "2026-09-18T06:08:33.684232+09:00"
     }
   }
 }
