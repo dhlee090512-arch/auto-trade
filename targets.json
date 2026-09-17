@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T20:48:23.159976+09:00",
+  "updated_at": "2026-09-17T20:53:23.137112+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
+    "HNT": {
+      "symbol": "HNT/KRW",
+      "code": "HNT",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 662.0,
-      "target_entry": 660.0,
+      "current_price": 621.0,
+      "target_entry": 619.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6800,
-      "ordered_volume": 10.303030303030303,
-      "order_uuid": "mock_order_6b62cbf4",
-      "detailed_reason": "LSK는 15분봉 RSI 36.8 수준의 과매도 구간에서 볼린저 하단 지지를 확인하며 반등 시도가 포착됨. 1시간봉 기준 이동평균선 중심선(675.0)을 향한 단기 오버솔바운스 셋업(SLOT_2_RANGE)으로 적합함.",
-      "created_at": "2026-09-17T20:48:23.159976+09:00"
+      "ordered_volume": 10.985460420032311,
+      "order_uuid": "mock_order_8a5969db",
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(33.0) 과매도 구간 진입 및 볼린저 하단 지지 활용 단기 반등 기대",
+      "created_at": "2026-09-17T20:53:23.137112+09:00"
     }
   }
 }
