@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T16:43:07.263640+09:00",
+  "updated_at": "2026-09-17T17:13:09.907630+09:00",
   "paper_trading": true,
   "targets": {
-    "WLD": {
-      "symbol": "WLD/KRW",
-      "code": "WLD",
+    "PEAQ": {
+      "symbol": "PEAQ/KRW",
+      "code": "PEAQ",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 518.0,
-      "target_entry": 516.0,
-      "sl_pct": -1.45,
-      "emergency_sl_pct": -2.25,
+      "current_price": 38.32,
+      "target_entry": 38.21,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
       "buy_amount_krw": 8500,
-      "ordered_volume": 16.472868217054263,
-      "order_uuid": "mock_order_a1093634",
-      "detailed_reason": "15분봉 기준 거래량 3.78배 급증 후 첫 음봉 눌림목 형성 중이며, 1시간 봉 RSI(75.0)의 강한 상승 모멘텀 유지 속 MA20(505.8원) 상단에서 안정적인 지지 반등이 예상됨.",
-      "created_at": "2026-09-17T16:43:07.263640+09:00"
+      "ordered_volume": 222.45485475006544,
+      "order_uuid": "mock_order_bf5d4bc2",
+      "detailed_reason": "15분봉 기준 거래량이 3.44배 급증한 이후 1시간 기준 강한 수급(약 3.6억)을 동반한 첫 음봉 눌림목 구간으로, Slot 1 핵심 전략에 완벽히 부합하며 RSI 및 변동성 지표가 단기 반등에 유리한 조건을 형성하고 있음.",
+      "created_at": "2026-09-17T17:13:09.907630+09:00"
     }
   }
 }
