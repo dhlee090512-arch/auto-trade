@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T20:53:23.137112+09:00",
+  "updated_at": "2026-09-17T21:13:23.524263+09:00",
   "paper_trading": true,
   "targets": {
-    "HNT": {
-      "symbol": "HNT/KRW",
-      "code": "HNT",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 621.0,
-      "target_entry": 619.0,
+      "current_price": 663.0,
+      "target_entry": 661.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
-      "buy_amount_krw": 6800,
-      "ordered_volume": 10.985460420032311,
-      "order_uuid": "mock_order_8a5969db",
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(33.0) 과매도 구간 진입 및 볼린저 하단 지지 활용 단기 반등 기대",
-      "created_at": "2026-09-17T20:53:23.137112+09:00"
+      "buy_amount_krw": 6802,
+      "ordered_volume": 10.290468986384266,
+      "order_uuid": "mock_order_297d8607",
+      "detailed_reason": "LSK는 SLOT_2_RANGE 전략 조건에 부합하며, 15분봉 RSI 34.8의 과매도 구간 및 볼린저밴드 하단 지지를 바탕으로 한 평균회귀 반등 기대 setups로 유효함.",
+      "created_at": "2026-09-17T21:13:23.524263+09:00"
     }
   }
 }
