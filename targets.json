@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T08:13:46.583933+09:00",
+  "updated_at": "2026-09-18T08:23:46.943829+09:00",
   "paper_trading": true,
   "targets": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "code": "BTR",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 4312.0,
-      "target_entry": 4308.0,
+      "current_price": 71.41,
+      "target_entry": 71.38,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6801,
-      "ordered_volume": 1.5786908077994428,
-      "order_uuid": "mock_order_3e486f58",
-      "entry_bid_ratio": 0.608,
-      "detailed_reason": "15분봉 기준 거래량이 6.43배 급증한 이후 나타나는 전형적인 첫 음봉 눌림목 구간으로, 단기 수급(7.5억 KRW) 유입이 강력하여 반등 기대 확률이 높음.",
-      "created_at": "2026-09-18T08:13:46.583933+09:00"
+      "buy_amount_krw": 6000,
+      "ordered_volume": 84.05715886803027,
+      "order_uuid": "mock_order_0ecf4842",
+      "entry_bid_ratio": 0.386,
+      "detailed_reason": "15분봉 기준 7.6배의 강력한 거래량 급증 이후 첫 음봉 눌림목 형성 중이며, 1시간 봉 수급 유입 및 이평선 지지력이 확인되어 SLOT_1_PULSE 전략에 부합함.",
+      "created_at": "2026-09-18T08:23:46.943829+09:00"
     }
   }
 }
