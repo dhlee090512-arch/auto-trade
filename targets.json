@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T06:28:37.003779+09:00",
+  "updated_at": "2026-09-18T06:43:39.193809+09:00",
   "paper_trading": true,
   "targets": {
     "KSM": {
@@ -8,19 +8,19 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 5890.0,
-      "target_entry": 5875.0,
+      "current_price": 5850.0,
+      "target_entry": 5835.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6802,
-      "ordered_volume": 1.1577872340425532,
-      "order_uuid": "mock_order_d2b92912",
-      "entry_bid_ratio": 0.413,
-      "detailed_reason": "Slot 2 range-bound bounce confirmed with 15m RSI oversold at 29.7 and strong support near the lower Bollinger Band, targeting MA20/midline reversion.",
-      "created_at": "2026-09-18T06:28:37.003779+09:00"
+      "ordered_volume": 1.1657240788346186,
+      "order_uuid": "mock_order_2c33732b",
+      "entry_bid_ratio": 0.312,
+      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며, 15분봉 RSI(22.0) 과매도 구간 진입 후 볼린저 하단 지지를 확인하여 중심선(6193.5)까지의 반등 기대",
+      "created_at": "2026-09-18T06:43:39.193809+09:00"
     }
   }
 }
