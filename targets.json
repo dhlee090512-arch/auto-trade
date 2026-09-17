@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T01:28:07.525386+09:00",
+  "updated_at": "2026-09-18T01:38:07.666342+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -21,6 +21,26 @@
       "entry_bid_ratio": 0.551,
       "detailed_reason": "LSK는 15분봉 RSI 21.8 수준의 극심한 과매도 상태이며 볼린저밴드 하단 부근에서 지지를 형성하고 있습니다. 1시간봉 기준 거래대금(약 3.3억 원)이 상대적으로 안정적이며, 중심선(660.75원)까지의 기술적 반등 기대 수익률이 5.72%로 우수하여 SLOT_2_RANGE 전략에 부합합니다.",
       "created_at": "2026-09-18T01:28:07.525386+09:00"
+    },
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "current_price": 6.201,
+      "target_entry": 6.163,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6000,
+      "ordered_volume": 973.551841635567,
+      "order_uuid": "mock_order_76ac7d52",
+      "entry_bid_ratio": 0.649,
+      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI at 37.8 indicating short-term oversold conditions near the lower Bollinger Band support (6.1442), with an expected mean-reversion bounce toward the 1h moving average center (6.2774).",
+      "created_at": "2026-09-18T01:38:07.666342+09:00"
     }
   }
 }
