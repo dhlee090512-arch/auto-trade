@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-09-17T09:47:35.248097+09:00",
+  "updated_at": "2026-09-17T10:42:40.808534+09:00",
   "paper_trading": true,
   "targets": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "code": "MEV",
-      "mode": "SWING",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 6.421,
-      "target_entry": 6.408,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6799,
-      "ordered_volume": 1061.0174781523096,
-      "order_uuid": "mock_order_72237333",
-      "detailed_reason": "Slot 2 range-bound oversold setup: 15m RSI is at 37.7 indicating oversold conditions near the lower Bollinger Band, aligning with expected mean reversion towards the 1h moving average.",
-      "created_at": "2026-09-17T09:47:35.248097+09:00"
+      "slot": "SLOT_1_PULSE",
+      "current_price": 136700.0,
+      "target_entry": 136200.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8500,
+      "ordered_volume": 0.06240822320117474,
+      "order_uuid": "mock_order_33beca99",
+      "detailed_reason": "15분봉 거래량 2.52배 급증 후 발생하는 전형적인 첫 음봉 눌림목 패턴으로, 1시간봉 수급이 탄탄하며 단기 모멘텀(RSI 15m 75.0) 유지 중. 136,200원 부근 타점 진입 시 리스크 대비 기대 수익비 우수.",
+      "created_at": "2026-09-17T10:42:40.808534+09:00"
     }
   }
 }
