@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "AGI": {
-      "symbol": "AGI/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 7.662,
-      "highest_price": 7.662,
-      "buy_amount_krw": 6800,
-      "units": 887.4967371443488,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789692551.5184965,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T09:49:11.518499+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789692551.5184965,
-          7.662
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -921,6 +895,19 @@
       "reason": "📈 트레일링 익절 (고점 +1.73% 대비 -0.58% 반락)",
       "entry_time": "2026-09-18T09:13:52.227668+09:00",
       "exit_time": "2026-09-18T09:46:30.537504+09:00"
+    },
+    {
+      "symbol": "AGI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 7.662,
+      "exit_price": 7.62,
+      "buy_amount_krw": 6800,
+      "profit_krw": -37,
+      "profit_pct": -0.55,
+      "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 23.0%)",
+      "entry_time": "2026-09-18T09:49:11.518499+09:00",
+      "exit_time": "2026-09-18T09:52:28.191996+09:00"
     }
   ]
 }
