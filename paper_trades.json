@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 69.8,
+      "highest_price": 69.8,
+      "buy_amount_krw": 6000,
+      "units": 85.9598853868195,
+      "sl_pct": -1.78,
+      "emergency_sl_pct": -2.58,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789701251.3282611,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-18T12:14:11.328264+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789701251.3282611,
+          69.8
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
