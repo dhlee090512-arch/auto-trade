@@ -1,28 +1,5 @@
 {
-  "active_positions": {
-    "DEBIT": {
-      "symbol": "DEBIT/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 3568.0,
-      "highest_price": 3568.0,
-      "buy_amount_krw": 6812,
-      "units": 1.9091928251121075,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789728383.0243905,
-      "entry_time": "2026-09-18T19:46:23.024403+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789728383.0243905,
-          3568.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1152,6 +1129,19 @@
       "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.19% ➔ 실현 0.30%)",
       "entry_time": "2026-09-18T19:11:40.577631+09:00",
       "exit_time": "2026-09-18T19:18:12.848965+09:00"
+    },
+    {
+      "symbol": "DEBIT/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 3568.0,
+      "exit_price": 3603.0,
+      "buy_amount_krw": 6812,
+      "profit_krw": 67,
+      "profit_pct": 0.98,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.3%, 하한 +1.2%) | 최고 +1.88% ➔ 실현 0.98%)",
+      "entry_time": "2026-09-18T19:46:23.024403+09:00",
+      "exit_time": "2026-09-18T20:00:46.598865+09:00"
     }
   ]
 }
