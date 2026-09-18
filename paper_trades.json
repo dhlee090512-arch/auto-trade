@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "AGI": {
+      "symbol": "AGI/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 7.679,
+      "highest_price": 7.679,
+      "buy_amount_krw": 6801,
+      "units": 885.6621955983852,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789694642.9392889,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-18T10:24:02.939292+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789694642.9392889,
+          7.679
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
