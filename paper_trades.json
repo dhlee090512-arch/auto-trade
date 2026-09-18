@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "INJ": {
-      "symbol": "INJ/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 8945.0,
-      "highest_price": 8945.0,
-      "buy_amount_krw": 6829,
-      "units": 0.763443264393516,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789770945.479229,
-      "entry_time": "2026-09-19T07:35:45.479231+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789770945.479229,
-          8945.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1357,6 +1333,20 @@
       "trajectory_summary": "진입 3분 46초경 최고 +4.72%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 3분 50초)",
       "entry_time": "2026-09-19T05:30:45.132010+09:00",
       "exit_time": "2026-09-19T05:34:35.959717+09:00"
+    },
+    {
+      "symbol": "INJ/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 8945.0,
+      "exit_price": 8980.0,
+      "buy_amount_krw": 6829,
+      "profit_krw": 27,
+      "profit_pct": 0.39,
+      "reason": "⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 0.39%)",
+      "trajectory_summary": "진입 후 25분 동안 -0.17% ~ +0.39% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-19T07:35:45.479231+09:00",
+      "exit_time": "2026-09-19T08:00:45.493503+09:00"
     }
   ]
 }
