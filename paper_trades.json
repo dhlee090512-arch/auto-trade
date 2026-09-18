@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 69.8,
-      "highest_price": 69.8,
-      "buy_amount_krw": 6000,
-      "units": 85.9598853868195,
-      "sl_pct": -1.78,
-      "emergency_sl_pct": -2.58,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789701251.3282611,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T12:14:11.328264+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789701251.3282611,
-          69.8
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -999,6 +973,19 @@
       "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 16.2%)",
       "entry_time": "2026-09-18T11:44:52.956879+09:00",
       "exit_time": "2026-09-18T12:03:04.960307+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 69.8,
+      "exit_price": 69.97,
+      "buy_amount_krw": 6000,
+      "profit_krw": 14,
+      "profit_pct": 0.24,
+      "reason": "⌛ 변동성 소멸 횡보 청산 (최근 변동폭 0.00%)",
+      "entry_time": "2026-09-18T12:14:11.328264+09:00",
+      "exit_time": "2026-09-18T13:20:36.036282+09:00"
     }
   ]
 }
