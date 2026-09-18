@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T09:13:50.857481+09:00",
+  "updated_at": "2026-09-18T09:28:51.676706+09:00",
   "paper_trading": true,
   "targets": {
-    "ONDO": {
-      "symbol": "ONDO/KRW",
-      "code": "ONDO",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 519.0,
-      "target_entry": 519.0,
+      "current_price": 647.0,
+      "target_entry": 644.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6801,
-      "ordered_volume": 13.104046242774567,
-      "order_uuid": "mock_order_5c23f894",
-      "entry_bid_ratio": 0.348,
-      "detailed_reason": "15분봉 거래량 4.17배 급증 이후 첫 음봉 눌림목 패턴 발생. RSI 55.2 수준으로 과매수 해소 및 1시간 이평선 지지 확인되어 슬롯1 기준에 완벽히 부합함.",
-      "created_at": "2026-09-18T09:13:50.857481+09:00"
+      "buy_amount_krw": 6800,
+      "ordered_volume": 10.559006211180124,
+      "order_uuid": "mock_order_b5db361f",
+      "entry_bid_ratio": 0.455,
+      "detailed_reason": "15분봉 거래량이 4.07배 급증한 이후 1시간 기준 첫 음봉 눌림목이 형성되었으며, 1시간봉 MA20 근처에서 수급 유입 및 건강한 조정을 보이고 있어 Slot 1 펄스 셋업 조건에 부합함.",
+      "created_at": "2026-09-18T09:28:51.676706+09:00"
     }
   }
 }
