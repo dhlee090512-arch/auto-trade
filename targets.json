@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T16:15:34.437972+09:00",
+  "updated_at": "2026-09-18T16:55:35.960101+09:00",
   "paper_trading": true,
   "queue": {
     "MEV": {
@@ -8,9 +8,9 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 68,
-      "current_price": 5.611,
-      "target_entry": 5.6,
+      "score": 78,
+      "current_price": 5.505,
+      "target_entry": 5.501,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.867,
-      "detailed_reason": "Slot 2 range-bound setup featuring 15m RSI oversold bounce near lower Bollinger Band with a manageable stop loss of -1.8%.",
-      "created_at": "2026-09-18T16:15:34.437972+09:00",
-      "created_timestamp": 1789715734.4379907
+      "entry_bid_ratio": 0.783,
+      "detailed_reason": "Slot 2 range-bound oversold bounce at lower Bollinger Band with 15m RSI at 32.6 indicating strong mean-reversion potential toward MA20.",
+      "created_at": "2026-09-18T16:55:35.960101+09:00",
+      "created_timestamp": 1789718135.9601145
     }
   }
 }
