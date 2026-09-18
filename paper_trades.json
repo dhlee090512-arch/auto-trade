@@ -1,28 +1,5 @@
 {
-  "active_positions": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 5.6,
-      "highest_price": 5.6,
-      "buy_amount_krw": 6808,
-      "units": 1215.7142857142858,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789716191.5098753,
-      "entry_time": "2026-09-18T16:23:11.509878+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789716191.5098753,
-          5.6
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1009,6 +986,19 @@
       "reason": "⌛ 변동성 소멸 횡보 청산 (최근 변동폭 0.00%)",
       "entry_time": "2026-09-18T12:14:11.328264+09:00",
       "exit_time": "2026-09-18T13:20:36.036282+09:00"
+    },
+    {
+      "symbol": "MEV/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.6,
+      "exit_price": 5.583,
+      "buy_amount_krw": 6808,
+      "profit_krw": -20,
+      "profit_pct": -0.3,
+      "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 19.2%)",
+      "entry_time": "2026-09-18T16:23:11.509878+09:00",
+      "exit_time": "2026-09-18T16:39:27.021316+09:00"
     }
   ]
 }
