@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T16:55:35.960101+09:00",
+  "updated_at": "2026-09-18T17:10:37.659816+09:00",
   "paper_trading": true,
   "queue": {
     "MEV": {
@@ -8,9 +8,9 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 78,
-      "current_price": 5.505,
-      "target_entry": 5.501,
+      "score": 88,
+      "current_price": 5.456,
+      "target_entry": 5.429,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,32 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.783,
-      "detailed_reason": "Slot 2 range-bound oversold bounce at lower Bollinger Band with 15m RSI at 32.6 indicating strong mean-reversion potential toward MA20.",
-      "created_at": "2026-09-18T16:55:35.960101+09:00",
-      "created_timestamp": 1789718135.9601145
+      "entry_bid_ratio": 0.279,
+      "detailed_reason": "1시간봉 RSI 28.5 및 15분봉 RSI 29.7 동반 과매도 상태로, 볼린저 하단 지지와 함께 2.22배의 거래량 급증을 동반한 강한 반등 기대 구간.",
+      "created_at": "2026-09-18T17:10:37.659816+09:00",
+      "created_timestamp": 1789719037.659829
+    },
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 82,
+      "current_price": 604.0,
+      "target_entry": 603.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6808,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.902,
+      "detailed_reason": "15분봉 RSI 28.3 과매도 진입 및 볼린저 밴드 하단 근접 지지력 확인, 중심선(617.65)까지의 룸이 확보된 셋업.",
+      "created_at": "2026-09-18T17:10:37.659816+09:00",
+      "created_timestamp": 1789719037.659829
     }
   }
 }
