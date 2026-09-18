@@ -1,28 +1,5 @@
 {
-  "active_positions": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 82.59,
-      "highest_price": 82.59,
-      "buy_amount_krw": 6812,
-      "units": 82.47971909432134,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789725048.4454021,
-      "entry_time": "2026-09-18T18:50:48.445405+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789725048.4454021,
-          82.59
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1126,6 +1103,19 @@
       "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.35%, 하한 +1.85%) | 최고 +2.88% ➔ 실현 1.11%)",
       "entry_time": "2026-09-18T18:26:45.886326+09:00",
       "exit_time": "2026-09-18T18:45:15.961714+09:00"
+    },
+    {
+      "symbol": "FOLD/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 82.59,
+      "exit_price": 80.39,
+      "buy_amount_krw": 6812,
+      "profit_krw": -181,
+      "profit_pct": -2.66,
+      "reason": "🚨 비상 하드 손절선 도달 (-2.66%) 즉시 탈출",
+      "entry_time": "2026-09-18T18:50:48.445405+09:00",
+      "exit_time": "2026-09-18T19:06:25.004014+09:00"
     }
   ]
 }
