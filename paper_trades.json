@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 68.35,
-      "highest_price": 68.48,
-      "buy_amount_krw": 8515,
-      "units": 124.57937088514997,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789730259.10121,
-      "entry_time": "2026-09-18T20:17:39.101213+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789730259.10121,
-          68.35
-        ],
-        [
-          1789730259.10121,
-          68.48
-        ],
-        [
-          1789730261.9573727,
-          68.48
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1186,6 +1155,19 @@
       "reason": "🛡️ Time-Stop 손절선(-0.1%) 3초 지속 이탈 (-0.20%)",
       "entry_time": "2026-09-18T20:06:01.178876+09:00",
       "exit_time": "2026-09-18T20:17:42.560356+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 68.35,
+      "exit_price": 68.97,
+      "buy_amount_krw": 8515,
+      "profit_krw": 77,
+      "profit_pct": 0.91,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.20% ➔ 실현 0.91%)",
+      "entry_time": "2026-09-18T20:17:39.101213+09:00",
+      "exit_time": "2026-09-18T21:12:37.956939+09:00"
     }
   ]
 }
