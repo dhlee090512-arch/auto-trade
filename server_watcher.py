@@ -21,6 +21,7 @@ import hashlib
 import urllib.parse
 import re
 import math
+import websockets
 from datetime import datetime, timedelta, timezone
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -30,13 +31,14 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터
 # ==========================================
-BUILD_VERSION = "2026.09.18-v6-multi-queue"  # 🔖 코드 업데이트 감지용 빌드 태그
-MAX_HOLDING_COINS = 2                        # 🛡️ 최대 동시 운용 종목 수 (2개 집중)
-MIN_BUY_KRW = 6000                           # 💵 최소 매수 금액 (원)
-DEFAULT_BUY_RATIO = 0.20                     # 📊 기본 1회 투입 비중 (총 자산의 20%)
-MAX_TICK_RATIO_PCT = 0.20                    # 🛡️ 1틱 변동률 상한선 (0.20% 초과 종목 배제)
-MIN_24H_ACC_TRADE_VALUE = 1_500_000_000      # 🛡️ 24시간 누적 거래대금 하한선 (15억 원)
-DAILY_LOSS_LIMIT_PCT = -3.0                  # 🛑 일일 누적 손실 서킷브레이커 (-3.0% 도달 시 당일 매매 중단)
+BUILD_VERSION = "2026.09.18-v7-websocket"   # 🔖 코드 업데이트 감지용 빌드 태그
+MAX_HOLDING_COINS = 2                       # 🛡️ 최대 동시 운용 종목 수 (2개 집중)
+MIN_BUY_KRW = 6000                          # 💵 최소 매수 금액 (원)
+DEFAULT_BUY_RATIO = 0.20                    # 📊 기본 1회 투입 비중 (총 자산의 20%)
+MIN_COIN_PRICE_KRW = 50.0                   # 🛡️ 최소 진입 가격 (50원 미만 초저가 동전주 원천 차단)
+MAX_TICK_RATIO_PCT = 0.08                   # 🛡️ 1틱 변동률 상한선 (0.08% 이하 우량/중형 코인만 선별)
+MIN_24H_ACC_TRADE_VALUE = 1_500_000_000     # 🛡️ 24시간 누적 거래대금 하한선 (15억 원)
+DAILY_LOSS_LIMIT_PCT = -3.0                 # 🛑 일일 누적 손실 서킷브레이커 (-3.0% 도달 시 당일 매매 중단)
 
 TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
 TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
@@ -66,7 +68,10 @@ EMERGENCY_STOP = False
 CIRCUIT_BREAKER_ACTIVE = False
 LAST_TELEGRAM_UPDATE_ID = 0
 
-# ⚡ [지연 단축] 전역 영구 HTTP 커넥션 풀링 세션
+# 실시간 웹소켓 캐시 데이터 (밀리초 단위 업데이트)
+WS_TICKER_CACHE = {}     # { "SOL": { "price": 182500.0, "time": 123456789 } }
+WS_ORDERBOOK_CACHE = {}  # { "SOL": { "bids": [...], "asks": [...], "bid_ratio": 0.55, "max_bid_wall": {...} } }
+
 HTTP_SESSION = requests.Session()
 adapter = requests.adapters.HTTPAdapter(pool_connections=35, pool_maxsize=35, max_retries=1)
 HTTP_SESSION.mount('https://', adapter)
@@ -176,13 +181,14 @@ def notify_startup_once():
         baseline_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
         base_str = baseline_dt.strftime("%m/%d %H:%M KST") if baseline_dt else "-"
         send_telegram_msg(
-            f"🚀 [오라클 서버] 점수 기반 대기열 퀀트 엔진 가동 ({BUILD_VERSION})\n"
-            f"• 모드: {mode_str} (0.5초 초정밀 감시 / 최대 2종목)\n"
-            f"• 기준 시각: {base_str} 이후\n"
+            f"🚀 [오라클 서버] 웹소켓 실시간 엔진 가동 ({BUILD_VERSION})\n"
+            f"• 모드: {mode_str} (WebSocket 스트림 + 0.5초 감시 / 2종목)\n"
+            f"• 필터: 50원 이상 & 1틱 0.08% 이하 엄선 (동전주 슬리피지 배제)\n"
             f"• 대기열: 최대 2개 선별 스코어링 + 빈 슬롯 자동 순환 승격\n"
             f"• 인터락: 호가창 3초 붕괴 버퍼 + 5분봉 음봉(-2.0%) 철회\n"
             f"• 익절: 상위 10호가 매수벽 2틱 선제 탈출 + 5단계 역전방지 트레일링\n"
-            f"• 방어: 90s~180s 유연 모멘텀 스크래치 + Time-Stop + 호가 킬스위치\n\n"
+            f"• 손절: ATR 기본 손절 유지 + 고점 +0.8% 도달 시 본절(-0.1%) 락 + 25분 만료\n"
+            f"• 알림: 청산 시 궤적 흐름 요약 자동 첨부\n\n"
             f"📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update"
         )
     else:
@@ -284,8 +290,46 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 📈 [업데이트 이후 누적 성과] ({baseline_display} KST 이후)
 {cum_stats_str}"""
 
+def generate_trade_trajectory_summary(pos: dict, curr_p: float, curr_profit_pct: float, highest_profit_pct: float, elapsed_seconds: float, close_reason: str) -> str:
+    """
+    🎯 청산 시 해당 종목의 주가 궤적과 수급 반응을 직관적인 1~2줄 요약문으로 작성
+    """
+    mins = int(elapsed_seconds // 60)
+    secs = int(elapsed_seconds % 60)
+    dur_str = f"{mins}분 {secs}초" if mins > 0 else f"{secs}초"
+
+    hist = pos.get("price_history", [])
+    entry_p = pos["entry_price"]
+    lowest_profit_pct = 0.0
+    if hist:
+        min_p = min(p for _, p in hist)
+        lowest_profit_pct = round(((min_p - entry_p) / entry_p) * 100.0, 2)
+
+    peak_time_str = "중반"
+    if hist and len(hist) > 2:
+        high_entry = max(hist, key=lambda x: x[1])
+        peak_elapsed = high_entry[0] - pos.get("entry_timestamp", hist[0][0])
+        peak_mins = int(peak_elapsed // 60)
+        peak_secs = int(peak_elapsed % 60)
+        peak_time_str = f"{peak_mins}분 {peak_secs}초경" if peak_mins > 0 else f"{peak_secs}초경"
+
+    if "트레일링 익절" in close_reason:
+        return f"진입 {peak_time_str} 최고 +{highest_profit_pct:.2f}%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: {dur_str})"
+    elif "본절 락" in close_reason:
+        return f"진입 {peak_time_str} 최고 +{highest_profit_pct:.2f}%까지 1차 분출했으나, 후속 수급 부재로 평단가까지 되밀려 원금 보호를 위해 본절 수준에서 청산함. (보유: {dur_str})"
+    elif "스크래치" in close_reason:
+        return f"진입 후 {dur_str} 동안 최고 +{highest_profit_pct:.2f}%에 그치며 반등 탄력을 전혀 받지 못했고, 호가 매수세가 이탈하여 조기 손절함."
+    elif "25분" in close_reason or "타임아웃" in close_reason or "만료" in close_reason:
+        return f"진입 후 25분 동안 {lowest_profit_pct:.2f}% ~ +{highest_profit_pct:.2f}% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함."
+    elif "킬스위치" in close_reason:
+        return f"약손실 구간에서 매수벽이 순간 붕괴되며 매수잔량 비율이 급감하여, 추가 슬리피지 방지를 위해 선제 탈출함. (보유: {dur_str})"
+    elif "비상" in close_reason:
+        return f"진입 직후 매도 덤핑 투매가 발생하여 비상 하드 손절선에 닿아 즉각 탈출함. (보유: {dur_str})"
+    else:
+        return f"보유 시간 {dur_str} 동안 최저 {lowest_profit_pct:.2f}% ~ 최고 +{highest_profit_pct:.2f}% 진폭을 보인 후 손절/익절 조건에 부합하여 정리함."
+
 # ==========================================
-# 3. 빗썸 호가창(Orderbook) 상위 10호가 엔진
+# 3. 빗썸 호가창(Orderbook) 및 웹소켓(WebSocket) 엔진
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -308,19 +352,55 @@ def get_bithumb_jwt_headers(query_params: dict = None):
         'Content-Type': 'application/json'
     }
 
+def get_bithumb_tick_size(price: float) -> float:
+    if price < 1.0: return 0.0001
+    elif price < 10.0: return 0.001
+    elif price < 100.0: return 0.01
+    elif price < 1000.0: return 1.0
+    elif price < 5000.0: return 1.0
+    elif price < 10000.0: return 5.0
+    elif price < 50000.0: return 10.0
+    elif price < 100000.0: return 50.0
+    elif price < 500000.0: return 100.0
+    elif price < 1000000.0: return 500.0
+    else: return 1000.0
+
+def round_to_bithumb_tick(price: float) -> float:
+    if price < 1.0: return round(price, 4)
+    elif price < 10.0: return round(price, 3)
+    elif price < 100.0: return round(price, 2)
+    elif price < 1000.0: return float(int(price))
+    elif price < 5000.0: return float(int(price))
+    elif price < 10000.0: return float(int(price / 5.0) * 5)
+    elif price < 50000.0: return float(int(price / 10.0) * 10)
+    elif price < 100000.0: return float(int(price / 50.0) * 50)
+    elif price < 500000.0: return float(int(price / 100.0) * 100)
+    elif price < 1000000.0: return float(int(price / 500.0) * 500)
+    else: return float(int(price / 1000.0) * 1000)
+
 def get_current_price(coin_code: str):
+    # ⚡ 웹소켓 캐시 우선 참조 (1초 이내 최신 데이터)
+    cached = WS_TICKER_CACHE.get(coin_code)
+    if cached and (time.time() - cached.get("time", 0) <= 2.0):
+        return cached["price"]
     try:
         url = f"https://api.bithumb.com/public/ticker/{coin_code}_KRW"
         res = HTTP_SESSION.get(url, timeout=1.5).json()
         if res.get("status") == "0000":
             price = float(res["data"]["closing_price"])
             if price > 0:
+                WS_TICKER_CACHE[coin_code] = {"price": price, "time": time.time()}
                 return price
     except Exception:
         pass
-    return None
+    return cached.get("price") if cached else None
 
 def get_bithumb_orderbook_10(coin_code: str):
+    # ⚡ 웹소켓 호가 캐시 우선 참조
+    cached = WS_ORDERBOOK_CACHE.get(coin_code)
+    if cached and (time.time() - cached.get("time", 0) <= 2.0):
+        return cached
+
     try:
         url = f"https://api.bithumb.com/public/orderbook/{coin_code}_KRW"
         res = HTTP_SESSION.get(url, timeout=1.5).json()
@@ -337,18 +417,102 @@ def get_bithumb_orderbook_10(coin_code: str):
             total_bid_krw = sum(b["price"] * b["quantity"] for b in bids)
             max_bid_wall = max(bids, key=lambda x: x["quantity"]) if bids else None
             
-            return {
+            parsed = {
                 "bids": bids,
                 "asks": asks,
                 "total_bid_qty": total_bid_qty,
                 "total_ask_qty": total_ask_qty,
                 "total_bid_krw": total_bid_krw,
                 "bid_ratio": round(bid_ratio, 3),
-                "max_bid_wall": max_bid_wall
+                "max_bid_wall": max_bid_wall,
+                "time": time.time()
             }
+            WS_ORDERBOOK_CACHE[coin_code] = parsed
+            return parsed
     except Exception:
         pass
-    return None
+    return cached
+
+async def bithumb_websocket_stream_worker():
+    """
+    ⚡ 빗썸 공식 WebSocket (wss://pubwss.bithumb.com/pub/ws) 연동
+    보유 포지션 및 대기열 종목의 체결 틱(transaction)과 10호가(orderbookdepth)를 밀리초 단위로 수신
+    """
+    logging.info("🌐 [WebSocket] 빗썸 실시간 스트림 연결 프로세스 시작")
+    ws_url = "wss://pubwss.bithumb.com/pub/ws"
+    
+    while True:
+        try:
+            async with websockets.connect(ws_url, ping_interval=30, ping_timeout=10) as ws:
+                logging.info("🟢 [WebSocket] 빗썸 퍼블릭 스트림 서버 연결 성공")
+                last_sub_symbols = set()
+
+                while True:
+                    server_state = load_json_file(STATE_FILE, {})
+                    paper_db = load_json_file(PAPER_TRADES_FILE, {"active_positions": {}, "closed_trades": []})
+                    active_coins = set(paper_db.get("active_positions", {}).keys())
+                    queue_coins = set(server_state.get("target_queue", {}).keys())
+                    
+                    target_symbols = [f"{c}_KRW" for c in active_coins.union(queue_coins) if c]
+                    target_symbols_set = set(target_symbols)
+
+                    # 구독 종목 변경 감지 시 재구독 전송
+                    if target_symbols_set != last_sub_symbols and len(target_symbols) > 0:
+                        sub_msg_tx = {"type": "transaction", "symbols": target_symbols}
+                        sub_msg_ob = {"type": "orderbookdepth", "symbols": target_symbols}
+                        await ws.send(json.dumps(sub_msg_tx))
+                        await ws.send(json.dumps(sub_msg_ob))
+                        last_sub_symbols = target_symbols_set
+                        logging.info(f"📡 [WebSocket] 구독 갱신 완료: {', '.join(target_symbols)}")
+
+                    try:
+                        raw_msg = await asyncio.wait_for(ws.recv(), timeout=2.0)
+                        data = json.loads(raw_msg)
+                        msg_type = data.get("type")
+                        content = data.get("content", {})
+
+                        if msg_type == "transaction":
+                            # 실시간 체결가 갱신
+                            for item in content.get("list", []):
+                                symbol = item.get("symbol", "")
+                                code = symbol.split('_')[0].upper()
+                                price = float(item.get("price", 0.0))
+                                if code and price > 0:
+                                    WS_TICKER_CACHE[code] = {"price": price, "time": time.time()}
+
+                        elif msg_type == "orderbookdepth":
+                            # 실시간 10호가 갱신
+                            for item in content.get("list", []):
+                                symbol = item.get("symbol", "")
+                                code = symbol.split('_')[0].upper()
+                                bids_raw = item.get("bids", [])[:10]
+                                asks_raw = item.get("asks", [])[:10]
+                                
+                                bids = [{"price": float(b[0]), "quantity": float(b[1])} for b in bids_raw]
+                                asks = [{"price": float(a[0]), "quantity": float(a[1])} for a in asks_raw]
+                                
+                                total_bid_qty = sum(b["quantity"] for b in bids)
+                                total_ask_qty = sum(a["quantity"] for a in asks)
+                                total_qty = total_bid_qty + total_ask_qty
+                                bid_ratio = (total_bid_qty / total_qty) if total_qty > 0 else 0.5
+                                total_bid_krw = sum(b["price"] * b["quantity"] for b in bids)
+                                max_bid_wall = max(bids, key=lambda x: x["quantity"]) if bids else None
+
+                                WS_ORDERBOOK_CACHE[code] = {
+                                    "bids": bids,
+                                    "asks": asks,
+                                    "total_bid_qty": total_bid_qty,
+                                    "total_ask_qty": total_ask_qty,
+                                    "total_bid_krw": total_bid_krw,
+                                    "bid_ratio": round(bid_ratio, 3),
+                                    "max_bid_wall": max_bid_wall,
+                                    "time": time.time()
+                                }
+                    except asyncio.TimeoutError:
+                        continue
+        except Exception as e:
+            logging.warning(f"⚠️ [WebSocket] 연결 끊김 또는 수신 에러: {e} ➔ 3초 후 재연결")
+            await asyncio.sleep(3.0)
 
 def get_bithumb_account_summary():
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -471,32 +635,6 @@ def execute_real_market_sell_order(coin_code: str, units: float):
         return False, str(res)
     except Exception as e:
         return False, str(e)
-
-def round_to_bithumb_tick(price: float) -> float:
-    if price < 1.0: return round(price, 4)
-    elif price < 10.0: return round(price, 3)
-    elif price < 100.0: return round(price, 2)
-    elif price < 1000.0: return float(int(price))
-    elif price < 5000.0: return float(int(price))
-    elif price < 10000.0: return float(int(price / 5.0) * 5)
-    elif price < 50000.0: return float(int(price / 10.0) * 10)
-    elif price < 100000.0: return float(int(price / 50.0) * 50)
-    elif price < 500000.0: return float(int(price / 100.0) * 100)
-    elif price < 1000000.0: return float(int(price / 500.0) * 500)
-    else: return float(int(price / 1000.0) * 1000)
-
-def get_bithumb_tick_size(price: float) -> float:
-    if price < 1.0: return 0.0001
-    elif price < 10.0: return 0.001
-    elif price < 100.0: return 0.01
-    elif price < 1000.0: return 1.0
-    elif price < 5000.0: return 1.0
-    elif price < 10000.0: return 5.0
-    elif price < 50000.0: return 10.0
-    elif price < 100000.0: return 50.0
-    elif price < 500000.0: return 100.0
-    elif price < 1000000.0: return 500.0
-    else: return 1000.0
 
 def get_candles(coin_code, interval="15m", limit=40):
     try:
@@ -723,7 +861,12 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
     if len(candles_1h) < 20 or len(candles_15m) < 20 or len(candles_5m) < 5:
         return None, None
 
+    # 🛡️ 50원 미만 초저가 동전주 원천 차단
+    if price < MIN_COIN_PRICE_KRW:
+        return None, None
+
     q = calculate_quant_features(candles_1h, candles_15m)
+    # 🛡️ 1틱 변동률 상한선 0.08% 엄격 적용
     if q["tick_ratio_pct"] > MAX_TICK_RATIO_PCT:
         return None, None
 
@@ -847,9 +990,11 @@ def execute_server_side_strategy():
         if sym == "date" or sym.upper() in STABLE_COINS: continue
         if sym in held_or_queued_codes: continue
         try:
+            close_p = float(info['closing_price'])
+            if close_p < MIN_COIN_PRICE_KRW: continue  # 🛡️ 50원 미만 배제
             val_24h = float(info['acc_trade_value_24H'])
             if val_24h < MIN_24H_ACC_TRADE_VALUE: continue
-            raw_list.append((sym, float(info['closing_price']), float(info['fluctate_rate_24H']), val_24h))
+            raw_list.append((sym, close_p, float(info['fluctate_rate_24H']), val_24h))
         except Exception: pass
 
     sorted_list = sorted(raw_list, key=lambda x: x[3], reverse=True)[:35]
@@ -925,7 +1070,7 @@ def execute_server_side_strategy():
     now_ts = time.time()
     added_to_queue = 0
 
-    # AI가 채점한 후보들을 대기열(target_queue)에 등록
+    # 🎯 AI 다중 종목 선발 및 스코어링 대기열 등록
     for cand in candidates[:2]:
         sym = cand.get("symbol", "")
         code = sym.split('/')[0].upper()
@@ -937,14 +1082,14 @@ def execute_server_side_strategy():
             continue
 
         curr_p = get_current_price(code)
-        if not curr_p:
+        if not curr_p or curr_p < MIN_COIN_PRICE_KRW:
             continue
 
         chosen_setup = next((item for item in target_pool if item["code"] == code), target_pool[0])
         discount = max(float(cand.get("entry_discount_pct", 0.25)), 0.15)
         base_target_entry = round_to_bithumb_tick(curr_p * (1.0 - (discount / 100.0)))
         
-        # 10호가벽 1틱 앞 보정
+        # 상위 10호가벽 1틱 앞 보정
         ob = get_bithumb_orderbook_10(code)
         final_target_entry = base_target_entry
         bid_ratio_entry = 0.5
@@ -970,12 +1115,12 @@ def execute_server_side_strategy():
             "timeout_mins": 10,
             "buy_amount_krw": actual_buy_krw,
             "ordered_volume": 0.0,
-            "order_uuid": None,               # 거래소 주문 접수 전 상태
-            "order_placed": False,            # 실제 거래소 지정가 접수 여부
-            "bid_breach_start_time": None,    # 호가창 3초 붕괴 버퍼 계측
+            "order_uuid": None,
+            "order_placed": False,
+            "bid_breach_start_time": None,    # 호가창 3초 붕괴 버퍼
             "entry_bid_ratio": bid_ratio_entry,
             "detailed_reason": cand.get("detailed_reason", "사유 미기재"),
-            "created_at": now_iso,            # 🎯 AI 분석 완료 시각 (만료시간 엄수 기준)
+            "created_at": now_iso,            # 🎯 AI 분석 완료 시점 (만료시간 엄수 기준)
             "created_timestamp": now_ts
         }
 
@@ -993,15 +1138,17 @@ def execute_server_side_strategy():
         sync_file_to_github(TARGETS_FILE, targets_payload)
 
 # ==========================================
-# 7. 실시간 감시 엔진 (0.5초 / 대기열 2슬롯 순환 / 3초 호가 버퍼 / 호가벽 2틱 탈출)
+# 7. 실시간 감시 엔진 (웹소켓 연동 / 10호가벽 2틱 탈출 / 조건부 본절 락 / 25분 만료)
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP, PAPER_TRADING, PENDING_PAPER_DRAIN
-    logging.info(f"⚡ 점수 기반 대기열 퀀트 엔진 가동 (Build: {BUILD_VERSION} / 0.5초 감시)")
+    logging.info(f"⚡ 웹소켓 기반 실시간 엔진 가동 (Build: {BUILD_VERSION})")
     last_strategy_run = 0
 
-    t = threading.Thread(target=telegram_listener_thread, daemon=True)
-    t.start()
+    # 텔레그램 명령 리스너 스레드 가동
+    threading.Thread(target=telegram_listener_thread, daemon=True).start()
+    # 빗썸 실시간 웹소켓 워커 비동기 태스크 가동
+    asyncio.create_task(bithumb_websocket_stream_worker())
 
     while True:
         try:
@@ -1031,29 +1178,29 @@ async def realtime_execution_engine():
                     save_json_file(STATE_FILE, server_state)
                     send_telegram_msg("🎉 [모드 전환 완료] 모든 실전 포지션이 청산되어 모의투자(PAPER) 모드로 자동 전환되었습니다.")
 
-            # [1] 점수 기반 대기열 2슬롯 채우기 및 만료/인터락 감시
+            # [1] 점수 기반 대기열 2슬롯 순환 승격 및 인터락 감시
             mode_active_count = len([v for v in active_positions.values() if v.get("is_paper", True) == PAPER_TRADING])
             available_slots = max(0, MAX_HOLDING_COINS - mode_active_count)
 
-            # 대기열 정렬: 점수(score) 높은 순, 같으면 먼저 등록된 순
+            current_active_orders = len([
+                v for v in target_queue.values()
+                if v.get("is_paper", True) == PAPER_TRADING and v.get("order_placed", False)
+            ])
+
             sorted_queue_items = sorted(
-                target_queue.items(),
+                list(target_queue.items()),
                 key=lambda x: (x[1].get("score", 0), -x[1].get("created_timestamp", 0)),
                 reverse=True
             )
 
-            current_active_orders = 0
+            # 빈 슬롯이 있으면 점수가 가장 높은 미주문 종목을 거래소 지정가 매수로 승격
             for code, plan in sorted_queue_items:
-                if plan.get("order_placed", False):
-                    current_active_orders += 1
-
-            # 빈 슬롯이 있으면 대기열 최상위 종목 중 미주문 종목을 거래소 지정가 매수로 승격 접수
-            for code, plan in sorted_queue_items:
+                if plan.get("is_paper", True) != PAPER_TRADING:
+                    continue
                 if current_active_orders >= available_slots:
                     break
 
                 if not plan.get("order_placed", False):
-                    # 🎯 거래소 지정가 매수 승격 접수
                     succ, order_uuid, ord_vol = execute_real_limit_buy_order(code, plan["target_entry"], plan["buy_amount_krw"])
                     if succ:
                         plan["order_placed"] = True
@@ -1074,19 +1221,20 @@ async def realtime_execution_engine():
                             f"💡 선정 사유: {plan.get('detailed_reason')}"
                         )
 
-            # 대기열 등록 종목들에 대한 유효성/만료/체결 감시
+            # 대기열 등록 종목 감시 (복사본 순회로 런타임 오류 방지)
             for code, plan in list(target_queue.items()):
                 created_ts = plan.get("created_timestamp", now)
                 elapsed_mins = (now - created_ts) / 60.0
                 timeout_limit = plan.get("timeout_mins", 10)
                 order_uuid = plan.get("order_uuid")
 
-                # ① 만료 시간 엄수 (AI 분석 완료 시점 기준 10분 경과 시 삭제)
+                # ① 만료 시간 엄수 (AI 분석 시점 기준 10분)
                 if elapsed_mins >= timeout_limit:
                     logging.info(f"⌛ [{plan['symbol']}] AI 분석 기준 10분 경과로 대기열 및 거래소 주문 자동 취소")
                     if plan.get("order_placed", False) and order_uuid:
                         cancel_bithumb_order(order_uuid)
-                    del target_queue[code]
+                    if code in target_queue:
+                        del target_queue[code]
                     server_state["target_queue"] = target_queue
                     save_json_file(STATE_FILE, server_state)
                     send_telegram_msg(f"⌛ [{plan['symbol']}] 유효 시간(10분) 만료로 대기 주문을 철회하고 다음 대기 종목으로 순환합니다.")
@@ -1121,13 +1269,14 @@ async def realtime_execution_engine():
                     logging.info(f"🛑 [{plan['symbol']}] 타점 무효화 ({invalidate_reason}) ➔ 거래소 주문 철회 및 대기열 제거")
                     if plan.get("order_placed", False) and order_uuid:
                         cancel_bithumb_order(order_uuid)
-                    del target_queue[code]
+                    if code in target_queue:
+                        del target_queue[code]
                     server_state["target_queue"] = target_queue
                     save_json_file(STATE_FILE, server_state)
                     send_telegram_msg(f"🛑 [{plan['symbol']}] 타점 무효화로 주문을 철회했습니다.\n• 사유: {invalidate_reason}\n➔ 대기열 다음 순위 종목으로 슬롯을 채웁니다.")
                     continue
 
-                # ④ 체결 검사 (실제 주문이 들어간 상태인 경우)
+                # ④ 체결 검사
                 if plan.get("order_placed", False):
                     curr_p = get_current_price(code)
                     is_filled = False
@@ -1140,7 +1289,8 @@ async def realtime_execution_engine():
                         if order_state == "done":
                             is_filled = True
                         elif order_state == "cancel":
-                            del target_queue[code]
+                            if code in target_queue:
+                                del target_queue[code]
                             server_state["target_queue"] = target_queue
                             save_json_file(STATE_FILE, server_state)
                             continue
@@ -1168,16 +1318,18 @@ async def realtime_execution_engine():
                             "highest_price": real_entry_price,
                             "buy_amount_krw": actual_invested_krw,
                             "units": real_units,
-                            "sl_pct": plan["sl_pct"],
-                            "emergency_sl_pct": plan["emergency_sl_pct"],
+                            "sl_pct": plan["sl_pct"],                      # ATR 기본 손절선
+                            "emergency_sl_pct": plan["emergency_sl_pct"],  # 비상 탈출선
                             "sl_breach_start_time": None,
                             "entry_timestamp": now,
                             "entry_time": now_dt.isoformat(),
                             "locked_floor_profit_pct": 0.0,
+                            "breakeven_locked": False,                     # +0.8% 도달 시 본절 락 플래그
                             "price_history": [(now, real_entry_price)]
                         }
 
-                        del target_queue[code]
+                        if code in target_queue:
+                            del target_queue[code]
                         paper_db["active_positions"] = active_positions
                         server_state["target_queue"] = target_queue
                         save_json_file(PAPER_TRADES_FILE, paper_db)
@@ -1192,10 +1344,11 @@ async def realtime_execution_engine():
                             f"• 매수금 : {actual_invested_krw:,} KRW (수량: {real_units:,.4f})\n"
                             f"🛡️ 1차 손절선: {plan['sl_pct']}% (3초 버퍼) / 비상선: {plan['emergency_sl_pct']}%\n"
                             f"📈 익절: +1.0%부터 매수벽 2틱 위 선제 탈출 + 5단계 역전방지 트레일링\n"
+                            f"🔒 안전: +0.8% 도달 시 본절(-0.1%) 락 + 25분 만료 타임아웃\n"
                             f"⏰ 체결 시각: {now_dt.strftime('%m/%d %H:%M KST')}"
                         )
 
-            # [2] 보유 포지션 실시간 감시 (호가벽 2틱 선제탈출 + 5단계 역전방지 트레일링 + 유연 스크래치)
+            # [2] 보유 포지션 실시간 감시 (호가벽 2틱 선제탈출 + 5단계 역전방지 + 조건부 본절락 + 25분 만료)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p: continue
@@ -1217,6 +1370,10 @@ async def realtime_execution_engine():
                     pos["highest_price"] = curr_p
 
                 highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
+
+                # 🔒 [조건부 본절 상향: 최고 수익률 +0.8% 도달 시 본절(-0.1%) 영구 락]
+                if highest_profit_pct >= 0.8:
+                    pos["breakeven_locked"] = True
 
                 # 🎯 [5단계 정적 트레일링 파라미터 & 역전 방지 하한선(Floor Lock)]
                 trailing_active = False
@@ -1245,16 +1402,6 @@ async def realtime_execution_engine():
                     stage_floor_lock = 0.75
 
                 pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), stage_floor_lock)
-
-                # ⏱️ [Time-Stop 손절선 계단 상향: 15분봉 호흡 연동]
-                effective_sl_pct = pos["sl_pct"]
-                if elapsed_seconds >= 480:      # 8분 초과: 본절 수준(-0.1%)
-                    effective_sl_pct = max(effective_sl_pct, -0.1)
-                elif elapsed_seconds >= 300:   # 5분 초과: -0.4%
-                    effective_sl_pct = max(effective_sl_pct, -0.4)
-                elif elapsed_seconds >= 180:   # 3분 초과: -0.8%
-                    effective_sl_pct = max(effective_sl_pct, -0.8)
-
                 save_json_file(PAPER_TRADES_FILE, paper_db)
 
                 should_close = False
@@ -1289,7 +1436,12 @@ async def realtime_execution_engine():
                     should_close = True
                     close_reason = f"🚨 비상 하드 손절선 도달 ({curr_profit_pct:.2f}%) 즉시 탈출"
 
-                # ③ ⚡ [유연한 모멘텀 스크래치: 90s/180s/240s 체계]
+                # ③ 🔒 [조건부 본절 락 탈출: +0.8% 이상 찍고 -0.1% 이하로 복귀 시]
+                elif pos.get("breakeven_locked", False) and curr_profit_pct <= -0.10:
+                    should_close = True
+                    close_reason = f"🛡️ 고점(+{highest_profit_pct:.2f}%) 달성 후 평단가 복귀 본절 락 탈출 ({curr_profit_pct:.2f}%)"
+
+                # ④ ⚡ [유연한 모멘텀 스크래치: 90s/180s/240s 체계]
                 elif (90.0 <= elapsed_seconds <= 180.0) and (highest_profit_pct <= 0.2) and (curr_profit_pct <= -0.35):
                     ob_scratch = get_bithumb_orderbook_10(coin_code)
                     if ob_scratch and ob_scratch["total_bid_krw"] >= 10_000_000 and ob_scratch["bid_ratio"] < 0.30:
@@ -1300,36 +1452,29 @@ async def realtime_execution_engine():
                     should_close = True
                     close_reason = f"⚡ 진입 3분 모멘텀 탄력 부재 스크래치 탈출 ({curr_profit_pct:.2f}%)"
 
-                # ④ 🛡️ [호가창 킬스위치]
+                # ⑤ 🛡️ [호가창 킬스위치]
                 elif -0.7 <= curr_profit_pct <= -0.3:
                     ob_pos = get_bithumb_orderbook_10(coin_code)
                     if ob_pos and ob_pos["bid_ratio"] < 0.25:
                         should_close = True
                         close_reason = f"🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 {ob_pos['bid_ratio']*100:.1f}%)"
 
-                # ⑤ 🛡️ [Time-Stop 또는 1차 손절선 + 3초 지속 버퍼]
-                elif curr_profit_pct <= effective_sl_pct:
+                # ⑥ ⌛ [절대 시간 제한 (Hard Time-Out): 25분 경과 시 +1.0% 미만 전량 청산]
+                elif elapsed_seconds >= 1500 and curr_profit_pct < 1.0:
+                    should_close = True
+                    close_reason = f"⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 {curr_profit_pct:.2f}%)"
+
+                # ⑦ 🛡️ [기본 ATR 손절선 유지 + 3초 지속 버퍼]
+                elif curr_profit_pct <= pos["sl_pct"]:
                     if pos.get("sl_breach_start_time") is None:
                         pos["sl_breach_start_time"] = now
-                        logging.info(f"⚠️ [{pos['symbol']}] 동적 손절선({effective_sl_pct}%) 터치 (현재: {curr_profit_pct:.2f}%) ➔ 3초 버퍼 계측")
+                        logging.info(f"⚠️ [{pos['symbol']}] ATR 손절선({pos['sl_pct']}%) 터치 (현재: {curr_profit_pct:.2f}%) ➔ 3초 버퍼 계측")
                     elif now - pos["sl_breach_start_time"] >= 3.0:
                         should_close = True
-                        time_tag = "Time-Stop " if effective_sl_pct > pos["sl_pct"] else "1차 "
-                        close_reason = f"🛡️ {time_tag}손절선({effective_sl_pct}%) 3초 지속 이탈 ({curr_profit_pct:.2f}%)"
+                        close_reason = f"🛡️ 기본 ATR 손절선({pos['sl_pct']}%) 3초 지속 이탈 ({curr_profit_pct:.2f}%)"
                 else:
                     if pos.get("sl_breach_start_time") is not None:
                         pos["sl_breach_start_time"] = None
-
-                    # ⑥ 장기 횡보 청산
-                    hold_duration = now_dt - entry_time
-                    max_duration = timedelta(minutes=25) if pos.get("slot") == "SLOT_1_PULSE" else timedelta(minutes=60)
-                    if hold_duration >= max_duration and curr_profit_pct < 1.0 and len(hist) >= 20:
-                        recent_prices = [p for _, p in hist]
-                        high_p, low_p = max(recent_prices), min(recent_prices)
-                        volatility_pct = ((high_p - low_p) / low_p) * 100.0 if low_p > 0 else 1.0
-                        if volatility_pct < 0.5:
-                            should_close = True
-                            close_reason = f"⌛ 변동성 소멸 횡보 청산 (최근 변동폭 {volatility_pct:.2f}%)"
 
                 if should_close:
                     if not pos.get("is_paper", True):
@@ -1338,6 +1483,11 @@ async def realtime_execution_engine():
                     profit_pct = round(curr_profit_pct, 2)
                     buy_krw = pos.get("buy_amount_krw", MIN_BUY_KRW)
                     profit_krw = round(buy_krw * (profit_pct / 100.0))
+
+                    # 🎯 종목 흐름 궤적 요약문 생성
+                    trajectory_summary = generate_trade_trajectory_summary(
+                        pos, curr_p, curr_profit_pct, highest_profit_pct, elapsed_seconds, close_reason
+                    )
 
                     closed_trades.append({
                         "symbol": pos["symbol"],
@@ -1349,6 +1499,7 @@ async def realtime_execution_engine():
                         "profit_krw": profit_krw,
                         "profit_pct": profit_pct,
                         "reason": close_reason,
+                        "trajectory_summary": trajectory_summary,
                         "entry_time": pos.get("entry_time", ""),
                         "exit_time": now_dt.isoformat()
                     })
@@ -1368,7 +1519,10 @@ async def realtime_execution_engine():
 • 종목 : {pos['symbol']}
 • 진입가 : {entry_p:,.4f} KRW ➔ 청산가 : {curr_p:,.4f} KRW
 • 손익률 : {sign_pct}{profit_pct:.2f}% ({sign_krw}{profit_krw:,}원)
-• 사유 : {close_reason}"""
+• 사유 : {close_reason}
+
+📊 흐름 요약:
+{trajectory_summary}"""
                     send_telegram_msg(exit_msg)
 
                     portfolio_msg = format_portfolio_status_msg(active_positions, closed_trades)
@@ -1533,7 +1687,7 @@ def telegram_listener_thread():
                         elif PENDING_PAPER_DRAIN:
                             status_str = "⏳ 모의투자 전환 대기 중 (실전 포지션 소진 중)"
                         else:
-                            status_str = "🟢 0.5초 실시간 감시 중 (RUNNING)"
+                            status_str = "🟢 WebSocket 스트림 감시 중 (RUNNING)"
 
                         mode_closed = [t for t in closed_trades if t.get("is_paper", True) == PAPER_TRADING]
 
