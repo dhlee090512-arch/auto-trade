@@ -1,24 +1,24 @@
 {
-  "updated_at": "2026-09-18T13:20:35.674070+09:00",
+  "updated_at": "2026-09-18T14:30:41.489627+09:00",
   "paper_trading": true,
   "targets": {
-    "FLOCK": {
-      "symbol": "FLOCK/KRW",
-      "code": "FLOCK",
+    "COTI": {
+      "symbol": "COTI/KRW",
+      "code": "COTI",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 95.52,
-      "target_entry": 95.38,
+      "current_price": 30.54,
+      "target_entry": 30.42,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 30,
-      "buy_amount_krw": 6000,
-      "ordered_volume": 62.90626965820927,
-      "order_uuid": "mock_order_8fb99784",
-      "entry_bid_ratio": 0.397,
-      "detailed_reason": "Slot 2 range-bound oversold bounce confirmed with 15m RSI at 33.3 near the lower Bollinger Band support, offering a strong risk-reward ratio targeting the 1h moving average.",
-      "created_at": "2026-09-18T13:20:35.674070+09:00"
+      "buy_amount_krw": 6808,
+      "ordered_volume": 223.80013149243916,
+      "order_uuid": "mock_order_b93e1d56",
+      "entry_bid_ratio": 0.412,
+      "detailed_reason": "Slot 2 레인지 바운드 전략 조건 충족: 15분봉 RSI 36.5로 단기 과매도 구간 진입 및 볼린저 하단 지지 확인, MA20 상향 돌파 후 중심선(32.074) 부근까지의 반등 기대.",
+      "created_at": "2026-09-18T14:30:41.489627+09:00"
     }
   }
 }
