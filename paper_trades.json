@@ -1,5 +1,28 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "COTI": {
+      "symbol": "COTI/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 28.82,
+      "highest_price": 28.82,
+      "buy_amount_krw": 6811,
+      "units": 236.3289382373352,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789737284.3983417,
+      "entry_time": "2026-09-18T22:14:44.398345+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789737284.3983417,
+          28.82
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
