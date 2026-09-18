@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T09:48:53.611613+09:00",
+  "updated_at": "2026-09-18T09:53:55.127796+09:00",
   "paper_trading": true,
   "targets": {
-    "AGI": {
-      "symbol": "AGI/KRW",
-      "code": "AGI",
-      "mode": "SWING",
+    "LSK": {
+      "symbol": "LSK/KRW",
+      "code": "LSK",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "current_price": 7.69,
-      "target_entry": 7.662,
+      "slot": "SLOT_1_PULSE",
+      "current_price": 656.0,
+      "target_entry": 654.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6800,
-      "ordered_volume": 887.4967371443488,
-      "order_uuid": "mock_order_dc76db96",
-      "entry_bid_ratio": 0.275,
-      "detailed_reason": "SLOT_2_RANGE 조건에 따라 15분봉 RSI(30.2) 과매도 구간에서 볼린저 하단 지지를 확인하였으며, 중심선(7.9341)까지의 반등 기대 및 합리적인 리스크 관리가 가능한 구간임",
-      "created_at": "2026-09-18T09:48:53.611613+09:00"
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6801,
+      "ordered_volume": 10.399082568807339,
+      "order_uuid": "mock_order_eaa5a27e",
+      "entry_bid_ratio": 0.479,
+      "detailed_reason": "Slot 1 펄스 전략: 15분봉 거래량 2.27배 급증 이후 1시간 기준 대규모 수급(약 21.9억 원)이 유입된 상태에서 발생한 전형적인 첫 음봉 눌림목 구간으로, 단기 반등 모멘텀이 매우 높음.",
+      "created_at": "2026-09-18T09:53:55.127796+09:00"
     }
   }
 }
