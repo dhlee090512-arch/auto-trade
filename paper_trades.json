@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "COTI": {
-      "symbol": "COTI/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 28.62,
-      "highest_price": 28.62,
-      "buy_amount_krw": 6826,
-      "units": 238.5045422781272,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789740861.878668,
-      "entry_time": "2026-09-18T23:14:21.878671+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789740861.878668,
-          28.62
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1231,6 +1207,20 @@
       "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.02% ➔ 실현 0.60%)",
       "entry_time": "2026-09-18T22:51:18.805808+09:00",
       "exit_time": "2026-09-18T23:04:18.016061+09:00"
+    },
+    {
+      "symbol": "COTI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 28.62,
+      "exit_price": 28.5,
+      "buy_amount_krw": 6826,
+      "profit_krw": -29,
+      "profit_pct": -0.42,
+      "reason": "⚡ 진입 3분 모멘텀 탄력 부재 스크래치 탈출 (-0.42%)",
+      "trajectory_summary": "진입 후 3분 0초 동안 최고 +0.00%에 그치며 반등 탄력을 전혀 받지 못했고, 호가 매수세가 이탈하여 조기 손절함.",
+      "entry_time": "2026-09-18T23:14:21.878671+09:00",
+      "exit_time": "2026-09-18T23:17:22.047983+09:00"
     }
   ]
 }
