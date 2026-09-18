@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T22:51:08.943087+09:00",
+  "updated_at": "2026-09-18T23:11:11.974868+09:00",
   "paper_trading": true,
   "queue": {
     "COTI": {
@@ -8,21 +8,21 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 88,
-      "current_price": 28.53,
-      "target_entry": 28.5,
+      "score": 75,
+      "current_price": 28.68,
+      "target_entry": 28.62,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6824,
+      "buy_amount_krw": 6826,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.201,
-      "detailed_reason": "15분봉 RSI(28.5) 및 1시간봉 RSI(18.7) 극단적 과매도 구간 진입 후 볼린저 하단 지지선 부근에서 반등이 임박한 전형적인 슬롯 2 레인지 바운스 셋업입니다.",
-      "created_at": "2026-09-18T22:51:08.943087+09:00",
-      "created_timestamp": 1789739468.943099
+      "entry_bid_ratio": 0.316,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 과매도 구간 진입 및 볼린저 하단 지지를 활용한 단기 평균회귀 반등 기대",
+      "created_at": "2026-09-18T23:11:11.974868+09:00",
+      "created_timestamp": 1789740671.9748805
     }
   }
 }
