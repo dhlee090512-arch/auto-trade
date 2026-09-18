@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T00:13:31.973359+09:00",
+  "updated_at": "2026-09-19T00:23:32.463557+09:00",
   "paper_trading": true,
   "queue": {
     "RAY": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 6827,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 3.04097995545657,
+      "order_uuid": "mock_order_1144d40a",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.313,
       "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 33.2 과매도 구간에서 볼린저밴드 하단 지지를 확인하며 중심선(MA20)까지의 기술적 반등 기대",
       "created_at": "2026-09-19T00:13:31.973359+09:00",
       "created_timestamp": 1789744411.9733808
+    },
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "score": 88,
+      "current_price": 88.85,
+      "target_entry": 88.58,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6830,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.814,
+      "detailed_reason": "15분 거래량 25.77배 급증과 1시간 기준 6.4억 원의 강한 수급 유입 후 발생한 첫 음봉 눌림목 구간으로, RSI 지표가 과열권에서 안정화되며 단기 반등 모멘텀이 매우 높음.",
+      "created_at": "2026-09-19T00:23:32.463557+09:00",
+      "created_timestamp": 1789745012.4635694
     }
   }
 }
