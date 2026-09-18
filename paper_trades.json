@@ -1,28 +1,5 @@
 {
-  "active_positions": {
-    "COTI": {
-      "symbol": "COTI/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 28.82,
-      "highest_price": 28.82,
-      "buy_amount_krw": 6811,
-      "units": 236.3289382373352,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789737284.3983417,
-      "entry_time": "2026-09-18T22:14:44.398345+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789737284.3983417,
-          28.82
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1191,6 +1168,19 @@
       "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.20% ➔ 실현 0.91%)",
       "entry_time": "2026-09-18T20:17:39.101213+09:00",
       "exit_time": "2026-09-18T21:12:37.956939+09:00"
+    },
+    {
+      "symbol": "COTI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 28.82,
+      "exit_price": 29.03,
+      "buy_amount_krw": 6811,
+      "profit_krw": 50,
+      "profit_pct": 0.73,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.01% ➔ 실현 0.73%)",
+      "entry_time": "2026-09-18T22:14:44.398345+09:00",
+      "exit_time": "2026-09-18T22:17:40.959159+09:00"
     }
   ]
 }
