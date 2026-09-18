@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 5.923,
-      "highest_price": 5.923,
-      "buy_amount_krw": 8502,
-      "units": 1435.4212392368731,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789694347.7768688,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T10:19:07.776872+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789694347.7768688,
-          5.923
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -947,6 +921,19 @@
       "reason": "📈 트레일링 익절 (고점 +4.94% 대비 -2.20% 반락)",
       "entry_time": "2026-09-18T10:09:00.866353+09:00",
       "exit_time": "2026-09-18T10:14:35.662943+09:00"
+    },
+    {
+      "symbol": "MEV/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.923,
+      "exit_price": 5.886,
+      "buy_amount_krw": 8502,
+      "profit_krw": -53,
+      "profit_pct": -0.62,
+      "reason": "⚡ 진입 20초 모멘텀 실패 스크래치 탈출 (-0.62%)",
+      "entry_time": "2026-09-18T10:19:07.776872+09:00",
+      "exit_time": "2026-09-18T10:19:28.276522+09:00"
     }
   ]
 }
