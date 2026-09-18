@@ -30,7 +30,7 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터
 # ==========================================
-BUILD_VERSION = "2026.09.18-v3-orderbook"  # 🔖 코드 업데이트 감지용 빌드 태그
+BUILD_VERSION = "2026.09.18-v5-final"      # 🔖 코드 업데이트 감지용 빌드 태그
 MAX_HOLDING_COINS = 2                      # 🛡️ 최대 동시 운용 종목 수 (2개 집중)
 MIN_BUY_KRW = 6000                         # 💵 최소 매수 금액 (원)
 DEFAULT_BUY_RATIO = 0.20                   # 📊 기본 1회 투입 비중 (총 자산의 20%)
@@ -147,7 +147,7 @@ def init_server_state():
 init_server_state()
 
 # ==========================================
-# 2. 텔레그램 리포트 & GitHub 동기화 (모의/실전 완전 분리)
+# 2. 텔레그램 리포트 & GitHub 동기화
 # ==========================================
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
@@ -179,9 +179,9 @@ def notify_startup_once():
             f"🚀 [오라클 서버] 고도화 퀀트 엔진 가동 ({BUILD_VERSION})\n"
             f"• 모드: {mode_str} (0.5초 초정밀 감시 / 최대 2종목)\n"
             f"• 기준 시각: {base_str} 이후\n"
-            f"• 오더북 방어: 최대 매수벽 1틱 앞 진입 + 호가벽 붕괴 킬스위치\n"
-            f"• 손실 압축: Time-Stop(시간경과 손절상향) + 20초 모멘텀 스크래치 탈출\n"
-            f"• 장부 무결성: 완전 체결(done) 시 편입 + 모의/실전 장부 100% 분리\n\n"
+            f"• 익절: 상위 10호가 매수벽 2틱 선제 탈출 + 5단계 역전방지 트레일링\n"
+            f"• 방어: 90s~180s 유연 모멘텀 스크래치 + Time-Stop + 호가 킬스위치\n"
+            f"• 장부: 완전 체결(done) 시 편입 + 모의/실전 완전 분리\n\n"
             f"📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update"
         )
     else:
@@ -284,7 +284,7 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 {cum_stats_str}"""
 
 # ==========================================
-# 3. 빗썸 호가창(Orderbook) & 거래소 주문 엔진
+# 3. 빗썸 호가창(Orderbook) 상위 10호가 엔진
 # ==========================================
 def get_bithumb_jwt_headers(query_params: dict = None):
     if not BITHUMB_API_KEY or not BITHUMB_SECRET_KEY:
@@ -319,23 +319,24 @@ def get_current_price(coin_code: str):
         pass
     return None
 
-def get_bithumb_orderbook(coin_code: str):
+def get_bithumb_orderbook_10(coin_code: str):
     """
-    🎯 빗썸 호가창 상위 5호가 매수/매도 잔량 및 비율 분석
+    🎯 빗썸 호가창 상위 10호가 매수/매도 잔량, 비율 및 최대 매수벽 정밀 분석
     """
     try:
         url = f"https://api.bithumb.com/public/orderbook/{coin_code}_KRW"
         res = HTTP_SESSION.get(url, timeout=1.5).json()
         if res.get("status") == "0000":
             data = res["data"]
-            bids = [{"price": float(b["price"]), "quantity": float(b["quantity"])} for b in data.get("bids", [])[:5]]
-            asks = [{"price": float(a["price"]), "quantity": float(a["quantity"])} for a in data.get("asks", [])[:5]]
+            bids = [{"price": float(b["price"]), "quantity": float(b["quantity"])} for b in data.get("bids", [])[:10]]
+            asks = [{"price": float(a["price"]), "quantity": float(a["quantity"])} for a in data.get("asks", [])[:10]]
             
             total_bid_qty = sum(b["quantity"] for b in bids)
             total_ask_qty = sum(a["quantity"] for a in asks)
             total_qty = total_bid_qty + total_ask_qty
             bid_ratio = (total_bid_qty / total_qty) if total_qty > 0 else 0.5
             
+            total_bid_krw = sum(b["price"] * b["quantity"] for b in bids)
             max_bid_wall = max(bids, key=lambda x: x["quantity"]) if bids else None
             
             return {
@@ -343,6 +344,7 @@ def get_bithumb_orderbook(coin_code: str):
                 "asks": asks,
                 "total_bid_qty": total_bid_qty,
                 "total_ask_qty": total_ask_qty,
+                "total_bid_krw": total_bid_krw,
                 "bid_ratio": round(bid_ratio, 3),
                 "max_bid_wall": max_bid_wall
             }
@@ -516,7 +518,7 @@ def get_candles(coin_code, interval="15m", limit=40):
     return []
 
 # ==========================================
-# 4. 정량 퀀트 지표 (종목별 ATR 동적 손절 산출)
+# 4. 정량 퀀트 지표 (ATR 기반 동적 손절 산출)
 # ==========================================
 def calculate_rsi(closes, period=14):
     if len(closes) < period + 1: return 50.0
@@ -579,7 +581,7 @@ def calculate_quant_features(candles_1h, candles_15m):
 
     # 1차 손절선: 종목별 ATR 변동성에 맞춰 -1.4% ~ -1.8% 유동 산출
     dynamic_sl_pct = -round(min(max(atr_pct * 0.9, 1.4), 1.8), 2)
-    # 비상 탈출선: 덤핑 시 즉시 탈출선 (-2.2% ~ -2.6% 범위)
+    # 비상 탈출선: 덤핑 투매 시 즉시 탈출선 (-2.2% ~ -2.6% 범위)
     emergency_sl_pct = -round(abs(dynamic_sl_pct) + 0.8, 2)
 
     recent_1h_trade_val = candles_1h[-1]['volume'] * candles_1h[-1]['close'] if candles_1h else 0.0
@@ -599,7 +601,7 @@ def calculate_quant_features(candles_1h, candles_15m):
     }
 
 # ==========================================
-# 5. 리스크 관리 모듈 (실전/모의 철저 분리)
+# 5. 리스크 관리 모듈
 # ==========================================
 def check_daily_circuit_breaker(closed_trades, total_asset):
     now_kst = get_kst_now()
@@ -719,7 +721,7 @@ def clean_and_parse_json(raw_text):
     return None
 
 # ==========================================
-# 6. 듀얼 슬롯 퀀트 스크리닝 & 호가벽 1틱 앞 지정가 예약
+# 6. 듀얼 슬롯 퀀트 스크리닝 & 10호가벽 1틱 앞 예약
 # ==========================================
 def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candles_5m):
     if len(candles_1h) < 20 or len(candles_15m) < 20 or len(candles_5m) < 5:
@@ -745,8 +747,6 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
             "target_entry": target_entry,
             "sl_pct": q["dynamic_sl_pct"],
             "emergency_sl_pct": q["emergency_sl_pct"],
-            "tp_trigger_pct": 1.4,
-            "trailing_pullback": 0.5,
             "timeout_mins": 10,
             "recent_1h_val": q["recent_1h_trade_val"],
             "vol_surge_ratio": q["vol_surge_ratio"],
@@ -772,8 +772,6 @@ def evaluate_slot_candidates(sym, price, val_24h, candles_1h, candles_15m, candl
                     "target_exit_ma": mid_band,
                     "sl_pct": q["dynamic_sl_pct"],
                     "emergency_sl_pct": q["emergency_sl_pct"],
-                    "tp_trigger_pct": 1.8,
-                    "trailing_pullback": 0.8,
                     "timeout_mins": 30,
                     "expected_gain": round(expected_gain, 2),
                     "quant": q,
@@ -795,7 +793,6 @@ def execute_server_side_strategy():
     closed_trades = paper_db.get("closed_trades", [])
     pending = server_state.get("pending_targets", {})
     
-    # 🛡️ 현재 모드 기준 (보유 + 미체결 대기 합산) 최대 2종목 제한
     mode_active = {k: v for k, v in active_positions.items() if v.get("is_paper", True) == PAPER_TRADING}
     mode_pending = {k: v for k, v in pending.items() if v.get("is_paper", True) == PAPER_TRADING}
 
@@ -940,11 +937,10 @@ def execute_server_side_strategy():
     mode = chosen_setup.get("mode", "SCALPING")
     discount = max(float(decision.get("entry_discount_pct", 0.25)), 0.15)
     
-    # 기본 산출 지정가
     base_target_entry = round_to_bithumb_tick(curr_p * (1.0 - (discount / 100.0)))
     
-    # 🎯 [호가창 결합 1] 상위 5호가 스캔하여 최대 매수벽 바로 1틱 위로 타점 미세보정
-    ob = get_bithumb_orderbook(code)
+    # 🎯 [상위 10호가 스캔] 최대 매수벽 바로 1틱 위로 타점 미세보정
+    ob = get_bithumb_orderbook_10(code)
     final_target_entry = base_target_entry
     bid_ratio_entry = 0.5
     
@@ -954,16 +950,14 @@ def execute_server_side_strategy():
         tick_sz = get_bithumb_tick_size(wall_p)
         adjusted_p = round_to_bithumb_tick(wall_p + tick_sz)
         
-        # 계산된 타점과 큰 차이(±0.5% 이내)가 없을 때만 매수벽 1틱 앞 적용
         if abs((adjusted_p - base_target_entry) / base_target_entry) <= 0.005 and adjusted_p <= curr_p:
             final_target_entry = adjusted_p
-            logging.info(f"🛡️ [{code}] 호가벽 스캔 적용: 최대 매수벽({wall_p}) 바로 1틱 앞({final_target_entry})으로 보정")
+            logging.info(f"🛡️ [{code}] 10호가벽 스캔 적용: 최대 매수벽({wall_p}) 바로 1틱 앞({final_target_entry})으로 보정")
 
     sl_pct = chosen_setup.get("sl_pct", -1.5)
     emergency_sl_pct = chosen_setup.get("emergency_sl_pct", -2.3)
     timeout_mins = chosen_setup.get("timeout_mins", 10)
 
-    # 🎯 타점 포착 즉시 빗썸 호가창에 사전 지정가 주문 접수
     success, order_uuid, ordered_volume = execute_real_limit_buy_order(code, final_target_entry, actual_buy_krw)
     if not success:
         logging.error(f"❌ [{code}] 빗썸 호가창 지정가 사전 주문 접수 실패: {order_uuid}")
@@ -982,8 +976,6 @@ def execute_server_side_strategy():
         "target_entry": final_target_entry,
         "sl_pct": sl_pct,
         "emergency_sl_pct": emergency_sl_pct,
-        "tp_trigger_pct": chosen_setup.get("tp_trigger_pct", 1.4),
-        "trailing_pullback": chosen_setup.get("trailing_pullback", 0.5),
         "timeout_mins": timeout_mins,
         "buy_amount_krw": actual_buy_krw,
         "ordered_volume": ordered_volume,
@@ -993,7 +985,6 @@ def execute_server_side_strategy():
         "created_at": now_iso
     }
 
-    # pending_targets에만 보관 (active_positions에는 완전 체결 전까지 넣지 않음)
     server_state = load_json_file(STATE_FILE, {})
     server_state.setdefault("pending_targets", {})[code] = plan_data
     server_state["last_updated"] = now_iso
@@ -1013,16 +1004,16 @@ def execute_server_side_strategy():
 • 배정 투자금 : {actual_buy_krw:,} KRW (수량: {ordered_volume:,.4f})
 
 🛡️ 1차 손절선 : {sl_pct}% (3초 버퍼) / 비상선: {emergency_sl_pct}%
-⏱️ Time-Stop : 2분(-0.9%) ➔ 5분(-0.4%) ➔ 8분(본절) 계단식 상향
-🚨 모멘텀 스크래치 : 20초간 무반응 시 시장가 즉각 탈출
-⏰ 유효 시간 : {timeout_mins}분 (호가벽 증발 시 자동 철회)
+📈 익절 체계 : +1.0% 도달 시 매수벽 2틱 위 선제 탈출 + 5단계 역전방지 트레일링
+⏱️ 방어 기제 : 90s~180s 유연 모멘텀 스크래치 + Time-Stop + 호가 킬스위치
+⏰ 유효 시간 : {timeout_mins}분
 
 💡 선정 근거 :
 {plan_data['detailed_reason']}"""
     send_telegram_msg(plan_msg)
 
 # ==========================================
-# 7. 실시간 감시 엔진 (0.5초 / 호가창 킬스위치 / Time-Stop / 20초 스크래치)
+# 7. 실시간 감시 엔진 (0.5초 감시 / 10호가벽 2틱 선제탈출 / 5단계 역전방지 트레일링)
 # ==========================================
 async def realtime_execution_engine():
     global EMERGENCY_STOP, PAPER_TRADING, PENDING_PAPER_DRAIN
@@ -1049,7 +1040,6 @@ async def realtime_execution_engine():
             active_positions = paper_db.get("active_positions", {})
             closed_trades = paper_db.get("closed_trades", [])
 
-            # 실전 -> 모의 전환 대기 처리
             if PENDING_PAPER_DRAIN:
                 real_active = [v for v in active_positions.values() if not v.get("is_paper", True)]
                 if len(real_active) == 0:
@@ -1060,7 +1050,7 @@ async def realtime_execution_engine():
                     save_json_file(STATE_FILE, server_state)
                     send_telegram_msg("🎉 [모드 전환 완료] 모든 실전 포지션이 청산되어 모의투자(PAPER) 모드로 자동 전환되었습니다.")
 
-            # [1] 거래소 미체결 예약 매수 주문 감시 & 타점 무효화 철회
+            # [1] 거래소 미체결 예약 매수 주문 감시
             for coin_code, plan in list(pending.items()):
                 created_dt = parse_dt_safe(plan.get("created_at", ""))
                 order_uuid = plan.get("order_uuid")
@@ -1075,7 +1065,7 @@ async def realtime_execution_engine():
                     send_telegram_msg(f"⌛ [{plan['symbol']}] 지정가 주문 유효시간 만료로 자동 취소되었습니다.")
                     continue
 
-                # ② 타점 유효성 상실 검사 (장대음봉 또는 BTC 급락)
+                # ② 타점 유효성 상실 검사
                 c_5m = get_candles(coin_code, interval="5m", limit=5)
                 invalidate_reason = ""
                 
@@ -1089,8 +1079,7 @@ async def realtime_execution_engine():
                 if not btc_ok:
                     invalidate_reason = f"BTC 매크로 급락 경보 ({btc_msg})"
 
-                # 🎯 [호가창 결합 2] 대기 중 매수벽 증발/허매수 스푸핑 철회 감지
-                ob = get_bithumb_orderbook(coin_code)
+                ob = get_bithumb_orderbook_10(coin_code)
                 if ob and ob["bid_ratio"] < 0.20:
                     invalidate_reason = f"호가창 매수 잔량 비율 급감({ob['bid_ratio']*100:.1f}%)으로 매수벽 붕괴"
 
@@ -1119,7 +1108,7 @@ async def realtime_execution_engine():
                         save_json_file(STATE_FILE, server_state)
                         continue
 
-                # ④ 🎯 완전 체결 시점에만 'active_positions' 정식 편입
+                # ④ 완전 체결 시점에만 'active_positions' 정식 편입
                 if is_filled:
                     target_limit_price = plan["target_entry"]
                     real_entry_price = target_limit_price
@@ -1148,11 +1137,8 @@ async def realtime_execution_engine():
                         "sl_pct": plan["sl_pct"],                      # 1차 동적 손절선
                         "emergency_sl_pct": plan["emergency_sl_pct"],  # 비상 탈출선
                         "sl_breach_start_time": None,                  # 3초 버퍼 계측
-                        "entry_timestamp": now,                        # 모멘텀 스크래치 및 Time-Stop 계측
-                        "tp_trigger_pct": plan.get("tp_trigger_pct", 1.4),
-                        "trailing_pullback": plan.get("trailing_pullback", 0.5),
+                        "entry_timestamp": now,                        # 경과 시간 계측
                         "entry_time": now_dt.isoformat(),
-                        "break_even_triggered": False,
                         "locked_floor_profit_pct": 0.0,
                         "price_history": [(now, real_entry_price)]
                     }
@@ -1169,11 +1155,12 @@ async def realtime_execution_engine():
 • 매수금 : {actual_invested_krw:,} KRW (수량: {real_units:,.4f})
 
 🛡️ 1차 손절선 : {plan['sl_pct']}% (3초 버퍼) / 비상선: {plan['emergency_sl_pct']}%
-⏱️ 방어 기제 : Time-Stop 계단 상향 + 20초 모멘텀 스크래치 가동
+📈 익절 목표 : +1.0% 도달 시 매수벽 2틱 선제 탈출 + 5단계 역전방지 트레일링
+⏱️ 리스크 방어 : 90s~180s 유연 모멘텀 스크래치 + Time-Stop
 ⏰ 체결 시각 : {now_dt.strftime('%m/%d %H:%M KST')}"""
                     send_telegram_msg(buy_msg)
 
-            # [2] 보유 포지션 실시간 감시 (호가 킬스위치 + Time-Stop + 20초 스크래치)
+            # [2] 보유 포지션 실시간 감시 (호가벽 2틱 선제탈출 + 5단계 역전방지 트레일링)
             for coin_code, pos in list(active_positions.items()):
                 curr_p = get_current_price(coin_code)
                 if not curr_p: continue
@@ -1195,31 +1182,44 @@ async def realtime_execution_engine():
                     pos["highest_price"] = curr_p
 
                 highest_profit_pct = ((pos["highest_price"] - entry_p) / entry_p) * 100.0
-                tp_trigger = pos.get("tp_trigger_pct", 1.4)
-                trailing_pullback = pos.get("trailing_pullback", 0.5)
 
-                # 본절 락 (+0.3% 확보)
-                if not pos.get("break_even_triggered", False) and highest_profit_pct >= tp_trigger:
-                    pos["break_even_triggered"] = True
-                    pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), 0.3)
-                    logging.info(f"🛡️ [{pos['symbol']}] 최고수익 +{highest_profit_pct:.2f}% 달성으로 본절 락(+0.3%) 가동")
+                # 🎯 [5단계 정적 트레일링 파라미터 & 역전 방지 하한선(Floor Lock) 동적 계산]
+                trailing_active = False
+                static_pullback = 0.25
+                stage_floor_lock = 0.0
 
-                # 계단식 구간 확장
-                if highest_profit_pct >= 4.0:
-                    pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), 3.0)
-                    trailing_pullback = 1.0
-                elif highest_profit_pct >= 2.5:
-                    pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), 1.8)
-                    trailing_pullback = 0.7
+                if highest_profit_pct >= 4.5:
+                    trailing_active = True
+                    static_pullback = 0.60
+                    stage_floor_lock = 3.90
+                elif highest_profit_pct >= 3.2:
+                    trailing_active = True
+                    static_pullback = 0.45
+                    stage_floor_lock = 2.75
+                elif highest_profit_pct >= 2.2:
+                    trailing_active = True
+                    static_pullback = 0.35
+                    stage_floor_lock = 1.85
+                elif highest_profit_pct >= 1.5:
+                    trailing_active = True
+                    static_pullback = 0.30
+                    stage_floor_lock = 1.20
+                elif highest_profit_pct >= 1.0:
+                    trailing_active = True
+                    static_pullback = 0.25
+                    stage_floor_lock = 0.75
 
-                # ⏱️ [Time-Stop 로직: 경과 시간에 따른 동적 손절선 상향]
+                # 🛡️ 하한선 역전 방지 (무조건 max 유지)
+                pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), stage_floor_lock)
+
+                # ⏱️ [Time-Stop 손절선 계단 상향: 15분봉 타점 호흡 연동]
                 effective_sl_pct = pos["sl_pct"]
-                if elapsed_seconds >= 480:      # 8분 초과: 본절/약손실 수준으로 바짝 상향
+                if elapsed_seconds >= 480:      # 8분 초과: 본절/약손실(-0.1%) 수준으로 상향
                     effective_sl_pct = max(effective_sl_pct, -0.1)
                 elif elapsed_seconds >= 300:   # 5분 초과: -0.4%로 상향
                     effective_sl_pct = max(effective_sl_pct, -0.4)
-                elif elapsed_seconds >= 120:   # 2분 초과: -0.9%로 상향
-                    effective_sl_pct = max(effective_sl_pct, -0.9)
+                elif elapsed_seconds >= 180:   # 3분 초과: -0.8%로 상향
+                    effective_sl_pct = max(effective_sl_pct, -0.8)
 
                 save_json_file(PAPER_TRADES_FILE, paper_db)
 
@@ -1228,35 +1228,60 @@ async def realtime_execution_engine():
 
                 actual_pullback = round(highest_profit_pct - curr_profit_pct, 2)
 
-                # ① 트레일링 익절
-                if highest_profit_pct >= tp_trigger and actual_pullback >= trailing_pullback:
-                    should_close = True
-                    close_reason = f"📈 트레일링 익절 (고점 +{highest_profit_pct:.2f}% 대비 -{actual_pullback:.2f}% 반락)"
+                # ① 🎯 [트레일링 익절: 상위 10호가 매수벽 2틱 위 선제 탈출 결합]
+                if trailing_active:
+                    # 정적 기준 트리거 가격
+                    static_pullback_price = pos["highest_price"] * (1.0 - (static_pullback / 100.0))
+                    static_floor_price = entry_p * (1.0 + (pos["locked_floor_profit_pct"] / 100.0))
+                    static_trigger_price = max(static_pullback_price, static_floor_price)
+                    
+                    final_exit_trigger_price = static_trigger_price
+                    exit_type_msg = f"정적 기준선 (고점대비 -{static_pullback}%, 하한 +{pos['locked_floor_profit_pct']}%)"
 
-                # ② 본절 락 하한선 보호
-                elif pos.get("break_even_triggered", False) and curr_profit_pct <= pos.get("locked_floor_profit_pct", 0.3):
-                    should_close = True
-                    close_reason = f"🛡️ 이익 보존 하한선(+{pos.get('locked_floor_profit_pct', 0.3)}%) 청산"
+                    # 상위 10호가 매수벽 2틱 위 가격 결합
+                    ob_exit = get_bithumb_orderbook_10(coin_code)
+                    if ob_exit and ob_exit["max_bid_wall"]:
+                        wall_price = ob_exit["max_bid_wall"]["price"]
+                        tick_size = get_bithumb_tick_size(wall_price)
+                        # 거대 매수벽의 2틱 위 가격
+                        wall_2tick_price = round_to_bithumb_tick(wall_price + (2 * tick_size))
+                        
+                        # 2틱 위 가격이 정적 기준가보다 높다면 지지벽 2틱 앞을 최종 트리거로 채택
+                        if wall_2tick_price > final_exit_trigger_price and wall_2tick_price <= curr_p:
+                            final_exit_trigger_price = wall_2tick_price
+                            exit_type_msg = f"호가벽 2틱 선제 탈출 (매수벽 {wall_price:,.4f} ➔ 2틱 위 {final_exit_trigger_price:,.4f})"
 
-                # ③ 🚨 [비상 하드 손절선]: 덤핑 투매 발생 시 3초 대기 없이 즉시 시장가 탈출
+                    # 현재가가 최종 탈출 트리거 가격 이하로 밀리면 즉시 익절 실행
+                    if curr_p <= final_exit_trigger_price or actual_pullback >= static_pullback or curr_profit_pct <= pos["locked_floor_profit_pct"]:
+                        should_close = True
+                        close_reason = f"📈 트레일링 익절 ({exit_type_msg} | 최고 +{highest_profit_pct:.2f}% ➔ 실현 {curr_profit_pct:.2f}%)"
+
+                # ② 🚨 [비상 하드 손절선]: 덤핑 투매 발생 시 3초 대기 없이 즉시 시장가 탈출
                 elif curr_profit_pct <= pos.get("emergency_sl_pct", -2.4):
                     should_close = True
                     close_reason = f"🚨 비상 하드 손절선 도달 ({curr_profit_pct:.2f}%) 즉시 탈출"
 
-                # ④ ⚡ [20초 모멘텀 실패 스크래치 (시장가 전량 탈출)]:
-                #    체결 후 20초간 평단가를 1틱도 넘지 못하고 마이너스(-0.2% 이하) 유지 시 즉각 청산
-                elif (elapsed_seconds >= 20.0 and elapsed_seconds <= 40.0) and (highest_profit_pct <= 0.0) and (curr_profit_pct <= -0.2):
-                    should_close = True
-                    close_reason = f"⚡ 진입 20초 모멘텀 실패 스크래치 탈출 ({curr_profit_pct:.2f}%)"
+                # ③ ⚡ [유연한 모멘텀 스크래치: 15분봉 호흡 90초/180초/240초 체계]
+                #    A. 90초 ~ 180초: 최고 +0.2% 미만, 현재 -0.35% 이하인데 호가창 매수비율 30% 미만 (1,000만 원 이상 유효 호가벽 기준)
+                elif (90.0 <= elapsed_seconds <= 180.0) and (highest_profit_pct <= 0.2) and (curr_profit_pct <= -0.35):
+                    ob_scratch = get_bithumb_orderbook_10(coin_code)
+                    if ob_scratch and ob_scratch["total_bid_krw"] >= 10_000_000 and ob_scratch["bid_ratio"] < 0.30:
+                        should_close = True
+                        close_reason = f"⚡ 탄력 둔화 및 호가벽 이탈 스크래치 탈출 ({curr_profit_pct:.2f}%, 매수비율 {ob_scratch['bid_ratio']*100:.1f}%)"
 
-                # ⑤ 🛡️ [호가창 킬스위치]: 약손실 구간(-0.3%~-0.7%)에서 매수 잔량 급감 시 선제 탈출
+                #    B. 180초 ~ 240초: 3분이 넘도록 1회도 +0.1%를 넘지 못하고 -0.30% 이하에 갇혀 있을 때
+                elif (180.0 < elapsed_seconds <= 240.0) and (highest_profit_pct <= 0.1) and (curr_profit_pct <= -0.30):
+                    should_close = True
+                    close_reason = f"⚡ 진입 3분 모멘텀 탄력 부재 스크래치 탈출 ({curr_profit_pct:.2f}%)"
+
+                # ④ 🛡️ [호가창 킬스위치]: 약손실 구간(-0.3%~-0.7%)에서 매수 잔량 25% 미만 급감 시 선제 탈출
                 elif -0.7 <= curr_profit_pct <= -0.3:
-                    ob_pos = get_bithumb_orderbook(coin_code)
+                    ob_pos = get_bithumb_orderbook_10(coin_code)
                     if ob_pos and ob_pos["bid_ratio"] < 0.25:
                         should_close = True
                         close_reason = f"🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 {ob_pos['bid_ratio']*100:.1f}%)"
 
-                # ⑥ 🛡️ [Time-Stop 또는 1차 손절선 + 3초 지속 버퍼]
+                # ⑤ 🛡️ [Time-Stop 또는 1차 손절선 + 3초 지속 버퍼]
                 elif curr_profit_pct <= effective_sl_pct:
                     if pos.get("sl_breach_start_time") is None:
                         pos["sl_breach_start_time"] = now
@@ -1270,7 +1295,7 @@ async def realtime_execution_engine():
                         logging.info(f"🌱 [{pos['symbol']}] 손절선 회복으로 타이머 리셋 ({curr_profit_pct:.2f}%)")
                         pos["sl_breach_start_time"] = None
 
-                    # ⑦ 장기 횡보 청산
+                    # ⑥ 장기 횡보 청산
                     hold_duration = now_dt - entry_time
                     max_duration = timedelta(minutes=25) if pos.get("slot") == "SLOT_1_PULSE" else timedelta(minutes=60)
                     if hold_duration >= max_duration and curr_profit_pct < 1.0 and len(hist) >= 20:
@@ -1335,7 +1360,7 @@ async def realtime_execution_engine():
             await asyncio.sleep(2)
 
 # ==========================================
-# 8. 텔레그램 명령 리스너 (/paper, /real, /status, /log, /reset_stats)
+# 8. 텔레그램 명령 리스너
 # ==========================================
 def telegram_listener_thread():
     global EMERGENCY_STOP, CIRCUIT_BREAKER_ACTIVE, LAST_TELEGRAM_UPDATE_ID, PAPER_TRADING, PENDING_PAPER_DRAIN, UPDATE_BASELINE_TIME
