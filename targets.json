@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T17:15:37.849465+09:00",
+  "updated_at": "2026-09-18T17:20:37.932650+09:00",
   "paper_trading": true,
   "queue": {
     "COTI": {
@@ -15,9 +15,9 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 6809,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 232.23055934515688,
+      "order_uuid": "mock_order_55557d09",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.534,
       "detailed_reason": "15분봉 RSI(36.0) 과매도 상태 및 볼린저 하단 근접 지지 확인, MA20 중심선까지의 기대 수익률(7.16%)이 우수함",
@@ -45,6 +45,28 @@
       "detailed_reason": "15분봉 RSI(32.8) 과매도 진입 및 볼린저 하단 지지를 통한 기술적 반등 기대 가능",
       "created_at": "2026-09-18T17:15:37.849465+09:00",
       "created_timestamp": 1789719337.8494775
+    },
+    "PUFFER": {
+      "symbol": "PUFFER/KRW",
+      "code": "PUFFER",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 33.8,
+      "target_entry": 33.6,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6809,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.662,
+      "detailed_reason": "15분봉 RSI(36.9) 과매도 구간 진입 및 볼린저 밴드 하단 지지 활용, 중심선(34.717)까지의 평균 회귀 반등 기대",
+      "created_at": "2026-09-18T17:20:37.932650+09:00",
+      "created_timestamp": 1789719637.932664
     }
   }
 }
