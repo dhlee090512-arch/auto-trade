@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T14:30:41.489627+09:00",
+  "updated_at": "2026-09-18T14:35:41.853851+09:00",
   "paper_trading": true,
   "targets": {
     "COTI": {
@@ -8,17 +8,17 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 30.54,
-      "target_entry": 30.42,
+      "current_price": 30.7,
+      "target_entry": 30.58,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 30,
       "buy_amount_krw": 6808,
-      "ordered_volume": 223.80013149243916,
-      "order_uuid": "mock_order_b93e1d56",
-      "entry_bid_ratio": 0.412,
-      "detailed_reason": "Slot 2 레인지 바운드 전략 조건 충족: 15분봉 RSI 36.5로 단기 과매도 구간 진입 및 볼린저 하단 지지 확인, MA20 상향 돌파 후 중심선(32.074) 부근까지의 반등 기대.",
-      "created_at": "2026-09-18T14:30:41.489627+09:00"
+      "ordered_volume": 222.62916939175932,
+      "order_uuid": "mock_order_9c0d1281",
+      "entry_bid_ratio": 0.481,
+      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며, 15분봉 RSI 37.1로 과매도 구간 진입 후 1시간봉 볼린저 하단 지지를 바탕으로 한 중심선 반등 기대",
+      "created_at": "2026-09-18T14:35:41.853851+09:00"
     }
   }
 }
