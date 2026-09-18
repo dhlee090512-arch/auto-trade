@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 519.0,
+      "highest_price": 519.0,
+      "buy_amount_krw": 6801,
+      "units": 13.104046242774567,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789690432.2276654,
+      "tp_trigger_pct": 1.4,
+      "trailing_pullback": 0.5,
+      "entry_time": "2026-09-18T09:13:52.227668+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789690432.2276654,
+          519.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
