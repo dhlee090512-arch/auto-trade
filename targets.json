@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T10:03:57.830085+09:00",
+  "updated_at": "2026-09-18T10:08:59.565423+09:00",
   "paper_trading": true,
   "targets": {
-    "AGI": {
-      "symbol": "AGI/KRW",
-      "code": "AGI",
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "code": "MEV",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 7.616,
-      "target_entry": 7.601,
+      "current_price": 5.906,
+      "target_entry": 5.906,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6802,
-      "ordered_volume": 894.882252335219,
-      "order_uuid": "mock_order_ecc6a864",
-      "entry_bid_ratio": 0.818,
-      "detailed_reason": "Slot 2 range-bound oversold bounce strategy. 15m RSI is deeply oversold at 29.7 near the lower Bollinger Band, showing strong support with an expected mean reversion toward the 1h MA20 center line (7.9206).",
-      "created_at": "2026-09-18T10:03:57.830085+09:00"
+      "ordered_volume": 1151.710125296309,
+      "order_uuid": "mock_order_b76c430d",
+      "entry_bid_ratio": 0.665,
+      "detailed_reason": "MEV/KRW는 15분봉 RSI 34.0으로 과매도 구간에 진입해 있으며 볼린저 하단(5.8642) 부근에서 지지력을 확보하고 이동평균선(6.2785)까지의 반등 여력이 충분하여 SLOT_2_RANGE 전략에 부합함.",
+      "created_at": "2026-09-18T10:08:59.565423+09:00"
     }
   }
 }
