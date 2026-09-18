@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T10:54:03.816173+09:00",
+  "updated_at": "2026-09-18T10:59:03.595530+09:00",
   "paper_trading": true,
   "targets": {
     "MEV": {
@@ -8,19 +8,19 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 5.883,
-      "target_entry": 5.865,
+      "current_price": 5.876,
+      "target_entry": 5.861,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6803,
-      "ordered_volume": 1159.931798806479,
-      "order_uuid": "mock_order_a7fc6dbd",
-      "entry_bid_ratio": 0.373,
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI 31.6 과매도 구간 및 하단 볼린저밴드 근접에 따른 기술적 반등 기대",
-      "created_at": "2026-09-18T10:54:03.816173+09:00"
+      "ordered_volume": 1160.7234260365126,
+      "order_uuid": "mock_order_32fc11da",
+      "entry_bid_ratio": 0.746,
+      "detailed_reason": "15분봉 RSI(31.4) 과매도 구간 진입 및 볼린저밴드 하단 지지를 활용한 SLOT_2_RANGE 오버솔 바운스 전략으로, 중심선까지의 반등 여력(약 6.68%)이 확보되어 유효한 셋업으로 판단됨.",
+      "created_at": "2026-09-18T10:59:03.595530+09:00"
     }
   }
 }
