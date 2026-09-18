@@ -1,24 +1,28 @@
 {
-  "updated_at": "2026-09-18T14:55:44.893305+09:00",
+  "updated_at": "2026-09-18T16:15:34.437972+09:00",
   "paper_trading": true,
-  "targets": {
+  "queue": {
     "MEV": {
       "symbol": "MEV/KRW",
       "code": "MEV",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 5.587,
-      "target_entry": 5.551,
+      "score": 68,
+      "current_price": 5.611,
+      "target_entry": 5.6,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "timeout_mins": 30,
-      "buy_amount_krw": 6807,
-      "ordered_volume": 1226.2655377409476,
-      "order_uuid": "mock_order_5eb20bd5",
-      "entry_bid_ratio": 0.555,
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며, 15분봉 RSI 34.9 수준의 과매도 구간에서 볼린저밴드 하단 지지를 받고 중심선(5.8003)까지의 단기 반등 기대감이 유효함.",
-      "created_at": "2026-09-18T14:55:44.893305+09:00"
+      "timeout_mins": 10,
+      "buy_amount_krw": 6808,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.867,
+      "detailed_reason": "Slot 2 range-bound setup featuring 15m RSI oversold bounce near lower Bollinger Band with a manageable stop loss of -1.8%.",
+      "created_at": "2026-09-18T16:15:34.437972+09:00",
+      "created_timestamp": 1789715734.4379907
     }
   }
 }
