@@ -1,28 +1,5 @@
 {
-  "active_positions": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 5.414,
-      "highest_price": 5.414,
-      "buy_amount_krw": 6809,
-      "units": 1257.6653121536758,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789720811.6017427,
-      "entry_time": "2026-09-18T17:40:11.601746+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789720811.6017427,
-          5.414
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1048,6 +1025,19 @@
       "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.3%, 하한 +1.2%) | 최고 +1.93% ➔ 실현 1.07%)",
       "entry_time": "2026-09-18T17:12:13.559431+09:00",
       "exit_time": "2026-09-18T17:20:59.024699+09:00"
+    },
+    {
+      "symbol": "MEV/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.414,
+      "exit_price": 5.388,
+      "buy_amount_krw": 6809,
+      "profit_krw": -33,
+      "profit_pct": -0.48,
+      "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 22.7%)",
+      "entry_time": "2026-09-18T17:40:11.601746+09:00",
+      "exit_time": "2026-09-18T17:41:21.347552+09:00"
     }
   ]
 }
