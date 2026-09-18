@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T12:09:08.494489+09:00",
+  "updated_at": "2026-09-18T12:14:10.116009+09:00",
   "paper_trading": true,
   "targets": {
     "BTR": {
@@ -8,19 +8,19 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "current_price": 69.79,
-      "target_entry": 69.57,
-      "sl_pct": -1.77,
-      "emergency_sl_pct": -2.57,
+      "current_price": 69.8,
+      "target_entry": 69.8,
+      "sl_pct": -1.78,
+      "emergency_sl_pct": -2.58,
       "tp_trigger_pct": 1.8,
       "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6000,
-      "ordered_volume": 86.244070720138,
-      "order_uuid": "mock_order_d4c86be2",
-      "entry_bid_ratio": 0.684,
-      "detailed_reason": "SLOT_2_RANGE 조건에 따라 15분봉 RSI 33.6 과매도 구간 진입 및 볼린저 하단 지지를 활용한 단기 반등 타점 확보",
-      "created_at": "2026-09-18T12:09:08.494489+09:00"
+      "ordered_volume": 85.9598853868195,
+      "order_uuid": "mock_order_36b252c5",
+      "entry_bid_ratio": 0.444,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI(33.8) 과매도권 진입 후 볼린저밴드 하단 부근에서 반등 포착, 이동평균선(MA20) 중심선 타겟으로 한 롱 포지션 진입 유효.",
+      "created_at": "2026-09-18T12:14:10.116009+09:00"
     }
   }
 }
