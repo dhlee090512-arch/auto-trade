@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T09:53:55.127796+09:00",
+  "updated_at": "2026-09-18T09:58:56.728846+09:00",
   "paper_trading": true,
   "targets": {
     "LSK": {
@@ -8,19 +8,19 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 656.0,
-      "target_entry": 654.0,
+      "current_price": 645.0,
+      "target_entry": 641.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
       "buy_amount_krw": 6801,
-      "ordered_volume": 10.399082568807339,
-      "order_uuid": "mock_order_eaa5a27e",
-      "entry_bid_ratio": 0.479,
-      "detailed_reason": "Slot 1 펄스 전략: 15분봉 거래량 2.27배 급증 이후 1시간 기준 대규모 수급(약 21.9억 원)이 유입된 상태에서 발생한 전형적인 첫 음봉 눌림목 구간으로, 단기 반등 모멘텀이 매우 높음.",
-      "created_at": "2026-09-18T09:53:55.127796+09:00"
+      "ordered_volume": 10.609984399375975,
+      "order_uuid": "mock_order_b56acc38",
+      "entry_bid_ratio": 0.93,
+      "detailed_reason": "15분봉 거래량이 3.12배 급증한 이후 1시간봉 기준 첫 음봉 눌림목이 형성되었으며, RSI 및 거래대금(23.5억 KRW) 측면에서 슬롯 1 볼륨 서지 및 눌림목 조건에 완벽히 부합함.",
+      "created_at": "2026-09-18T09:58:56.728846+09:00"
     }
   }
 }
