@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T13:19:14.843683+09:00",
+  "updated_at": "2026-09-18T13:20:35.674070+09:00",
   "paper_trading": true,
   "targets": {
     "FLOCK": {
@@ -9,18 +9,16 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "current_price": 95.52,
-      "target_entry": 95.33,
+      "target_entry": 95.38,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
       "timeout_mins": 30,
       "buy_amount_krw": 6000,
-      "ordered_volume": 62.939263610615754,
-      "order_uuid": "mock_order_eed32dfc",
-      "entry_bid_ratio": 0.676,
-      "detailed_reason": "SLOT_2_RANGE 전략에 부합하며 15분봉 RSI(33.3) 과매도 구간 도달 및 볼린저 하단 지지력을 바탕으로 한 단기 반등 기대 세트업",
-      "created_at": "2026-09-18T13:19:14.843683+09:00"
+      "ordered_volume": 62.90626965820927,
+      "order_uuid": "mock_order_8fb99784",
+      "entry_bid_ratio": 0.397,
+      "detailed_reason": "Slot 2 range-bound oversold bounce confirmed with 15m RSI at 33.3 near the lower Bollinger Band support, offering a strong risk-reward ratio targeting the 1h moving average.",
+      "created_at": "2026-09-18T13:20:35.674070+09:00"
     }
   }
 }
