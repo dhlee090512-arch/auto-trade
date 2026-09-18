@@ -1,5 +1,28 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 79.84,
+      "highest_price": 79.84,
+      "buy_amount_krw": 6812,
+      "units": 85.32064128256512,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789726300.577628,
+      "entry_time": "2026-09-18T19:11:40.577631+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789726300.577628,
+          79.84
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
