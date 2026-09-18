@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T22:26:06.468657+09:00",
+  "updated_at": "2026-09-18T22:36:07.220911+09:00",
   "paper_trading": true,
   "queue": {
     "LSK": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 8514,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 12.9195751138088,
+      "order_uuid": "mock_order_3513ccc7",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.609,
       "detailed_reason": "15분봉 거래량 2.29배 급증 동반 후 1시간봉 기준 첫 음봉 눌림목 형성, RSI 60대 중반으로 추가 상승 여력 확보 및 수급 집중",
       "created_at": "2026-09-18T22:26:06.468657+09:00",
       "created_timestamp": 1789737966.4686697
+    },
+    "COTI": {
+      "symbol": "COTI/KRW",
+      "code": "COTI",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 78,
+      "current_price": 28.61,
+      "target_entry": 28.55,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8516,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.657,
+      "detailed_reason": "15분봉 RSI 과매도 구간(28.4) 진입 및 1시간봉 볼린저밴드 하단 근접에 따른 기술적 반등 기대",
+      "created_at": "2026-09-18T22:36:07.220911+09:00",
+      "created_timestamp": 1789738567.2209277
     }
   }
 }
