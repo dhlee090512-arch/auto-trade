@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T08:28:47.873338+09:00",
+  "updated_at": "2026-09-18T09:13:50.857481+09:00",
   "paper_trading": true,
   "targets": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "code": "BTR",
+    "ONDO": {
+      "symbol": "ONDO/KRW",
+      "code": "ONDO",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "current_price": 71.37,
-      "target_entry": 71.21,
+      "current_price": 519.0,
+      "target_entry": 519.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "tp_trigger_pct": 1.4,
       "trailing_pullback": 0.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6000,
-      "ordered_volume": 84.25782895660723,
-      "order_uuid": "mock_order_1bb9f23e",
-      "entry_bid_ratio": 0.467,
-      "detailed_reason": "15분봉 기준 8.56배의 강력한 볼륨 서지와 함께 최근 1시간 동안 3.4억 원의 수급이 유입된 후 첫 음봉 눌림목을 형성하여 Slot 1 기준에 완벽히 부합함",
-      "created_at": "2026-09-18T08:28:47.873338+09:00"
+      "buy_amount_krw": 6801,
+      "ordered_volume": 13.104046242774567,
+      "order_uuid": "mock_order_5c23f894",
+      "entry_bid_ratio": 0.348,
+      "detailed_reason": "15분봉 거래량 4.17배 급증 이후 첫 음봉 눌림목 패턴 발생. RSI 55.2 수준으로 과매수 해소 및 1시간 이평선 지지 확인되어 슬롯1 기준에 완벽히 부합함.",
+      "created_at": "2026-09-18T09:13:50.857481+09:00"
     }
   }
 }
