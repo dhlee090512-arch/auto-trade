@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-18T19:10:48.815832+09:00",
+  "updated_at": "2026-09-18T19:40:58.091537+09:00",
   "paper_trading": true,
   "queue": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "code": "FOLD",
+    "DEBIT": {
+      "symbol": "DEBIT/KRW",
+      "code": "DEBIT",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 78,
-      "current_price": 80.0,
-      "target_entry": 79.84,
+      "score": 75,
+      "current_price": 3576.0,
+      "target_entry": 3568.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.758,
-      "detailed_reason": "15분봉 RSI 34.4로 단기 과매도 구간 진입 및 볼린저 하단 지지 활용 중심선(85.322 KRW)까지의 반등 기대 수급 유입",
-      "created_at": "2026-09-18T19:10:48.815832+09:00",
-      "created_timestamp": 1789726248.8158464
+      "entry_bid_ratio": 0.626,
+      "detailed_reason": "15분봉 RSI 32.0 과매도 상태이며 볼린저밴드 하단 지지를 활용한 단기 반등 구간으로 평가됨",
+      "created_at": "2026-09-18T19:40:58.091537+09:00",
+      "created_timestamp": 1789728058.0915496
     }
   }
 }
