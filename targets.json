@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T02:18:42.563326+09:00",
+  "updated_at": "2026-09-19T02:33:45.149420+09:00",
   "paper_trading": true,
   "queue": {
     "BTR": {
@@ -8,43 +8,21 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 78,
-      "current_price": 68.18,
-      "target_entry": 68.04,
+      "score": 68,
+      "current_price": 68.08,
+      "target_entry": 67.94,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 6828,
+      "buy_amount_krw": 6826,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI 30.2 과매도 구간 진입 및 볼린저 하단 지지 활용 숏텀 반등 기대 세팅",
-      "created_at": "2026-09-19T02:18:42.563326+09:00",
-      "created_timestamp": 1789751922.5633402
-    },
-    "BCH": {
-      "symbol": "BCH/KRW",
-      "code": "BCH",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "score": 72,
-      "current_price": 340300.0,
-      "target_entry": 339700.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6828,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI 36.8 및 볼린저 하단 지지 기반 중심선 회귀 목적의 레인지 반등 트레이드",
-      "created_at": "2026-09-19T02:18:42.563326+09:00",
-      "created_timestamp": 1789751922.5633402
+      "detailed_reason": "15분봉 RSI 과매도 구간(31.5) 진입 및 볼린저 하단 지지 활용, 중심선(69.243)까지의 단기 반등 기대",
+      "created_at": "2026-09-19T02:33:45.149420+09:00",
+      "created_timestamp": 1789752825.1494327
     }
   }
 }
