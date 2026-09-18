@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "MEV": {
-      "symbol": "MEV/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 5.906,
-      "highest_price": 5.906,
-      "buy_amount_krw": 6802,
-      "units": 1151.710125296309,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789693740.8663504,
-      "tp_trigger_pct": 1.8,
-      "trailing_pullback": 0.8,
-      "entry_time": "2026-09-18T10:09:00.866353+09:00",
-      "break_even_triggered": false,
-      "locked_floor_profit_pct": 0.0,
-      "price_history": [
-        [
-          1789693740.8663504,
-          5.906
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -934,6 +908,19 @@
       "reason": "🛡️ 호가창 매수벽 붕괴 킬스위치 선제 탈출 (매수잔량 비율 23.0%)",
       "entry_time": "2026-09-18T09:49:11.518499+09:00",
       "exit_time": "2026-09-18T09:52:28.191996+09:00"
+    },
+    {
+      "symbol": "MEV/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.906,
+      "exit_price": 6.068,
+      "buy_amount_krw": 6802,
+      "profit_krw": 186,
+      "profit_pct": 2.74,
+      "reason": "📈 트레일링 익절 (고점 +4.94% 대비 -2.20% 반락)",
+      "entry_time": "2026-09-18T10:09:00.866353+09:00",
+      "exit_time": "2026-09-18T10:14:35.662943+09:00"
     }
   ]
 }
