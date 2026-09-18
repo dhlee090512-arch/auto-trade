@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "MEV": {
+      "symbol": "MEV/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 5.923,
+      "highest_price": 5.923,
+      "buy_amount_krw": 8502,
+      "units": 1435.4212392368731,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789694347.7768688,
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "entry_time": "2026-09-18T10:19:07.776872+09:00",
+      "break_even_triggered": false,
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789694347.7768688,
+          5.923
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
