@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-09-18T09:58:56.728846+09:00",
+  "updated_at": "2026-09-18T10:03:57.830085+09:00",
   "paper_trading": true,
   "targets": {
-    "LSK": {
-      "symbol": "LSK/KRW",
-      "code": "LSK",
-      "mode": "SCALPING",
+    "AGI": {
+      "symbol": "AGI/KRW",
+      "code": "AGI",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "current_price": 645.0,
-      "target_entry": 641.0,
+      "slot": "SLOT_2_RANGE",
+      "current_price": 7.616,
+      "target_entry": 7.601,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
-      "tp_trigger_pct": 1.4,
-      "trailing_pullback": 0.5,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6801,
-      "ordered_volume": 10.609984399375975,
-      "order_uuid": "mock_order_b56acc38",
-      "entry_bid_ratio": 0.93,
-      "detailed_reason": "15분봉 거래량이 3.12배 급증한 이후 1시간봉 기준 첫 음봉 눌림목이 형성되었으며, RSI 및 거래대금(23.5억 KRW) 측면에서 슬롯 1 볼륨 서지 및 눌림목 조건에 완벽히 부합함.",
-      "created_at": "2026-09-18T09:58:56.728846+09:00"
+      "tp_trigger_pct": 1.8,
+      "trailing_pullback": 0.8,
+      "timeout_mins": 30,
+      "buy_amount_krw": 6802,
+      "ordered_volume": 894.882252335219,
+      "order_uuid": "mock_order_ecc6a864",
+      "entry_bid_ratio": 0.818,
+      "detailed_reason": "Slot 2 range-bound oversold bounce strategy. 15m RSI is deeply oversold at 29.7 near the lower Bollinger Band, showing strong support with an expected mean reversion toward the 1h MA20 center line (7.9206).",
+      "created_at": "2026-09-18T10:03:57.830085+09:00"
     }
   }
 }
