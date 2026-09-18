@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T02:48:47.175643+09:00",
+  "updated_at": "2026-09-19T03:03:48.888347+09:00",
   "paper_trading": true,
   "queue": {
     "BTR": {
@@ -9,8 +9,8 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 68.06,
-      "target_entry": 67.92,
+      "current_price": 68.09,
+      "target_entry": 67.95,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
@@ -20,9 +20,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI(23.3) 과매도 구간 진입 및 볼린저밴드 하단 지지 활용 단기 반등 기대",
-      "created_at": "2026-09-19T02:48:47.175643+09:00",
-      "created_timestamp": 1789753727.1756556
+      "detailed_reason": "15분봉 RSI(23.6) 극심한 과매도 구간 진입 및 볼린저 하단 지지를 활용한 단기 평균회귀 반등 타점 확보",
+      "created_at": "2026-09-19T03:03:48.888347+09:00",
+      "created_timestamp": 1789754628.8883607
     }
   }
 }
