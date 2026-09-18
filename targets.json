@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-19T03:53:56.204190+09:00",
+  "updated_at": "2026-09-19T04:08:57.718212+09:00",
   "paper_trading": true,
   "queue": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "code": "BTR",
+    "DEBIT": {
+      "symbol": "DEBIT/KRW",
+      "code": "DEBIT",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 78,
-      "current_price": 67.68,
-      "target_entry": 67.54,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "current_price": 3413.0,
+      "target_entry": 3401.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 6829,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI(33.6) 및 1시간봉 RSI(27.9) 과매도 구간에서 볼린저 하단 지지를 활용한 단기 반등 기대 세팅",
-      "created_at": "2026-09-19T03:53:56.204190+09:00",
-      "created_timestamp": 1789757636.2042027
+      "entry_bid_ratio": 0.953,
+      "detailed_reason": "15분봉 RSI(26.1) 과매도 구간 진입 및 볼린저 하단 지지 활용, 볼륨 서지(2.09) 동반된 전형적인 슬롯2 역추세 반등 셋업",
+      "created_at": "2026-09-19T04:08:57.718212+09:00",
+      "created_timestamp": 1789758537.7182243
     }
   }
 }
