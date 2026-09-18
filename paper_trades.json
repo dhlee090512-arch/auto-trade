@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "DEBIT": {
-      "symbol": "DEBIT/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 3493.0,
-      "highest_price": 3493.0,
-      "buy_amount_krw": 6828,
-      "units": 1.954766676209562,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789761955.4508433,
-      "entry_time": "2026-09-19T05:05:55.450846+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789761955.4508433,
-          3493.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1329,6 +1305,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.24% ~ +0.10% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-19T04:19:50.936495+09:00",
       "exit_time": "2026-09-19T04:44:51.374021+09:00"
+    },
+    {
+      "symbol": "DEBIT/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 3493.0,
+      "exit_price": 3448.0,
+      "buy_amount_krw": 6828,
+      "profit_krw": -88,
+      "profit_pct": -1.29,
+      "reason": "🛡️ 고점(+0.83%) 달성 후 평단가 복귀 본절 락 탈출 (-1.29%)",
+      "trajectory_summary": "진입 16분 18초경 최고 +0.83%까지 1차 분출했으나, 후속 수급 부재로 평단가까지 되밀려 원금 보호를 위해 본절 수준에서 청산함. (보유: 17분 44초)",
+      "entry_time": "2026-09-19T05:05:55.450846+09:00",
+      "exit_time": "2026-09-19T05:23:39.517723+09:00"
     }
   ]
 }
