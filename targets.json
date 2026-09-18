@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T17:50:39.784650+09:00",
+  "updated_at": "2026-09-18T17:55:39.849161+09:00",
   "paper_trading": true,
   "queue": {
     "MEV": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 6810,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 1310.371368096979,
+      "order_uuid": "mock_order_2c4b09c3",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.243,
       "detailed_reason": "15분봉 RSI 21.1 과매도 구간 진입 및 볼린저밴드 하단 지지 확인, 거래량 유입(1.43배) 동반되어 중심선(5.6031)까지의 단기 반등 기대치가 높음",
       "created_at": "2026-09-18T17:50:39.784650+09:00",
       "created_timestamp": 1789721439.7846622
+    },
+    "PUFFER": {
+      "symbol": "PUFFER/KRW",
+      "code": "PUFFER",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 33.55,
+      "target_entry": 33.41,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6810,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.412,
+      "detailed_reason": "15분봉 RSI(29.9) 과매도 구간 진입 및 볼린저 하단 지지 활용, 1시간봉 MA20 중심선(34.593)까지의 단기 반등 기대 구간",
+      "created_at": "2026-09-18T17:55:39.849161+09:00",
+      "created_timestamp": 1789721739.8491738
     }
   }
 }
