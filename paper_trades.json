@@ -1,5 +1,28 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EDEN": {
+      "symbol": "EDEN/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 69.61,
+      "highest_price": 69.61,
+      "buy_amount_krw": 8516,
+      "units": 122.33874443327109,
+      "sl_pct": -1.46,
+      "emergency_sl_pct": -2.26,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789729561.1788733,
+      "entry_time": "2026-09-18T20:06:01.178876+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "price_history": [
+        [
+          1789729561.1788733,
+          69.61
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
