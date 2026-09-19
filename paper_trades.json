@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 2808.0,
-      "highest_price": 2808.0,
-      "buy_amount_krw": 6828,
-      "units": 2.4316239316239314,
-      "sl_pct": -1.47,
-      "emergency_sl_pct": -2.27,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789856345.4508202,
-      "entry_time": "2026-09-20T07:19:05.450823+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789856345.4508202,
-          2808.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1819,6 +1795,20 @@
       "trajectory_summary": "진입 후 25분 동안 -1.27% ~ +0.07% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-20T06:14:27.925483+09:00",
       "exit_time": "2026-09-20T06:39:28.249151+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 2808.0,
+      "exit_price": 2838.0,
+      "buy_amount_krw": 6828,
+      "profit_krw": 73,
+      "profit_pct": 1.07,
+      "reason": "📈 트레일링 익절 (호가벽 2틱 선제 탈출 (매수벽 2,836.0000 ➔ 2틱 위 2,838.0000) | 최고 +1.07% ➔ 실현 1.07%)",
+      "trajectory_summary": "진입 23분 7초경 최고 +1.07%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 23분 20초)",
+      "entry_time": "2026-09-20T07:19:05.450823+09:00",
+      "exit_time": "2026-09-20T07:42:25.701153+09:00"
     }
   ]
 }
