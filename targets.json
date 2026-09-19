@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-19T14:59:49.884107+09:00",
+  "updated_at": "2026-09-19T15:04:50.651876+09:00",
   "paper_trading": true,
   "queue": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "code": "BTR",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 153100.0,
-      "target_entry": 153000.0,
+      "score": 88,
+      "current_price": 65.97,
+      "target_entry": 65.94,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.491,
-      "detailed_reason": "15분봉 RSI 17.5의 강한 과매도 구간 진입 및 볼린저 하단 지지 활용, 볼륨 서지 비율(1.95) 동반되어 중심선(155,195)까지의 단기 반등 기대",
-      "created_at": "2026-09-19T14:59:49.884107+09:00",
-      "created_timestamp": 1789797589.8841197
+      "entry_bid_ratio": 0.201,
+      "detailed_reason": "15분봉 및 1시간봉 RSI가 모두 22대 과매도 구간에 진입해 있으며, 볼린저 하단 지지를 활용한 강력한 기술적 반등 기대 (목표가 MA20선 67.197)",
+      "created_at": "2026-09-19T15:04:50.651876+09:00",
+      "created_timestamp": 1789797890.6518896
     }
   }
 }
