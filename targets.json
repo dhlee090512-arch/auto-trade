@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T00:05:36.184526+09:00",
+  "updated_at": "2026-09-20T00:15:38.750827+09:00",
   "paper_trading": true,
   "queue": {
     "META2": {
@@ -9,8 +9,8 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 82,
-      "current_price": 7535.0,
-      "target_entry": 7515.0,
+      "current_price": 7580.0,
+      "target_entry": 7560.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,32 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.851,
-      "detailed_reason": "15분봉 RSI(21.6) 및 1시간봉 RSI(28.4) 과매도 구간 진입, 볼린저 밴드 하단 지지와 함께 4.58배의 높은 거래량 급증 동반되어 기술적 반등 확률 높음.",
-      "created_at": "2026-09-20T00:05:36.184526+09:00",
-      "created_timestamp": 1789830336.1845384
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 과매도(RSI 25.9) 및 1시간봉 과매도(RSI 28.7) 동시 출현하며 볼린저밴드 하단 지지 확인. MA20 중심선 회귀에 따른 기대 수익률 5.69% 확보.",
+      "created_at": "2026-09-20T00:15:38.750827+09:00",
+      "created_timestamp": 1789830938.7508407
+    },
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 87.39,
+      "target_entry": 87.26,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6833,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.661,
+      "detailed_reason": "1시간봉 RSI 27.2 및 볼린저밴드 하단 부근에서 안정적인 지지력 형성. MA20 중심선까지의 반등 여력 존재.",
+      "created_at": "2026-09-20T00:15:38.750827+09:00",
+      "created_timestamp": 1789830938.7508407
     }
   }
 }
