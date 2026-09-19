@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "META2": {
+      "symbol": "META2/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 7560.0,
+      "highest_price": 7560.0,
+      "buy_amount_krw": 6833,
+      "units": 0.9038359788359789,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789831054.2803826,
+      "entry_time": "2026-09-20T00:17:34.280385+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1789831054.2803826,
+          7560.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
