@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "EGLD": {
-      "symbol": "EGLD/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 7065.0,
-      "highest_price": 7065.0,
-      "buy_amount_krw": 6832,
-      "units": 0.9670205237084218,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789832697.0923681,
-      "entry_time": "2026-09-20T00:44:57.092371+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789832697.0923681,
-          7065.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1749,6 +1725,20 @@
       "trajectory_summary": "약손실 구간에서 매수벽이 순간 붕괴되며 매수잔량 비율이 급감하여, 추가 슬리피지 방지를 위해 선제 탈출함. (보유: 6분 21초)",
       "entry_time": "2026-09-20T00:28:24.459499+09:00",
       "exit_time": "2026-09-20T00:34:46.055460+09:00"
+    },
+    {
+      "symbol": "EGLD/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 7065.0,
+      "exit_price": 7010.0,
+      "buy_amount_krw": 6832,
+      "profit_krw": -53,
+      "profit_pct": -0.78,
+      "reason": "🛡️ 고점(+0.85%) 달성 후 평단가 복귀 본절 락 탈출 (-0.78%)",
+      "trajectory_summary": "진입 12초경 최고 +0.85%까지 1차 분출했으나, 후속 수급 부재로 평단가까지 되밀려 원금 보호를 위해 본절 수준에서 청산함. (보유: 37초)",
+      "entry_time": "2026-09-20T00:44:57.092371+09:00",
+      "exit_time": "2026-09-20T00:45:35.072653+09:00"
     }
   ]
 }
