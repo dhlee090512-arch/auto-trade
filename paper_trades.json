@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 2764.0,
-      "highest_price": 2764.0,
-      "buy_amount_krw": 8539,
-      "units": 3.0893632416787264,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789792688.908782,
-      "entry_time": "2026-09-19T13:38:08.908785+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789792688.908782,
-          2764.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -1441,6 +1417,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.53% ~ +0.26% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-19T13:09:42.575322+09:00",
       "exit_time": "2026-09-19T13:37:33.380713+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 2764.0,
+      "exit_price": 2766.0,
+      "buy_amount_krw": 8539,
+      "profit_krw": 6,
+      "profit_pct": 0.07,
+      "reason": "⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 0.07%)",
+      "trajectory_summary": "진입 후 25분 동안 -0.25% ~ +0.22% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-19T13:38:08.908785+09:00",
+      "exit_time": "2026-09-19T14:03:09.136517+09:00"
     }
   ]
 }
