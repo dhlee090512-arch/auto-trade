@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-19T23:50:34.235802+09:00",
+  "updated_at": "2026-09-20T00:00:33.041146+09:00",
   "paper_trading": true,
   "queue": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "code": "FOLD",
+    "QUID": {
+      "symbol": "QUID/KRW",
+      "code": "QUID",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 87.29,
-      "target_entry": 87.16,
+      "score": 65,
+      "current_price": 91.01,
+      "target_entry": 91.01,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,32 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "1시간봉 RSI 25.9 및 15분봉 RSI 29.9로 강한 과매도 상태이며 볼린저 하단 지지와 함께 5.04%의 높은 반등 기대 수익률 보유",
-      "created_at": "2026-09-19T23:50:34.235802+09:00",
-      "created_timestamp": 1789829434.2358136
-    },
-    "META2": {
-      "symbol": "META2/KRW",
-      "code": "META2",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 7800.0,
-      "target_entry": 7785.0,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6833,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.649,
-      "detailed_reason": "15분봉 RSI 23.2의 극심한 과매도 구간으로 볼린저 밴드 하단 부근에서 단기 평균회귀 반등 가능성 높음",
-      "created_at": "2026-09-19T23:50:34.235802+09:00",
-      "created_timestamp": 1789829434.2358136
+      "entry_bid_ratio": 0.663,
+      "detailed_reason": "15분봉 RSI(36.4) 과매도 상태 및 볼린저밴드 하단 부근 지지 확인, 90.72 부근 진입 시 중심선(93.199)까지의 기술적 반등 기대",
+      "created_at": "2026-09-20T00:00:33.041146+09:00",
+      "created_timestamp": 1789830033.0411613
     }
   }
 }
