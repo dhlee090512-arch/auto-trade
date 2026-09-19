@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-20T03:25:53.931761+09:00",
+  "updated_at": "2026-09-20T03:50:57.086536+09:00",
   "paper_trading": true,
   "queue": {
-    "STRK": {
-      "symbol": "STRK/KRW",
-      "code": "STRK",
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 56.67,
-      "target_entry": 56.62,
+      "current_price": 86.27,
+      "target_entry": 86.22,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.266,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 36.3 과매도 상태에서 볼린저밴드 하단 지지를 활용한 단기 반등 기대 (기대수익률 4.47%, 손절폭 -1.8%)",
-      "created_at": "2026-09-20T03:25:53.931761+09:00",
-      "created_timestamp": 1789842353.9317737
+      "entry_bid_ratio": 0.771,
+      "detailed_reason": "15분봉 RSI(35.6) 과매도 구간 진입 및 볼린저 하단 지지 활용 1시간봉 이동평균선 중심선 회귀 반등 기대",
+      "created_at": "2026-09-20T03:50:57.086536+09:00",
+      "created_timestamp": 1789843857.0865483
     }
   }
 }
