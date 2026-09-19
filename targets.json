@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T09:24:25.741233+09:00",
+  "updated_at": "2026-09-19T09:59:28.518303+09:00",
   "paper_trading": true,
   "queue": {
     "XRP": {
@@ -9,20 +9,20 @@
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
       "score": 88,
-      "current_price": 1920.0,
-      "target_entry": 1918.0,
+      "current_price": 1937.0,
+      "target_entry": 1930.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 6830,
+      "buy_amount_krw": 6835,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.461,
-      "detailed_reason": "15분봉 거래량 2.04배 급증 후 1시간 수급 24.2억 동반된 전형적인 첫 음봉 눌림목 패턴으로 상승 지속 확률 높음",
-      "created_at": "2026-09-19T09:24:25.741233+09:00",
-      "created_timestamp": 1789777465.7412455
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 거래량 2.15배 급증 동반 후 첫 음봉 눌림목 형성, 1시간 유동성 82.4억 원 유입 및 RSI 과열 해소 구간으로 슬롯 1 기준 충족",
+      "created_at": "2026-09-19T09:59:28.518303+09:00",
+      "created_timestamp": 1789779568.5183165
     }
   }
 }
