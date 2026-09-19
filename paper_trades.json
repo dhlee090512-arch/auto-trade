@@ -22,6 +22,29 @@
           7525.0
         ]
       ]
+    },
+    "PIEVERSE": {
+      "symbol": "PIEVERSE/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 2055.0,
+      "highest_price": 2055.0,
+      "buy_amount_krw": 6000,
+      "units": 2.9197080291970803,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789833781.4868903,
+      "entry_time": "2026-09-20T01:03:01.486893+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1789833781.4868903,
+          2055.0
+        ]
+      ]
     }
   },
   "closed_trades": [
