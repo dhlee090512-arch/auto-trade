@@ -1,38 +1,16 @@
 {
-  "updated_at": "2026-09-19T14:29:47.496083+09:00",
+  "updated_at": "2026-09-19T14:54:50.196024+09:00",
   "paper_trading": true,
   "queue": {
-    "ENS": {
-      "symbol": "ENS/KRW",
-      "code": "ENS",
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "code": "BTR",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 8550.0,
-      "target_entry": 8540.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6829,
-      "ordered_volume": 0.7996487119437939,
-      "order_uuid": "mock_order_efb8fb54",
-      "order_placed": true,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.485,
-      "detailed_reason": "15분봉 RSI 34.3 과매도 상태로 볼린저밴드 하단 부근 지지선 반등 및 1시간봉 중심선(8655.25) 회복 기대 구간",
-      "created_at": "2026-09-19T14:24:47.067324+09:00",
-      "created_timestamp": 1789795487.0673366
-    },
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "score": 85,
-      "current_price": 1950.0,
-      "target_entry": 1947.0,
+      "current_price": 66.42,
+      "target_entry": 66.29,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
@@ -41,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.522,
-      "detailed_reason": "15분 거래량 2.17배 급증 및 1시간 강한 수급(36.0억) 동반된 첫 음봉 눌림목 구간으로, RSI 57.0의 안정적인 단기 조정과 MA20 이격도를 활용한 롱 포지션 타점 확보 유리.",
-      "created_at": "2026-09-19T14:29:47.496083+09:00",
-      "created_timestamp": 1789795787.4960966
+      "entry_bid_ratio": 0.337,
+      "detailed_reason": "15분봉 RSI 24.1 과매도 구간 및 볼린저 밴드 하단 지지 활용, 중심선(67.323)까지의 단기 반등 기대 구간",
+      "created_at": "2026-09-19T14:54:50.196024+09:00",
+      "created_timestamp": 1789797290.1960375
     }
   }
 }
