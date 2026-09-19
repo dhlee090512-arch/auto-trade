@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-19T12:29:39.853546+09:00",
+  "updated_at": "2026-09-19T12:39:40.596121+09:00",
   "paper_trading": true,
   "queue": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "code": "TRUMP",
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "code": "BCH",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 2787.0,
-      "target_entry": 2783.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "score": 88,
+      "current_price": 345000.0,
+      "target_entry": 344300.0,
+      "sl_pct": -1.41,
+      "emergency_sl_pct": -2.21,
       "timeout_mins": 10,
       "buy_amount_krw": 8540,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.364,
-      "detailed_reason": "15분봉 RSI(37.1) 과매도 및 볼린저 밴드 하단 지지 구간에서 발생하는 전형적인 슬롯2 레인지 바운스 셋업",
-      "created_at": "2026-09-19T12:29:39.853546+09:00",
-      "created_timestamp": 1789788579.853558
+      "entry_bid_ratio": 0.647,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 34.8로 과매도 구간 진입, 볼린저 하단 지지 확인 및 중심선(351525.0)까지의 기술적 반등 기대 (기대수익률 1.89%)",
+      "created_at": "2026-09-19T12:39:40.596121+09:00",
+      "created_timestamp": 1789789180.5961342
     }
   }
 }
