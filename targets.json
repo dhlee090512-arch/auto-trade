@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T13:04:41.475398+09:00",
+  "updated_at": "2026-09-19T13:09:42.066893+09:00",
   "paper_trading": true,
   "queue": {
     "BTR": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
       "buy_amount_krw": 8539,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 127.86762503743635,
+      "order_uuid": "mock_order_c29e079d",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.298,
       "detailed_reason": "1시간봉 RSI 18.2 및 15분봉 과매도 구간에서 볼린저밴드 하단 지지를 활용한 전형적인 오버솔 바운스(SLOT_2) 셋업",
       "created_at": "2026-09-19T13:04:41.475398+09:00",
       "created_timestamp": 1789790681.4754136
+    },
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "code": "BCH",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 78,
+      "current_price": 341200.0,
+      "target_entry": 341200.0,
+      "sl_pct": -1.48,
+      "emergency_sl_pct": -2.28,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8540,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.691,
+      "detailed_reason": "15분봉 RSI(20.9) 극단적 과매도 상태로 하단 볼린저밴드 이탈 후 기술적 반등 기대, 1.94배 거래량 유입 동반.",
+      "created_at": "2026-09-19T13:09:42.066893+09:00",
+      "created_timestamp": 1789790982.066905
     }
   }
 }
