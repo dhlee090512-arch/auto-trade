@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "EGLD": {
+      "symbol": "EGLD/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 6205.0,
+      "highest_price": 6205.0,
+      "buy_amount_krw": 6825,
+      "units": 1.0999194198227236,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789895865.6335034,
+      "entry_time": "2026-09-20T18:17:45.633506+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1789895865.6335034,
+          6205.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
