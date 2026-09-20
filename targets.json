@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-20T13:06:40.846223+09:00",
+  "updated_at": "2026-09-20T13:11:41.783959+09:00",
   "paper_trading": true,
   "queue": {
-    "EGLD": {
-      "symbol": "EGLD/KRW",
-      "code": "EGLD",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 6550.0,
-      "target_entry": 6535.0,
+      "current_price": 4752.0,
+      "target_entry": 4736.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.395,
-      "detailed_reason": "15분봉 RSI(33.8) 과매도 상태 및 볼린저 하단 지지 구간에서 중심선(6797.0) 회귀 목적의 오버솔드 반등 기대",
-      "created_at": "2026-09-20T13:06:40.846223+09:00",
-      "created_timestamp": 1789877200.846238
+      "entry_bid_ratio": 0.479,
+      "detailed_reason": "15분봉 RSI 37.1 과매도 구간 및 볼린저밴드 하단 근접에 따른 단기 기술적 반등 기대 setup",
+      "created_at": "2026-09-20T13:11:41.783959+09:00",
+      "created_timestamp": 1789877501.7839742
     }
   }
 }
