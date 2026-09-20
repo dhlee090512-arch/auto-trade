@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "CAP": {
-      "symbol": "CAP/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 61.44,
-      "highest_price": 61.44,
-      "buy_amount_krw": 6824,
-      "units": 111.06770833333334,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789889758.5876563,
-      "entry_time": "2026-09-20T16:35:58.587659+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789889758.5876563,
-          61.44
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2043,6 +2019,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.43% ~ +0.68% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-20T15:35:03.973234+09:00",
       "exit_time": "2026-09-20T16:00:04.349318+09:00"
+    },
+    {
+      "symbol": "CAP/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 61.44,
+      "exit_price": 61.23,
+      "buy_amount_krw": 6824,
+      "profit_krw": -23,
+      "profit_pct": -0.34,
+      "reason": "⚡ 진입 3분 모멘텀 탄력 부재 스크래치 탈출 (-0.34%)",
+      "trajectory_summary": "진입 후 3분 0초 동안 최고 +0.00%에 그치며 반등 탄력을 전혀 받지 못했고, 호가 매수세가 이탈하여 조기 손절함.",
+      "entry_time": "2026-09-20T16:35:58.587659+09:00",
+      "exit_time": "2026-09-20T16:38:58.827562+09:00"
     }
   ]
 }
