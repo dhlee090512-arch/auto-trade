@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 67.42,
-      "highest_price": 67.42,
-      "buy_amount_krw": 6828,
-      "units": 101.27558587956096,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789917759.4898367,
-      "entry_time": "2026-09-21T00:22:39.489839+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789917759.4898367,
-          67.42
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2183,6 +2159,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.93% ~ +0.52% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-20T20:54:14.958746+09:00",
       "exit_time": "2026-09-20T21:19:39.035022+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 67.42,
+      "exit_price": 67.85,
+      "buy_amount_krw": 6828,
+      "profit_krw": 44,
+      "profit_pct": 0.64,
+      "reason": "⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 0.64%)",
+      "trajectory_summary": "진입 후 25분 동안 -0.16% ~ +0.64% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-21T00:22:39.489839+09:00",
+      "exit_time": "2026-09-21T00:47:40.011928+09:00"
     }
   ]
 }
