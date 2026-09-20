@@ -22,6 +22,29 @@
           149100.0
         ]
       ]
+    },
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 16630.0,
+      "highest_price": 16630.0,
+      "buy_amount_krw": 6827,
+      "units": 0.4105231509320505,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789872096.2233448,
+      "entry_time": "2026-09-20T11:41:36.223347+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1789872096.2233448,
+          16630.0
+        ]
+      ]
     }
   },
   "closed_trades": [
