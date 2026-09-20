@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "entry_price": 150900.0,
-      "highest_price": 150900.0,
-      "buy_amount_krw": 6829,
-      "units": 0.04525513585155732,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789943900.3117397,
-      "entry_time": "2026-09-21T07:38:20.311742+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789943900.3117397,
-          150900.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2211,6 +2187,20 @@
       "trajectory_summary": "약손실 구간에서 매수벽이 순간 붕괴되며 매수잔량 비율이 급감하여, 추가 슬리피지 방지를 위해 선제 탈출함. (보유: 1분 45초)",
       "entry_time": "2026-09-21T01:44:06.432757+09:00",
       "exit_time": "2026-09-21T01:45:52.247761+09:00"
+    },
+    {
+      "symbol": "SOL/KRW",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 150900.0,
+      "exit_price": 151500.0,
+      "buy_amount_krw": 6829,
+      "profit_krw": 27,
+      "profit_pct": 0.4,
+      "reason": "⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 0.40%)",
+      "trajectory_summary": "진입 후 25분 동안 -0.20% ~ +0.53% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-21T07:38:20.311742+09:00",
+      "exit_time": "2026-09-21T08:03:20.566294+09:00"
     }
   ]
 }
