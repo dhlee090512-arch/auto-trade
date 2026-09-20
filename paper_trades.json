@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "REQ": {
-      "symbol": "REQ/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 74.15,
-      "highest_price": 74.15,
-      "buy_amount_krw": 6825,
-      "units": 92.04315576534052,
-      "sl_pct": -1.78,
-      "emergency_sl_pct": -2.58,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789901088.761745,
-      "entry_time": "2026-09-20T19:44:48.761747+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789901088.761745,
-          74.15
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2155,6 +2131,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.34% ~ +0.07% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-20T18:57:26.703709+09:00",
       "exit_time": "2026-09-20T19:22:26.968678+09:00"
+    },
+    {
+      "symbol": "REQ/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 74.15,
+      "exit_price": 74.75,
+      "buy_amount_krw": 6825,
+      "profit_krw": 55,
+      "profit_pct": 0.81,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.13% ➔ 실현 0.81%)",
+      "trajectory_summary": "진입 24분 33초경 최고 +1.13%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 25분 37초)",
+      "entry_time": "2026-09-20T19:44:48.761747+09:00",
+      "exit_time": "2026-09-20T20:10:26.303081+09:00"
     }
   ]
 }
