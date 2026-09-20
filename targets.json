@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T19:17:11.389474+09:00",
+  "updated_at": "2026-09-20T19:42:14.262898+09:00",
   "paper_trading": true,
   "queue": {
     "REQ": {
@@ -9,20 +9,20 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 78,
-      "current_price": 75.0,
-      "target_entry": 74.89,
-      "sl_pct": -1.72,
-      "emergency_sl_pct": -2.52,
+      "current_price": 74.3,
+      "target_entry": 74.15,
+      "sl_pct": -1.78,
+      "emergency_sl_pct": -2.58,
       "timeout_mins": 10,
       "buy_amount_krw": 6825,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.909,
-      "detailed_reason": "15분봉 RSI(29.7) 과매도 구간 진입 및 볼린저 하단 지지 활용, 1시간봉 MA20 중심선 회귀 반등 기대",
-      "created_at": "2026-09-20T19:17:11.389474+09:00",
-      "created_timestamp": 1789899431.3894863
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "SLOT_2_RANGE 전략: 15분봉 RSI 29.5 과매도 상태이며 볼린저밴드 하단 지지를 활용한 중심선(76.3955)까지의 단기 반등 기대 세팅 완료.",
+      "created_at": "2026-09-20T19:42:14.262898+09:00",
+      "created_timestamp": 1789900934.2629118
     }
   }
 }
