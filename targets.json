@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T12:41:39.645092+09:00",
+  "updated_at": "2026-09-20T12:46:40.353811+09:00",
   "paper_trading": true,
   "queue": {
     "RAY": {
@@ -15,9 +15,9 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 6822,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 3.1554116558741905,
+      "order_uuid": "mock_order_d1f866a5",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.338,
       "detailed_reason": "1시간봉 RSI 11.2 및 15분봉 RSI 19.9의 극단적 과매도 상태이며 볼린저밴드 하단 지지 활용 반등 기대감 최고 수준",
@@ -45,6 +45,50 @@
       "detailed_reason": "15분봉 RSI 23.5 과매도 구간 진입 및 거래량 비율 1.3으로 수급 유입 동반된 안정적 하단 지지 반등 셋업",
       "created_at": "2026-09-20T12:41:39.645092+09:00",
       "created_timestamp": 1789875699.645104
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 82,
+      "current_price": 1881.0,
+      "target_entry": 1880.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6822,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.555,
+      "detailed_reason": "1시간봉 RSI 19.0 및 15분봉 RSI 26.2의 극단적 과매도 구간으로 볼린저 하단 지지 반등 확률이 매우 높으며, 충분한 유동성(58억 원 이상 거래대금)이 뒷받침됨.",
+      "created_at": "2026-09-20T12:46:40.353811+09:00",
+      "created_timestamp": 1789876000.353823
+    },
+    "EGLD": {
+      "symbol": "EGLD/KRW",
+      "code": "EGLD",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 6495.0,
+      "target_entry": 6485.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6822,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.805,
+      "detailed_reason": "1시간봉 RSI 17.3의 극심한 과매도 상태이며 볼린저 하단 근접 및 중심선(6812.75) 회복 시 높은 기대수익률(4.89%) 확보 가능.",
+      "created_at": "2026-09-20T12:46:40.353811+09:00",
+      "created_timestamp": 1789876000.353823
     }
   }
 }
