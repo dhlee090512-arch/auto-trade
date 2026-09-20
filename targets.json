@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T12:46:40.353811+09:00",
+  "updated_at": "2026-09-20T12:51:40.750863+09:00",
   "paper_trading": true,
   "queue": {
     "RAY": {
@@ -37,9 +37,9 @@
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
       "buy_amount_krw": 6822,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 0.41597560975609754,
+      "order_uuid": "mock_order_b5f90a09",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.153,
       "detailed_reason": "15분봉 RSI 23.5 과매도 구간 진입 및 거래량 비율 1.3으로 수급 유입 동반된 안정적 하단 지지 반등 셋업",
@@ -89,6 +89,28 @@
       "detailed_reason": "1시간봉 RSI 17.3의 극심한 과매도 상태이며 볼린저 하단 근접 및 중심선(6812.75) 회복 시 높은 기대수익률(4.89%) 확보 가능.",
       "created_at": "2026-09-20T12:46:40.353811+09:00",
       "created_timestamp": 1789876000.353823
+    },
+    "CAP": {
+      "symbol": "CAP/KRW",
+      "code": "CAP",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 62.4,
+      "target_entry": 62.13,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6823,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.62,
+      "detailed_reason": "15분봉 RSI(36.6) 과매도 구간 및 볼린저 하단 지지 활용, 중심선(63.2345) 회귀 기대 반등 타점",
+      "created_at": "2026-09-20T12:51:40.750863+09:00",
+      "created_timestamp": 1789876300.7508762
     }
   }
 }
