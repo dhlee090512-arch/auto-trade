@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T03:34:49.853660+09:00",
+  "updated_at": "2026-09-22T07:20:11.101555+09:00",
   "paper_trading": true,
   "queue": {
-    "AVAX": {
-      "symbol": "AVAX/KRW",
-      "code": "AVAX",
+    "FLOCK": {
+      "symbol": "FLOCK/KRW",
+      "code": "FLOCK",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 14650.0,
-      "target_entry": 14630.0,
+      "score": 88,
+      "current_price": 98.64,
+      "target_entry": 98.35,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6856,
+      "buy_amount_krw": 6861,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.577,
-      "detailed_reason": "15분봉 RSI(27.6) 과매도 상태이며 볼린저밴드 하단 지지 구역에서 MA20 중심선(14956.5)까지 2.02%의 충분한 기대 반등 여력을 확보함.",
-      "created_at": "2026-09-22T03:34:49.853660+09:00",
-      "created_timestamp": 1790015689.8536723
+      "entry_bid_ratio": 0.393,
+      "detailed_reason": "15분봉 RSI 23.1 과매도 구간 진입 및 볼린저 하단 지지 확인, 1시간 기준 9,560만 원 이상의 견조한 거래대금 동반으로 2.25% 이상의 반등 여력(이격도 2.3%) 확보",
+      "created_at": "2026-09-22T07:20:11.101555+09:00",
+      "created_timestamp": 1790029211.1015673
     }
   }
 }
