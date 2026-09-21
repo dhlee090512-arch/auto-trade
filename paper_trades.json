@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "AVAX": {
+      "symbol": "AVAX/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 15510.0,
+      "highest_price": 15510.0,
+      "buy_amount_krw": 8540,
+      "units": 0.5506125080593166,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1789969698.856636,
+      "entry_time": "2026-09-21T14:48:18.856639+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1789969698.856636,
+          15510.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
