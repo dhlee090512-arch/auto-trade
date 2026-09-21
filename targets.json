@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-21T13:43:50.815071+09:00",
+  "updated_at": "2026-09-21T14:13:54.354797+09:00",
   "paper_trading": true,
   "queue": {
-    "ENSO": {
-      "symbol": "ENSO/KRW",
-      "code": "ENSO",
+    "FLOCK": {
+      "symbol": "FLOCK/KRW",
+      "code": "FLOCK",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 1335.0,
-      "target_entry": 1332.0,
+      "score": 68,
+      "current_price": 86.96,
+      "target_entry": 86.92,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI(14.7) 극심한 과매도 상태로 하단 볼린저밴드 부근 지지선 형성, 이격 회복에 따른 반등 기대",
-      "created_at": "2026-09-21T13:43:50.815071+09:00",
-      "created_timestamp": 1789965830.8150833
+      "entry_bid_ratio": 0.715,
+      "detailed_reason": "15분봉 RSI(31.5) 과매도 구간 및 볼린저 하단 지지를 활용한 단기 반등 전략, 중심선(88.696) 부근 목표 익절",
+      "created_at": "2026-09-21T14:13:54.354797+09:00",
+      "created_timestamp": 1789967634.35481
     }
   }
 }
