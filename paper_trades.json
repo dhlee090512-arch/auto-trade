@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "NIL": {
-      "symbol": "NIL/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 85.02,
-      "highest_price": 85.02,
-      "buy_amount_krw": 8562,
-      "units": 100.70571630204658,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789991674.562699,
-      "entry_time": "2026-09-21T20:54:34.562701+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789991674.562699,
-          85.02
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2407,6 +2383,20 @@
       "trajectory_summary": "진입 후 25분 동안 -0.06% ~ +0.52% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-21T17:45:22.724916+09:00",
       "exit_time": "2026-09-21T18:10:22.946946+09:00"
+    },
+    {
+      "symbol": "NIL/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 85.02,
+      "exit_price": 86.03,
+      "buy_amount_krw": 8562,
+      "profit_krw": 102,
+      "profit_pct": 1.19,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.3%, 하한 +1.2%) | 최고 +1.66% ➔ 실현 1.19%)",
+      "trajectory_summary": "진입 13분 53초경 최고 +1.66%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 14분 2초)",
+      "entry_time": "2026-09-21T20:54:34.562701+09:00",
+      "exit_time": "2026-09-21T21:08:37.104586+09:00"
     }
   ]
 }
