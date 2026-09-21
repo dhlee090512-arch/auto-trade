@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T13:13:49.390377+09:00",
+  "updated_at": "2026-09-21T13:43:50.815071+09:00",
   "paper_trading": true,
   "queue": {
     "ENSO": {
@@ -8,7 +8,7 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 88,
+      "score": 75,
       "current_price": 1335.0,
       "target_entry": 1332.0,
       "sl_pct": -1.8,
@@ -20,9 +20,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI 16.5 과매도 상태로 하단 볼린저밴드 부근 지지 확인, 6.01배의 높은 볼륨 서지와 함께 중심선(1391.1)까지의 단기 반등 기대치가 매우 높음.",
-      "created_at": "2026-09-21T13:13:49.390377+09:00",
-      "created_timestamp": 1789964029.3903897
+      "detailed_reason": "15분봉 RSI(14.7) 극심한 과매도 상태로 하단 볼린저밴드 부근 지지선 형성, 이격 회복에 따른 반등 기대",
+      "created_at": "2026-09-21T13:43:50.815071+09:00",
+      "created_timestamp": 1789965830.8150833
     }
   }
 }
