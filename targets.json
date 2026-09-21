@@ -1,50 +1,28 @@
 {
-  "updated_at": "2026-09-21T17:24:08.765635+09:00",
+  "updated_at": "2026-09-21T17:44:10.146250+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "code": "LINK",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
       "score": 88,
-      "current_price": 1305.0,
-      "target_entry": 1301.0,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
+      "current_price": 17390.0,
+      "target_entry": 17320.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 6832,
-      "ordered_volume": 5.251345119139124,
-      "order_uuid": "mock_order_0790cce9",
-      "order_placed": true,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.587,
-      "detailed_reason": "15분 거래량 4.81배 급증 및 1시간 강한 수급(13.3억) 동반된 첫 음봉 눌림목으로 슬롯 1 기준에 완벽히 부합",
-      "created_at": "2026-09-21T17:14:08.055067+09:00",
-      "created_timestamp": 1789978448.0550804
-    },
-    "FLOCK": {
-      "symbol": "FLOCK/KRW",
-      "code": "FLOCK",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 92.97,
-      "target_entry": 92.71,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6833,
+      "buy_amount_krw": 6842,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.649,
-      "detailed_reason": "15분 거래량 18.46배 폭증 후 1시간봉 기준 첫 음봉 눌림목 형성, 수급 집중 및 이평선 지지력 확인으로 슬롯 1 조건 완벽 충족",
-      "created_at": "2026-09-21T17:24:08.765635+09:00",
-      "created_timestamp": 1789979048.7656488
+      "entry_bid_ratio": 0.318,
+      "detailed_reason": "15분봉 거래량 5.45배 급증 동반 후 1시간 추세선 내 첫 음봉 눌림목 형성, RSI 60대 양호하며 단기 반등 모멘텀 유효",
+      "created_at": "2026-09-21T17:44:10.146250+09:00",
+      "created_timestamp": 1789980250.146263
     }
   }
 }
