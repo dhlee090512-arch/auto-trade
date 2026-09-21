@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T09:13:27.941983+09:00",
+  "updated_at": "2026-09-21T09:18:28.240991+09:00",
   "paper_trading": true,
   "queue": {
     "ENSO": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 8541,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 6.010555946516537,
+      "order_uuid": "mock_order_c7beb5ef",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
       "detailed_reason": "15분봉 거래량 36.75배 급증 후 1시간봉 기준 첫 음봉 눌림목 형성, 수급 유입이 강력하여 밴드 상단 돌파 지속 가능성 높음",
       "created_at": "2026-09-21T09:13:27.941983+09:00",
       "created_timestamp": 1789949607.941996
+    },
+    "CAP": {
+      "symbol": "CAP/KRW",
+      "code": "CAP",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 60.16,
+      "target_entry": 60.08,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8541,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.376,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 33.0 과매도 구간 및 하단 볼린저밴드 부근 지지 확인, MA20 중심선 회귀 기대 반등세 포착",
+      "created_at": "2026-09-21T09:18:28.240991+09:00",
+      "created_timestamp": 1789949908.241003
     }
   }
 }
