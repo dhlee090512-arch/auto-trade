@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-21T22:44:27.098404+09:00",
+  "updated_at": "2026-09-21T22:59:26.233023+09:00",
   "paper_trading": true,
   "queue": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "code": "LINK",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 2001.0,
-      "target_entry": 1997.0,
+      "score": 85,
+      "current_price": 17610.0,
+      "target_entry": 17580.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 8563,
+      "buy_amount_krw": 8566,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.402,
-      "detailed_reason": "1시간 거래대금 71.9억으로 풍부한 유동성 유입 상태이며, 15분봉 기준 2.71배 거래량 급증 동반 후 첫 음봉 눌림목 형성으로 진입 타점 적합",
-      "created_at": "2026-09-21T22:44:27.098404+09:00",
-      "created_timestamp": 1789998267.0984204
+      "entry_bid_ratio": 0.263,
+      "detailed_reason": "1시간 기준 탄탄한 거래대금(4.78억 KRW) 유입과 함께 15분봉 기준 첫 음봉 눌림목 형성, 볼륨 서지 비율(2.13배) 및 RSI 적정 수준으로 단기 반등 모멘텀 유효",
+      "created_at": "2026-09-21T22:59:26.233023+09:00",
+      "created_timestamp": 1789999166.2330377
     }
   }
 }
