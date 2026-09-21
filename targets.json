@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T14:13:54.354797+09:00",
+  "updated_at": "2026-09-21T14:33:57.039671+09:00",
   "paper_trading": true,
   "queue": {
     "FLOCK": {
@@ -9,20 +9,20 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 68,
-      "current_price": 86.96,
-      "target_entry": 86.92,
+      "current_price": 87.27,
+      "target_entry": 87.1,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8538,
+      "buy_amount_krw": 8541,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.715,
-      "detailed_reason": "15분봉 RSI(31.5) 과매도 구간 및 볼린저 하단 지지를 활용한 단기 반등 전략, 중심선(88.696) 부근 목표 익절",
-      "created_at": "2026-09-21T14:13:54.354797+09:00",
-      "created_timestamp": 1789967634.35481
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 30.6 과매도 구간 및 볼린저 하단 지지 활용 중심선(88.556) 회귀 반등 기대",
+      "created_at": "2026-09-21T14:33:57.039671+09:00",
+      "created_timestamp": 1789968837.0396907
     }
   }
 }
