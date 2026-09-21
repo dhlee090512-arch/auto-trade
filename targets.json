@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T02:04:43.371958+09:00",
+  "updated_at": "2026-09-22T02:19:44.560089+09:00",
   "paper_trading": true,
   "queue": {
-    "ZETA": {
-      "symbol": "ZETA/KRW",
-      "code": "ZETA",
+    "S": {
+      "symbol": "S/KRW",
+      "code": "S",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 76.74,
-      "target_entry": 76.59,
+      "score": 78,
+      "current_price": 50.92,
+      "target_entry": 50.64,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8571,
+      "buy_amount_krw": 8570,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.499,
-      "detailed_reason": "15분봉 RSI 26.2 과매도 구간 진입 및 볼린저 하단 지지 활용, 중심선(82.88)까지 7.98%의 충분한 기대 반등 여력 확보",
-      "created_at": "2026-09-22T02:04:43.371958+09:00",
-      "created_timestamp": 1790010283.3719711
+      "entry_bid_ratio": 0.329,
+      "detailed_reason": "15분봉 RSI 35.2 과매도 구간 진입 및 볼린저 하단 지지 활용, 중심선(52.08)까지 2.28% 이상의 기대 반등 여력 확보",
+      "created_at": "2026-09-22T02:19:44.560089+09:00",
+      "created_timestamp": 1790011184.5601017
     }
   }
 }
