@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-21T22:59:26.233023+09:00",
+  "updated_at": "2026-09-22T00:06:42.198549+09:00",
   "paper_trading": true,
   "queue": {
-    "LINK": {
-      "symbol": "LINK/KRW",
-      "code": "LINK",
-      "mode": "SCALPING",
+    "PHA": {
+      "symbol": "PHA/KRW",
+      "code": "PHA",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "score": 85,
-      "current_price": 17610.0,
-      "target_entry": 17580.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "slot": "SLOT_2_RANGE",
+      "score": 82,
+      "current_price": 68.74,
+      "target_entry": 68.49,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8566,
+      "buy_amount_krw": 8569,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.263,
-      "detailed_reason": "1시간 기준 탄탄한 거래대금(4.78억 KRW) 유입과 함께 15분봉 기준 첫 음봉 눌림목 형성, 볼륨 서지 비율(2.13배) 및 RSI 적정 수준으로 단기 반등 모멘텀 유효",
-      "created_at": "2026-09-21T22:59:26.233023+09:00",
-      "created_timestamp": 1789999166.2330377
+      "entry_bid_ratio": 0.314,
+      "detailed_reason": "15분봉 RSI(32.5) 단기 과매도 상태로 볼린저 하단 지지 확인 및 중심선(78.395)까지 15% 이상 반등 룸 확보, 충분한 거래대금 동반",
+      "created_at": "2026-09-22T00:06:42.198549+09:00",
+      "created_timestamp": 1790003202.1985757
     }
   }
 }
