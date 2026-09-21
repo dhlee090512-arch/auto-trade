@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-21T09:43:31.177988+09:00",
+  "updated_at": "2026-09-21T10:58:38.145935+09:00",
   "paper_trading": true,
   "queue": {
-    "PIEVERSE": {
-      "symbol": "PIEVERSE/KRW",
-      "code": "PIEVERSE",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 2264.0,
-      "target_entry": 2257.0,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
+      "score": 85,
+      "current_price": 152000.0,
+      "target_entry": 151800.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 8540,
+      "buy_amount_krw": 8536,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 거래량 4.08배 급증 후 첫 음봉 눌림목 패턴 발생, 1시간 5.4억 수급 유입 및 마켓 리스크 대비 리스크 대비 수익비 우수",
-      "created_at": "2026-09-21T09:43:31.177988+09:00",
-      "created_timestamp": 1789951411.1780014
+      "entry_bid_ratio": 0.479,
+      "detailed_reason": "15분봉 거래량 2.0배 급증 동반 후 1시간 수급 유입 중 발생한 전형적인 첫 음봉 눌림목 구간으로, RSI 58.8 및 MA20 상단 지지력을 활용한 숏텀 스칼핑 타점 확보.",
+      "created_at": "2026-09-21T10:58:38.145935+09:00",
+      "created_timestamp": 1789955918.1459477
     }
   }
 }
