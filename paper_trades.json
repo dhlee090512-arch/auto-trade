@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "ENSO": {
-      "symbol": "ENSO/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "entry_price": 1421.0,
-      "highest_price": 1421.0,
-      "buy_amount_krw": 8541,
-      "units": 6.010555946516537,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789950026.233041,
-      "entry_time": "2026-09-21T09:20:26.233044+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789950026.233041,
-          1421.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2239,6 +2215,20 @@
       "trajectory_summary": "진입 1분 4초경 최고 +1.89%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 1분 27초)",
       "entry_time": "2026-09-21T09:09:19.102727+09:00",
       "exit_time": "2026-09-21T09:10:46.723435+09:00"
+    },
+    {
+      "symbol": "ENSO/KRW",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 1421.0,
+      "exit_price": 1435.0,
+      "buy_amount_krw": 8541,
+      "profit_krw": 85,
+      "profit_pct": 0.99,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.25%, 하한 +0.75%) | 최고 +1.27% ➔ 실현 0.99%)",
+      "trajectory_summary": "진입 12분 53초경 최고 +1.27%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 12분 57초)",
+      "entry_time": "2026-09-21T09:20:26.233044+09:00",
+      "exit_time": "2026-09-21T09:33:23.745864+09:00"
     }
   ]
 }
