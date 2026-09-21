@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-21T17:44:10.146250+09:00",
+  "updated_at": "2026-09-21T20:29:24.988207+09:00",
   "paper_trading": true,
   "queue": {
-    "LINK": {
-      "symbol": "LINK/KRW",
-      "code": "LINK",
+    "S": {
+      "symbol": "S/KRW",
+      "code": "S",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
       "score": 88,
-      "current_price": 17390.0,
-      "target_entry": 17320.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "current_price": 60.26,
+      "target_entry": 60.1,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6842,
+      "buy_amount_krw": 8560,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.318,
-      "detailed_reason": "15분봉 거래량 5.45배 급증 동반 후 1시간 추세선 내 첫 음봉 눌림목 형성, RSI 60대 양호하며 단기 반등 모멘텀 유효",
-      "created_at": "2026-09-21T17:44:10.146250+09:00",
-      "created_timestamp": 1789980250.146263
+      "entry_bid_ratio": 0.52,
+      "detailed_reason": "15분 거래량 4.17배 급증 이후 첫 음봉 눌림목 형성 및 16억대 1시간 거래대금 수급 유입으로 슬롯 1 기준 충족",
+      "created_at": "2026-09-21T20:29:24.988207+09:00",
+      "created_timestamp": 1789990164.9882185
     }
   }
 }
