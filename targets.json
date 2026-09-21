@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T00:06:42.198549+09:00",
+  "updated_at": "2026-09-22T00:10:03.529982+09:00",
   "paper_trading": true,
   "queue": {
-    "PHA": {
-      "symbol": "PHA/KRW",
-      "code": "PHA",
+    "ACX": {
+      "symbol": "ACX/KRW",
+      "code": "ACX",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 68.74,
-      "target_entry": 68.49,
+      "score": 88,
+      "current_price": 63.99,
+      "target_entry": 63.86,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8569,
+      "buy_amount_krw": 8572,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.314,
-      "detailed_reason": "15분봉 RSI(32.5) 단기 과매도 상태로 볼린저 하단 지지 확인 및 중심선(78.395)까지 15% 이상 반등 룸 확보, 충분한 거래대금 동반",
-      "created_at": "2026-09-22T00:06:42.198549+09:00",
-      "created_timestamp": 1790003202.1985757
+      "entry_bid_ratio": 0.522,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 36.3 과매도 상태에서 볼린저 하단 지지를 확인하였으며, 중심선(67.36원)까지의 기대 반등 폭이 5.25%로 충분한 리스크 대비 리워드(RR) 제공.",
+      "created_at": "2026-09-22T00:10:03.529982+09:00",
+      "created_timestamp": 1790003403.5299966
     }
   }
 }
