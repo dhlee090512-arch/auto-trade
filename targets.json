@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T01:19:39.856057+09:00",
+  "updated_at": "2026-09-22T02:04:43.371958+09:00",
   "paper_trading": true,
   "queue": {
-    "PIEVERSE": {
-      "symbol": "PIEVERSE/KRW",
-      "code": "PIEVERSE",
+    "ZETA": {
+      "symbol": "ZETA/KRW",
+      "code": "ZETA",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 2426.0,
-      "target_entry": 2416.0,
+      "current_price": 76.74,
+      "target_entry": 76.59,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8569,
+      "buy_amount_krw": 8571,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.416,
-      "detailed_reason": "15분봉 RSI(34.1) 과매도 구간에서 볼린저밴드 하단 지지를 활용한 2.69% 반등 타점 확보. 1시간 거래대금 158억 원으로 유동성 충분함.",
-      "created_at": "2026-09-22T01:19:39.856057+09:00",
-      "created_timestamp": 1790007579.8560705
+      "entry_bid_ratio": 0.499,
+      "detailed_reason": "15분봉 RSI 26.2 과매도 구간 진입 및 볼린저 하단 지지 활용, 중심선(82.88)까지 7.98%의 충분한 기대 반등 여력 확보",
+      "created_at": "2026-09-22T02:04:43.371958+09:00",
+      "created_timestamp": 1790010283.3719711
     }
   }
 }
