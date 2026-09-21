@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T00:44:35.329694+09:00",
+  "updated_at": "2026-09-22T00:59:46.316448+09:00",
   "paper_trading": true,
   "queue": {
-    "PHA": {
-      "symbol": "PHA/KRW",
-      "code": "PHA",
+    "ACX": {
+      "symbol": "ACX/KRW",
+      "code": "ACX",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 66.53,
-      "target_entry": 66.32,
+      "score": 68,
+      "current_price": 63.9,
+      "target_entry": 63.77,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6857,
+      "buy_amount_krw": 6856,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.575,
-      "detailed_reason": "15분봉 RSI(18.9) 과매도 구간에서 볼린저밴드 하단 지지를 활용한 단기 반등 전략으로, MA20 중심선(76.9원)까지 16% 이상의 충분한 기대 반등 여력을 확보함.",
-      "created_at": "2026-09-22T00:44:35.329694+09:00",
-      "created_timestamp": 1790005475.3297062
+      "entry_bid_ratio": 0.965,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 37.9로 과매도 구간 진입 및 볼린저 밴드 하단 근접. 이격도 4.6%로 2% 이상의 반등 여력(기대수익 4.56%) 확보.",
+      "created_at": "2026-09-22T00:59:46.316448+09:00",
+      "created_timestamp": 1790006386.3164625
     }
   }
 }
