@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "FLOCK": {
-      "symbol": "FLOCK/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 87.09,
-      "highest_price": 87.09,
-      "buy_amount_krw": 8540,
-      "units": 98.0594787001952,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1789972013.6105359,
-      "entry_time": "2026-09-21T15:26:53.610539+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1789972013.6105359,
-          87.09
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2295,6 +2271,20 @@
       "trajectory_summary": "진입 후 25분 동안 -2.00% ~ +0.19% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-21T14:48:18.856639+09:00",
       "exit_time": "2026-09-21T15:13:18.950579+09:00"
+    },
+    {
+      "symbol": "FLOCK/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 87.09,
+      "exit_price": 87.08,
+      "buy_amount_krw": 8540,
+      "profit_krw": -1,
+      "profit_pct": -0.01,
+      "reason": "⌛ 25분 만료 탄력 소멸 시장가 정리 (수익률 -0.01%)",
+      "trajectory_summary": "진입 후 25분 동안 -0.38% ~ +0.23% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-21T15:26:53.610539+09:00",
+      "exit_time": "2026-09-21T15:51:53.824025+09:00"
     }
   ]
 }
