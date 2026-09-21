@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T14:33:57.039671+09:00",
+  "updated_at": "2026-09-21T14:43:57.308173+09:00",
   "paper_trading": true,
   "queue": {
     "FLOCK": {
@@ -15,14 +15,58 @@
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
       "buy_amount_krw": 8541,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 98.05970149253731,
+      "order_uuid": "mock_order_c11db8f4",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
       "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 30.6 과매도 구간 및 볼린저 하단 지지 활용 중심선(88.556) 회귀 반등 기대",
       "created_at": "2026-09-21T14:33:57.039671+09:00",
       "created_timestamp": 1789968837.0396907
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "score": 88,
+      "current_price": 1948.0,
+      "target_entry": 1947.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8540,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.389,
+      "detailed_reason": "15분 3.93배 거래량 급증 후 건강한 첫 음봉 눌림목 형성, 1시간 양호한 수급 및 RSI 60대 유지로 상승 모멘텀 지속 가능성 높음",
+      "created_at": "2026-09-21T14:43:57.308173+09:00",
+      "created_timestamp": 1789969437.3081856
+    },
+    "AVAX": {
+      "symbol": "AVAX/KRW",
+      "code": "AVAX",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "score": 82,
+      "current_price": 15520.0,
+      "target_entry": 15510.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 8540,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.415,
+      "detailed_reason": "15분 3.88배 거래량 유입과 함께 MA20 상단 안착 후 첫 눌림목 발생, 단기 반등 탄력 확보",
+      "created_at": "2026-09-21T14:43:57.308173+09:00",
+      "created_timestamp": 1789969437.3081856
     }
   }
 }
