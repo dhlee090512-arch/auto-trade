@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T01:15:08.771216+09:00",
+  "updated_at": "2026-09-23T01:29:57.394766+09:00",
   "paper_trading": true,
   "queue": {
     "TAO": {
@@ -9,8 +9,8 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 88,
-      "current_price": 411000.0,
-      "target_entry": 408400.0,
+      "current_price": 410900.0,
+      "target_entry": 409100.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.455,
-      "detailed_reason": "15분봉 RSI 29.0 과매도 구간 진입 및 볼린저 하단 지지 확인, 1h 이동평균선(421,550)까지 3.56% 이상의 충분한 반등 여력(이격도) 확보로 SLOT_2_RANGE 조건 완벽 충족",
-      "created_at": "2026-09-23T01:15:08.771216+09:00",
-      "created_timestamp": 1790093708.771228
+      "entry_bid_ratio": 0.47,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 28.2 과매도 구간 진입 및 1시간 볼린저 하단 지지 활용, MA20 중심선까지 3.34% 기대 반등 폭 확보",
+      "created_at": "2026-09-23T01:29:57.394766+09:00",
+      "created_timestamp": 1790094597.394779
     }
   }
 }
