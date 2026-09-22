@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "ZETA": {
-      "symbol": "ZETA/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 74.25,
-      "highest_price": 74.25,
-      "buy_amount_krw": 6855,
-      "units": 92.32323232323232,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790073248.6462073,
-      "entry_time": "2026-09-22T19:34:08.646210+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790073248.6462073,
-          74.25
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2801,6 +2775,20 @@
       "trajectory_summary": "진입 직후 매도 덤핑 투매가 발생하여 비상 하드 손절선에 닿아 즉각 탈출함. (보유: 19분 37초)",
       "entry_time": "2026-09-22T19:10:04.961127+09:00",
       "exit_time": "2026-09-22T19:29:42.881349+09:00"
+    },
+    {
+      "symbol": "ZETA/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 74.25,
+      "exit_price": 74.08,
+      "buy_amount_krw": 6855,
+      "profit_krw": -16,
+      "profit_pct": -0.23,
+      "reason": "🛡️ 고점(+1.08%) 달성 후 평단가 복귀 본절 락 탈출 (-0.23%)",
+      "trajectory_summary": "진입 16분 47초경 최고 +1.08%까지 1차 분출했으나, 후속 수급 부재로 평단가까지 되밀려 원금 보호를 위해 본절 수준에서 청산함. (보유: 24분 47초)",
+      "entry_time": "2026-09-22T19:34:08.646210+09:00",
+      "exit_time": "2026-09-22T19:58:56.325689+09:00"
     }
   ]
 }
