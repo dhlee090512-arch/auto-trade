@@ -1,28 +1,50 @@
 {
-  "updated_at": "2026-09-22T22:54:45.890335+09:00",
+  "updated_at": "2026-09-22T23:16:09.433151+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
       "score": 88,
-      "current_price": 1368.0,
-      "target_entry": 1367.0,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
+      "current_price": 2112.0,
+      "target_entry": 2109.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 6856,
+      "buy_amount_krw": 6857,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.413,
-      "detailed_reason": "1시간 10억 이상의 강한 거래대금을 동반한 볼륨 서지 후 첫 15분 음봉 눌림목 타점으로, 1h RSI 35.6 및 적절한 ATR 기반 셋업 조건 충족",
-      "created_at": "2026-09-22T22:54:45.890335+09:00",
-      "created_timestamp": 1790085285.8903468
+      "entry_bid_ratio": 0.531,
+      "detailed_reason": "1시간 거래대금 56.3억원 유입 및 15분 볼륨 서지 2.24배 동반된 첫 음봉 눌림목으로 슬롯 1 핵심 타점 충족",
+      "created_at": "2026-09-22T23:16:09.433151+09:00",
+      "created_timestamp": 1790086569.4331634
+    },
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "score": 82,
+      "current_price": 158400.0,
+      "target_entry": 158200.0,
+      "sl_pct": -1.4,
+      "emergency_sl_pct": -2.2,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6857,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.491,
+      "detailed_reason": "1시간 거래대금 4.8억원 및 볼륨 서지 2.51배 발생, RSI 15분 63.6 양호한 상태의 첫 음봉 눌림목",
+      "created_at": "2026-09-22T23:16:09.433151+09:00",
+      "created_timestamp": 1790086569.4331634
     }
   }
 }
