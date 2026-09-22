@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "PIEVERSE": {
-      "symbol": "PIEVERSE/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 2383.0,
-      "highest_price": 2383.0,
-      "buy_amount_krw": 6852,
-      "units": 2.8753671842215693,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790042977.296296,
-      "entry_time": "2026-09-22T11:09:37.296299+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790042977.296296,
-          2383.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2633,6 +2607,20 @@
       "trajectory_summary": "진입 후 30분 동안 -2.13% ~ +0.00% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-22T09:55:26.883971+09:00",
       "exit_time": "2026-09-22T10:25:26.910663+09:00"
+    },
+    {
+      "symbol": "PIEVERSE/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 2383.0,
+      "exit_price": 2418.0,
+      "buy_amount_krw": 6852,
+      "profit_krw": 101,
+      "profit_pct": 1.47,
+      "reason": "📈 트레일링 익절 (호가벽 2틱 선제 탈출 (매수벽 2,416.0000 ➔ 2틱 위 2,418.0000) | 최고 +1.47% ➔ 실현 1.47%)",
+      "trajectory_summary": "진입 25분 52초경 최고 +1.47%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 32분 33초)",
+      "entry_time": "2026-09-22T11:09:37.296299+09:00",
+      "exit_time": "2026-09-22T11:42:11.103208+09:00"
     }
   ]
 }
