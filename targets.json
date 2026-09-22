@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22T15:48:49.712158+09:00",
+  "updated_at": "2026-09-22T16:33:53.213693+09:00",
   "paper_trading": true,
   "queue": {
     "ACX": {
@@ -9,20 +9,20 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 65.0,
-      "target_entry": 64.87,
+      "current_price": 64.0,
+      "target_entry": 63.87,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8564,
+      "buy_amount_krw": 8562,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.535,
-      "detailed_reason": "15분봉 RSI 33.9 과매도 구간 진입 및 볼린저 밴드 하단 지지 활용, 중심선(66.495)까지 2.3% 이상의 기대 반등 여력 확보",
-      "created_at": "2026-09-22T15:48:49.712158+09:00",
-      "created_timestamp": 1790059729.7121723
+      "entry_bid_ratio": 0.125,
+      "detailed_reason": "15분봉 RSI(34.0) 과매도 상태로 하단 볼린저밴드 부근 지지 확인, MA20 기준선(66.24)까지 3.5% 이상의 기대 반등 여력 확보",
+      "created_at": "2026-09-22T16:33:53.213693+09:00",
+      "created_timestamp": 1790062433.2137053
     }
   }
 }
