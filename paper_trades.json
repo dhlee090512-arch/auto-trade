@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "ZETA": {
-      "symbol": "ZETA/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 75.15,
-      "highest_price": 75.15,
-      "buy_amount_krw": 6860,
-      "units": 91.28409846972721,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790035863.4530816,
-      "entry_time": "2026-09-22T09:11:03.453085+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790035863.4530816,
-          75.15
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2605,6 +2579,20 @@
       "trajectory_summary": "진입 직후 매도 덤핑 투매가 발생하여 비상 하드 손절선에 닿아 즉각 탈출함. (보유: 2분 17초)",
       "entry_time": "2026-09-22T09:00:51.689167+09:00",
       "exit_time": "2026-09-22T09:03:09.089189+09:00"
+    },
+    {
+      "symbol": "ZETA/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 75.15,
+      "exit_price": 76.05,
+      "buy_amount_krw": 6860,
+      "profit_krw": 82,
+      "profit_pct": 1.2,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.2%, 하한 +0.9%) | 최고 +1.49% ➔ 실현 1.20%)",
+      "trajectory_summary": "진입 1분 6초경 최고 +1.49%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 1분 14초)",
+      "entry_time": "2026-09-22T09:11:03.453085+09:00",
+      "exit_time": "2026-09-22T09:12:18.401360+09:00"
     }
   ]
 }
