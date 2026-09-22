@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-22T21:14:12.041385+09:00",
+  "updated_at": "2026-09-22T22:54:45.890335+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "code": "SUI",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "score": 85,
-      "current_price": 6270.0,
-      "target_entry": 6240.0,
+      "score": 88,
+      "current_price": 1368.0,
+      "target_entry": 1367.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.398,
-      "detailed_reason": "15분봉 기준 2.57배 거래량 급증 후 첫 음봉 눌림목 형성, 1시간 양호한 거래대금(4.4억 KRW) 유입 및 RSI 60대 중반의 건강한 추세 지속 구간",
-      "created_at": "2026-09-22T21:14:12.041385+09:00",
-      "created_timestamp": 1790079252.0414007
+      "entry_bid_ratio": 0.413,
+      "detailed_reason": "1시간 10억 이상의 강한 거래대금을 동반한 볼륨 서지 후 첫 15분 음봉 눌림목 타점으로, 1h RSI 35.6 및 적절한 ATR 기반 셋업 조건 충족",
+      "created_at": "2026-09-22T22:54:45.890335+09:00",
+      "created_timestamp": 1790085285.8903468
     }
   }
 }
