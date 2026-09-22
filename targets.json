@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22T19:34:06.161576+09:00",
+  "updated_at": "2026-09-22T20:04:07.456777+09:00",
   "paper_trading": true,
   "queue": {
     "ZETA": {
@@ -9,20 +9,20 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 74.4,
-      "target_entry": 74.25,
+      "current_price": 73.73,
+      "target_entry": 73.58,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6855,
+      "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI(29.1) 과매도 상태로 볼린저밴드 하단 지지 확인 및 3.82%의 기대 반등 여력 확보",
-      "created_at": "2026-09-22T19:34:06.161576+09:00",
-      "created_timestamp": 1790073246.1616142
+      "detailed_reason": "15분봉 RSI(33.5) 과매도 및 볼린저 하단 지지 구간 활용, 4.51% 기대 반등 폭 대비 리스크 관리 충족",
+      "created_at": "2026-09-22T20:04:07.456777+09:00",
+      "created_timestamp": 1790075047.4567897
     }
   }
 }
