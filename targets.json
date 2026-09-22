@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22T11:05:33.629761+09:00",
+  "updated_at": "2026-09-22T11:20:34.256117+09:00",
   "paper_trading": true,
   "queue": {
     "ACX": {
@@ -8,31 +8,9 @@
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 85,
-      "current_price": 65.54,
-      "target_entry": 65.41,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6852,
-      "ordered_volume": 104.75462467512614,
-      "order_uuid": "mock_order_1ea10054",
-      "order_placed": true,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.975,
-      "detailed_reason": "15분봉 RSI 29.1 과매도 구간 진입 및 볼린저 하단 지지 활용, 중심선(67.2755)까지 2.65%의 기대 반등 여력 확보",
-      "created_at": "2026-09-22T11:00:33.546348+09:00",
-      "created_timestamp": 1790042433.5463614
-    },
-    "PIEVERSE": {
-      "symbol": "PIEVERSE/KRW",
-      "code": "PIEVERSE",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
       "score": 75,
-      "current_price": 2389.0,
-      "target_entry": 2383.0,
+      "current_price": 65.55,
+      "target_entry": 65.42,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -41,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.451,
-      "detailed_reason": "15분봉 RSI(37.0) 과매도 및 볼린저 밴드 하단 지지 활용, 기대 반등폭(2.39%) 확보로 Slot 2 기준 충족",
-      "created_at": "2026-09-22T11:05:33.629761+09:00",
-      "created_timestamp": 1790042733.6297739
+      "entry_bid_ratio": 0.677,
+      "detailed_reason": "15분봉 RSI(32.2) 과매도 상태로 하단 볼린저밴드 부근 지지 확인, MA20 중심선까지 2.43%의 기대 반등 여력 확보",
+      "created_at": "2026-09-22T11:20:34.256117+09:00",
+      "created_timestamp": 1790043634.25613
     }
   }
 }
