@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T17:43:59.047411+09:00",
+  "updated_at": "2026-09-22T17:54:00.031583+09:00",
   "paper_trading": true,
   "queue": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 2068.0,
-      "target_entry": 2068.0,
+      "score": 85,
+      "current_price": 159000.0,
+      "target_entry": 158600.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 8569,
+      "buy_amount_krw": 8572,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.413,
-      "detailed_reason": "1시간 봉 기준 31.6억 KRW의 강한 거래대금이 유입된 상태에서 15분봉 기준 첫 음봉 눌림목이 형성되었으며, RSI 68.2 및 볼륨 서지 비율 2.2배로 퀀트 기준을 완벽히 충족함.",
-      "created_at": "2026-09-22T17:43:59.047411+09:00",
-      "created_timestamp": 1790066639.047424
+      "entry_bid_ratio": 0.488,
+      "detailed_reason": "15분 거래량 2.04배 급증 및 1시간 수급(9.1억) 기반의 첫 음봉 눌림목 구간으로 셋업 조건 충족",
+      "created_at": "2026-09-22T17:54:00.031583+09:00",
+      "created_timestamp": 1790067240.0316172
     }
   }
 }
