@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T18:09:00.525904+09:00",
+  "updated_at": "2026-09-22T18:54:03.456648+09:00",
   "paper_trading": true,
   "queue": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
-      "mode": "SCALPING",
+    "ZETA": {
+      "symbol": "ZETA/KRW",
+      "code": "ZETA",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 2067.0,
-      "target_entry": 2062.0,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -2.2,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 76.13,
+      "target_entry": 75.89,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 8569,
+      "buy_amount_krw": 6857,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.459,
-      "detailed_reason": "15분봉 거래량 2.03배 급증 후 건강한 첫 음봉 눌림목 형성, 1시간 기준 23.4억 원의 탄탄한 거래대금 유입 및 RSI 57.8로 상승 여력 충분",
-      "created_at": "2026-09-22T18:09:00.525904+09:00",
-      "created_timestamp": 1790068140.5259173
+      "entry_bid_ratio": 0.23,
+      "detailed_reason": "15분봉 RSI(35.1) 과매도 상태이며 볼린저 하단 지지와 함께 2.25%의 기대 반등 여력 확보",
+      "created_at": "2026-09-22T18:54:03.456648+09:00",
+      "created_timestamp": 1790070843.4566612
     }
   }
 }
