@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-22T20:34:10.371295+09:00",
+  "updated_at": "2026-09-22T20:39:11.510852+09:00",
   "paper_trading": true,
   "queue": {
-    "CARV": {
-      "symbol": "CARV/KRW",
-      "code": "CARV",
+    "ZETA": {
+      "symbol": "ZETA/KRW",
+      "code": "ZETA",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 58.57,
-      "target_entry": 58.57,
+      "score": 88,
+      "current_price": 72.49,
+      "target_entry": 72.3,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.332,
-      "detailed_reason": "15분봉 RSI 34.7 과매도 구간 진입 및 볼린저 하단 지지 활용, 중심선(61.476원)까지의 기대 반등 폭(4.53%)이 충분하여 Slot 2 조건에 부합",
-      "created_at": "2026-09-22T20:34:10.371295+09:00",
-      "created_timestamp": 1790076850.371309
+      "entry_bid_ratio": 0.524,
+      "detailed_reason": "15분봉 RSI 20.6 과매도 구간 진입 및 볼린저 밴드 하단 근접. 1시간봉 기준 5.0% 이상의 반등 여력(이격도 5.0%)이 확보되어 Slot 2 레인지 매매 조건에 완벽히 부합함.",
+      "created_at": "2026-09-22T20:39:11.510852+09:00",
+      "created_timestamp": 1790077151.5108674
     }
   }
 }
