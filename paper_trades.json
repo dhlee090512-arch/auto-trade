@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 2998.0,
+      "highest_price": 2998.0,
+      "buy_amount_krw": 6856,
+      "units": 2.28685790527018,
+      "sl_pct": -1.7,
+      "emergency_sl_pct": -2.5,
+      "sl_breach_start_time": null,
+      "scratch_breach_start": null,
+      "killswitch_breach_start": null,
+      "entry_timestamp": 1790038526.8839686,
+      "entry_time": "2026-09-22T09:55:26.883971+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790038526.8839686,
+          2998.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
