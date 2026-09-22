@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 6240.0,
+      "highest_price": 6240.0,
+      "buy_amount_krw": 6856,
+      "units": 1.0987179487179488,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "scratch_breach_start": null,
+      "killswitch_breach_start": null,
+      "entry_timestamp": 1790079295.8885176,
+      "entry_time": "2026-09-22T21:14:55.888520+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790079295.8885176,
+          6240.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
