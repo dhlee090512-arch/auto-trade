@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ZETA": {
+      "symbol": "ZETA/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 75.03,
+      "highest_price": 75.03,
+      "buy_amount_krw": 6862,
+      "units": 91.4567506330801,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "scratch_breach_start": null,
+      "killswitch_breach_start": null,
+      "entry_timestamp": 1790035251.6891634,
+      "entry_time": "2026-09-22T09:00:51.689167+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790035251.6891634,
+          75.03
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
