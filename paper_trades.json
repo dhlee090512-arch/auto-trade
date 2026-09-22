@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 1358.0,
-      "highest_price": 1358.0,
-      "buy_amount_krw": 6850,
-      "units": 5.044182621502209,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790058229.1435568,
-      "entry_time": "2026-09-22T15:23:49.143560+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790058229.1435568,
-          1358.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2717,6 +2691,20 @@
       "trajectory_summary": "진입 19분 9초경 최고 +1.93%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 19분 48초)",
       "entry_time": "2026-09-22T14:30:45.635550+09:00",
       "exit_time": "2026-09-22T14:50:33.971517+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 1358.0,
+      "exit_price": 1375.0,
+      "buy_amount_krw": 6850,
+      "profit_krw": 86,
+      "profit_pct": 1.25,
+      "reason": "📈 트레일링 익절 (호가벽 2틱 선제 탈출 (매수벽 1,373.0000 ➔ 2틱 위 1,375.0000) | 최고 +1.25% ➔ 실현 1.25%)",
+      "trajectory_summary": "진입 16분 10초경 최고 +1.25%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 17분 14초)",
+      "entry_time": "2026-09-22T15:23:49.143560+09:00",
+      "exit_time": "2026-09-22T15:41:03.917312+09:00"
     }
   ]
 }
