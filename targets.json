@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-23T07:55:11.758819+09:00",
+  "updated_at": "2026-09-23T08:25:14.167239+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_1_PULSE",
       "score": 88,
-      "current_price": 1374.0,
-      "target_entry": 1369.0,
+      "current_price": 159300.0,
+      "target_entry": 159000.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -2.2,
       "timeout_mins": 10,
-      "buy_amount_krw": 6854,
+      "buy_amount_krw": 6855,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.506,
-      "detailed_reason": "1시간 기준 4.8억 규모의 탄탄한 거래대금 유입 속, 15분봉 기준 2.23배 거래량 급증 후 나타난 안정적인 첫 음봉 눌림목 패턴으로 신뢰도 높은 펄스 셋업 충족",
-      "created_at": "2026-09-23T07:55:11.758819+09:00",
-      "created_timestamp": 1790117711.7588313
+      "entry_bid_ratio": 0.348,
+      "detailed_reason": "15분 거래량 2.27배 급증 후 1시간 기준 MA20 위에서 형성된 건강한 첫 음봉 눌림목으로, 강력한 1시간 거래대금(4.1억 KRW) 유입을 동반하여 상방 돌파 확률이 높음.",
+      "created_at": "2026-09-23T08:25:14.167239+09:00",
+      "created_timestamp": 1790119514.1672523
     }
   }
 }
