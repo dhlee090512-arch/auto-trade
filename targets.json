@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-22T09:10:23.386429+09:00",
+  "updated_at": "2026-09-22T09:55:26.595367+09:00",
   "paper_trading": true,
   "queue": {
-    "ZETA": {
-      "symbol": "ZETA/KRW",
-      "code": "ZETA",
-      "mode": "SWING",
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "code": "TRUMP",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "score": 88,
-      "current_price": 75.3,
-      "target_entry": 75.15,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
+      "slot": "SLOT_1_PULSE",
+      "score": 85,
+      "current_price": 2998.0,
+      "target_entry": 2998.0,
+      "sl_pct": -1.7,
+      "emergency_sl_pct": -2.5,
       "timeout_mins": 10,
-      "buy_amount_krw": 6860,
+      "buy_amount_krw": 6856,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI 28.7 과매도 구간 진입 및 1시간봉 볼린저 하단 지지 활용, 중심선(79.77 KRW)까지 약 6.99% 반등 여력 확보",
-      "created_at": "2026-09-22T09:10:23.386429+09:00",
-      "created_timestamp": 1790035823.3864415
+      "entry_bid_ratio": 0.443,
+      "detailed_reason": "15분 거래량 2.47배 급증 이후 1시간 RSI 60대 및 탄탄한 수급(4.4억 KRW) 기반의 첫 음봉 눌림목 타점 형성",
+      "created_at": "2026-09-22T09:55:26.595367+09:00",
+      "created_timestamp": 1790038526.595379
     }
   }
 }
