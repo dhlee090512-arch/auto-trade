@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-23T14:55:49.829371+09:00",
+  "updated_at": "2026-09-23T15:10:52.066887+09:00",
   "paper_trading": true,
   "queue": {
-    "BSV": {
-      "symbol": "BSV/KRW",
-      "code": "BSV",
-      "mode": "SWING",
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "code": "BCH",
+      "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 30000.0,
-      "target_entry": 29940.0,
+      "slot": "SLOT_1_PULSE",
+      "score": 88,
+      "current_price": 467600.0,
+      "target_entry": 466900.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.664,
-      "detailed_reason": "15분봉 RSI(37.8) 과매도 구간 진입 및 볼린저 밴드 하단 지지 활용, 중심선(31297.5)까지 4.57%의 충분한 반등 여력 확보",
-      "created_at": "2026-09-23T14:55:49.829371+09:00",
-      "created_timestamp": 1790142949.8293836
+      "entry_bid_ratio": 0.547,
+      "detailed_reason": "15분 6.77배 거래량 급증 후 첫 음봉 눌림목 형성, 1시간 거래대금 6.1억 원 유입으로 유동성 풍부하며 RSI 65선 위에서 강한 반등 대기",
+      "created_at": "2026-09-23T15:10:52.066887+09:00",
+      "created_timestamp": 1790143852.0668986
     }
   }
 }
