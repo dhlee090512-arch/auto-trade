@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "BSV": {
-      "symbol": "BSV/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 29940.0,
-      "highest_price": 29940.0,
-      "buy_amount_krw": 6859,
-      "units": 0.22909151636606545,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790142964.3525147,
-      "entry_time": "2026-09-23T14:56:04.352517+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790142964.3525147,
-          29940.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -2983,6 +2957,20 @@
       "trajectory_summary": "진입 14분 24초경 최고 +1.47%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 14분 32초)",
       "entry_time": "2026-09-23T11:09:42.359409+09:00",
       "exit_time": "2026-09-23T11:24:14.563889+09:00"
+    },
+    {
+      "symbol": "BSV/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 29940.0,
+      "exit_price": 30230.0,
+      "buy_amount_krw": 6859,
+      "profit_krw": 67,
+      "profit_pct": 0.97,
+      "reason": "📈 트레일링 익절 (정적 기준선 (고점대비 -0.2%, 하한 +0.9%) | 최고 +1.37% ➔ 실현 0.97%)",
+      "trajectory_summary": "진입 5분 20초경 최고 +1.37%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 5분 24초)",
+      "entry_time": "2026-09-23T14:56:04.352517+09:00",
+      "exit_time": "2026-09-23T15:01:28.800304+09:00"
     }
   ]
 }
