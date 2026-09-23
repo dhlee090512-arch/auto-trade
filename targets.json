@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-23T21:11:34.163278+09:00",
+  "updated_at": "2026-09-23T21:31:26.049512+09:00",
   "paper_trading": true,
   "queue": {
-    "BCH": {
-      "symbol": "BCH/KRW",
-      "code": "BCH",
+    "AVAX": {
+      "symbol": "AVAX/KRW",
+      "code": "AVAX",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 75,
-      "current_price": 466300.0,
-      "target_entry": 465500.0,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
+      "score": 88,
+      "current_price": 14690.0,
+      "target_entry": 14630.0,
+      "sl_pct": -1.47,
+      "emergency_sl_pct": -2.27,
       "timeout_mins": 10,
       "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.418,
-      "detailed_reason": "15분봉 RSI(36.9) 과매도 구간 진입 및 볼린저 밴드 하단 지지 활용, 중심선(477905 KRW)까지 2.38%의 충분한 반등 여력 확보",
-      "created_at": "2026-09-23T21:11:34.163278+09:00",
-      "created_timestamp": 1790165494.16329
+      "entry_bid_ratio": 0.407,
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 과매도 구간(36.2) 진입 및 볼린저 밴드 하단 지지 활용, MA20 중심선(15005 KRW)까지 2.21%의 충분한 기대 반등 여력 확보",
+      "created_at": "2026-09-23T21:31:26.049512+09:00",
+      "created_timestamp": 1790166686.049536
     }
   }
 }
