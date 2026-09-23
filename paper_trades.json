@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "BCH": {
-      "symbol": "BCH/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "entry_price": 489400.0,
-      "highest_price": 489400.0,
-      "buy_amount_krw": 8709,
-      "units": 0.01779525950143032,
-      "sl_pct": -1.8,
-      "emergency_sl_pct": -2.6,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790158757.4553518,
-      "entry_time": "2026-09-23T19:19:17.455355+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790158757.4553518,
-          489400.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3011,6 +2985,20 @@
       "trajectory_summary": "진입 1분 52초경 최고 +2.03%까지 슈팅했으나, 상단 저항에 밀려 반락 시 호가 매수벽 2틱 위에서 실현 손익을 선제 확보함. (보유: 2분 5초)",
       "entry_time": "2026-09-23T15:13:34.389941+09:00",
       "exit_time": "2026-09-23T15:15:39.470699+09:00"
+    },
+    {
+      "symbol": "BCH/KRW",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 489400.0,
+      "exit_price": 473000.0,
+      "buy_amount_krw": 8709,
+      "profit_krw": -292,
+      "profit_pct": -3.35,
+      "reason": "🚨 비상 하드 손절선 도달 (-3.35%) 즉시 탈출",
+      "trajectory_summary": "진입 직후 매도 덤핑 투매가 발생하여 비상 하드 손절선에 닿아 즉각 탈출함. (보유: 2분 1초)",
+      "entry_time": "2026-09-23T19:19:17.455355+09:00",
+      "exit_time": "2026-09-23T19:21:19.209052+09:00"
     }
   ]
 }
