@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-23T15:10:52.066887+09:00",
+  "updated_at": "2026-09-23T17:56:07.151685+09:00",
   "paper_trading": true,
   "queue": {
-    "BCH": {
-      "symbol": "BCH/KRW",
-      "code": "BCH",
-      "mode": "SCALPING",
+    "KERNEL": {
+      "symbol": "KERNEL/KRW",
+      "code": "KERNEL",
+      "mode": "SWING",
       "is_paper": true,
-      "slot": "SLOT_1_PULSE",
-      "score": 88,
-      "current_price": 467600.0,
-      "target_entry": 466900.0,
+      "slot": "SLOT_2_RANGE",
+      "score": 75,
+      "current_price": 77.1,
+      "target_entry": 76.93,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6859,
+      "buy_amount_krw": 8572,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.547,
-      "detailed_reason": "15분 6.77배 거래량 급증 후 첫 음봉 눌림목 형성, 1시간 거래대금 6.1억 원 유입으로 유동성 풍부하며 RSI 65선 위에서 강한 반등 대기",
-      "created_at": "2026-09-23T15:10:52.066887+09:00",
-      "created_timestamp": 1790143852.0668986
+      "entry_bid_ratio": 0.311,
+      "detailed_reason": "15분봉 RSI(36.1) 과매도 구간 진입 및 볼린저 하단 지지 활용한 이격도 2.4% 기대 리바운드 전략",
+      "created_at": "2026-09-23T17:56:07.151685+09:00",
+      "created_timestamp": 1790153767.1516976
     }
   }
 }
