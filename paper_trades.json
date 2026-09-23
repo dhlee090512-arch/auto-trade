@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_1_PULSE",
+      "entry_price": 489400.0,
+      "highest_price": 489400.0,
+      "buy_amount_krw": 8709,
+      "units": 0.01779525950143032,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "sl_breach_start_time": null,
+      "scratch_breach_start": null,
+      "killswitch_breach_start": null,
+      "entry_timestamp": 1790158757.4553518,
+      "entry_time": "2026-09-23T19:19:17.455355+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790158757.4553518,
+          489400.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
