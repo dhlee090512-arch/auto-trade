@@ -1,50 +1,28 @@
 {
-  "updated_at": "2026-09-23T20:26:13.825338+09:00",
+  "updated_at": "2026-09-23T21:11:34.163278+09:00",
   "paper_trading": true,
   "queue": {
-    "KERNEL": {
-      "symbol": "KERNEL/KRW",
-      "code": "KERNEL",
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "code": "BCH",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 76.53,
-      "target_entry": 76.38,
+      "score": 75,
+      "current_price": 466300.0,
+      "target_entry": 465500.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6967,
+      "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.377,
-      "detailed_reason": "15분봉 RSI(21.3) 과매도 구간 진입 및 볼린저 하단 지지 확인, 기대 리바운드 공간 2.43% 확보로 슬롯 2 기준 충족",
-      "created_at": "2026-09-23T20:26:13.825338+09:00",
-      "created_timestamp": 1790162773.825352
-    },
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "code": "TRUMP",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "score": 78,
-      "current_price": 2925.0,
-      "target_entry": 2920.0,
-      "sl_pct": -1.73,
-      "emergency_sl_pct": -2.53,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6967,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.301,
-      "detailed_reason": "15분봉 RSI(27.5) 과매도 상태에서 볼린저 밴드 하단 지지 기반 중심선까지 2.17%의 반등 여력 보유",
-      "created_at": "2026-09-23T20:26:13.825338+09:00",
-      "created_timestamp": 1790162773.825352
+      "entry_bid_ratio": 0.418,
+      "detailed_reason": "15분봉 RSI(36.9) 과매도 구간 진입 및 볼린저 밴드 하단 지지 활용, 중심선(477905 KRW)까지 2.38%의 충분한 반등 여력 확보",
+      "created_at": "2026-09-23T21:11:34.163278+09:00",
+      "created_timestamp": 1790165494.16329
     }
   }
 }
