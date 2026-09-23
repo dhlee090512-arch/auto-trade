@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "AVAX": {
-      "symbol": "AVAX/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 14420.0,
-      "highest_price": 14420.0,
-      "buy_amount_krw": 6966,
-      "units": 0.48307905686546465,
-      "sl_pct": -1.45,
-      "emergency_sl_pct": -2.25,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790169264.298781,
-      "entry_time": "2026-09-23T22:14:24.298784+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790169264.298781,
-          14420.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3095,6 +3069,20 @@
       "trajectory_summary": "진입 후 30분 동안 -1.16% ~ +0.00% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
       "entry_time": "2026-09-23T21:36:28.816726+09:00",
       "exit_time": "2026-09-23T22:06:29.247584+09:00"
+    },
+    {
+      "symbol": "AVAX/KRW",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 14420.0,
+      "exit_price": 14510.0,
+      "buy_amount_krw": 6966,
+      "profit_krw": 43,
+      "profit_pct": 0.62,
+      "reason": "⌛ 30분 만료 탄력 소멸 시장가 정리 (수익률 0.62%)",
+      "trajectory_summary": "진입 후 30분 동안 -0.07% ~ +0.76% 사이 박스권에 갇혀 거래량이 소멸되었기에 슬롯 회수를 위해 전량 정리함.",
+      "entry_time": "2026-09-23T22:14:24.298784+09:00",
+      "exit_time": "2026-09-23T22:44:24.548283+09:00"
     }
   ]
 }
