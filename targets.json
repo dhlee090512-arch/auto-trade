@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-23T20:06:18.779981+09:00",
+  "updated_at": "2026-09-23T20:11:18.666471+09:00",
   "paper_trading": true,
   "queue": {
-    "UNI": {
-      "symbol": "UNI/KRW",
-      "code": "UNI",
+    "KERNEL": {
+      "symbol": "KERNEL/KRW",
+      "code": "KERNEL",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 13260.0,
-      "target_entry": 13230.0,
+      "score": 78,
+      "current_price": 76.37,
+      "target_entry": 75.95,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
-      "buy_amount_krw": 6969,
+      "buy_amount_krw": 6968,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 29.8 과매도 구간 진입 및 볼린저 하단 지지 기반 3.59% 기대 반등 공간 확보, 최근 1시간 거래대금 2.62억 원 이상으로 유동성 충분함.",
-      "created_at": "2026-09-23T20:06:18.779981+09:00",
-      "created_timestamp": 1790161578.779993
+      "entry_bid_ratio": 0.37,
+      "detailed_reason": "15분봉 RSI(31.5) 과매도 상태이며 볼린저밴드 하단 근접. 1시간봉 기준 MA20까지 2.5% 이상의 충분한 리바운드 여력 확보.",
+      "created_at": "2026-09-23T20:11:18.666471+09:00",
+      "created_timestamp": 1790161878.6664834
     }
   }
 }
