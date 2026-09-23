@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T19:46:17.563144+09:00",
+  "updated_at": "2026-09-23T20:06:18.779981+09:00",
   "paper_trading": true,
   "queue": {
     "UNI": {
@@ -9,8 +9,8 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "score": 82,
-      "current_price": 13190.0,
-      "target_entry": 13160.0,
+      "current_price": 13260.0,
+      "target_entry": 13230.0,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -20,9 +20,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 22.7로 과매도 구간 진입, 볼린저 하단 지지 확인 및 중심선(13,710)까지 3.94%의 충분한 반등 여력 확보",
-      "created_at": "2026-09-23T19:46:17.563144+09:00",
-      "created_timestamp": 1790160377.5631597
+      "detailed_reason": "SLOT_2_RANGE 조건 충족: 15분봉 RSI 29.8 과매도 구간 진입 및 볼린저 하단 지지 기반 3.59% 기대 반등 공간 확보, 최근 1시간 거래대금 2.62억 원 이상으로 유동성 충분함.",
+      "created_at": "2026-09-23T20:06:18.779981+09:00",
+      "created_timestamp": 1790161578.779993
     }
   }
 }
