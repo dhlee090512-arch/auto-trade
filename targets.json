@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-24T00:32:32.203500+09:00",
+  "updated_at": "2026-09-24T00:37:29.785905+09:00",
   "paper_trading": true,
   "queue": {
     "USDE": {
@@ -67,6 +67,50 @@
       "detailed_reason": "15분봉 RSI(33.3) 과매도 권역 위치, 볼린저 하단 지지를 통한 MA20 중심선까지 2.66% 기대 반등 공간과 탄탄한 1시간 거래대금 보유",
       "created_at": "2026-09-24T00:32:32.203500+09:00",
       "created_timestamp": 1790177552.203513
+    },
+    "UNI": {
+      "symbol": "UNI/KRW",
+      "code": "UNI",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 88,
+      "current_price": 12630.0,
+      "target_entry": 12600.0,
+      "sl_pct": -1.8,
+      "emergency_sl_pct": -2.6,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6963,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.529,
+      "detailed_reason": "1시간봉 RSI 12.2 극단적 과매도 상태로 15분봉 RSI 28.1 반등 조짐 포착. 볼린저 하단 지지 확인 및 예상 반등 공간 2.8% 확보.",
+      "created_at": "2026-09-24T00:37:29.785905+09:00",
+      "created_timestamp": 1790177849.7859185
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "score": 82,
+      "current_price": 2070.0,
+      "target_entry": 2061.0,
+      "sl_pct": -1.57,
+      "emergency_sl_pct": -2.37,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6963,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.738,
+      "detailed_reason": "안정적인 1시간 거래대금(약 37.7억 원) 뒷받침 속 볼린저 하단 근접 및 2.12%의 목표 반등 여력 충족.",
+      "created_at": "2026-09-24T00:37:29.785905+09:00",
+      "created_timestamp": 1790177849.7859185
     }
   }
 }
