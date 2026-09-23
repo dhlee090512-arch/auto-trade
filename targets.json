@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-23T11:05:26.765537+09:00",
+  "updated_at": "2026-09-23T11:15:27.777055+09:00",
   "paper_trading": true,
   "queue": {
-    "KERNEL": {
-      "symbol": "KERNEL/KRW",
-      "code": "KERNEL",
+    "ZETA": {
+      "symbol": "ZETA/KRW",
+      "code": "ZETA",
       "mode": "SWING",
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
-      "score": 82,
-      "current_price": 76.95,
-      "target_entry": 76.8,
+      "score": 88,
+      "current_price": 69.3,
+      "target_entry": 69.15,
       "sl_pct": -1.8,
       "emergency_sl_pct": -2.6,
       "timeout_mins": 10,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 RSI(27.2) 과매도 구간 진입 및 볼린저 밴드 하단 지지를 활용한 단기 반등 전략. 중심선(81.3435)까지 5.7% 이상의 충분한 리바운드 여력 확보.",
-      "created_at": "2026-09-23T11:05:26.765537+09:00",
-      "created_timestamp": 1790129126.7655504
+      "entry_bid_ratio": 0.519,
+      "detailed_reason": "15분봉 및 1시간봉 RSI 과매도 구간 진입 및 볼린저 밴드 하단 지지 확인. 중심선까지 4.9% 이상의 기대 반등 여력 확보.",
+      "created_at": "2026-09-23T11:15:27.777055+09:00",
+      "created_timestamp": 1790129727.7770689
     }
   }
 }
