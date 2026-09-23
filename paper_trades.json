@@ -26,6 +26,35 @@
         [
           1790179336.168459,
           2035.0
+        ],
+        [
+          1790179339.7871878,
+          2033.0
+        ]
+      ]
+    },
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "mode": "SWING",
+      "is_paper": true,
+      "slot": "SLOT_2_RANGE",
+      "entry_price": 1290.0,
+      "highest_price": 1290.0,
+      "buy_amount_krw": 6958,
+      "units": 5.393798449612403,
+      "sl_pct": -1.77,
+      "emergency_sl_pct": -2.57,
+      "sl_breach_start_time": null,
+      "scratch_breach_start": null,
+      "killswitch_breach_start": null,
+      "entry_timestamp": 1790179343.3538892,
+      "entry_time": "2026-09-24T01:02:23.353892+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790179343.3538892,
+          1290.0
         ]
       ]
     }
