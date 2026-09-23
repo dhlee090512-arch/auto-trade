@@ -6,7 +6,7 @@
       "is_paper": true,
       "slot": "SLOT_2_RANGE",
       "entry_price": 2041.0,
-      "highest_price": 2041.0,
+      "highest_price": 2073.0,
       "buy_amount_krw": 6958,
       "units": 3.409113179813817,
       "sl_pct": -1.57,
@@ -16,8 +16,8 @@
       "killswitch_breach_start": null,
       "entry_timestamp": 1790179336.168459,
       "entry_time": "2026-09-24T01:02:16.168462+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
+      "locked_floor_profit_pct": 1.1,
+      "breakeven_locked": true,
       "price_history": [
         [
           1790179336.168459,
@@ -30,31 +30,10 @@
         [
           1790179339.7871878,
           2033.0
-        ]
-      ]
-    },
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 1290.0,
-      "highest_price": 1290.0,
-      "buy_amount_krw": 6958,
-      "units": 5.393798449612403,
-      "sl_pct": -1.77,
-      "emergency_sl_pct": -2.57,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790179343.3538892,
-      "entry_time": "2026-09-24T01:02:23.353892+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
+        ],
         [
-          1790179343.3538892,
-          1290.0
+          1790179690.7461386,
+          2073.0
         ]
       ]
     }
@@ -3212,6 +3191,20 @@
       "trajectory_summary": "보유 시간 23분 23초 동안 최저 -2.35% ~ 최고 +0.00% 진폭을 보인 후 손절/익절 조건에 부합하여 정리함.",
       "entry_time": "2026-09-24T00:38:56.009167+09:00",
       "exit_time": "2026-09-24T01:02:19.787190+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 1290.0,
+      "exit_price": 1318.0,
+      "buy_amount_krw": 6958,
+      "profit_krw": 151,
+      "profit_pct": 2.17,
+      "reason": "📈 트레일링 익절 (고점 +2.17% ➔ 하한선 락 1.60% 확보)",
+      "trajectory_summary": "진입 중반 최고 +2.17%까지 슈팅 후, 반락 시 하한선 락 기준선에서 이익을 안전하게 확정함. (보유: 5분 47초)",
+      "entry_time": "2026-09-24T01:02:23.353892+09:00",
+      "exit_time": "2026-09-24T01:08:10.746142+09:00"
     }
   ]
 }
