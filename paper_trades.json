@@ -1,43 +1,5 @@
 {
-  "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "mode": "SWING",
-      "is_paper": true,
-      "slot": "SLOT_2_RANGE",
-      "entry_price": 2041.0,
-      "highest_price": 2073.0,
-      "buy_amount_krw": 6958,
-      "units": 3.409113179813817,
-      "sl_pct": -1.57,
-      "emergency_sl_pct": -2.37,
-      "sl_breach_start_time": null,
-      "scratch_breach_start": null,
-      "killswitch_breach_start": null,
-      "entry_timestamp": 1790179336.168459,
-      "entry_time": "2026-09-24T01:02:16.168462+09:00",
-      "locked_floor_profit_pct": 1.1,
-      "breakeven_locked": true,
-      "price_history": [
-        [
-          1790179336.168459,
-          2041.0
-        ],
-        [
-          1790179336.168459,
-          2035.0
-        ],
-        [
-          1790179339.7871878,
-          2033.0
-        ],
-        [
-          1790179690.7461386,
-          2073.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3205,6 +3167,20 @@
       "trajectory_summary": "진입 중반 최고 +2.17%까지 슈팅 후, 반락 시 하한선 락 기준선에서 이익을 안전하게 확정함. (보유: 5분 47초)",
       "entry_time": "2026-09-24T01:02:23.353892+09:00",
       "exit_time": "2026-09-24T01:08:10.746142+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 2041.0,
+      "exit_price": 2074.0,
+      "buy_amount_krw": 6958,
+      "profit_krw": 113,
+      "profit_pct": 1.62,
+      "reason": "📈 트레일링 익절 (고점 +1.62% ➔ 하한선 락 1.10% 확보)",
+      "trajectory_summary": "진입 5분 58초경 최고 +1.62%까지 슈팅 후, 반락 시 하한선 락 기준선에서 이익을 안전하게 확정함. (보유: 5분 58초)",
+      "entry_time": "2026-09-24T01:02:16.168462+09:00",
+      "exit_time": "2026-09-24T01:08:14.793139+09:00"
     }
   ]
 }
