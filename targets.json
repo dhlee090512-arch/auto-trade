@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-25T04:56:38.789642+09:00",
+  "updated_at": "2026-09-25T05:39:47.566402+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SCALPING",
       "is_paper": true,
-      "slot": "SLOT_PULSE",
-      "score": 88,
-      "current_price": 1387.0,
-      "target_entry": 1383.0,
-      "sl_pct": -1.35,
-      "emergency_sl_pct": -1.8,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6960,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 78,
+      "current_price": 6295.0,
+      "target_entry": 6255.0,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "timeout_mins": 6,
+      "buy_amount_krw": 6959,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.533,
-      "detailed_reason": "1시간 거래대금 6.9억 이상 유입 및 15분봉 기준 3.89배 볼륨 서지 발생 후 건강한 1차 눌림목 형성 확인",
-      "created_at": "2026-09-25T04:56:38.789642+09:00",
-      "created_timestamp": 1790279798.7896545
+      "entry_bid_ratio": 0.663,
+      "detailed_reason": "15분봉 박스권 하단(0.48% 근접) 지지 및 호가 매수비율 65.4%의 강력한 매수 흡수세 포착. 박스 상단까지 +4% 이상의 공간 존재로 기대 수익률 충족.",
+      "created_at": "2026-09-25T05:39:47.566402+09:00",
+      "created_timestamp": 1790282387.56642
     }
   }
 }
