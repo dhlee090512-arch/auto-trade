@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-24T22:47:05.647801+09:00",
+  "updated_at": "2026-09-24T23:12:26.700258+09:00",
   "paper_trading": true,
   "queue": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "ETC": {
+      "symbol": "ETC/KRW",
+      "code": "ETC",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_PULSE",
-      "score": 85,
-      "current_price": 157100.0,
-      "target_entry": 157000.0,
-      "sl_pct": -1.2,
+      "score": 88,
+      "current_price": 13500.0,
+      "target_entry": 13490.0,
+      "sl_pct": -1.4,
       "emergency_sl_pct": -1.8,
       "timeout_mins": 10,
-      "buy_amount_krw": 6960,
+      "buy_amount_krw": 6963,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.448,
-      "detailed_reason": "15분 거래량 1.94배 급증 및 1시간 수급 유입 후 건강한 1차 눌림목 구간 형성",
-      "created_at": "2026-09-24T22:47:05.647801+09:00",
-      "created_timestamp": 1790257625.6478136
+      "entry_bid_ratio": 0.348,
+      "detailed_reason": "15분 6.78배 거래량 폭발 및 1시간 RSI 74.7로 강력한 상방 모멘텀 유지 중, 얕은 눌림목 구간 집중 공략",
+      "created_at": "2026-09-24T23:12:26.700258+09:00",
+      "created_timestamp": 1790259146.7002716
     }
   }
 }
