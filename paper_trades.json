@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_PULSE",
-      "entry_price": 2046.0,
-      "highest_price": 2046.0,
-      "buy_amount_krw": 6957,
-      "units": 3.400293255131965,
-      "sl_pct": -1.2,
-      "emergency_sl_pct": -1.8,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790261836.9708903,
-      "entry_time": "2026-09-24T23:57:16.970892+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790261836.9708903,
-          2046.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3275,6 +3251,20 @@
       "trajectory_summary": "진입 10분간 최고 +0.06%에 그치며 횡보하여, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
       "entry_time": "2026-09-24T23:42:55.411170+09:00",
       "exit_time": "2026-09-24T23:52:55.618748+09:00"
+    },
+    {
+      "symbol": "XRP/KRW",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 2046.0,
+      "exit_price": 2051.0,
+      "buy_amount_krw": 6957,
+      "profit_krw": 17,
+      "profit_pct": 0.24,
+      "reason": "⌛ 10분 미반등 탄력 소멸 즉시 정리 (기회비용 회수, 0.24%)",
+      "trajectory_summary": "진입 10분간 최고 +0.34%에 그치며 횡보하여, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
+      "entry_time": "2026-09-24T23:57:16.970892+09:00",
+      "exit_time": "2026-09-25T00:07:16.977526+09:00"
     }
   ]
 }
