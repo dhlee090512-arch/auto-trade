@@ -1,50 +1,28 @@
 {
-  "updated_at": "2026-09-24T23:56:54.582859+09:00",
+  "updated_at": "2026-09-25T00:11:49.841631+09:00",
   "paper_trading": true,
   "queue": {
-    "LINK": {
-      "symbol": "LINK/KRW",
-      "code": "LINK",
+    "PYR": {
+      "symbol": "PYR/KRW",
+      "code": "PYR",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_PULSE",
-      "score": 85,
-      "current_price": 17040.0,
-      "target_entry": 16990.0,
-      "sl_pct": -1.2,
+      "score": 88,
+      "current_price": 88.16,
+      "target_entry": 87.9,
+      "sl_pct": -1.4,
       "emergency_sl_pct": -1.8,
       "timeout_mins": 10,
-      "buy_amount_krw": 6957,
+      "buy_amount_krw": 6958,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "1시간 RSI 57 및 15분 RSI 60.7의 강한 모멘텀 유지 중이며, 3.14배의 압도적인 볼륨 서지와 함께 MA20 위에서 안정적인 1차 눌림목 형성",
-      "created_at": "2026-09-24T23:56:54.582859+09:00",
-      "created_timestamp": 1790261814.582872
-    },
-    "XRP": {
-      "symbol": "XRP/KRW",
-      "code": "XRP",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_PULSE",
-      "score": 80,
-      "current_price": 2050.0,
-      "target_entry": 2046.0,
-      "sl_pct": -1.2,
-      "emergency_sl_pct": -1.8,
-      "timeout_mins": 10,
-      "buy_amount_krw": 6957,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.513,
-      "detailed_reason": "약 100억원에 달하는 압도적인 1시간 거래대금과 1.75배 볼륨 서지 동반, 15분 RSI 64.6으로 단기 상승 탄력 극대화 구간의 1차 눌림목 포착",
-      "created_at": "2026-09-24T23:56:54.582859+09:00",
-      "created_timestamp": 1790261814.582872
+      "entry_bid_ratio": 0.786,
+      "detailed_reason": "15분 거래량 157.75배 폭증 및 1시간 모멘텀 유지 상태에서의 타이트한 1차 눌림목 스칼핑 진입",
+      "created_at": "2026-09-25T00:11:49.841631+09:00",
+      "created_timestamp": 1790262709.8416452
     }
   }
 }
