@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_PULSE",
-      "entry_price": 76.09,
-      "highest_price": 76.09,
-      "buy_amount_krw": 6958,
-      "units": 91.44434222631094,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -1.8,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790250701.933954,
-      "entry_time": "2026-09-24T20:51:41.933957+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790250701.933954,
-          76.09
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3219,6 +3195,20 @@
       "trajectory_summary": "진입 10분간 최고 +0.00%에 그치며 횡보하여, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
       "entry_time": "2026-09-24T18:41:41.679117+09:00",
       "exit_time": "2026-09-24T18:51:42.053387+09:00"
+    },
+    {
+      "symbol": "BTR/KRW",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 76.09,
+      "exit_price": 76.01,
+      "buy_amount_krw": 6958,
+      "profit_krw": -8,
+      "profit_pct": -0.11,
+      "reason": "🛡️ 고점(+0.80%) 달성 후 평단가 복귀 본절 락 탈출 (-0.10%)",
+      "trajectory_summary": "진입 8분 17초경 최고 +0.80% 시세 분출 후 후속 수급 부재로 평단가 위협 시 원금 보존 탈출함. (보유: 10분 33초)",
+      "entry_time": "2026-09-24T20:51:41.933957+09:00",
+      "exit_time": "2026-09-24T21:02:15.667945+09:00"
     }
   ]
 }
