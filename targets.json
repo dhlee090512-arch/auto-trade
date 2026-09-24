@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-24T21:40:56.751306+09:00",
+  "updated_at": "2026-09-24T22:47:05.647801+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "code": "SOL",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_PULSE",
-      "score": 82,
-      "current_price": 1305.0,
-      "target_entry": 1304.0,
+      "score": 85,
+      "current_price": 157100.0,
+      "target_entry": 157000.0,
       "sl_pct": -1.2,
       "emergency_sl_pct": -1.8,
       "timeout_mins": 10,
-      "buy_amount_krw": 6957,
+      "buy_amount_krw": 6960,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.513,
-      "detailed_reason": "15분 거래량 1.85배 급증 동반한 1시간 MA20 부근 얕은 눌림목 구간으로 모멘텀 지속 기대",
-      "created_at": "2026-09-24T21:40:56.751306+09:00",
-      "created_timestamp": 1790253656.7513196
+      "entry_bid_ratio": 0.448,
+      "detailed_reason": "15분 거래량 1.94배 급증 및 1시간 수급 유입 후 건강한 1차 눌림목 구간 형성",
+      "created_at": "2026-09-24T22:47:05.647801+09:00",
+      "created_timestamp": 1790257625.6478136
     }
   }
 }
