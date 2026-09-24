@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "PYR": {
+      "symbol": "PYR/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 86.31,
+      "highest_price": 86.31,
+      "buy_amount_krw": 6959,
+      "units": 80.62796894913683,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790287200.159936,
+      "entry_time": "2026-09-25T07:00:00.159938+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790287200.159936,
+          86.31
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
