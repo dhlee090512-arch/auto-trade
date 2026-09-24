@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "ETC": {
-      "symbol": "ETC/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_PULSE",
-      "entry_price": 12840.0,
-      "highest_price": 12840.0,
-      "buy_amount_krw": 6958,
-      "units": 0.5419003115264798,
-      "sl_pct": -1.4,
-      "emergency_sl_pct": -1.8,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790242901.6791143,
-      "entry_time": "2026-09-24T18:41:41.679117+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790242901.6791143,
-          12840.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3205,6 +3181,20 @@
       "trajectory_summary": "진입 5분 58초경 최고 +1.62%까지 슈팅 후, 반락 시 하한선 락 기준선에서 이익을 안전하게 확정함. (보유: 5분 58초)",
       "entry_time": "2026-09-24T01:02:16.168462+09:00",
       "exit_time": "2026-09-24T01:08:14.793139+09:00"
+    },
+    {
+      "symbol": "ETC/KRW",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 12840.0,
+      "exit_price": 12740.0,
+      "buy_amount_krw": 6958,
+      "profit_krw": -54,
+      "profit_pct": -0.78,
+      "reason": "⌛ 10분 미반등 탄력 소멸 즉시 정리 (기회비용 회수, -0.78%)",
+      "trajectory_summary": "진입 10분간 최고 +0.00%에 그치며 횡보하여, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
+      "entry_time": "2026-09-24T18:41:41.679117+09:00",
+      "exit_time": "2026-09-24T18:51:42.053387+09:00"
     }
   ]
 }
