@@ -1,28 +1,50 @@
 {
-  "updated_at": "2026-09-25T01:22:07.878827+09:00",
+  "updated_at": "2026-09-25T01:26:47.701291+09:00",
   "paper_trading": true,
   "queue": {
-    "SOL": {
-      "symbol": "SOL/KRW",
-      "code": "SOL",
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "code": "TRUMP",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_PULSE",
-      "score": 85,
-      "current_price": 160000.0,
-      "target_entry": 159900.0,
-      "sl_pct": -1.2,
+      "score": 88,
+      "current_price": 2883.0,
+      "target_entry": 2868.0,
+      "sl_pct": -1.33,
       "emergency_sl_pct": -1.8,
       "timeout_mins": 10,
-      "buy_amount_krw": 6964,
+      "buy_amount_krw": 6962,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.292,
-      "detailed_reason": "거래량 2.86배 급증 동반한 상위권 수급 및 1시간 이동평균선 위 건강한 1차 눌림목",
-      "created_at": "2026-09-25T01:22:07.878827+09:00",
-      "created_timestamp": 1790266927.8788407
+      "entry_bid_ratio": 0.433,
+      "detailed_reason": "1시간 거래대금 3.45억, 볼륨 서지 1.82배 동반된 강한 모멘텀 1차 얕은 눌림목",
+      "created_at": "2026-09-25T01:26:47.701291+09:00",
+      "created_timestamp": 1790267207.7013602
+    },
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "code": "XRP",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "score": 85,
+      "current_price": 2080.0,
+      "target_entry": 2075.0,
+      "sl_pct": -1.2,
+      "emergency_sl_pct": -1.8,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6962,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.489,
+      "detailed_reason": "1시간 거래대금 37.7억 대형 탑볼륨, 볼륨 서지 1.67배 동반된 안정적 추세 지속 1차 눌림목",
+      "created_at": "2026-09-25T01:26:47.701291+09:00",
+      "created_timestamp": 1790267207.7013602
     }
   }
 }
