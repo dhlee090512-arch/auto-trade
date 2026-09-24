@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-25T07:14:58.029114+09:00",
+  "updated_at": "2026-09-25T07:44:59.446352+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "PYR": {
+      "symbol": "PYR/KRW",
+      "code": "PYR",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 6215.0,
-      "target_entry": 6205.0,
+      "score": 78,
+      "current_price": 82.95,
+      "target_entry": 82.81,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.802,
-      "detailed_reason": "15분봉 박스 하단 0.08% 근접, 77.5%의 높은 매수 흡수 비율과 2.22배 거래량 급증을 동반한 강력한 반등 타점.",
-      "created_at": "2026-09-25T07:14:58.029114+09:00",
-      "created_timestamp": 1790288098.029127
+      "entry_bid_ratio": 0.699,
+      "detailed_reason": "15분봉 박스 하단 지지선 근접(0.55%), 70.4%의 높은 매수 흡수 비율 및 거래량 급증(1.7배) 동반으로 반등 룸(+1.5% 이상) 확보.",
+      "created_at": "2026-09-25T07:44:59.446352+09:00",
+      "created_timestamp": 1790289899.4463637
     }
   }
 }
