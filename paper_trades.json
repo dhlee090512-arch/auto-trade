@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 6205.0,
-      "highest_price": 6205.0,
-      "buy_amount_krw": 6959,
-      "units": 1.1215149073327961,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790288107.7726946,
-      "entry_time": "2026-09-25T07:15:07.772697+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790288107.7726946,
-          6205.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3345,6 +3321,20 @@
       "trajectory_summary": "진입 6분 동안 최고 +0.15%에 그치며 모멘텀이 소멸되어, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
       "entry_time": "2026-09-25T07:00:00.159938+09:00",
       "exit_time": "2026-09-25T07:06:00.284697+09:00"
+    },
+    {
+      "symbol": "NEAR/KRW",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 6205.0,
+      "exit_price": 6200.0,
+      "buy_amount_krw": 6959,
+      "profit_krw": -6,
+      "profit_pct": -0.08,
+      "reason": "🛡️ 고점(+0.81%) 달성 후 평단가 복귀 본절 락 탈출 (-0.05%)",
+      "trajectory_summary": "진입 10분 28초경 최고 +0.81% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 13분 51초)",
+      "entry_time": "2026-09-25T07:15:07.772697+09:00",
+      "exit_time": "2026-09-25T07:28:59.635235+09:00"
     }
   ]
 }
