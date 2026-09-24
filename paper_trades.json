@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SOL": {
+      "symbol": "SOL/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 159900.0,
+      "highest_price": 159900.0,
+      "buy_amount_krw": 6964,
+      "units": 0.043552220137585994,
+      "sl_pct": -1.2,
+      "emergency_sl_pct": -1.8,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790266958.0505629,
+      "entry_time": "2026-09-25T01:22:38.050565+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790266958.0505629,
+          159900.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
