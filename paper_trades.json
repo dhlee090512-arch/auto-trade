@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "XRP": {
+      "symbol": "XRP/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "entry_price": 2046.0,
+      "highest_price": 2046.0,
+      "buy_amount_krw": 6957,
+      "units": 3.400293255131965,
+      "sl_pct": -1.2,
+      "emergency_sl_pct": -1.8,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790261836.9708903,
+      "entry_time": "2026-09-24T23:57:16.970892+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790261836.9708903,
+          2046.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
