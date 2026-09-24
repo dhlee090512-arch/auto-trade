@@ -1,16 +1,38 @@
 {
-  "updated_at": "2026-09-24T23:26:38.520075+09:00",
+  "updated_at": "2026-09-24T23:41:37.256089+09:00",
   "paper_trading": true,
   "queue": {
-    "ETC": {
-      "symbol": "ETC/KRW",
-      "code": "ETC",
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "code": "LINK",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_PULSE",
-      "score": 85,
-      "current_price": 13930.0,
-      "target_entry": 13890.0,
+      "score": 88,
+      "current_price": 17290.0,
+      "target_entry": 17280.0,
+      "sl_pct": -1.2,
+      "emergency_sl_pct": -1.8,
+      "timeout_mins": 10,
+      "buy_amount_krw": 6963,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.589,
+      "detailed_reason": "1시간봉 RSI 65.3 및 15분봉 RSI 75.6의 강한 모멘텀 유지 속 거래량 2.32배 급증과 1차 얕은 눌림목 형성",
+      "created_at": "2026-09-24T23:41:37.256089+09:00",
+      "created_timestamp": 1790260897.2561033
+    },
+    "BCH": {
+      "symbol": "BCH/KRW",
+      "code": "BCH",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_PULSE",
+      "score": 82,
+      "current_price": 468200.0,
+      "target_entry": 468200.0,
       "sl_pct": -1.4,
       "emergency_sl_pct": -1.8,
       "timeout_mins": 10,
@@ -19,10 +41,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분 거래량 4.02배 급증 및 1시간 강력한 수급 유입에 따른 정방향 1차 눌림목",
-      "created_at": "2026-09-24T23:26:38.520075+09:00",
-      "created_timestamp": 1790259998.5200875
+      "entry_bid_ratio": 0.67,
+      "detailed_reason": "4.7억 원의 탄탄한 1시간 수급 유입과 거래량 2.29배 급증, MA20 상단 위에서 안정적인 1차 눌림목 진행 중",
+      "created_at": "2026-09-24T23:41:37.256089+09:00",
+      "created_timestamp": 1790260897.2561033
     }
   }
 }
