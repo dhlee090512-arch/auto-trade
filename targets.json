@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-25T17:43:08.140305+09:00",
+  "updated_at": "2026-09-26T06:34:37.555639+09:00",
   "paper_trading": true,
   "queue": {
-    "BTR": {
-      "symbol": "BTR/KRW",
-      "code": "BTR",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 78,
-      "current_price": 68.15,
-      "target_entry": 68.12,
+      "score": 85,
+      "current_price": 6650.0,
+      "target_entry": 6620.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
-      "buy_amount_krw": 6960,
+      "buy_amount_krw": 6950,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.702,
-      "detailed_reason": "15분봉 박스권 하단(0.49%) 근접 및 71.1%의 높은 매수세 흡수 확인, 상단까지 +1.5% 이상의 바운스 룸 확보",
-      "created_at": "2026-09-25T17:43:08.140305+09:00",
-      "created_timestamp": 1790325788.140323
+      "entry_bid_ratio": 0.71,
+      "detailed_reason": "15분봉 박스권 하단(0.15% 이내) 근접, 매수 호가 잔량 비율 71.2% 및 거래량 급증(3.48배)을 동반한 강력한 매수세 흡수 확인. 상단 박스까지 +4.91% 중 +1.5% 이상의 충분한 바운스 룸 확보.",
+      "created_at": "2026-09-26T06:34:37.555639+09:00",
+      "created_timestamp": 1790372077.5556605
     }
   }
 }
