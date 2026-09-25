@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "PEAQ": {
-      "symbol": "PEAQ/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 55.46,
-      "highest_price": 55.46,
-      "buy_amount_krw": 6962,
-      "units": 125.53191489361701,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790297397.1710477,
-      "entry_time": "2026-09-25T09:49:57.171051+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790297397.1710477,
-          55.46
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3359,6 +3335,20 @@
       "trajectory_summary": "진입 10분 28초경 최고 +0.81% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 13분 51초)",
       "entry_time": "2026-09-25T07:15:07.772697+09:00",
       "exit_time": "2026-09-25T07:28:59.635235+09:00"
+    },
+    {
+      "symbol": "PEAQ/KRW",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 55.46,
+      "exit_price": 56.37,
+      "buy_amount_krw": 6962,
+      "profit_krw": 114,
+      "profit_pct": 1.64,
+      "reason": "📈 트레일링 익절 (고점 +1.91% ➔ 하한선 락 1.45% 확보)",
+      "trajectory_summary": "진입 9분 42초경 최고 +1.91%까지 분출 후, 반락 시 실현 이익 기준선(+1.64%)에서 확정 청산함. (보유: 9분 48초)",
+      "entry_time": "2026-09-25T09:49:57.171051+09:00",
+      "exit_time": "2026-09-25T09:59:45.973879+09:00"
     }
   ]
 }
