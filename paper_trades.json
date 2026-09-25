@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 1373.0,
-      "highest_price": 1373.0,
-      "buy_amount_krw": 6961,
-      "units": 5.069919883466861,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790304081.525231,
-      "entry_time": "2026-09-25T11:41:21.525233+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790304081.525231,
-          1373.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3373,6 +3349,20 @@
       "trajectory_summary": "진입 9분 42초경 최고 +1.91%까지 분출 후, 반락 시 실현 이익 기준선(+1.64%)에서 확정 청산함. (보유: 9분 48초)",
       "entry_time": "2026-09-25T09:49:57.171051+09:00",
       "exit_time": "2026-09-25T09:59:45.973879+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1373.0,
+      "exit_price": 1384.0,
+      "buy_amount_krw": 6961,
+      "profit_krw": 56,
+      "profit_pct": 0.8,
+      "reason": "⌛ 30분 만료 2차 분출 부재 안전 정리 (0.80%)",
+      "trajectory_summary": "보유 시간 86분 42초 동안 최저 0.00% ~ 최고 +0.80% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-09-25T11:41:21.525233+09:00",
+      "exit_time": "2026-09-25T13:08:04.434121+09:00"
     }
   ]
 }
