@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1599.0,
+      "highest_price": 1599.0,
+      "buy_amount_krw": 6952,
+      "units": 4.347717323327079,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790382905.1655045,
+      "entry_time": "2026-09-26T09:35:05.165507+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790382905.1655045,
+          1599.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
