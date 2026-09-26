@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-26T20:56:09.989573+09:00",
+  "updated_at": "2026-09-27T00:56:34.099694+09:00",
   "paper_trading": false,
   "queue": {
-    "MPLX": {
-      "symbol": "MPLX/KRW",
-      "code": "MPLX",
+    "2Z": {
+      "symbol": "2Z/KRW",
+      "code": "2Z",
       "mode": "SCALPING",
       "is_paper": false,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 78,
-      "current_price": 80.82,
-      "target_entry": 80.6,
+      "score": 68,
+      "current_price": 95.3,
+      "target_entry": 94.74,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
-      "buy_amount_krw": 6957,
+      "buy_amount_krw": 6954,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.759,
-      "detailed_reason": "15분봉 박스 하단 지지(0.57%) 근접하며 81.2%의 높은 매수 흡수 비율을 기록, 상단까지 +1.5% 이상의 충분한 바운스 룸 확보",
-      "created_at": "2026-09-26T20:56:09.989573+09:00",
-      "created_timestamp": 1790423769.9895847
+      "entry_bid_ratio": 0.486,
+      "detailed_reason": "15분봉 박스 하단(0.59%) 근접 및 69.1% 고비율 매수 흡수세 확인, 상단까지 +6% 이상 바운스 룸 확보",
+      "created_at": "2026-09-27T00:56:34.099694+09:00",
+      "created_timestamp": 1790438194.0997078
     }
   }
 }
