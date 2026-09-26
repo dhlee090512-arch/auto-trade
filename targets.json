@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-09-26T06:34:37.555639+09:00",
+  "updated_at": "2026-09-26T09:34:59.689081+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "code": "SUI",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 6650.0,
-      "target_entry": 6620.0,
+      "score": 88,
+      "current_price": 1600.0,
+      "target_entry": 1599.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
-      "buy_amount_krw": 6950,
+      "buy_amount_krw": 6952,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.71,
-      "detailed_reason": "15분봉 박스권 하단(0.15% 이내) 근접, 매수 호가 잔량 비율 71.2% 및 거래량 급증(3.48배)을 동반한 강력한 매수세 흡수 확인. 상단 박스까지 +4.91% 중 +1.5% 이상의 충분한 바운스 룸 확보.",
-      "created_at": "2026-09-26T06:34:37.555639+09:00",
-      "created_timestamp": 1790372077.5556605
+      "entry_bid_ratio": 0.637,
+      "detailed_reason": "15분봉 박스 하단 지지(0.13% 근접)와 높은 호가 매수비율(65.8%)을 통한 강력한 매수 흡수 포착. 목표 박스 중상단까지 2.88% 범위 내에서 +1.5% 이상의 기대 반등 여력 확보.",
+      "created_at": "2026-09-26T09:34:59.689081+09:00",
+      "created_timestamp": 1790382899.6890938
     }
   }
 }
