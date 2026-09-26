@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "MPLX": {
+      "symbol": "MPLX/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 81.36,
+      "highest_price": 81.36,
+      "buy_amount_krw": 6955,
+      "units": 85.48426745329401,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790407297.2817252,
+      "entry_time": "2026-09-26T16:21:37.281728+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790407297.2817252,
+          81.36
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
