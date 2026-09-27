@@ -1,5 +1,29 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "PHA": {
+      "symbol": "PHA/KRW",
+      "mode": "SCALPING",
+      "is_paper": false,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 95.47,
+      "highest_price": 95.47,
+      "buy_amount_krw": 6952,
+      "units": 72.8187,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790503454.684957,
+      "entry_time": "2026-09-27T19:04:14.684960+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790503454.684957,
+          95.47
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
