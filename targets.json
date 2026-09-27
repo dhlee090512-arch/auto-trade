@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-27T18:58:31.593825+09:00",
+  "updated_at": "2026-09-27T19:13:33.364172+09:00",
   "paper_trading": false,
   "queue": {
-    "PHA": {
-      "symbol": "PHA/KRW",
-      "code": "PHA",
+    "SUI": {
+      "symbol": "SUI/KRW",
+      "code": "SUI",
       "mode": "SCALPING",
       "is_paper": false,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 78,
-      "current_price": 95.65,
-      "target_entry": 95.47,
+      "current_price": 1700.0,
+      "target_entry": 1697.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.561,
-      "detailed_reason": "15분봉 박스 하단 지지선 근접(0.6%), 65.4%의 우수한 매수 호가 흡수 비율 및 +1.5% 이상의 충분한 상방 반등 룸 확보.",
-      "created_at": "2026-09-27T18:58:31.593825+09:00",
-      "created_timestamp": 1790503111.5938387
+      "entry_bid_ratio": 0.665,
+      "detailed_reason": "15분봉 박스 하단 지지(0.53%) 및 67.8% 호가 매수벽 흡수세 확인, 목표 박스 중단까지 +2.5% 이상의 상승 여력 확보",
+      "created_at": "2026-09-27T19:13:33.364172+09:00",
+      "created_timestamp": 1790504013.3641853
     }
   }
 }
