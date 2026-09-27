@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-09-28T08:24:55.320741+09:00",
+  "updated_at": "2026-09-28T08:39:57.526314+09:00",
   "paper_trading": false,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "mode": "SCALPING",
       "is_paper": false,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 78,
-      "current_price": 1709.0,
-      "target_entry": 1695.0,
+      "score": 75,
+      "current_price": 7290.0,
+      "target_entry": 7275.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
@@ -19,10 +19,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.663,
-      "detailed_reason": "15분봉 박스 하단 0.77% 근접, 매수 호가 비중 65.1%의 강력한 흡수세 확인, 상단까지 +2.4% 이상 바운스 룸 확보",
-      "created_at": "2026-09-28T08:24:55.320741+09:00",
-      "created_timestamp": 1790551495.3207545
+      "entry_bid_ratio": 0.479,
+      "detailed_reason": "15분봉 박스 하단 지지(0.34%) 및 호가 매수비율 57.2% 흡수 반등 타점 확인, 반대편 박스 중상단까지 +4% 이상 바운스 룸 확보",
+      "created_at": "2026-09-28T08:39:57.526314+09:00",
+      "created_timestamp": 1790552397.526328
     }
   }
 }
