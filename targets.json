@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T19:33:34.960244+09:00",
+  "updated_at": "2026-09-27T19:38:36.124976+09:00",
   "paper_trading": false,
   "queue": {
     "SUI": {
@@ -15,14 +15,36 @@
       "emergency_sl_pct": -1.5,
       "timeout_mins": 6,
       "buy_amount_krw": 6954,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 4.1197,
+      "order_uuid": "C0745000000642468696",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.613,
       "detailed_reason": "15분봉 박스 하단 0.65% 근접, 매수 비중 61.7%로 강력한 호가 흡수 관측 및 박스 상단까지 +2.8% 여유 공간 확보",
       "created_at": "2026-09-27T19:33:34.960244+09:00",
       "created_timestamp": 1790505214.9602578
+    },
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
+      "mode": "SCALPING",
+      "is_paper": false,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 82,
+      "current_price": 7100.0,
+      "target_entry": 7080.0,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "timeout_mins": 6,
+      "buy_amount_krw": 6952,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.677,
+      "detailed_reason": "15분봉 박스 하단(7075원) 근접(0.42%), 높은 매수 호가 비율(71.9%)을 통한 강력한 흡수세 확인. 박스 중간/상단까지의 반등 여력(+3.5% 이상)이 확보되어 숏텀 스캘핑 알파 조건 충족.",
+      "created_at": "2026-09-27T19:38:36.124976+09:00",
+      "created_timestamp": 1790505516.124989
     }
   }
 }
