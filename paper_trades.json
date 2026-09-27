@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "PHA": {
-      "symbol": "PHA/KRW",
-      "mode": "SCALPING",
-      "is_paper": false,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 95.47,
-      "highest_price": 95.47,
-      "buy_amount_krw": 6952,
-      "units": 72.8187,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790503454.684957,
-      "entry_time": "2026-09-27T19:04:14.684960+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790503454.684957,
-          95.47
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3429,6 +3405,20 @@
       "trajectory_summary": "진입 6분 동안 최고 +0.14%에 그치며 모멘텀이 소멸되어, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
       "entry_time": "2026-09-27T17:50:29.509652+09:00",
       "exit_time": "2026-09-27T17:56:29.608108+09:00"
+    },
+    {
+      "symbol": "PHA/KRW",
+      "is_paper": false,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 95.47,
+      "exit_price": 95.38,
+      "buy_amount_krw": 6952,
+      "profit_krw": -6,
+      "profit_pct": -0.09,
+      "reason": "⌛ 6분 미반등 탄력 소멸 즉시 정리 (기회비용 회수, -0.09%)",
+      "trajectory_summary": "진입 6분 동안 최고 +0.14%에 그치며 모멘텀이 소멸되어, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
+      "entry_time": "2026-09-27T19:04:14.684960+09:00",
+      "exit_time": "2026-09-27T19:10:14.955890+09:00"
     }
   ]
 }
