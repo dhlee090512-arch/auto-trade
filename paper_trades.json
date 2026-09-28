@@ -1,29 +1,5 @@
 {
-  "active_positions": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "mode": "SCALPING",
-      "is_paper": false,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 1710.0,
-      "highest_price": 1710.0,
-      "buy_amount_krw": 6000,
-      "units": 3.5088,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790561130.278288,
-      "entry_time": "2026-09-28T11:05:30.278291+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790561130.278288,
-          1710.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3555,6 +3531,20 @@
       "trajectory_summary": "진입 6분 동안 최고 +0.21%에 그치며 모멘텀이 소멸되어, 슬롯 회수 및 기회비용 방어를 위해 조기 정리함.",
       "entry_time": "2026-09-28T10:55:35.591248+09:00",
       "exit_time": "2026-09-28T11:01:35.951221+09:00"
+    },
+    {
+      "symbol": "SUI/KRW",
+      "is_paper": false,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1710.0,
+      "exit_price": 1709.0,
+      "buy_amount_krw": 6000,
+      "profit_krw": -4,
+      "profit_pct": -0.06,
+      "reason": "🛡️ 고점(+1.17%) 달성 후 평단가 복귀 본절 락 탈출 (-0.05%)",
+      "trajectory_summary": "진입 12분 15초경 최고 +1.17% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 24분 26초)",
+      "entry_time": "2026-09-28T11:05:30.278291+09:00",
+      "exit_time": "2026-09-28T11:29:56.612182+09:00"
     }
   ]
 }
