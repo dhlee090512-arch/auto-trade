@@ -1,31 +1,5 @@
 {
-  "active_positions": {
-    "LINK": {
-      "symbol": "LINK/KRW",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 20370.0,
-      "highest_price": 20370.0,
-      "buy_amount_krw": 8611,
-      "units": 0.42272950417280314,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_0e7b4bd7",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790624212.4292283,
-      "entry_time": "2026-09-29T04:36:52.429231+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790624212.4292283,
-          20370.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3571,6 +3545,23 @@
       "trajectory_summary": "진입 12분 15초경 최고 +1.17% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 24분 26초)",
       "entry_time": "2026-09-28T11:05:30.278291+09:00",
       "exit_time": "2026-09-28T11:29:56.612182+09:00"
+    },
+    {
+      "symbol": "LINK/KRW",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 20370.0,
+      "exit_price": 20590.0,
+      "buy_amount_krw": 8611,
+      "profit_krw": 93,
+      "profit_pct": 1.08,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "📈 트레일링 익절 (고점 +1.37% ➔ 하한선 락 1.00% 확보)",
+      "trajectory_summary": "진입 22분 51초경 최고 +1.37%까지 분출 후, 반락 시 실현 기준선(+1.08%)에서 확정 청산함. (보유: 23분 1초)",
+      "entry_time": "2026-09-29T04:36:52.429231+09:00",
+      "exit_time": "2026-09-29T04:59:54.324612+09:00"
     }
   ]
 }
