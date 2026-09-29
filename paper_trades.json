@@ -1,5 +1,31 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 20400.0,
+      "highest_price": 20400.0,
+      "buy_amount_krw": 8605,
+      "units": 0.4218137254901961,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_c6cc50cb",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790649402.0616887,
+      "entry_time": "2026-09-29T11:36:42.061691+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790649402.0616887,
+          20400.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
