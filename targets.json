@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T04:51:58.753817+09:00",
+  "updated_at": "2026-10-01T05:37:03.022032+09:00",
   "paper_trading": true,
   "queue": {
     "NEAR": {
@@ -11,8 +11,8 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 7275.0,
-      "target_entry": 7245.0,
+      "current_price": 7225.0,
+      "target_entry": 7220.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.614,
-      "detailed_reason": "15분봉 박스권 하단 근접(0.62%) 및 60.2%의 우수한 호가 매수세 유입으로 반등 기대치 충족",
-      "created_at": "2026-10-01T04:51:58.753817+09:00",
-      "created_timestamp": 1790797918.753832
+      "entry_bid_ratio": 0.564,
+      "detailed_reason": "15분봉 박스권 하단 근접(0.84%) 및 우수한 호가 매수비율(56.4%)을 통한 박스 하단 반등(Track A) 타점 확보",
+      "created_at": "2026-10-01T05:37:03.022032+09:00",
+      "created_timestamp": 1790800623.0220444
     }
   }
 }
