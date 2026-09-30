@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T06:37:10.812714+09:00",
+  "updated_at": "2026-10-01T06:52:11.995015+09:00",
   "paper_trading": true,
   "queue": {
     "NEAR": {
@@ -11,8 +11,8 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 7190.0,
-      "target_entry": 7185.0,
+      "current_price": 7180.0,
+      "target_entry": 7160.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -25,9 +25,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단에 근접하여 강한 지지력을 형성하고 있으며, 매수 호가 잔량 비율이 안정적이고 거래대금이 뒷받침되어 단기 반등 리버전(Track A) 전략 수행에 최적의 조건을 충족합니다.",
-      "created_at": "2026-10-01T06:37:10.812714+09:00",
-      "created_timestamp": 1790804230.8127277
+      "detailed_reason": "15분봉 박스권 하단(7165.0) 인근에 위치하며 하단 이격도가 0.21%로 매우 낮아 트랙 A(Box Reversion) 반등 매매 조건에 최적화됨.",
+      "created_at": "2026-10-01T06:52:11.995015+09:00",
+      "created_timestamp": 1790805131.995028
     }
   }
 }
