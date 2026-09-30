@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "ZRO": {
-      "symbol": "ZRO/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 2441.0,
-      "highest_price": 2441.0,
-      "buy_amount_krw": 6885,
-      "units": 2.820565342072921,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_87f4d45f",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790751515.1807117,
-      "entry_time": "2026-09-30T15:58:35.180715+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790751515.1807117,
-          2441.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3703,6 +3672,25 @@
       "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +1.20%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 30분 0초)",
       "entry_time": "2026-09-30T14:19:24.355980+09:00",
       "exit_time": "2026-09-30T14:49:24.553005+09:00"
+    },
+    {
+      "symbol": "ZRO/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 2441.0,
+      "exit_price": 2420.0,
+      "buy_amount_krw": 6885,
+      "profit_krw": -59,
+      "profit_pct": -0.86,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 10분 미반등 탄력 소멸 즉시 정리 (-0.86%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.12%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 10분 0초)",
+      "entry_time": "2026-09-30T15:58:35.180715+09:00",
+      "exit_time": "2026-09-30T16:08:35.218983+09:00"
     }
   ]
 }
