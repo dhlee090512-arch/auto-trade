@@ -27,6 +27,68 @@
         [
           1790794015.9154956,
           1571.0
+        ],
+        [
+          1790794015.9154956,
+          1571.0
+        ],
+        [
+          1790794019.7748811,
+          1571.0
+        ],
+        [
+          1790794020.3246782,
+          1571.0
+        ],
+        [
+          1790794020.873771,
+          1571.0
+        ],
+        [
+          1790794021.423713,
+          1571.0
+        ],
+        [
+          1790794022.0514655,
+          1571.0
+        ],
+        [
+          1790794022.6070006,
+          1571.0
+        ],
+        [
+          1790794023.1571183,
+          1571.0
+        ]
+      ]
+    },
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 7290.0,
+      "highest_price": 7290.0,
+      "buy_amount_krw": 6000,
+      "units": 0.823045267489712,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_222d89fb",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790794023.710135,
+      "entry_time": "2026-10-01T03:47:03.710139+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790794023.710135,
+          7290.0
         ]
       ]
     }
