@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T06:22:09.459557+09:00",
+  "updated_at": "2026-10-01T06:37:10.812714+09:00",
   "paper_trading": true,
   "queue": {
     "NEAR": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 7230.0,
-      "target_entry": 7225.0,
+      "current_price": 7190.0,
+      "target_entry": 7185.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6890,
+      "buy_amount_krw": 6891,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단에 근접하여 위치하며 매수 호가 흡수 시그널과 함께 반등 기대 구조가 형성되어 트랙 A(박스 반전) 전략에 부합함.",
-      "created_at": "2026-10-01T06:22:09.459557+09:00",
-      "created_timestamp": 1790803329.459571
+      "detailed_reason": "15분봉 박스권 하단에 근접하여 강한 지지력을 형성하고 있으며, 매수 호가 잔량 비율이 안정적이고 거래대금이 뒷받침되어 단기 반등 리버전(Track A) 전략 수행에 최적의 조건을 충족합니다.",
+      "created_at": "2026-10-01T06:37:10.812714+09:00",
+      "created_timestamp": 1790804230.8127277
     }
   }
 }
