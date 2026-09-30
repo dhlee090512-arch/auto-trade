@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 6670.0,
-      "highest_price": 6670.0,
-      "buy_amount_krw": 8608,
-      "units": 1.2905547226386807,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_e8f14d62",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790735730.3398876,
-      "entry_time": "2026-09-30T11:35:30.339909+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790735730.3398876,
-          6670.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -3627,6 +3596,25 @@
       "trajectory_summary": "보유 시간 86분 40초 동안 최저 -1.57% ~ 최고 +0.59% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-09-29T11:36:42.061691+09:00",
       "exit_time": "2026-09-29T13:03:22.102090+09:00"
+    },
+    {
+      "symbol": "NEAR/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 6670.0,
+      "exit_price": 6665.0,
+      "buy_amount_krw": 8608,
+      "profit_krw": -6,
+      "profit_pct": -0.07,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🛡️ 고점(+1.35%) 달성 후 평단가 복귀 본절 락 탈출 (-0.05%)",
+      "trajectory_summary": "[A전략] 진입 25분 11초경 최고 +1.35% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 57분 40초)",
+      "entry_time": "2026-09-30T11:35:30.339909+09:00",
+      "exit_time": "2026-09-30T12:33:10.715689+09:00"
     }
   ]
 }
