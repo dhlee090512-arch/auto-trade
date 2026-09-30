@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T00:46:37.888329+09:00",
+  "updated_at": "2026-10-01T00:56:39.325629+09:00",
   "paper_trading": true,
   "queue": {
     "NEAR": {
@@ -20,14 +20,41 @@
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
       "buy_amount_krw": 6892,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 0.9782824698367637,
+      "order_uuid": "mock_order_721dd888",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
       "detailed_reason": "15분봉 박스권 하단 근접(1.15% 이격) 및 안정적인 호가 매수세 흡수 패턴 확인, 트랙 A(Box Reversion) 스캘핑 기준 충족",
       "created_at": "2026-10-01T00:46:37.888329+09:00",
       "created_timestamp": 1790783197.888342
+    },
+    "FOLD": {
+      "symbol": "FOLD/KRW",
+      "code": "FOLD",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 75,
+      "current_price": 88.08,
+      "target_entry": 88.04,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "timeout_mins": 12,
+      "holding_timeout_mins": 10,
+      "buy_amount_krw": 6892,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.862,
+      "detailed_reason": "15분봉 박스권 하단에 근접하여 위치하며, 매수 호가 잔량 비율이 77.7%로 우수하여 반등 리버전 타점으로 유효함.",
+      "created_at": "2026-10-01T00:56:39.325629+09:00",
+      "created_timestamp": 1790783799.3256419
     }
   }
 }
