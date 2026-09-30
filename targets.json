@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T17:37:18.245545+09:00",
+  "updated_at": "2026-09-30T17:47:19.554554+09:00",
   "paper_trading": true,
   "queue": {
     "S": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 93.47,
-      "target_entry": 93.47,
+      "score": 72,
+      "current_price": 96.49,
+      "target_entry": 96.44,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
       "tp_floor_lock": 1.1,
       "timeout_mins": 12,
       "holding_timeout_mins": 12,
-      "buy_amount_krw": 6883,
+      "buy_amount_krw": 6884,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 발생 이후 거래량 급감 및 허리선 지지 반등 확인, 트랙 C(눌림목) 조건에 완벽히 부합하며 점수 65점 이상 충족",
-      "created_at": "2026-09-30T17:37:18.245545+09:00",
-      "created_timestamp": 1790757438.2455828
+      "detailed_reason": "장대양봉 발생 후 거래량 감소 및 허리선 지지 반등 확인, Track C 눌림목 전략 조건 충족",
+      "created_at": "2026-09-30T17:47:19.554554+09:00",
+      "created_timestamp": 1790758039.5545673
     }
   }
 }
