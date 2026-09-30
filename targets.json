@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-09-30T18:12:24.251514+09:00",
+  "updated_at": "2026-09-30T23:21:26.226752+09:00",
   "paper_trading": true,
   "queue": {
-    "S": {
-      "symbol": "S/KRW",
-      "code": "S",
-      "track": "C",
-      "track_name": "1차 눌림목",
+    "LINK": {
+      "symbol": "LINK/KRW",
+      "code": "LINK",
+      "track": "A",
+      "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 92.57,
-      "target_entry": 92.52,
-      "sl_pct": -1.1,
+      "current_price": 19710.0,
+      "target_entry": 19640.0,
+      "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
       "timeout_mins": 12,
-      "holding_timeout_mins": 12,
-      "buy_amount_krw": 6884,
+      "holding_timeout_mins": 10,
+      "buy_amount_krw": 6890,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 이후 거래량 감소를 동반한 전형적인 1차 눌림목(Track C) 패턴으로, 허리선 지지 반등 가능성이 높아 숏텀 스캘핑 진입 기준(>=65)을 충족합니다.",
-      "created_at": "2026-09-30T18:12:24.251514+09:00",
-      "created_timestamp": 1790759544.2515273
+      "entry_bid_ratio": 0.698,
+      "detailed_reason": "15분봉 박스 하단 근접(0.92%) 및 62.3% 매수 우위 호가 잔량으로 반등 기대치 충족",
+      "created_at": "2026-09-30T23:21:26.226752+09:00",
+      "created_timestamp": 1790778086.2267733
     }
   }
 }
