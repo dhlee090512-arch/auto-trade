@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-01T12:17:47.124886+09:00",
+  "updated_at": "2026-10-01T12:47:49.111583+09:00",
   "paper_trading": true,
   "queue": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "code": "TRUMP",
-      "track": "C",
-      "track_name": "1차 눌림목",
+    "S": {
+      "symbol": "S/KRW",
+      "code": "S",
+      "track": "A",
+      "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 2971.0,
-      "target_entry": 2968.0,
-      "sl_pct": -1.1,
+      "score": 75,
+      "current_price": 55.77,
+      "target_entry": 55.64,
+      "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
       "timeout_mins": 12,
-      "holding_timeout_mins": 12,
+      "holding_timeout_mins": 10,
       "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.607,
-      "detailed_reason": "장대양봉 직후 거래량 감소(마름 현상)와 함께 주요 허리선 지지 반등 타점이 명확하여 Track C(눌림목) 전략에 부합함. 매수 우위의 비드 비율과 건전한 변동성 지표를 보여 승인.",
-      "created_at": "2026-10-01T12:17:47.124886+09:00",
-      "created_timestamp": 1790824667.1248991
+      "entry_bid_ratio": 0.509,
+      "detailed_reason": "15분봉 박스권 하단(0.45% 거리)에 위치하여 트랙 A(Box Reversion) 반등 조건 충족 및 매수세 흡수 징후 포착",
+      "created_at": "2026-10-01T12:47:49.111583+09:00",
+      "created_timestamp": 1790826469.1116254
     }
   }
 }
