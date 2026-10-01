@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-01T16:43:17.097811+09:00",
+  "updated_at": "2026-10-01T19:18:29.652344+09:00",
   "paper_trading": true,
   "queue": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "code": "TRUMP",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 2802.0,
-      "target_entry": 2802.0,
+      "score": 75,
+      "current_price": 6950.0,
+      "target_entry": 6930.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6000,
+      "buy_amount_krw": 6892,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.581,
-      "detailed_reason": "15분봉 박스 하단 지지(0.25%) 근접 및 거래량 급증(3.23배)을 동반한 호가 매수 우위(51%)로 박스권 하단 반등(Track A) 조건 완벽 충족",
-      "created_at": "2026-10-01T16:43:17.097811+09:00",
-      "created_timestamp": 1790840597.0978281
+      "entry_bid_ratio": 0.721,
+      "detailed_reason": "박스 하단 0.0% 지점 밀집 및 63.5%의 우수한 호가 매수 우위로 반등 탄력 확보 가능",
+      "created_at": "2026-10-01T19:18:29.652344+09:00",
+      "created_timestamp": 1790849909.6523573
     }
   }
 }
