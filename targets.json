@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T08:30:01.588218+09:00",
+  "updated_at": "2026-10-02T08:44:57.743795+09:00",
   "paper_trading": true,
   "queue": {
     "CAP": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 95.45,
-      "target_entry": 95.13,
+      "current_price": 95.18,
+      "target_entry": 95.07,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6900,
+      "buy_amount_krw": 6901,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.499,
-      "detailed_reason": "15분봉 박스권 하단(0.14% 근접) 지지 테스트 및 57% 매수 우위 호가 흡수를 통한 A트랙 박스 반등 타점 확보",
-      "created_at": "2026-10-02T08:30:01.588218+09:00",
-      "created_timestamp": 1790897401.5882316
+      "entry_bid_ratio": 0.533,
+      "detailed_reason": "15분봉 박스권 하단에 근접(0.22%)해 있으며, 60.8%의 양호한 매수 호가 비율과 흡수 턴 시그널이 포착되어 트랙 A(박스 반등) 전략 기준을 충족함",
+      "created_at": "2026-10-02T08:44:57.743795+09:00",
+      "created_timestamp": 1790898297.7438078
     }
   }
 }
