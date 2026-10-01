@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "TRUMP": {
+      "symbol": "TRUMP/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 2968.0,
+      "highest_price": 2968.0,
+      "buy_amount_krw": 6000,
+      "units": 2.0215633423180592,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_339c440d",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790824786.1773381,
+      "entry_time": "2026-10-01T12:19:46.177342+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790824786.1773381,
+          2968.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
