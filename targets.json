@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T04:54:34.598304+09:00",
+  "updated_at": "2026-10-02T05:39:39.170021+09:00",
   "paper_trading": true,
   "queue": {
     "MEGA": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 72,
-      "current_price": 70.7,
-      "target_entry": 70.56,
+      "score": 75,
+      "current_price": 68.84,
+      "target_entry": 68.84,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6898,
+      "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스 하단 0.43% 근접 지지 구간에서 매수 호가 집중 및 수급 흡수로 인한 반등 탄력 기대 (Track A Box Reversion)",
-      "created_at": "2026-10-02T04:54:34.598304+09:00",
-      "created_timestamp": 1790884474.5983202
+      "detailed_reason": "15분봉 박스 하단 지지(0.0%) 위치에서 매수세 흡수 턴 타점이 확인되며, 트랙 A 박스 반등 전략 조건에 적합함.",
+      "created_at": "2026-10-02T05:39:39.170021+09:00",
+      "created_timestamp": 1790887179.1700342
     }
   }
 }
