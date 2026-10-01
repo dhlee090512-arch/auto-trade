@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-01T22:08:51.797549+09:00",
+  "updated_at": "2026-10-02T00:34:07.807064+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
-      "track": "A",
-      "track_name": "바닥 반등",
+    "MEGA": {
+      "symbol": "MEGA/KRW",
+      "code": "MEGA",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 6535.0,
-      "target_entry": 6525.0,
-      "sl_pct": -1.0,
+      "score": 75,
+      "current_price": 67.46,
+      "target_entry": 67.4,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 6891,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 6894,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.671,
-      "detailed_reason": "15분봉 박스권 하단에 근접(0.08%)해 있으며, 11.95배의 압도적인 거래량 급증과 70.6%의 높은 호가 매수 우위 비율을 보여주어 박스 반등(Track A) 전략에 매우 적합함.",
-      "created_at": "2026-10-01T22:08:51.797549+09:00",
-      "created_timestamp": 1790860131.7975633
+      "entry_bid_ratio": 0.517,
+      "detailed_reason": "장대양봉 발생 후 거래량 감소와 함께 허리선(66.76) 부근에서 안정적인 지지 반등이 확인되어 C트랙(Pullback) 눌림목 매매 전략에 적합함.",
+      "created_at": "2026-10-02T00:34:07.807064+09:00",
+      "created_timestamp": 1790868847.8070781
     }
   }
 }
