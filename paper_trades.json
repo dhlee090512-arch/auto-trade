@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "TRUMP": {
-      "symbol": "TRUMP/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 2802.0,
-      "highest_price": 2802.0,
-      "buy_amount_krw": 6000,
-      "units": 2.1413276231263385,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_4266d36a",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790840597.4924471,
-      "entry_time": "2026-10-01T16:43:17.492450+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790840597.4924471,
-          2802.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -4292,6 +4261,25 @@
       "trajectory_summary": "[C전략] 보유 시간 16분 5초 동안 최저 -2.74% ~ 최고 +0.35% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-01T13:37:55.088520+09:00",
       "exit_time": "2026-10-01T13:54:01.029264+09:00"
+    },
+    {
+      "symbol": "TRUMP/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 2802.0,
+      "exit_price": 2824.0,
+      "buy_amount_krw": 6000,
+      "profit_krw": 47,
+      "profit_pct": 0.79,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 30분 만료 2차 분출 부재 안전 정리 (0.79%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.79%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 84분 17초)",
+      "entry_time": "2026-10-01T16:43:17.492450+09:00",
+      "exit_time": "2026-10-01T18:07:34.818090+09:00"
     }
   ]
 }
