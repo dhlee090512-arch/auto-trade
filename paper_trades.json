@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "MEGA": {
+      "symbol": "MEGA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 70.98,
+      "highest_price": 70.98,
+      "buy_amount_krw": 8623,
+      "units": 121.48492533107917,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_9e33f5bd",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790883278.2720664,
+      "entry_time": "2026-10-02T04:34:38.272070+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790883278.2720664,
+          70.98
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
