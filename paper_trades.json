@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "FOLD": {
-      "symbol": "FOLD/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 92.03,
-      "highest_price": 92.03,
-      "buy_amount_krw": 6889,
-      "units": 74.85602520917092,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_37c86d6c",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790815692.517777,
-      "entry_time": "2026-10-01T09:48:12.517781+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790815692.517777,
-          92.03
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -4159,6 +4128,25 @@
       "trajectory_summary": "[A전략] 진입 9초경 최고 +1.01% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 32초)",
       "entry_time": "2026-10-01T09:42:39.107557+09:00",
       "exit_time": "2026-10-01T09:43:11.437733+09:00"
+    },
+    {
+      "symbol": "FOLD/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 92.03,
+      "exit_price": 90.65,
+      "buy_amount_krw": 6889,
+      "profit_krw": -103,
+      "profit_pct": -1.5,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-2.21%) 즉시 탈출",
+      "trajectory_summary": "[A전략] 보유 시간 4분 46초 동안 최저 -2.21% ~ 최고 +0.00% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-01T09:48:12.517781+09:00",
+      "exit_time": "2026-10-01T09:52:59.255982+09:00"
     }
   ]
 }
