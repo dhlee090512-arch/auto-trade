@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "KAIA": {
+      "symbol": "KAIA/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 52.27,
+      "highest_price": 52.27,
+      "buy_amount_krw": 6000,
+      "units": 114.78859766596517,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_abd0e8c8",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790829174.0091987,
+      "entry_time": "2026-10-01T13:32:54.009203+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790829174.0091987,
+          52.27
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
