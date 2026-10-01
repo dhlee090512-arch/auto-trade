@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "MEGA": {
+      "symbol": "MEGA/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 67.4,
+      "highest_price": 67.4,
+      "buy_amount_krw": 6894,
+      "units": 102.28486646884272,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_32af3472",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790868874.3508399,
+      "entry_time": "2026-10-02T00:34:34.350844+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790868874.3508399,
+          67.4
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
