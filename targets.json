@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-02T11:15:14.816540+09:00",
+  "updated_at": "2026-10-02T11:50:20.909310+09:00",
   "paper_trading": true,
   "queue": {
-    "CAP": {
-      "symbol": "CAP/KRW",
-      "code": "CAP",
-      "track": "C",
-      "track_name": "1차 눌림목",
+    "MEGA": {
+      "symbol": "MEGA/KRW",
+      "code": "MEGA",
+      "track": "A",
+      "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 99.45,
-      "target_entry": 99.4,
-      "sl_pct": -1.1,
+      "score": 82,
+      "current_price": 71.92,
+      "target_entry": 71.63,
+      "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
       "timeout_mins": 12,
-      "holding_timeout_mins": 12,
-      "buy_amount_krw": 6902,
+      "holding_timeout_mins": 10,
+      "buy_amount_krw": 8627,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 발생 후 거래량이 마르며 건강한 1차 눌림목(Track C)을 형성하였고, 허리선 부근 지지 반등 가능성과 리스크 대비 보상 비율이 우수함.",
-      "created_at": "2026-10-02T11:15:14.816540+09:00",
-      "created_timestamp": 1790907314.816555
+      "entry_bid_ratio": 0.84,
+      "detailed_reason": "15분봉 박스권 하단 근접(1.1%) 및 84.1%의 압도적인 매수 호가 우위를 바탕으로 한 Track A(Box Reversion) 하단 지지 반등 타점 확보",
+      "created_at": "2026-10-02T11:50:20.909310+09:00",
+      "created_timestamp": 1790909420.9093275
     }
   }
 }
