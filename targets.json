@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-02T09:55:04.730466+09:00",
+  "updated_at": "2026-10-02T10:35:10.204422+09:00",
   "paper_trading": true,
   "queue": {
     "CAP": {
       "symbol": "CAP/KRW",
       "code": "CAP",
-      "track": "A",
-      "track_name": "바닥 반등",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 90.6,
-      "target_entry": 90.55,
-      "sl_pct": -1.0,
+      "current_price": 96.89,
+      "target_entry": 96.89,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 6000,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 6899,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단(0.06% 근접) 지지 테스트 완료 및 호가 매수벽 흡수 턴 타점, 트랙 A 박스 리버전 기준 충족.",
-      "created_at": "2026-10-02T09:55:04.730466+09:00",
-      "created_timestamp": 1790902504.7304811
+      "detailed_reason": "장대양봉 이후 거래량 감소와 허리선(96.50) 지지 반등 패턴이 Track C(Pullback) 전략에 부합하며, 1차 눌림목 타점의 구조적 우위가 확인됨.",
+      "created_at": "2026-10-02T10:35:10.204422+09:00",
+      "created_timestamp": 1790904910.204435
     }
   }
 }
