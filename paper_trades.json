@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "ENJ": {
-      "symbol": "ENJ/KRW",
-      "track": "C",
-      "track_name": "1차 눌림목",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 53.56,
-      "highest_price": 53.56,
-      "buy_amount_krw": 6909,
-      "units": 128.99551904406272,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_5b1314d0",
-      "sl_pct": -1.1,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 12,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790943727.086783,
-      "entry_time": "2026-10-02T21:22:07.086787+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790943727.086783,
-          53.56
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -4976,6 +4945,25 @@
       "trajectory_summary": "[A전략] 보유 시간 7분 34초 동안 최저 -1.92% ~ 최고 +0.39% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-02T20:59:58.612198+09:00",
       "exit_time": "2026-10-02T21:07:33.006046+09:00"
+    },
+    {
+      "symbol": "ENJ/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 53.56,
+      "exit_price": 52.76,
+      "buy_amount_krw": 6909,
+      "profit_krw": -103,
+      "profit_pct": -1.49,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-1.77%) 즉시 탈출",
+      "trajectory_summary": "[C전략] 보유 시간 2분 1초 동안 최저 -1.77% ~ 최고 +0.45% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-02T21:22:07.086787+09:00",
+      "exit_time": "2026-10-02T21:24:08.738738+09:00"
     }
   ]
 }
