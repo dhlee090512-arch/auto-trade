@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "CAP": {
-      "symbol": "CAP/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 90.55,
-      "highest_price": 90.55,
-      "buy_amount_krw": 6000,
-      "units": 66.26173384870238,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_74e5e927",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790902511.4650514,
-      "entry_time": "2026-10-02T09:55:11.465054+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790902511.4650514,
-          90.55
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -4634,6 +4603,25 @@
       "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.00%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 10분 0초)",
       "entry_time": "2026-10-02T09:40:04.805544+09:00",
       "exit_time": "2026-10-02T09:50:04.876839+09:00"
+    },
+    {
+      "symbol": "CAP/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 90.55,
+      "exit_price": 92.31,
+      "buy_amount_krw": 6000,
+      "profit_krw": 116,
+      "profit_pct": 1.94,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "📈 트레일링 익절 (고점 +2.21% ➔ 하한선 락 1.45% 확보)",
+      "trajectory_summary": "[A전략] 진입 17분 0초경 최고 +2.21%까지 분출 후, 반락 시 실현 기준선(+1.94%)에서 확정 청산함. (보유: 17분 2초)",
+      "entry_time": "2026-10-02T09:55:11.465054+09:00",
+      "exit_time": "2026-10-02T10:12:14.030021+09:00"
     }
   ]
 }
