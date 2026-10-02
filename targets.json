@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T00:31:46.412489+09:00",
+  "updated_at": "2026-10-03T00:41:46.312107+09:00",
   "paper_trading": true,
   "queue": {
     "SUI": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 1584.0,
-      "target_entry": 1579.0,
+      "score": 82,
+      "current_price": 1580.0,
+      "target_entry": 1578.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -20,41 +20,14 @@
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
       "buy_amount_krw": 6901,
-      "ordered_volume": 4.370487650411653,
-      "order_uuid": "mock_order_916df198",
-      "order_placed": true,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.589,
-      "detailed_reason": "박스 하단 0.57% 근접 및 59% 매수비율로 지지선 반등 가능성이 높으나, 상대적으로 거래대금이 적어 보조 후보로 선정함.",
-      "created_at": "2026-10-03T00:26:40.386894+09:00",
-      "created_timestamp": 1790954800.3869076
-    },
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 6525.0,
-      "target_entry": 6520.0,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 6902,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.502,
-      "detailed_reason": "15분봉 박스권 하단 근접(0.85%), 매수 호가 우위(52.1%) 및 낮은 ATR 대비 안정적인 박스 반등(Track A) 타점 형성",
-      "created_at": "2026-10-03T00:31:46.412489+09:00",
-      "created_timestamp": 1790955106.412505
+      "entry_bid_ratio": 0.57,
+      "detailed_reason": "15분봉 박스권 하단(0.32% 이격)에서의 강한 지지력과 58.4%의 우수한 호가 매수세 흡수 턴 타점으로 트랙 A(Box Reversion) 전략 기준을 완벽히 충족함.",
+      "created_at": "2026-10-03T00:41:46.312107+09:00",
+      "created_timestamp": 1790955706.312124
     }
   }
 }
