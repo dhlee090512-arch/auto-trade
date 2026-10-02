@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "MEGA": {
-      "symbol": "MEGA/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 70.08,
-      "highest_price": 70.08,
-      "buy_amount_krw": 6906,
-      "units": 98.54452054794521,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_ad1d00e5",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1790923262.9642417,
-      "entry_time": "2026-10-02T15:41:02.964245+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1790923262.9642417,
-          70.08
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -4767,6 +4736,25 @@
       "trajectory_summary": "[A전략] 진입 5분 30초경 최고 +0.92% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 10분 33초)",
       "entry_time": "2026-10-02T13:16:30.258453+09:00",
       "exit_time": "2026-10-02T13:27:03.522985+09:00"
+    },
+    {
+      "symbol": "MEGA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 70.08,
+      "exit_price": 69.44,
+      "buy_amount_krw": 6906,
+      "profit_krw": -63,
+      "profit_pct": -0.91,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 10분 미반등 탄력 소멸 즉시 정리 (-0.91%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.10%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 10분 0초)",
+      "entry_time": "2026-10-02T15:41:02.964245+09:00",
+      "exit_time": "2026-10-02T15:51:03.112459+09:00"
     }
   ]
 }
