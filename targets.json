@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T16:35:51.218318+09:00",
+  "updated_at": "2026-10-02T16:50:51.255460+09:00",
   "paper_trading": true,
   "queue": {
     "MEGA": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 72,
-      "current_price": 65.34,
-      "target_entry": 65.16,
+      "score": 75,
+      "current_price": 64.7,
+      "target_entry": 64.67,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.49,
-      "detailed_reason": "15분봉 박스권 하단(1.07% 이격)에서의 안정적인 지지력 확인 및 매수 우위 호가 비율(47.9%)을 통한 반등 타점 확보",
-      "created_at": "2026-10-02T16:35:51.218318+09:00",
-      "created_timestamp": 1790926551.2183309
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스권 하단에 근접하여 강한 지지력을 형성하고 있으며, 호가 매수비율(50.0%)을 통한 물량 흡수 및 반등 턴 시도가 확인되어 Track A(박스 반전) 전략 기준을 충족함.",
+      "created_at": "2026-10-02T16:50:51.255460+09:00",
+      "created_timestamp": 1790927451.2554727
     }
   }
 }
