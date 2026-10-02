@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ENJ": {
+      "symbol": "ENJ/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 53.56,
+      "highest_price": 53.56,
+      "buy_amount_krw": 6909,
+      "units": 128.99551904406272,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_5b1314d0",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790943727.086783,
+      "entry_time": "2026-10-02T21:22:07.086787+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790943727.086783,
+          53.56
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
