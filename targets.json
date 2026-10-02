@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-02T08:44:57.743795+09:00",
+  "updated_at": "2026-10-02T08:59:59.335884+09:00",
   "paper_trading": true,
   "queue": {
-    "CAP": {
-      "symbol": "CAP/KRW",
-      "code": "CAP",
+    "MEGA": {
+      "symbol": "MEGA/KRW",
+      "code": "MEGA",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 95.18,
-      "target_entry": 95.07,
+      "score": 82,
+      "current_price": 67.83,
+      "target_entry": 67.73,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.533,
-      "detailed_reason": "15분봉 박스권 하단에 근접(0.22%)해 있으며, 60.8%의 양호한 매수 호가 비율과 흡수 턴 시그널이 포착되어 트랙 A(박스 반등) 전략 기준을 충족함",
-      "created_at": "2026-10-02T08:44:57.743795+09:00",
-      "created_timestamp": 1790898297.7438078
+      "entry_bid_ratio": 0.487,
+      "detailed_reason": "15분봉 박스권 하단 밀착(0.59%), 높은 매수 호가 잔량 비율(75.0%)을 활용한 전형적인 A트랙 박스 하단 반등(Reversion) 타점",
+      "created_at": "2026-10-02T08:59:59.335884+09:00",
+      "created_timestamp": 1790899199.335896
     }
   }
 }
