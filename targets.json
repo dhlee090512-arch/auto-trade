@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T10:50:11.220759+09:00",
+  "updated_at": "2026-10-02T11:15:14.816540+09:00",
   "paper_trading": true,
   "queue": {
     "CAP": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 98.0,
-      "target_entry": 98.0,
+      "score": 85,
+      "current_price": 99.45,
+      "target_entry": 99.4,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
       "tp_floor_lock": 1.1,
       "timeout_mins": 12,
       "holding_timeout_mins": 12,
-      "buy_amount_krw": 6900,
+      "buy_amount_krw": 6902,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 후 거래량 감소와 허리선(96.50) 지지 반등이라는 전형적인 C타랙 눌림목 구조를 형성하고 있으며, ATR 및 박스권 상단 인근에서의 리스크 대비 보상 비율이 우수함.",
-      "created_at": "2026-10-02T10:50:11.220759+09:00",
-      "created_timestamp": 1790905811.2207718
+      "detailed_reason": "장대양봉 발생 후 거래량이 마르며 건강한 1차 눌림목(Track C)을 형성하였고, 허리선 부근 지지 반등 가능성과 리스크 대비 보상 비율이 우수함.",
+      "created_at": "2026-10-02T11:15:14.816540+09:00",
+      "created_timestamp": 1790907314.816555
     }
   }
 }
