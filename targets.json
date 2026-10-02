@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T00:46:46.670956+09:00",
+  "updated_at": "2026-10-03T00:51:47.399769+09:00",
   "paper_trading": true,
   "queue": {
     "SUI": {
@@ -55,6 +55,33 @@
       "detailed_reason": "15분봉 박스권 하단 근접(0.27%) 및 양호한 매수 호가 잔량 비율(55.8%)을 바탕으로 한 트랙 A 박스 반등 셋업",
       "created_at": "2026-10-03T00:46:46.670956+09:00",
       "created_timestamp": 1790956006.6709688
+    },
+    "MAGIC": {
+      "symbol": "MAGIC/KRW",
+      "code": "MAGIC",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 75,
+      "current_price": 80.42,
+      "target_entry": 80.38,
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "timeout_mins": 12,
+      "holding_timeout_mins": 10,
+      "buy_amount_krw": 6901,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.509,
+      "detailed_reason": "15분봉 박스권 하단 인접(0.98%) 및 양호한 호가 매수비율(50.9%) 기반의 트랙 A 박스 리버전 타점 유효",
+      "created_at": "2026-10-03T00:51:47.399769+09:00",
+      "created_timestamp": 1790956307.3997822
     }
   }
 }
