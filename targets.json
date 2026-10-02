@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T21:31:24.481579+09:00",
+  "updated_at": "2026-10-02T21:41:26.111058+09:00",
   "paper_trading": true,
   "queue": {
     "ENJ": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 51.64,
-      "target_entry": 51.41,
+      "score": 82,
+      "current_price": 50.0,
+      "target_entry": 50.0,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.758,
-      "detailed_reason": "장대양봉 발생 후 거래량 감소 및 허리선 지지 반등 확인, 트랙 C(눌림목) 조건 충족",
-      "created_at": "2026-10-02T21:31:24.481579+09:00",
-      "created_timestamp": 1790944284.4816153
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "장대양봉 발생 후 거래량 마름과 허리선 지지 반등 확인, 트랙 C(눌림목) 조건에 정확히 부합하며 점수 기준 충족",
+      "created_at": "2026-10-02T21:41:26.111058+09:00",
+      "created_timestamp": 1790944886.1110718
     }
   }
 }
