@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T10:35:10.204422+09:00",
+  "updated_at": "2026-10-02T10:45:11.539128+09:00",
   "paper_trading": true,
   "queue": {
     "CAP": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 96.89,
-      "target_entry": 96.89,
+      "score": 85,
+      "current_price": 97.93,
+      "target_entry": 97.93,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
@@ -25,9 +25,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 이후 거래량 감소와 허리선(96.50) 지지 반등 패턴이 Track C(Pullback) 전략에 부합하며, 1차 눌림목 타점의 구조적 우위가 확인됨.",
-      "created_at": "2026-10-02T10:35:10.204422+09:00",
-      "created_timestamp": 1790904910.204435
+      "detailed_reason": "장대양봉 발생 이후 거래량 감소 및 허리선 지지 반등 확인, 트랙 C(눌림목) 전략에 부합하며 유동성과 리스크 대비 보상 비율이 우수함.",
+      "created_at": "2026-10-02T10:45:11.539128+09:00",
+      "created_timestamp": 1790905511.5391405
     }
   }
 }
