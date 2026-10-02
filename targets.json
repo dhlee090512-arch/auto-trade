@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T21:16:21.270149+09:00",
+  "updated_at": "2026-10-02T21:21:21.587573+09:00",
   "paper_trading": true,
   "queue": {
     "CAP": {
@@ -20,14 +20,41 @@
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
       "buy_amount_krw": 6908,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
+      "ordered_volume": 85.771045443258,
+      "order_uuid": "mock_order_cbe7b1c8",
+      "order_placed": true,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
       "detailed_reason": "15분봉 박스권 하단 지지 근접(1.11%) 및 호가 매수비율 50%를 활용한 전형적인 A트랙 박스 반전 타점",
       "created_at": "2026-10-02T21:16:21.270149+09:00",
       "created_timestamp": 1790943381.270161
+    },
+    "ENJ": {
+      "symbol": "ENJ/KRW",
+      "code": "ENJ",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 82,
+      "current_price": 53.72,
+      "target_entry": 53.56,
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "timeout_mins": 12,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 6909,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.604,
+      "detailed_reason": "장대양봉 발생 후 거래량이 급감하며 전형적인 1차 눌림목(Track C) 패턴을 형성함. 허리선 지지 반등 가능성이 높고 볼륨 서지 비율(2.42)과 최근 거래대금 유입이 우수하여 진입 적격 심사 기준(65점 이상)을 충족함.",
+      "created_at": "2026-10-02T21:21:21.587573+09:00",
+      "created_timestamp": 1790943681.587585
     }
   }
 }
