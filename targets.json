@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T00:29:39.022939+09:00",
+  "updated_at": "2026-10-04T00:39:40.417320+09:00",
   "paper_trading": true,
   "queue": {
     "DEBIT": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 3556.0,
-      "target_entry": 3556.0,
+      "score": 75,
+      "current_price": 3694.0,
+      "target_entry": 3694.0,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
       "tp_floor_lock": 1.1,
       "timeout_mins": 12,
       "holding_timeout_mins": 12,
-      "buy_amount_krw": 6899,
+      "buy_amount_krw": 6898,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 발생 후 거래량이 마르며 허리선(3,567.50) 부근에서 안정적인 지지 반등을 보이는 전형적인 C트랙(눌림목) 정석 패턴으로 유동성과 구조적 에지가 확인됨",
-      "created_at": "2026-10-04T00:29:39.022939+09:00",
-      "created_timestamp": 1791041379.0229518
+      "detailed_reason": "장대양봉 후 거래량 축소와 함께 허리선 지지 반등 타점이 형성된 C트랙 눌림목 정석 세팅으로 유효 유동성과 구조적 엣지 확인.",
+      "created_at": "2026-10-04T00:39:40.417320+09:00",
+      "created_timestamp": 1791041980.417333
     }
   }
 }
