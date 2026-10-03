@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "CAP": {
+      "symbol": "CAP/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 98.55,
+      "highest_price": 98.55,
+      "buy_amount_krw": 6898,
+      "units": 69.9949264332826,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_395754a7",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1790992415.5798786,
+      "entry_time": "2026-10-03T10:53:35.579882+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1790992415.5798786,
+          98.55
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
