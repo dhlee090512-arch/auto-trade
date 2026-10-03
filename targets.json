@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-03T03:27:02.615170+09:00",
+  "updated_at": "2026-10-03T10:22:47.366017+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "DEBIT": {
+      "symbol": "DEBIT/KRW",
+      "code": "DEBIT",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 6335.0,
-      "target_entry": 6310.0,
+      "score": 75,
+      "current_price": 3054.0,
+      "target_entry": 3054.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6896,
+      "buy_amount_krw": 6897,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.592,
-      "detailed_reason": "15분봉 박스권 하단에 완벽히 밀착된 상태(dist_to_low_pct 0.08%)로 리스크 대비 보상비율이 우수하며, 56%의 우호적인 호가 매수비율과 볼륨 서지(1.41)를 동반한 강한 지지 반등 가능성 확보",
-      "created_at": "2026-10-03T03:27:02.615170+09:00",
-      "created_timestamp": 1790965622.6151834
+      "entry_bid_ratio": 0.951,
+      "detailed_reason": "15분봉 박스 하단 0.73% 근접으로 우수한 리스크 리워드 제공하며, 95.2%의 높은 매수 호가 잔량 비율로 하방 경직성 확보. 트랙 A(Box Reversion) 기준 충족.",
+      "created_at": "2026-10-03T10:22:47.366017+09:00",
+      "created_timestamp": 1790990567.366029
     }
   }
 }
