@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "DEBIT": {
+      "symbol": "DEBIT/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 3661.0,
+      "highest_price": 3661.0,
+      "buy_amount_krw": 6898,
+      "units": 1.8841846490030048,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_d4c42941",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791042282.138446,
+      "entry_time": "2026-10-04T00:44:42.138449+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791042282.138446,
+          3661.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
