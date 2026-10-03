@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T00:19:38.005393+09:00",
+  "updated_at": "2026-10-04T00:24:38.937527+09:00",
   "paper_trading": true,
   "queue": {
     "DEBIT": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 3719.0,
-      "target_entry": 3719.0,
+      "score": 85,
+      "current_price": 3677.0,
+      "target_entry": 3677.0,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
@@ -25,9 +25,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 후 거래량 축소와 함께 허리선 지지 반등을 보이는 전형적인 C트랙 1차 눌림목 타점으로 유효한 구조적 에지가 확인됨.",
-      "created_at": "2026-10-04T00:19:38.005393+09:00",
-      "created_timestamp": 1791040778.005533
+      "detailed_reason": "장대양봉 후 거래량 감소 및 허리선 지지 반등 확인, Track C 눌림목 전략에 완벽히 부합하는 유동성과 구조적 우위를 보유함.",
+      "created_at": "2026-10-04T00:24:38.937527+09:00",
+      "created_timestamp": 1791041078.9375389
     }
   }
 }
