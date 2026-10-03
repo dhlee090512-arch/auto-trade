@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T10:57:50.296025+09:00",
+  "updated_at": "2026-10-03T11:42:56.040720+09:00",
   "paper_trading": true,
   "queue": {
     "DEBIT": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 3030.0,
-      "target_entry": 3026.0,
+      "score": 68,
+      "current_price": 2945.0,
+      "target_entry": 2943.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6898,
+      "buy_amount_krw": 6897,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.635,
-      "detailed_reason": "15분봉 박스권 하단(0.56% 이격)에서의 강력한 지지력 확인 및 88.1%의 압도적인 호가 매수비율을 통한 턴어라운드 흡수 타점 포착. ATR 대비 적절한 리스크 관리 가능.",
-      "created_at": "2026-10-03T10:57:50.296025+09:00",
-      "created_timestamp": 1790992670.2960386
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스 하단 1.2% 부근 지지 테스트 중이며 호가 매수비율 50.0% 기반 바닥 반등(트랙 A) 알파 포착",
+      "created_at": "2026-10-03T11:42:56.040720+09:00",
+      "created_timestamp": 1790995376.0407324
     }
   }
 }
