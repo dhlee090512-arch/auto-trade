@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T11:51:14.702228+09:00",
+  "updated_at": "2026-10-04T12:41:21.325522+09:00",
   "paper_trading": true,
   "queue": {
     "STRK": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 78,
-      "current_price": 71.22,
-      "target_entry": 71.18,
+      "score": 75,
+      "current_price": 70.21,
+      "target_entry": 70.17,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6000,
+      "buy_amount_krw": 6899,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단(0.94% 이격)에서의 견고한 지지와 호가창 매수세 유입(50%)을 통한 박스 리버전(Track A) 전략 적합성이 매우 높음",
-      "created_at": "2026-10-04T11:51:14.702228+09:00",
-      "created_timestamp": 1791082274.7022429
+      "detailed_reason": "15분봉 박스권 하단 근접(0.49%)으로 리스크 대비 보상 비율이 우수하며, 호가 매수 우위와 바닥 반등 패턴(트랙 A) 조건 충족",
+      "created_at": "2026-10-04T12:41:21.325522+09:00",
+      "created_timestamp": 1791085281.325534
     }
   }
 }
