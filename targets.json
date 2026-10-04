@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T10:36:07.863893+09:00",
+  "updated_at": "2026-10-04T10:51:08.089550+09:00",
   "paper_trading": true,
   "queue": {
     "STRK": {
@@ -12,7 +12,7 @@
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
       "current_price": 71.97,
-      "target_entry": 71.93,
+      "target_entry": 71.72,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,37 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.517,
-      "detailed_reason": "15분봉 박스 하단 0.36% 근접으로 트랙 A(박스 반등) 기준 충족. 호가 매수세 유입 확인.",
-      "created_at": "2026-10-04T10:36:07.863893+09:00",
-      "created_timestamp": 1791077767.8639069
-    },
-    "S": {
-      "symbol": "S/KRW",
-      "code": "S",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "score": 70,
-      "current_price": 55.4,
-      "target_entry": 55.34,
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 6898,
-      "ordered_volume": 0.0,
-      "order_uuid": null,
-      "order_placed": false,
-      "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.507,
-      "detailed_reason": "15분봉 박스 하단 지지 구간(0.54%)에서 흡수 턴 타점 형성, 트랙 A 전략 부합.",
-      "created_at": "2026-10-04T10:36:07.863893+09:00",
-      "created_timestamp": 1791077767.8639069
+      "entry_bid_ratio": 0.704,
+      "detailed_reason": "15분봉 박스 하단 지지(0.55%) 근접 및 높은 매수 호가 비율(73.7%)을 통한 강한 매수세 유입 확인, 박스 반등(Track A) 전략에 적합함.",
+      "created_at": "2026-10-04T10:51:08.089550+09:00",
+      "created_timestamp": 1791078668.0895627
     }
   }
 }
