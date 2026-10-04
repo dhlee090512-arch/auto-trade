@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05T00:32:53.185509+09:00",
+  "updated_at": "2026-10-05T00:52:54.931137+09:00",
   "paper_trading": true,
   "queue": {
     "PHA": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 97.78,
-      "target_entry": 97.56,
+      "current_price": 96.51,
+      "target_entry": 96.51,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6901,
+      "buy_amount_krw": 6902,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.541,
-      "detailed_reason": "15분봉 박스권 하단 근접(1.09% 이격) 및 안정적인 호가 매수 우위(50.6%)로 트랙 A(Box Reversion) 반등 매매 조건 충족",
-      "created_at": "2026-10-05T00:32:53.185509+09:00",
-      "created_timestamp": 1791127973.1855218
+      "entry_bid_ratio": 0.526,
+      "detailed_reason": "15분봉 박스권 하단(0.05% 이격) 밀착 지지 구간으로 트랙 A(Box Reversion) 반등 기대 유효. 호가 매수 우위 및 리스크 대비 보상 비율 충족.",
+      "created_at": "2026-10-05T00:52:54.931137+09:00",
+      "created_timestamp": 1791129174.9311497
     }
   }
 }
