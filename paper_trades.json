@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "STRK": {
-      "symbol": "STRK/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 73.8,
-      "highest_price": 73.8,
-      "buy_amount_krw": 6901,
-      "units": 93.50948509485096,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_6f0ffd7c",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791136400.6886878,
-      "entry_time": "2026-10-05T02:53:20.688691+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791136400.6886878,
-          73.8
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -5660,6 +5629,25 @@
       "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.12%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 10분 0초)",
       "entry_time": "2026-10-05T02:42:33.804470+09:00",
       "exit_time": "2026-10-05T02:52:33.887003+09:00"
+    },
+    {
+      "symbol": "STRK/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 73.8,
+      "exit_price": 72.91,
+      "buy_amount_krw": 6901,
+      "profit_krw": -84,
+      "profit_pct": -1.21,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⚡ 스마트 손절 (호가 붕괴 감지 26.1%, 0초 즉시 컷 -1.21%)",
+      "trajectory_summary": "[A전략] 1차 손절선 도달과 동시에 호가 매수벽 붕괴가 감지되어 슬리피지 방지를 위해 0초 칼손절함. (보유: 47분 9초)",
+      "entry_time": "2026-10-05T02:53:20.688691+09:00",
+      "exit_time": "2026-10-05T03:40:29.710054+09:00"
     }
   ]
 }
