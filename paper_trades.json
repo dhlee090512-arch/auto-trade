@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "SAND": {
-      "symbol": "SAND/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 94.55,
-      "highest_price": 94.55,
-      "buy_amount_krw": 6904,
-      "units": 73.01956636700159,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_df22094e",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791212182.4320922,
-      "entry_time": "2026-10-05T23:56:22.432096+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791212182.4320922,
-          94.55
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -5869,6 +5838,25 @@
       "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.86%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 130분 14초)",
       "entry_time": "2026-10-05T16:34:50.992019+09:00",
       "exit_time": "2026-10-05T18:45:05.034767+09:00"
+    },
+    {
+      "symbol": "SAND/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 94.55,
+      "exit_price": 94.06,
+      "buy_amount_krw": 6904,
+      "profit_krw": -36,
+      "profit_pct": -0.52,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 10분 미반등 탄력 소멸 즉시 정리 (-0.52%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.00%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 10분 0초)",
+      "entry_time": "2026-10-05T23:56:22.432096+09:00",
+      "exit_time": "2026-10-06T00:06:22.505760+09:00"
     }
   ]
 }
