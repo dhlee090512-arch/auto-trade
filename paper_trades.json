@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "CARV": {
-      "symbol": "CARV/KRW",
-      "track": "C",
-      "track_name": "1차 눌림목",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 72.48,
-      "highest_price": 72.48,
-      "buy_amount_krw": 6903,
-      "units": 95.24006622516556,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_8b92a53b",
-      "sl_pct": -1.1,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 12,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791174565.6055124,
-      "entry_time": "2026-10-05T13:29:25.605516+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791174565.6055124,
-          72.48
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -5812,6 +5781,25 @@
       "trajectory_summary": "[A전략] 1차 손절선 도달과 동시에 호가 매수벽 붕괴가 감지되어 슬리피지 방지를 위해 0초 칼손절함. (보유: 10분 39초)",
       "entry_time": "2026-10-05T12:59:19.123461+09:00",
       "exit_time": "2026-10-05T13:09:58.611952+09:00"
+    },
+    {
+      "symbol": "CARV/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 72.48,
+      "exit_price": 71.39,
+      "buy_amount_krw": 6903,
+      "profit_krw": -104,
+      "profit_pct": -1.5,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-1.50%) 즉시 탈출",
+      "trajectory_summary": "[C전략] 보유 시간 7분 37초 동안 최저 -1.50% ~ 최고 +0.17% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-05T13:29:25.605516+09:00",
+      "exit_time": "2026-10-05T13:37:03.579846+09:00"
     }
   ]
 }
