@@ -27,6 +27,40 @@
         [
           1791171561.1920528,
           96.25
+        ],
+        [
+          1791171561.1920528,
+          96.19
+        ]
+      ]
+    },
+    "ORCA": {
+      "symbol": "ORCA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 2663.0,
+      "highest_price": 2663.0,
+      "buy_amount_krw": 6000,
+      "units": 2.253098009763425,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_d120e2df",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791171564.6259968,
+      "entry_time": "2026-10-05T12:39:24.626000+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791171564.6259968,
+          2663.0
         ]
       ]
     }
