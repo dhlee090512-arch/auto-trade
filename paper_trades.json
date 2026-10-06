@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "ORCA": {
-      "symbol": "ORCA/KRW",
-      "track": "C",
-      "track_name": "1차 눌림목",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 4137.0,
-      "highest_price": 4137.0,
-      "buy_amount_krw": 8629,
-      "units": 2.085810974135847,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_bedb16d9",
-      "sl_pct": -1.1,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 12,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791310633.578112,
-      "entry_time": "2026-10-07T03:17:13.578116+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791310633.578112,
-          4137.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -6287,6 +6256,25 @@
       "trajectory_summary": "[A전략] 보유 시간 28분 7초 동안 최저 -1.66% ~ 최고 +0.78% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-07T01:37:48.362643+09:00",
       "exit_time": "2026-10-07T02:05:55.697911+09:00"
+    },
+    {
+      "symbol": "ORCA/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 4137.0,
+      "exit_price": 4074.0,
+      "buy_amount_krw": 8629,
+      "profit_krw": -131,
+      "profit_pct": -1.52,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-1.64%) 즉시 탈출",
+      "trajectory_summary": "[C전략] 보유 시간 44초 동안 최저 -1.64% ~ 최고 +0.00% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-07T03:17:13.578116+09:00",
+      "exit_time": "2026-10-07T03:17:58.522643+09:00"
     }
   ]
 }
