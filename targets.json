@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T18:43:24.192162+09:00",
+  "updated_at": "2026-10-06T18:58:24.954581+09:00",
   "paper_trading": true,
   "queue": {
     "AEON": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 92.74,
-      "target_entry": 92.69,
+      "score": 75,
+      "current_price": 92.11,
+      "target_entry": 91.77,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.588,
-      "detailed_reason": "15분봉 박스 하단 지지(1.03%)와 준수한 거래량 급증(3.4배), 매수 우세 호가 비율(54.4%)을 동반한 트랙 A(Box Reversion) 핵심 반등 타점 충족",
-      "created_at": "2026-10-06T18:43:24.192162+09:00",
-      "created_timestamp": 1791279804.1921735
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스권 하단(0.37% 이격)에서의 안정적인 지지력 확인 및 호가창 매수세 유입(50.0%)을 통한 반등(Track A: Box Reversion) 기대 가치 충족",
+      "created_at": "2026-10-06T18:58:24.954581+09:00",
+      "created_timestamp": 1791280704.954624
     }
   }
 }
