@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "AEON": {
+      "symbol": "AEON/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 92.69,
+      "highest_price": 92.69,
+      "buy_amount_krw": 6905,
+      "units": 74.49563059661237,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_7861dae5",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791279970.1585224,
+      "entry_time": "2026-10-06T18:46:10.158525+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791279970.1585224,
+          92.69
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
