@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "EDU": {
-      "symbol": "EDU/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 86.9,
-      "highest_price": 86.9,
-      "buy_amount_krw": 6903,
-      "units": 79.4361334867664,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_3931a097",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791316936.379429,
-      "entry_time": "2026-10-07T05:02:16.379433+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791316936.379429,
-          86.9
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -6325,6 +6294,25 @@
       "trajectory_summary": "[A전략] 보유 시간 5분 3초 동안 최저 -1.65% ~ 최고 +0.37% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-07T04:56:58.655120+09:00",
       "exit_time": "2026-10-07T05:02:01.860465+09:00"
+    },
+    {
+      "symbol": "EDU/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 86.9,
+      "exit_price": 89.61,
+      "buy_amount_krw": 6903,
+      "profit_krw": 215,
+      "profit_pct": 3.12,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "📈 트레일링 익절 (고점 +3.54% ➔ 하한선 락 3.00% 확보)",
+      "trajectory_summary": "[A전략] 진입 11분 24초경 최고 +3.54%까지 분출 후, 반락 시 실현 기준선(+3.12%)에서 확정 청산함. (보유: 11분 54초)",
+      "entry_time": "2026-10-07T05:02:16.379433+09:00",
+      "exit_time": "2026-10-07T05:14:11.028053+09:00"
     }
   ]
 }
