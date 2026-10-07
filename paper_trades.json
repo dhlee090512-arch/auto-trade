@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "NMR": {
-      "symbol": "NMR/KRW",
-      "track": "B",
-      "track_name": "모멘텀 돌파",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 24120.0,
-      "highest_price": 24120.0,
-      "buy_amount_krw": 6000,
-      "units": 0.24875621890547264,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_0eaa27e2",
-      "sl_pct": -1.2,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 8,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791340016.724706,
-      "entry_time": "2026-10-07T11:26:56.724710+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791340016.724706,
-          24120.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -6420,6 +6389,25 @@
       "trajectory_summary": "[A전략] 보유 시간 2분 39초 동안 최저 -1.68% ~ 최고 +0.05% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-07T11:20:54.509645+09:00",
       "exit_time": "2026-10-07T11:23:33.822853+09:00"
+    },
+    {
+      "symbol": "NMR/KRW",
+      "track": "B",
+      "track_name": "모멘텀 돌파",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 24120.0,
+      "exit_price": 23750.0,
+      "buy_amount_krw": 6000,
+      "profit_krw": -92,
+      "profit_pct": -1.53,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-1.62%) 즉시 탈출",
+      "trajectory_summary": "[B전략] 보유 시간 3분 0초 동안 최저 -1.62% ~ 최고 +0.17% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-07T11:26:56.724710+09:00",
+      "exit_time": "2026-10-07T11:29:57.100267+09:00"
     }
   ]
 }
