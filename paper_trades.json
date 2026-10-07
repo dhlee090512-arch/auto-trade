@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "ORCA": {
+      "symbol": "ORCA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 3929.0,
+      "highest_price": 3929.0,
+      "buy_amount_krw": 6893,
+      "units": 1.7543904301348945,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_ae21d981",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791345594.5247283,
+      "entry_time": "2026-10-07T12:59:54.524732+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791345594.5247283,
+          3929.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
