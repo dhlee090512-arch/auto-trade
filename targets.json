@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-07T10:55:40.607865+09:00",
+  "updated_at": "2026-10-07T11:20:45.694408+09:00",
   "paper_trading": true,
   "queue": {
-    "MAGIC": {
-      "symbol": "MAGIC/KRW",
-      "code": "MAGIC",
+    "ORCA": {
+      "symbol": "ORCA/KRW",
+      "code": "ORCA",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 96.8,
-      "target_entry": 96.75,
+      "score": 82,
+      "current_price": 4051.0,
+      "target_entry": 4046.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6900,
+      "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.549,
-      "detailed_reason": "15분봉 박스권 하단 근접(0.83%) 및 호가창 매수세 유입(48.2%)을 통한 박스 하단 반등(Track A) 타점 충족",
-      "created_at": "2026-10-07T10:55:40.607865+09:00",
-      "created_timestamp": 1791338140.60788
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스 하단 지지선 근접(0.62%)으로 리스크 대비 보상 비율이 우수하며, 호가 매수비율 50%의 안정적인 흡수 턴 타점이 포착되어 박스 반등(Track A) 전략에 최적화됨.",
+      "created_at": "2026-10-07T11:20:45.694408+09:00",
+      "created_timestamp": 1791339645.6944196
     }
   }
 }
