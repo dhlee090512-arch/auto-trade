@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "ORCA": {
-      "symbol": "ORCA/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 3929.0,
-      "highest_price": 3929.0,
-      "buy_amount_krw": 6893,
-      "units": 1.7543904301348945,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_ae21d981",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791345594.5247283,
-      "entry_time": "2026-10-07T12:59:54.524732+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791345594.5247283,
-          3929.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -6477,6 +6446,25 @@
       "trajectory_summary": "[A전략] 진입 5분 23초경 최고 +1.58%까지 분출 후, 반락 시 실현 기준선(+1.34%)에서 확정 청산함. (보유: 5분 37초)",
       "entry_time": "2026-10-07T12:45:54.474664+09:00",
       "exit_time": "2026-10-07T12:51:31.499492+09:00"
+    },
+    {
+      "symbol": "ORCA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 3929.0,
+      "exit_price": 3976.0,
+      "buy_amount_krw": 6893,
+      "profit_krw": 83,
+      "profit_pct": 1.2,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "📈 트레일링 익절 (고점 +1.45% ➔ 하한선 락 1.00% 확보)",
+      "trajectory_summary": "[A전략] 진입 1분 50초경 최고 +1.45%까지 분출 후, 반락 시 실현 기준선(+1.20%)에서 확정 청산함. (보유: 1분 56초)",
+      "entry_time": "2026-10-07T12:59:54.524732+09:00",
+      "exit_time": "2026-10-07T13:01:51.446515+09:00"
     }
   ]
 }
