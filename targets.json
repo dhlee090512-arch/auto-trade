@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-07T12:45:54.087695+09:00",
+  "updated_at": "2026-10-07T12:50:55.020923+09:00",
   "paper_trading": true,
   "queue": {
-    "SAND": {
-      "symbol": "SAND/KRW",
-      "code": "SAND",
+    "ORCA": {
+      "symbol": "ORCA/KRW",
+      "code": "ORCA",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 92.52,
-      "target_entry": 92.52,
+      "score": 85,
+      "current_price": 3940.0,
+      "target_entry": 3929.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.607,
-      "detailed_reason": "15분봉 박스권 하단 인근(0.72%) 위치하며 매수 우위 호가 비율(58.2%)을 기록하여 트랙 A(Box Reversion) 전략 기준 충족",
-      "created_at": "2026-10-07T12:45:54.087695+09:00",
-      "created_timestamp": 1791344754.087707
+      "entry_bid_ratio": 0.766,
+      "detailed_reason": "15분봉 박스권 하단(0.38% 이격)에서의 강력한 지지력과 68.8%의 높은 호가 매수 우위 비율을 바탕으로 한 박스 반등(Track A) 최적의 셋업.",
+      "created_at": "2026-10-07T12:50:55.020923+09:00",
+      "created_timestamp": 1791345055.0209365
     }
   }
 }
