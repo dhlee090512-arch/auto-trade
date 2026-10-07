@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-07T11:20:45.694408+09:00",
+  "updated_at": "2026-10-07T11:25:40.072990+09:00",
   "paper_trading": true,
   "queue": {
-    "ORCA": {
-      "symbol": "ORCA/KRW",
-      "code": "ORCA",
-      "track": "A",
-      "track_name": "바닥 반등",
+    "NMR": {
+      "symbol": "NMR/KRW",
+      "code": "NMR",
+      "track": "B",
+      "track_name": "모멘텀 돌파",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 4051.0,
-      "target_entry": 4046.0,
-      "sl_pct": -1.0,
+      "score": 88,
+      "current_price": 24170.0,
+      "target_entry": 24120.0,
+      "sl_pct": -1.2,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
+      "holding_timeout_mins": 8,
       "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스 하단 지지선 근접(0.62%)으로 리스크 대비 보상 비율이 우수하며, 호가 매수비율 50%의 안정적인 흡수 턴 타점이 포착되어 박스 반등(Track A) 전략에 최적화됨.",
-      "created_at": "2026-10-07T11:20:45.694408+09:00",
-      "created_timestamp": 1791339645.6944196
+      "entry_bid_ratio": 0.76,
+      "detailed_reason": "트랙 B(돌파) 조건 완벽 충족. 15분 거래량 7.51배 급증 및 매수호가 우위(71.1%)로 당일 고점 돌파 직전의 강한 모멘텀 보유.",
+      "created_at": "2026-10-07T11:25:40.072990+09:00",
+      "created_timestamp": 1791339940.0730028
     }
   }
 }
