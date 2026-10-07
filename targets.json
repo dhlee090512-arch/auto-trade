@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-07T10:25:39.390291+09:00",
+  "updated_at": "2026-10-07T10:30:39.670465+09:00",
   "paper_trading": true,
   "queue": {
-    "ORCA": {
-      "symbol": "ORCA/KRW",
-      "code": "ORCA",
-      "track": "A",
-      "track_name": "바닥 반등",
+    "SAND": {
+      "symbol": "SAND/KRW",
+      "code": "SAND",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 4215.0,
-      "target_entry": 4210.0,
-      "sl_pct": -1.0,
+      "current_price": 98.25,
+      "target_entry": 98.02,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
+      "holding_timeout_mins": 12,
       "buy_amount_krw": 6901,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.593,
-      "detailed_reason": "15분봉 박스 하단 1% 이내 근접(0.96%) 및 매수 우위 호가 비율(60.2%) 확인. 트랙 A 박스 하단 반등 조건 충족.",
-      "created_at": "2026-10-07T10:25:39.390291+09:00",
-      "created_timestamp": 1791336339.3903039
+      "entry_bid_ratio": 0.404,
+      "detailed_reason": "장대양봉 발생 후 거래량 감소와 함께 주요 지지선(허리선) 부근에서 안정적인 반등 흐름을 보여 Track C(눌림목) 전략에 부합함",
+      "created_at": "2026-10-07T10:30:39.670465+09:00",
+      "created_timestamp": 1791336639.670478
     }
   }
 }
