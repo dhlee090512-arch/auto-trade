@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-07T13:36:02.212240+09:00",
+  "updated_at": "2026-10-07T13:56:01.687148+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "ORCA": {
+      "symbol": "ORCA/KRW",
+      "code": "ORCA",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 6675.0,
-      "target_entry": 6665.0,
+      "score": 78,
+      "current_price": 3898.0,
+      "target_entry": 3898.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6893,
+      "buy_amount_krw": 6892,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.69,
-      "detailed_reason": "15분봉 박스권 하단 밀착 지지(0.07%) 및 우수한 매수 호가 잔량비(64.5%)로 Track A 박스 반등 타점에 최적합.",
-      "created_at": "2026-10-07T13:36:02.212240+09:00",
-      "created_timestamp": 1791347762.2122545
+      "entry_bid_ratio": 0.603,
+      "detailed_reason": "15분봉 박스권 하단 근접(0.72%) 및 높은 매수 호가 우위(59.6%)를 통한 바닥 반등(Track A) 복합 알파 타점 확보",
+      "created_at": "2026-10-07T13:56:01.687148+09:00",
+      "created_timestamp": 1791348961.68716
     }
   }
 }
