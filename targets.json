@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T03:15:59.716805+09:00",
+  "updated_at": "2026-10-09T03:20:49.180928+09:00",
   "paper_trading": true,
   "queue": {
     "OGN": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 82,
-      "current_price": 64.35,
-      "target_entry": 64.32,
+      "current_price": 65.07,
+      "target_entry": 64.77,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
       "tp_floor_lock": 1.1,
       "timeout_mins": 12,
       "holding_timeout_mins": 12,
-      "buy_amount_krw": 6000,
+      "buy_amount_krw": 6876,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.546,
-      "detailed_reason": "장대양봉 직후 거래량 감소하며 허리선 지지 테스트 완료. Track C(눌림목) 전략에 부합하는 높은 구조적 우위 확인.",
-      "created_at": "2026-10-09T03:15:59.716805+09:00",
-      "created_timestamp": 1791483359.7168186
+      "entry_bid_ratio": 0.797,
+      "detailed_reason": "장대양봉 출현 후 거래량 감소와 함께 주요 허리선 지지를 확인한 전형적인 C트랙 1차 눌림목 타점으로 유동성과 구조적 엣지가 우수함.",
+      "created_at": "2026-10-09T03:20:49.180928+09:00",
+      "created_timestamp": 1791483649.1809425
     }
   }
 }
