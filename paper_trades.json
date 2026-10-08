@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "SAND": {
+      "symbol": "SAND/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 93.81,
+      "highest_price": 93.81,
+      "buy_amount_krw": 6879,
+      "units": 73.32906939558683,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_70965dfb",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791473158.513287,
+      "entry_time": "2026-10-09T00:25:58.513291+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791473158.513287,
+          93.81
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
