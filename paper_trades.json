@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "RLC": {
+      "symbol": "RLC/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1310.0,
+      "highest_price": 1310.0,
+      "buy_amount_krw": 6000,
+      "units": 4.580152671755725,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_e0b3a8e2",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791483048.3553061,
+      "entry_time": "2026-10-09T03:10:48.355308+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791483048.3553061,
+          1310.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
