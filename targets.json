@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T03:05:45.089449+09:00",
+  "updated_at": "2026-10-09T03:10:47.893212+09:00",
   "paper_trading": true,
   "queue": {
     "RLC": {
@@ -10,9 +10,9 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 1304.0,
-      "target_entry": 1301.0,
+      "score": 85,
+      "current_price": 1310.0,
+      "target_entry": 1310.0,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
@@ -24,10 +24,37 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.318,
-      "detailed_reason": "장대양봉 직후 거래량 감소(마름 현상)와 함께 허리선(1,289원) 부근 지지력을 확인한 전형적인 1차 눌림목(Track C) 패턴으로 리스크 대비 기대 수익비가 우수함.",
-      "created_at": "2026-10-09T03:05:45.089449+09:00",
-      "created_timestamp": 1791482745.0894632
+      "entry_bid_ratio": 0.661,
+      "detailed_reason": "장대양봉 발생 후 거래량 마름과 허리선(1,289.00) 지지 반등 타점이 명확하며, 호가 불균형 및 15분 ATR 대비 리스크 관리 조건이 우수함.",
+      "created_at": "2026-10-09T03:10:47.893212+09:00",
+      "created_timestamp": 1791483047.8932245
+    },
+    "OGN": {
+      "symbol": "OGN/KRW",
+      "code": "OGN",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "score": 75,
+      "current_price": 62.72,
+      "target_entry": 62.72,
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "timeout_mins": 12,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 6000,
+      "ordered_volume": 0.0,
+      "order_uuid": null,
+      "order_placed": false,
+      "bid_breach_start_time": null,
+      "entry_bid_ratio": 0.719,
+      "detailed_reason": "거래량 폭증 후 안정적인 거래량 감소와 허리선(62.19) 부근 지지 테스트 완료로 트랙 C(눌림목) 조건에 부합함.",
+      "created_at": "2026-10-09T03:10:47.893212+09:00",
+      "created_timestamp": 1791483047.8932245
     }
   }
 }
