@@ -1,32 +1,32 @@
 {
   "active_positions": {
-    "CAP": {
-      "symbol": "CAP/KRW",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 97.85,
-      "highest_price": 97.85,
-      "buy_amount_krw": 6889,
-      "units": 70.40367910066429,
+      "entry_price": 7185.0,
+      "highest_price": 7185.0,
+      "buy_amount_krw": 6884,
+      "units": 0.958107167710508,
       "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_70ffbe23",
+      "buy_order_uuid": "mock_order_73d91da8",
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "holding_timeout_mins": 10,
       "sl_breach_start_time": null,
-      "entry_timestamp": 1791390482.6690354,
-      "entry_time": "2026-10-08T01:28:02.669039+09:00",
+      "entry_timestamp": 1791429606.2749417,
+      "entry_time": "2026-10-08T12:20:06.274945+09:00",
       "locked_floor_profit_pct": 0.0,
       "breakeven_locked": false,
       "price_history": [
         [
-          1791390482.6690354,
-          97.85
+          1791429606.2749417,
+          7185.0
         ]
       ]
     }
@@ -6819,6 +6819,25 @@
       "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.87%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 39분 8초)",
       "entry_time": "2026-10-07T22:27:43.534760+09:00",
       "exit_time": "2026-10-07T23:06:52.500249+09:00"
+    },
+    {
+      "symbol": "CAP/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 97.85,
+      "exit_price": 98.73,
+      "buy_amount_krw": 6889,
+      "profit_krw": 62,
+      "profit_pct": 0.9,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 30분 만료 2차 분출 부재 안전 정리 (0.90%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +1.15%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 30분 0초)",
+      "entry_time": "2026-10-08T01:28:02.669039+09:00",
+      "exit_time": "2026-10-08T01:58:03.220817+09:00"
     }
   ]
 }
