@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-08T19:50:04.546032+09:00",
+  "updated_at": "2026-10-08T20:25:08.809237+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "SAND": {
+      "symbol": "SAND/KRW",
+      "code": "SAND",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 6990.0,
-      "target_entry": 6985.0,
+      "score": 75,
+      "current_price": 99.56,
+      "target_entry": 99.53,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6884,
+      "buy_amount_krw": 6883,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.621,
-      "detailed_reason": "15분봉 박스권 하단에 근접(0.14%)하여 뛰어난 리스크 대비 보상 비율을 제공하며, 61.9%의 높은 호가 매수세 유입으로 바닥 반등(Track A) 조건에 완벽히 부합함.",
-      "created_at": "2026-10-08T19:50:04.546032+09:00",
-      "created_timestamp": 1791456604.546044
+      "entry_bid_ratio": 0.45,
+      "detailed_reason": "15분봉 박스 하단 지지 및 호가 매수비율 우위로 인한 반등 기대",
+      "created_at": "2026-10-08T20:25:08.809237+09:00",
+      "created_timestamp": 1791458708.8092542
     }
   }
 }
