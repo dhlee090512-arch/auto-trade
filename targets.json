@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-09T01:15:27.790317+09:00",
+  "updated_at": "2026-10-09T01:50:52.857774+09:00",
   "paper_trading": true,
   "queue": {
-    "SUI": {
-      "symbol": "SUI/KRW",
-      "code": "SUI",
+    "SAND": {
+      "symbol": "SAND/KRW",
+      "code": "SAND",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 82,
-      "current_price": 1416.0,
-      "target_entry": 1413.0,
+      "score": 75,
+      "current_price": 92.2,
+      "target_entry": 92.02,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.601,
-      "detailed_reason": "15분봉 박스 하단 지지선 근접(1.07%) 및 호가창 매수 우위(54%)를 통한 박스 반등(Track A) 알파 포착",
-      "created_at": "2026-10-09T01:15:27.790317+09:00",
-      "created_timestamp": 1791476127.7903295
+      "entry_bid_ratio": 0.556,
+      "detailed_reason": "15분봉 박스권 하단에 근접(0.26%)하여 호가 매수비율(67.3%)이 우세한 상태에서 지지 반등이 예상되는 A트랙(Box Reversion) 최적 셋업",
+      "created_at": "2026-10-09T01:50:52.857774+09:00",
+      "created_timestamp": 1791478252.8577876
     }
   }
 }
