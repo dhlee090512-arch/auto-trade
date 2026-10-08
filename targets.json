@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-08T01:27:27.641487+09:00",
+  "updated_at": "2026-10-08T12:19:10.822931+09:00",
   "paper_trading": true,
   "queue": {
-    "CAP": {
-      "symbol": "CAP/KRW",
-      "code": "CAP",
+    "NEAR": {
+      "symbol": "NEAR/KRW",
+      "code": "NEAR",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 72,
-      "current_price": 98.05,
-      "target_entry": 97.85,
+      "score": 82,
+      "current_price": 7205.0,
+      "target_entry": 7185.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6889,
+      "buy_amount_krw": 6884,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.412,
-      "detailed_reason": "15분봉 박스 하단 0.97% 근접 구간으로 Track A(Box Reversion) 반등 전략에 완벽히 부합하며, 호가 매수비율(51.7%)의 흡수 압력이 유효함.",
-      "created_at": "2026-10-08T01:27:27.641487+09:00",
-      "created_timestamp": 1791390447.641499
+      "entry_bid_ratio": 0.637,
+      "detailed_reason": "15분봉 박스권 하단(7200)에 근접하여 강한 지지력을 보이고 있으며, 64.6%의 높은 매수 호가 비율과 거래량 흡수 턴 시그널이 포착되어 박스 반등(Track A) 전략에 매우 적합함.",
+      "created_at": "2026-10-08T12:19:10.822931+09:00",
+      "created_timestamp": 1791429550.822944
     }
   }
 }
