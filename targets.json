@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-08T13:44:21.388979+09:00",
+  "updated_at": "2026-10-08T13:49:21.570633+09:00",
   "paper_trading": true,
   "queue": {
-    "NEAR": {
-      "symbol": "NEAR/KRW",
-      "code": "NEAR",
+    "QUID": {
+      "symbol": "QUID/KRW",
+      "code": "QUID",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 7250.0,
-      "target_entry": 7245.0,
+      "current_price": 90.88,
+      "target_entry": 90.83,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단 근접(1.11% 이격) 및 안정적인 호가 매수세 흡수 턴 타점으로 트랙 A(Box Reversion) 전략에 부합함",
-      "created_at": "2026-10-08T13:44:21.388979+09:00",
-      "created_timestamp": 1791434661.3889916
+      "entry_bid_ratio": 0.836,
+      "detailed_reason": "15분봉 박스권 하단 밀착(0.97%) 상태에서 75.2%의 높은 매수 호가 잔량 비율을 기록하며 하방 경직성 확보, 틱 비율 및 거래대금 유입 시 반등 확률 높음.",
+      "created_at": "2026-10-08T13:49:21.570633+09:00",
+      "created_timestamp": 1791434961.5706463
     }
   }
 }
