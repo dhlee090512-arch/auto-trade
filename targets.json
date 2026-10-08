@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-08T13:49:21.570633+09:00",
+  "updated_at": "2026-10-08T16:39:46.208396+09:00",
   "paper_trading": true,
   "queue": {
-    "QUID": {
-      "symbol": "QUID/KRW",
-      "code": "QUID",
+    "PROM": {
+      "symbol": "PROM/KRW",
+      "code": "PROM",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 90.88,
-      "target_entry": 90.83,
+      "score": 76,
+      "current_price": 7560.0,
+      "target_entry": 7555.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 8601,
+      "buy_amount_krw": 8606,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.836,
-      "detailed_reason": "15분봉 박스권 하단 밀착(0.97%) 상태에서 75.2%의 높은 매수 호가 잔량 비율을 기록하며 하방 경직성 확보, 틱 비율 및 거래대금 유입 시 반등 확률 높음.",
-      "created_at": "2026-10-08T13:49:21.570633+09:00",
-      "created_timestamp": 1791434961.5706463
+      "entry_bid_ratio": 0.603,
+      "detailed_reason": "15분봉 박스권 하단에 매우 근접(0.27%)하여 위치하며, 60.3%의 견조한 매수 호가 비율과 흡수 턴 시그널이 확인되어 트랙 A 박스 반등 전략에 부합함.",
+      "created_at": "2026-10-08T16:39:46.208396+09:00",
+      "created_timestamp": 1791445186.2084112
     }
   }
 }
