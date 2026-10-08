@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T06:56:21.184685+09:00",
+  "updated_at": "2026-10-09T08:51:50.165827+09:00",
   "paper_trading": true,
   "queue": {
     "OGN": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 65.07,
-      "target_entry": 65.04,
+      "current_price": 62.14,
+      "target_entry": 62.11,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6879,
+      "buy_amount_krw": 6881,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스권 하단(0.54% 근접) 지지 테스트 완료 및 호가창 매수비율 50% 균형을 통한 바닥 반등(트랙 A) 스캘핑 우위 확보.",
-      "created_at": "2026-10-09T06:56:21.184685+09:00",
-      "created_timestamp": 1791496581.1846974
+      "detailed_reason": "15분봉 박스 하단 근접(0.71%)으로 반전 트랙 A(Box Reversion) 요건 완벽 충족. 호가 매수세 흡수 및 타점 유효.",
+      "created_at": "2026-10-09T08:51:50.165827+09:00",
+      "created_timestamp": 1791503510.1658409
     }
   }
 }
