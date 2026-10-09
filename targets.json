@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T13:17:21.570367+09:00",
+  "updated_at": "2026-10-09T13:32:23.315107+09:00",
   "paper_trading": true,
   "queue": {
     "OGN": {
@@ -11,23 +11,23 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 82,
-      "current_price": 63.9,
-      "target_entry": 63.9,
+      "current_price": 62.99,
+      "target_entry": 62.99,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
       "tp_floor_lock": 1.1,
       "timeout_mins": 12,
       "holding_timeout_mins": 12,
-      "buy_amount_krw": 6886,
+      "buy_amount_krw": 6885,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 직후 거래량 감소(Volume Dry-up) 및 1차 눌림목 허리선 지지 반등 조건 충족, Track C 풀백 전략에 완벽히 부합하여 승인.",
-      "created_at": "2026-10-09T13:17:21.570367+09:00",
-      "created_timestamp": 1791519441.5703802
+      "detailed_reason": "장대양봉 직후 거래량 감소(숨고르기)와 허리선 지지 반등 패턴이 명확하며, ATR 대비 적절한 손익비와 리스크 관리가 가능한 우수 C트랙 눌림목 셋업",
+      "created_at": "2026-10-09T13:32:23.315107+09:00",
+      "created_timestamp": 1791520343.3151214
     }
   }
 }
