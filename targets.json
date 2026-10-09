@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-10T00:29:04.696369+09:00",
+  "updated_at": "2026-10-10T00:34:05.691342+09:00",
   "paper_trading": true,
   "queue": {
-    "KAIA": {
-      "symbol": "KAIA/KRW",
-      "code": "KAIA",
-      "track": "A",
-      "track_name": "바닥 반등",
+    "PEAQ": {
+      "symbol": "PEAQ/KRW",
+      "code": "PEAQ",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 69.85,
-      "target_entry": 69.8,
-      "sl_pct": -1.0,
+      "score": 82,
+      "current_price": 62.99,
+      "target_entry": 62.84,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
+      "holding_timeout_mins": 12,
       "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.439,
-      "detailed_reason": "15분봉 박스 하단 근접(0.62%) 및 매수 호가 흡수 턴 타점으로 트랙 A 박스 반등 전략에 적합함.",
-      "created_at": "2026-10-10T00:29:04.696369+09:00",
-      "created_timestamp": 1791559744.696381
+      "entry_bid_ratio": 0.535,
+      "detailed_reason": "Track C (1차 눌림목) 전략으로 장대양봉 후 거래량 감소 및 허리선 지지 반등 타점이 명확하며 비드 비율과 리스크 대비 보상 비율이 우수함.",
+      "created_at": "2026-10-10T00:34:05.691342+09:00",
+      "created_timestamp": 1791560045.691355
     }
   }
 }
