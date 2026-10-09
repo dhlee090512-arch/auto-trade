@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "OGN": {
+      "symbol": "OGN/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 56.35,
+      "highest_price": 56.35,
+      "buy_amount_krw": 6882,
+      "units": 122.12954747116237,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_1b0ddb4e",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791506202.72903,
+      "entry_time": "2026-10-09T09:36:42.729034+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791506202.72903,
+          56.35
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
