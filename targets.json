@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T15:37:46.495373+09:00",
+  "updated_at": "2026-10-09T15:52:47.063728+09:00",
   "paper_trading": true,
   "queue": {
     "SAND": {
@@ -11,8 +11,8 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 97.4,
-      "target_entry": 97.3,
+      "current_price": 97.41,
+      "target_entry": 97.36,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
@@ -24,10 +24,10 @@
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.452,
-      "detailed_reason": "15분봉 박스권 하단에 근접하여 반등 탄력이 높으며, 호가 매수 우위와 적절한 변동성을 확보하여 트랙 A(Box Reversion) 전략 기준 충족",
-      "created_at": "2026-10-09T15:37:46.495373+09:00",
-      "created_timestamp": 1791527866.4953864
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스권 하단에 근접하여 0.37% 이격도를 보이며, 호가 매수비율 50.0%의 흡수 턴 타점으로 트랙 A(박스 반등) 전략에 적합함.",
+      "created_at": "2026-10-09T15:52:47.063728+09:00",
+      "created_timestamp": 1791528767.0637403
     }
   }
 }
