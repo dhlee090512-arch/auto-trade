@@ -19,13 +19,13 @@
       "tp_floor_lock": 1.0,
       "holding_timeout_mins": 10,
       "sl_breach_start_time": null,
-      "entry_timestamp": 1791545604.5887287,
-      "entry_time": "2026-10-09T20:33:24.588732+09:00",
+      "entry_timestamp": 1791545611.0192866,
+      "entry_time": "2026-10-09T20:33:31.019290+09:00",
       "locked_floor_profit_pct": 0.0,
       "breakeven_locked": false,
       "price_history": [
         [
-          1791545604.5887287,
+          1791545611.0192866,
           1401.0
         ]
       ]
