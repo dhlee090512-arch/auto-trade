@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "PEAQ": {
-      "symbol": "PEAQ/KRW",
-      "track": "C",
-      "track_name": "1차 눌림목",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 61.82,
-      "highest_price": 61.82,
-      "buy_amount_krw": 6000,
-      "units": 97.05596894208993,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_3770bcc5",
-      "sl_pct": -1.1,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 12,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791561693.120929,
-      "entry_time": "2026-10-10T01:01:33.120932+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791561693.120929,
-          61.82
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -8054,6 +8023,25 @@
       "trajectory_summary": "[A전략] 진입 26분 22초경 최고 +1.72%까지 분출 후, 반락 시 실현 기준선(+1.48%)에서 확정 청산함. (보유: 26분 24초)",
       "entry_time": "2026-10-10T00:32:42.941104+09:00",
       "exit_time": "2026-10-10T00:59:07.936229+09:00"
+    },
+    {
+      "symbol": "PEAQ/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 61.82,
+      "exit_price": 60.89,
+      "buy_amount_krw": 6000,
+      "profit_krw": -90,
+      "profit_pct": -1.5,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🚨 비상 하드 손절선 도달 (-1.60%) 즉시 탈출",
+      "trajectory_summary": "[C전략] 보유 시간 7분 29초 동안 최저 -1.60% ~ 최고 +0.63% 흐름을 보인 후 기준선에 맞춰 정리함.",
+      "entry_time": "2026-10-10T01:01:33.120932+09:00",
+      "exit_time": "2026-10-10T01:09:02.275965+09:00"
     }
   ]
 }
