@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "BTR": {
+      "symbol": "BTR/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 68.02,
+      "highest_price": 68.02,
+      "buy_amount_krw": 6884,
+      "units": 101.20552778594532,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_dacb2670",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791539361.5096796,
+      "entry_time": "2026-10-09T18:49:21.509683+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791539361.5096796,
+          68.02
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
