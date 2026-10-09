@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T23:33:55.961174+09:00",
+  "updated_at": "2026-10-09T23:53:59.654717+09:00",
   "paper_trading": true,
   "queue": {
     "DEBIT": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 2860.0,
-      "target_entry": 2858.0,
+      "score": 78,
+      "current_price": 2851.0,
+      "target_entry": 2840.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 9015,
+      "buy_amount_krw": 9013,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.398,
-      "detailed_reason": "15분봉 박스권 하단(0.7%) 근접 및 71.9%의 높은 매수 호가 잔량 비율로 바닥권 매수세 유입 확인, 트랙 A(박스 반전) 전략에 최적화됨.",
-      "created_at": "2026-10-09T23:33:55.961174+09:00",
-      "created_timestamp": 1791556435.9611874
+      "entry_bid_ratio": 0.556,
+      "detailed_reason": "15분봉 박스권 하단 지지선(0.85% 거리)에 근접하며 매수세 흡수 턴이 포착된 Track A(박스 반등) 최적 진입 구간.",
+      "created_at": "2026-10-09T23:53:59.654717+09:00",
+      "created_timestamp": 1791557639.654732
     }
   }
 }
