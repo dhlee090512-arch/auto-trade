@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T13:32:23.315107+09:00",
+  "updated_at": "2026-10-09T13:37:25.002058+09:00",
   "paper_trading": true,
   "queue": {
     "OGN": {
@@ -11,8 +11,8 @@
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 82,
-      "current_price": 62.99,
-      "target_entry": 62.99,
+      "current_price": 63.4,
+      "target_entry": 63.4,
       "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.5,
@@ -25,9 +25,9 @@
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "장대양봉 직후 거래량 감소(숨고르기)와 허리선 지지 반등 패턴이 명확하며, ATR 대비 적절한 손익비와 리스크 관리가 가능한 우수 C트랙 눌림목 셋업",
-      "created_at": "2026-10-09T13:32:23.315107+09:00",
-      "created_timestamp": 1791520343.3151214
+      "detailed_reason": "장대양봉 발생 후 거래량 감소 및 허리선 지지 반등 확인, Track C Pullback 전략 요건 완벽 충족",
+      "created_at": "2026-10-09T13:37:25.002058+09:00",
+      "created_timestamp": 1791520645.0020728
     }
   }
 }
