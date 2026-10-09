@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "RLC": {
-      "symbol": "RLC/KRW",
-      "track": "B",
-      "track_name": "모멘텀 돌파",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 1554.0,
-      "highest_price": 1554.0,
-      "buy_amount_krw": 7209,
-      "units": 4.638996138996139,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_f19e2663",
-      "sl_pct": -1.2,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.5,
-      "tp_floor_lock": 1.1,
-      "holding_timeout_mins": 8,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791575695.5445154,
-      "entry_time": "2026-10-10T04:54:55.544518+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791575695.5445154,
-          1554.0
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -8092,6 +8061,25 @@
       "trajectory_summary": "[A전략] 진입 47초경 최고 +1.36%까지 분출 후, 반락 시 실현 기준선(+1.12%)에서 확정 청산함. (보유: 55초)",
       "entry_time": "2026-10-10T02:40:15.918889+09:00",
       "exit_time": "2026-10-10T02:41:11.783183+09:00"
+    },
+    {
+      "symbol": "RLC/KRW",
+      "track": "B",
+      "track_name": "모멘텀 돌파",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1554.0,
+      "exit_price": 1553.0,
+      "buy_amount_krw": 7209,
+      "profit_krw": -4,
+      "profit_pct": -0.06,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "🛡️ 고점(+1.48%) 달성 후 평단가 복귀 본절 락 탈출 (-0.05%)",
+      "trajectory_summary": "[B전략] 진입 21초경 최고 +1.48% 상승 후 후속 매수세 부재로 본절선에서 안전 탈출함. (보유: 1분 30초)",
+      "entry_time": "2026-10-10T04:54:55.544518+09:00",
+      "exit_time": "2026-10-10T04:56:25.755693+09:00"
     }
   ]
 }
