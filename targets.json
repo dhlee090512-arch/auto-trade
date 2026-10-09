@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-09T19:48:23.842242+09:00",
+  "updated_at": "2026-10-09T20:23:30.357559+09:00",
   "paper_trading": true,
   "queue": {
-    "OGN": {
-      "symbol": "OGN/KRW",
-      "code": "OGN",
-      "track": "A",
-      "track_name": "바닥 반등",
+    "DEBIT": {
+      "symbol": "DEBIT/KRW",
+      "code": "DEBIT",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 51.2,
-      "target_entry": 51.06,
-      "sl_pct": -1.0,
+      "score": 85,
+      "current_price": 3118.0,
+      "target_entry": 3118.0,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 6883,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 6000,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.776,
-      "detailed_reason": "15분봉 박스 하단 근접(0.89%) 및 높은 매수 호가 비율(69.4%)을 통한 명확한 박스 반전(Track A) 타점 확보",
-      "created_at": "2026-10-09T19:48:23.842242+09:00",
-      "created_timestamp": 1791542903.8422554
+      "entry_bid_ratio": 0.775,
+      "detailed_reason": "장대양봉 발생 이후 거래량 감소와 함께 허리선 지지를 확인한 전형적인 3-Track C (Pullback) 우량 눌림목 타점으로 유동성과 구조적 엣지가 우수함.",
+      "created_at": "2026-10-09T20:23:30.357559+09:00",
+      "created_timestamp": 1791545010.3575711
     }
   }
 }
