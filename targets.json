@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-09T19:38:21.496994+09:00",
+  "updated_at": "2026-10-09T19:48:23.842242+09:00",
   "paper_trading": true,
   "queue": {
-    "SAND": {
-      "symbol": "SAND/KRW",
-      "code": "SAND",
+    "OGN": {
+      "symbol": "OGN/KRW",
+      "code": "OGN",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 85,
-      "current_price": 92.37,
-      "target_entry": 92.15,
+      "score": 75,
+      "current_price": 51.2,
+      "target_entry": 51.06,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6882,
+      "buy_amount_krw": 6883,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.603,
-      "detailed_reason": "15분봉 박스 하단 근접(0.31%), 높은 호가 매수 우위 비율(63.7%), 준수한 거래량 서지 비율(1.11)로 트랙 A 박스 반등 조건 충족",
-      "created_at": "2026-10-09T19:38:21.496994+09:00",
-      "created_timestamp": 1791542301.4970067
+      "entry_bid_ratio": 0.776,
+      "detailed_reason": "15분봉 박스 하단 근접(0.89%) 및 높은 매수 호가 비율(69.4%)을 통한 명확한 박스 반전(Track A) 타점 확보",
+      "created_at": "2026-10-09T19:48:23.842242+09:00",
+      "created_timestamp": 1791542903.8422554
     }
   }
 }
