@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-10T12:21:07.214050+09:00",
+  "updated_at": "2026-10-10T13:41:14.635615+09:00",
   "paper_trading": true,
   "queue": {
-    "KAIA": {
-      "symbol": "KAIA/KRW",
-      "code": "KAIA",
+    "RLC": {
+      "symbol": "RLC/KRW",
+      "code": "RLC",
       "track": "A",
       "track_name": "바닥 반등",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
       "score": 75,
-      "current_price": 78.5,
-      "target_entry": 78.46,
+      "current_price": 1393.0,
+      "target_entry": 1393.0,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 6000,
+      "buy_amount_krw": 7210,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스 하단 근접 및 호가 흡수 턴 타점 확인, 리스크 관리 조건 충족",
-      "created_at": "2026-10-10T12:21:07.214050+09:00",
-      "created_timestamp": 1791602467.2140644
+      "entry_bid_ratio": 0.533,
+      "detailed_reason": "15분봉 박스권 하단 근접(0.8% 이내) 및 호가 매수 우세(53.2%)를 활용한 트랙 A(Box Reversion) 바닥 반등 타점 확보",
+      "created_at": "2026-10-10T13:41:14.635615+09:00",
+      "created_timestamp": 1791607274.6356285
     }
   }
 }
