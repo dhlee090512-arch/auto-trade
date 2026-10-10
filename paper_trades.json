@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "KAIA": {
-      "symbol": "KAIA/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 78.46,
-      "highest_price": 78.46,
-      "buy_amount_krw": 6000,
-      "units": 76.47208768799389,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_a111393d",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791602469.225638,
-      "entry_time": "2026-10-10T12:21:09.225641+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791602469.225638,
-          78.46
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -8225,6 +8194,25 @@
       "trajectory_summary": "[A전략] 보유 시간 47초 동안 최저 -1.59% ~ 최고 +0.00% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-10T12:17:12.072635+09:00",
       "exit_time": "2026-10-10T12:17:59.844393+09:00"
+    },
+    {
+      "symbol": "KAIA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 78.46,
+      "exit_price": 79.05,
+      "buy_amount_krw": 6000,
+      "profit_krw": 45,
+      "profit_pct": 0.75,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "⌛ 30분 만료 2차 분출 부재 안전 정리 (0.75%)",
+      "trajectory_summary": "[A전략] 정해진 타임아웃 동안 최고 +0.75%에 그쳐 슬롯 회수 및 기회비용 방어를 위해 조기 정리함. (보유: 57분 41초)",
+      "entry_time": "2026-10-10T12:21:09.225641+09:00",
+      "exit_time": "2026-10-10T13:18:51.028390+09:00"
     }
   ]
 }
