@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "KAIA": {
+      "symbol": "KAIA/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 78.65,
+      "highest_price": 78.65,
+      "buy_amount_krw": 7208,
+      "units": 91.64653528289891,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_46e599f9",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791617229.055955,
+      "entry_time": "2026-10-10T16:27:09.055958+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791617229.055955,
+          78.65
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
