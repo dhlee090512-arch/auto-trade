@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "PYR": {
+      "symbol": "PYR/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 89.62,
+      "highest_price": 89.62,
+      "buy_amount_krw": 7212,
+      "units": 80.47310868109797,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_2b49b9f4",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791645779.2071116,
+      "entry_time": "2026-10-11T00:22:59.207115+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791645779.2071116,
+          89.62
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
