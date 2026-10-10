@@ -1,33 +1,33 @@
 {
-  "updated_at": "2026-10-10T09:35:36.913371+09:00",
+  "updated_at": "2026-10-10T10:30:46.507790+09:00",
   "paper_trading": true,
   "queue": {
     "RLC": {
       "symbol": "RLC/KRW",
       "code": "RLC",
-      "track": "A",
-      "track_name": "바닥 반등",
+      "track": "C",
+      "track_name": "1차 눌림목",
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 1387.0,
-      "target_entry": 1386.0,
-      "sl_pct": -1.0,
+      "score": 82,
+      "current_price": 1538.0,
+      "target_entry": 1538.0,
+      "sl_pct": -1.1,
       "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
       "timeout_mins": 12,
-      "holding_timeout_mins": 10,
-      "buy_amount_krw": 7212,
+      "holding_timeout_mins": 12,
+      "buy_amount_krw": 9013,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
       "entry_bid_ratio": 0.5,
-      "detailed_reason": "15분봉 박스 하단 근접(0.87%), 준수한 유동성 및 호가 매수세 흡수 턴 타점 확인",
-      "created_at": "2026-10-10T09:35:36.913371+09:00",
-      "created_timestamp": 1791592536.9133835
+      "detailed_reason": "장대양봉 후 거래량 축소와 함께 허리선(1532.50) 부근에서 안정적인 지지 반등을 보이는 Track C 눌림목 최적 타점입니다.",
+      "created_at": "2026-10-10T10:30:46.507790+09:00",
+      "created_timestamp": 1791595846.5078044
     }
   }
 }
