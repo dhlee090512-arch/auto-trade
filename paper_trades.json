@@ -1,36 +1,5 @@
 {
-  "active_positions": {
-    "CHIP": {
-      "symbol": "CHIP/KRW",
-      "track": "A",
-      "track_name": "바닥 반등",
-      "mode": "SCALPING",
-      "is_paper": true,
-      "slot": "SLOT_RANGE_ALPHA",
-      "entry_price": 83.14,
-      "highest_price": 83.14,
-      "buy_amount_krw": 7210,
-      "units": 86.72119316815011,
-      "buy_fee": 0.0,
-      "buy_order_uuid": "mock_order_48045b19",
-      "sl_pct": -1.0,
-      "emergency_sl_pct": -1.5,
-      "tp_trigger_pct": 1.35,
-      "tp_floor_lock": 1.0,
-      "holding_timeout_mins": 10,
-      "sl_breach_start_time": null,
-      "entry_timestamp": 1791692699.1011899,
-      "entry_time": "2026-10-11T13:24:59.101193+09:00",
-      "locked_floor_profit_pct": 0.0,
-      "breakeven_locked": false,
-      "price_history": [
-        [
-          1791692699.1011899,
-          83.14
-        ]
-      ]
-    }
-  },
+  "active_positions": {},
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
@@ -8757,6 +8726,25 @@
       "trajectory_summary": "[A전략] 보유 시간 26초 동안 최저 -1.66% ~ 최고 +0.13% 흐름을 보인 후 기준선에 맞춰 정리함.",
       "entry_time": "2026-10-11T13:00:25.540119+09:00",
       "exit_time": "2026-10-11T13:00:52.057306+09:00"
+    },
+    {
+      "symbol": "CHIP/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 83.14,
+      "exit_price": 84.36,
+      "buy_amount_krw": 7210,
+      "profit_krw": 106,
+      "profit_pct": 1.47,
+      "buy_fee": 0.0,
+      "sell_fee": 0.0,
+      "sell_order_uuid": null,
+      "reason": "📈 트레일링 익절 (고점 +1.71% ➔ 하한선 락 1.00% 확보)",
+      "trajectory_summary": "[A전략] 진입 7분 58초경 최고 +1.71%까지 분출 후, 반락 시 실현 기준선(+1.47%)에서 확정 청산함. (보유: 8분 31초)",
+      "entry_time": "2026-10-11T13:24:59.101193+09:00",
+      "exit_time": "2026-10-11T13:33:30.499164+09:00"
     }
   ]
 }
