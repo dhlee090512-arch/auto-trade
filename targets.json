@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-11T12:59:49.173941+09:00",
+  "updated_at": "2026-10-11T13:09:50.505256+09:00",
   "paper_trading": true,
   "queue": {
     "CHIP": {
@@ -10,24 +10,24 @@
       "mode": "SCALPING",
       "is_paper": true,
       "slot": "SLOT_RANGE_ALPHA",
-      "score": 75,
-      "current_price": 90.29,
-      "target_entry": 89.81,
+      "score": 82,
+      "current_price": 86.07,
+      "target_entry": 86.07,
       "sl_pct": -1.0,
       "emergency_sl_pct": -1.5,
       "tp_trigger_pct": 1.35,
       "tp_floor_lock": 1.0,
       "timeout_mins": 12,
       "holding_timeout_mins": 10,
-      "buy_amount_krw": 7210,
+      "buy_amount_krw": 7209,
       "ordered_volume": 0.0,
       "order_uuid": null,
       "order_placed": false,
       "bid_breach_start_time": null,
-      "entry_bid_ratio": 0.206,
-      "detailed_reason": "15분봉 박스권 하단(0.93% 근접) 지지 테스트 완료 및 호가 매수세 유입(45%)으로 인한 Track A 박스 반등 알파 포착",
-      "created_at": "2026-10-11T12:59:49.173941+09:00",
-      "created_timestamp": 1791691189.1739533
+      "entry_bid_ratio": 0.5,
+      "detailed_reason": "15분봉 박스권 하단(0.94% 이격)에서 거래량 유입과 함께 호가 매수벽 흡수가 확인된 A트랙(Box Reversion) 최적의 반등 셋업",
+      "created_at": "2026-10-11T13:09:50.505256+09:00",
+      "created_timestamp": 1791691790.5052705
     }
   }
 }
