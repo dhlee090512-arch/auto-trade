@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "RLC": {
+      "symbol": "RLC/KRW",
+      "track": "A",
+      "track_name": "바닥 반등",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 1281.0,
+      "highest_price": 1281.0,
+      "buy_amount_krw": 7214,
+      "units": 5.631537861046057,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_fb20caf6",
+      "sl_pct": -1.0,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.35,
+      "tp_floor_lock": 1.0,
+      "holding_timeout_mins": 10,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791679214.2405338,
+      "entry_time": "2026-10-11T09:40:14.240537+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791679214.2405338,
+          1281.0
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
