@@ -1,5 +1,36 @@
 {
-  "active_positions": {},
+  "active_positions": {
+    "CHIP": {
+      "symbol": "CHIP/KRW",
+      "track": "C",
+      "track_name": "1차 눌림목",
+      "mode": "SCALPING",
+      "is_paper": true,
+      "slot": "SLOT_RANGE_ALPHA",
+      "entry_price": 91.89,
+      "highest_price": 91.89,
+      "buy_amount_krw": 7211,
+      "units": 78.47426270540863,
+      "buy_fee": 0.0,
+      "buy_order_uuid": "mock_order_ca2a6296",
+      "sl_pct": -1.1,
+      "emergency_sl_pct": -1.5,
+      "tp_trigger_pct": 1.5,
+      "tp_floor_lock": 1.1,
+      "holding_timeout_mins": 12,
+      "sl_breach_start_time": null,
+      "entry_timestamp": 1791714744.8769395,
+      "entry_time": "2026-10-11T19:32:24.876943+09:00",
+      "locked_floor_profit_pct": 0.0,
+      "breakeven_locked": false,
+      "price_history": [
+        [
+          1791714744.8769395,
+          91.89
+        ]
+      ]
+    }
+  },
   "closed_trades": [
     {
       "symbol": "CPOOL/KRW",
