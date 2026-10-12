@@ -30,7 +30,7 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터 (Dual-Track + OB 2.0)
 # ==========================================
-BUILD_VERSION = "2026.10.11-v18-dual-alpha-pro"
+BUILD_VERSION = "2026.10.12-v20-dual-alpha-pro-test-run"
 MAX_HOLDING_COINS = 2                          
 MIN_BUY_KRW = 6000                             
 MIN_COIN_PRICE_KRW = 50.0                      
@@ -71,6 +71,9 @@ CIRCUIT_BREAKER_ACTIVE = False
 LAST_TELEGRAM_UPDATE_ID = 0
 NO_CANDIDATE_CYCLE_COUNT = 0
 LAST_NO_CANDIDATE_REASON = "시스템 초기화 완료"
+
+# 🚀 1회성 동작 테스트용 플래그
+IS_FIRST_RUN = True
 
 WS_TICKER_CACHE = {}
 WS_ORDERBOOK_CACHE = {}
@@ -181,7 +184,7 @@ def notify_startup_once():
             f"• 비대칭 배분: Track C(30%) 집중 / Track A(15%) 방어\n"
             f"• 호가창 2.0: 스프레드/허수벽 차단, 1~3호가 심도 기반 0초 칼손절\n"
             f"• 쿨다운: 손절 종목 120분(2시간) 진입 전면 차단\n"
-            f"• 파라미터 최적화: 본절 락 +1.05%, Track A 타임아웃 15분\n"
+            f"• 특이사항: 최초 1회 동작 테스트 모드 가동\n"
             f"• 기준시각: {base_str}\n\n"
             f"📱 명령어: /status, /track, /log, /paper, /real, /stop, /start, /update"
         )
@@ -627,7 +630,7 @@ def check_market_drop_ratio(ticker_all_data):
 # 6. 스크리닝 (비대칭 비중 배분 적용)
 # ==========================================
 def execute_server_side_strategy():
-    global CIRCUIT_BREAKER_ACTIVE, NO_CANDIDATE_CYCLE_COUNT, LAST_NO_CANDIDATE_REASON
+    global CIRCUIT_BREAKER_ACTIVE, NO_CANDIDATE_CYCLE_COUNT, LAST_NO_CANDIDATE_REASON, IS_FIRST_RUN
     if PENDING_PAPER_DRAIN: return
 
     server_state = load_json_file(STATE_FILE, {})
@@ -676,22 +679,36 @@ def execute_server_side_strategy():
     now_ts = time.time()
     min_1h_threshold = PRIMARY_1H_TRADE_VAL
     candidates_pool = []
-
-    for attempt in range(2):
-        for sym, price, change, val_24h in sorted_list:
-            if is_cooling_down(sym, closed_trades, now_ts): continue # 🛑 쿨다운 검사
-            
-            c_1h = get_candles(sym, "1h", 25)
-            time.sleep(0.02)
-            c_15m = get_candles(sym, "15m", 35)
-            time.sleep(0.02)
-            c_5m = get_candles(sym, "5m", 10)
-            time.sleep(0.02)
-
-            cand = scan_ac_candidates(sym, price, val_24h, c_1h, c_15m, c_5m, min_1h_threshold)
-            if cand: candidates_pool.append(cand)
-        if len(candidates_pool) >= 2 or attempt == 1: break
-        min_1h_threshold = FALLBACK_1H_TRADE_VAL
+    
+    # 🚀 [테스트 모드] 첫 실행 시 퀀트 스캔을 건너뛰고 상위 1개 종목을 가짜 후보로 생성
+    if IS_FIRST_RUN:
+        logging.info("🚀 [테스트 모드] 최초 1회 강제 종목 선정 실행 (모의투자 전용 안전장치 포함)")
+        if sorted_list:
+            test_sym, test_p, _, _ = sorted_list[0]
+            candidates_pool.append({
+                "symbol": f"{test_sym}/KRW", "code": test_sym, "track": "T", "name": "시스템 테스트",
+                "current_price": test_p, "target_entry": round_to_bithumb_tick(test_p * 0.99), # 체결 안되게 약간 낮게
+                "sl_pct": -1.00, "tp_trigger_pct": 1.15, "tp_floor_lock": 1.00, "timeout_mins": 3,
+                "bid_ratio": 0.5, "quant": {}, "reason": "시스템 구동 및 알림 파이프라인 검증용 강제 편입"
+            })
+        IS_FIRST_RUN = False # 플래그 해제 (다음 턴부터는 정상 로직)
+    else:
+        # 정상 퀀트 스캔
+        for attempt in range(2):
+            for sym, price, change, val_24h in sorted_list:
+                if is_cooling_down(sym, closed_trades, now_ts): continue # 🛑 쿨다운 검사
+                
+                c_1h = get_candles(sym, "1h", 25)
+                time.sleep(0.02)
+                c_15m = get_candles(sym, "15m", 35)
+                time.sleep(0.02)
+                c_5m = get_candles(sym, "5m", 10)
+                time.sleep(0.02)
+    
+                cand = scan_ac_candidates(sym, price, val_24h, c_1h, c_15m, c_5m, min_1h_threshold)
+                if cand: candidates_pool.append(cand)
+            if len(candidates_pool) >= 2 or attempt == 1: break
+            min_1h_threshold = FALLBACK_1H_TRADE_VAL
 
     if not candidates_pool:
         NO_CANDIDATE_CYCLE_COUNT += 1
@@ -699,10 +716,14 @@ def execute_server_side_strategy():
         check_and_notify_idle_briefing(active_pos, target_queue)
         return
 
-    sys_prompt = "You are a quantitative trader analyzing Dual-Track (A: Box Bottom, C: Pullback). Select UP TO 2 best setups (score >= 65). Output valid JSON ONLY matching schema."
-    usr_prompt = f"Candidates:\n{json.dumps(candidates_pool[:6], ensure_ascii=False)}\n\nSchema: {{'selected_candidates': [{{'symbol':'...', 'score':85, 'entry_discount_pct':0.10, 'detailed_reason':'...'}}]}}"
-    
-    decision = clean_and_parse_json(call_ai_api(sys_prompt, usr_prompt))
+    # 테스트 모드인 경우 AI 판정 건너뛰기
+    if candidates_pool and candidates_pool[0]["track"] == "T":
+        decision = {"selected_candidates": [{"symbol": candidates_pool[0]["symbol"], "score": 99, "entry_discount_pct": 0.5, "detailed_reason": "테스트 모드 자동 승인"}]}
+    else:
+        sys_prompt = "You are a quantitative trader analyzing Dual-Track (A: Box Bottom, C: Pullback). Select UP TO 2 best setups (score >= 65). Output valid JSON ONLY matching schema."
+        usr_prompt = f"Candidates:\n{json.dumps(candidates_pool[:6], ensure_ascii=False)}\n\nSchema: {{'selected_candidates': [{{'symbol':'...', 'score':85, 'entry_discount_pct':0.10, 'detailed_reason':'...'}}]}}"
+        decision = clean_and_parse_json(call_ai_api(sys_prompt, usr_prompt))
+        
     if not decision or not decision.get("selected_candidates"):
         NO_CANDIDATE_CYCLE_COUNT += 1
         LAST_NO_CANDIDATE_REASON = "AI 점수 미달"
@@ -717,6 +738,12 @@ def execute_server_side_strategy():
         if not curr_p: continue
 
         setup = next((i for i in candidates_pool if i["code"] == code), candidates_pool[0])
+        
+        # 🚀 [테스트 모드 안전장치] 테스트 종목은 실전 진입 강제 차단 (모의 상태로 고정)
+        is_paper_trade_for_this = PAPER_TRADING
+        if setup.get("track") == "T":
+            is_paper_trade_for_this = True
+            
         disc = max(float(cand.get("entry_discount_pct", 0.10)), 0.0)
         t_entry = round_to_bithumb_tick(curr_p * (1.0 - (disc / 100.0)))
         
@@ -726,18 +753,18 @@ def execute_server_side_strategy():
             adj_p = round_to_bithumb_tick(wp + get_bithumb_tick_size(wp))
             if abs((adj_p - t_entry) / t_entry) <= 0.005 and adj_p <= curr_p: t_entry = adj_p
 
-        # 📊 비대칭 자금 배분 적용 (C: 30%, A: 15%)
-        alloc_ratio = 0.30 if setup.get("track") == "C" else 0.15
+        # 📊 비대칭 자금 배분 적용 (C: 30%, A: 15%, T: 10%)
+        alloc_ratio = 0.30 if setup.get("track") == "C" else (0.15 if setup.get("track") == "A" else 0.10)
         buy_krw = max(MIN_BUY_KRW, int(tot_asset * alloc_ratio))
         if buy_krw > av_krw: buy_krw = int(av_krw)
         if buy_krw < MIN_BUY_KRW: continue
 
         target_queue[code] = {
             "symbol": f"{code}/KRW", "code": code, "track": setup.get("track"), "track_name": setup.get("name"),
-            "is_paper": PAPER_TRADING, "score": cand.get("score"), "current_price": curr_p, "target_entry": t_entry,
+            "is_paper": is_paper_trade_for_this, "score": cand.get("score"), "current_price": curr_p, "target_entry": t_entry,
             "sl_pct": setup.get("sl_pct"), "emergency_sl_pct": -1.50,
             "tp_trigger_pct": setup.get("tp_trigger_pct"), "tp_floor_lock": setup.get("tp_floor_lock"),
-            "timeout_mins": 12, "holding_timeout_mins": setup.get("timeout_mins"),
+            "timeout_mins": setup.get("timeout_mins", 12), "holding_timeout_mins": setup.get("timeout_mins", 12),
             "buy_amount_krw": buy_krw, "ordered_volume": 0.0, "order_uuid": None, "order_placed": False,
             "bid_breach_start_time": None, "detailed_reason": cand.get("detailed_reason"),
             "created_at": get_kst_now().isoformat(), "created_timestamp": time.time()
@@ -767,6 +794,9 @@ async def realtime_execution_engine():
     last_run = 0
     threading.Thread(target=telegram_listener_thread, daemon=True).start()
     asyncio.create_task(bithumb_websocket_stream_worker())
+    
+    # 🐛 중복 알림 방지용 세션 캐시 (서버 재시작 시 이미 알림 보낸 내역 무시)
+    notified_trades = set()
 
     while True:
         try:
@@ -782,6 +812,11 @@ async def realtime_execution_engine():
             t_queue = s_state.get("target_queue", {})
             act_pos = p_db.get("active_positions", {})
             closed = p_db.get("closed_trades", [])
+            
+            # 초기 로딩 시 과거 청산 건수 캐싱 (중복 알림 방지)
+            if not notified_trades and closed:
+                for idx, t in enumerate(closed):
+                    notified_trades.add(f"{t.get('symbol')}_{t.get('exit_time')}_{idx}")
 
             if PENDING_PAPER_DRAIN and len([v for v in act_pos.values() if not v.get("is_paper", True)]) == 0:
                 PENDING_PAPER_DRAIN = False; PAPER_TRADING = True
@@ -793,14 +828,20 @@ async def realtime_execution_engine():
             ord_cnt = len([v for v in t_queue.values() if v.get("is_paper", True) == PAPER_TRADING and v.get("order_placed")])
 
             for code, plan in sorted(list(t_queue.items()), key=lambda x: (x[1].get("score", 0), -x[1].get("created_timestamp", 0)), reverse=True):
-                if plan.get("is_paper", True) != PAPER_TRADING or ord_cnt >= max(0, MAX_HOLDING_COINS - act_cnt): break
+                # 🚀 테스트 모드용 안전장치 우회 허용
+                is_this_plan_paper = plan.get("is_paper", True)
+                if is_this_plan_paper != PAPER_TRADING and plan.get("track") != "T": break 
+                
+                if ord_cnt >= max(0, MAX_HOLDING_COINS - act_cnt): break
+                
                 if not plan.get("order_placed"):
                     succ, ouuid, ovol = execute_real_limit_buy_order(code, plan["target_entry"], plan["buy_amount_krw"])
                     if succ:
                         plan.update({"order_placed": True, "order_uuid": ouuid, "ordered_volume": ovol})
                         ord_cnt += 1
                         save_json_file(STATE_FILE, s_state)
-                        send_telegram_msg(f"🎯 [{'모의' if PAPER_TRADING else '실전'}] [{plan['track_name']}] 예약\n• {plan['symbol']}({plan['score']}점)\n• 매수: {plan['buy_amount_krw']:,}원 @ {plan['target_entry']:,.4f}")
+                        mode_str = '모의' if is_this_plan_paper else '실전'
+                        send_telegram_msg(f"🎯 [{mode_str}] [{plan['track_name']}] 예약\n• {plan['symbol']}({plan['score']}점)\n• 매수: {plan['buy_amount_krw']:,}원 @ {plan['target_entry']:,.4f}")
 
             for code, plan in list(t_queue.items()):
                 elapsed = (now - plan.get("created_timestamp", now)) / 60.0
@@ -810,6 +851,9 @@ async def realtime_execution_engine():
                     if plan.get("order_placed") and ouuid: cancel_bithumb_order(ouuid)
                     if code in t_queue: del t_queue[code]
                     save_json_file(STATE_FILE, s_state)
+                    # 🚀 테스트 모드 타임아웃 메시지
+                    if plan.get("track") == "T":
+                        send_telegram_msg(f"✅ [테스트 완료] {plan['symbol']} 대기열 타임아웃으로 정상 소멸. (이후부터 정상 퀀트 로직 작동)")
                     continue
 
                 ob = get_bithumb_orderbook_10(code)
@@ -934,18 +978,24 @@ async def realtime_execution_engine():
                     else:
                         fpct = round(((xp - ep) / ep) * 100.0, 2)
                         pk = round(bk * (fpct / 100.0))
-
+                    
+                    exit_iso = now_dt.isoformat()
                     closed.append({
                         "symbol": pos["symbol"], "track": pos["track"], "track_name": pos["track_name"],
                         "is_paper": pos.get("is_paper", True), "entry_price": ep, "exit_price": xp,
                         "buy_amount_krw": bk, "profit_krw": pk, "profit_pct": fpct, "buy_fee": bf, "sell_fee": sfee,
                         "reason": rsn, "trajectory_summary": generate_trade_trajectory_summary(pos, hpct, el_sec, rsn),
-                        "entry_time": pos["entry_time"], "exit_time": now_dt.isoformat()
+                        "entry_time": pos["entry_time"], "exit_time": exit_iso
                     })
                     del act_pos[code]
                     save_json_file(PAPER_TRADES_FILE, {"active_positions": act_pos, "closed_trades": closed})
-                    send_telegram_msg(f"{'🎉' if fpct>0 else '🌧️'} [청산] {pos['symbol']}\n• 손익: {pk:,}원 ({fpct:+.2f}%)\n• 사유: {rsn}")
-                    send_telegram_msg(format_portfolio_status_msg(act_pos, closed))
+                    
+                    # 🐛 신규 청산 건만 텔레그램 발송 처리
+                    trade_key = f"{pos['symbol']}_{exit_iso}_{len(closed)-1}"
+                    if trade_key not in notified_trades:
+                        notified_trades.add(trade_key)
+                        send_telegram_msg(f"{'🎉' if fpct>0 else '🌧️'} [청산] {pos['symbol']}\n• 손익: {pk:,}원 ({fpct:+.2f}%)\n• 사유: {rsn}")
+                        send_telegram_msg(format_portfolio_status_msg(act_pos, closed))
 
             await asyncio.sleep(0.5 if act_pos or t_queue else 2.0)
         except Exception as e:
