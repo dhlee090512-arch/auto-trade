@@ -572,8 +572,38 @@ def scan_ac_candidates(sym, price, val_24h, candles_1h, candles_15m, candles_5m,
     return None
 
 # ==========================================
-# 5. 리스크 관리 모듈
+# 5. 리스크 관리 모듈 & 파싱 로직
 # ==========================================
+def clean_and_parse_json(raw_text):
+    if not raw_text: return None
+    try:
+        cleaned = re.sub(r"^```(?:json)?", "", raw_text.strip(), flags=re.MULTILINE)
+        cleaned = re.sub(r"```$", "", cleaned.strip(), flags=re.MULTILINE).strip()
+        return json.loads(cleaned)
+    except Exception:
+        match = re.search(r"\{.*\}", raw_text, re.DOTALL)
+        if match:
+            try: return json.loads(match.group(0))
+            except Exception: pass
+    return None
+
+def call_ai_api(sys_prompt, user_prompt):
+    providers = [
+        {"name": "Gemini", "key": GEMINI_API_KEY, "url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-3.5-flash-lite"},
+        {"name": "Samba", "key": SAMBANOVA_API_KEY, "url": "https://api.sambanova.ai/v1", "model": "Meta-Llama-3.3-70B-Instruct"},
+        {"name": "Groq", "key": GROQ_API_KEY3 or GROQ_API_KEY2, "url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-specdec"}
+    ]
+    for p in providers:
+        if not p["key"]: continue
+        try:
+            res = OpenAI(base_url=p['url'], api_key=p['key']).chat.completions.create(
+                model=p['model'], messages=[{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}],
+                response_format={"type": "json_object"}, temperature=0.1
+            )
+            return res.choices[0].message.content
+        except Exception: pass
+    return None
+
 def check_daily_circuit_breaker(closed_trades, total_asset):
     now_kst = get_kst_now()
     today_start = now_kst.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -592,23 +622,6 @@ def check_market_drop_ratio(ticker_all_data):
     drop_ratio = drop_count / len(top_30)
     if drop_ratio >= MARKET_DROP_RATIO_LIMIT: return False, drop_ratio, f"상위 30개 중 {drop_count}개({drop_ratio*100:.1f}%) 하락"
     return True, drop_ratio, "정상"
-
-def call_ai_api(sys_prompt, user_prompt):
-    providers = [
-        {"name": "Gemini", "key": GEMINI_API_KEY, "url": "https://generativelanguage.googleapis.com/v1beta/openai/", "model": "gemini-3.5-flash-lite"},
-        {"name": "Samba", "key": SAMBANOVA_API_KEY, "url": "https://api.sambanova.ai/v1", "model": "Meta-Llama-3.3-70B-Instruct"},
-        {"name": "Groq", "key": GROQ_API_KEY3 or GROQ_API_KEY2, "url": "https://api.groq.com/openai/v1", "model": "llama-3.3-70b-specdec"}
-    ]
-    for p in providers:
-        if not p["key"]: continue
-        try:
-            res = OpenAI(base_url=p['url'], api_key=p['key']).chat.completions.create(
-                model=p['model'], messages=[{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}],
-                response_format={"type": "json_object"}, temperature=0.1
-            )
-            return res.choices[0].message.content
-        except Exception: pass
-    return None
 
 # ==========================================
 # 6. 스크리닝 (비대칭 비중 배분 적용)
