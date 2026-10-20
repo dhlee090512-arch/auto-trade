@@ -31,18 +31,18 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터 (공격형 고손익비 알파 엔진)
 # ==========================================
-BUILD_VERSION = "2026.10.13-v26-alpha-scalper-pro"     
-MAX_HOLDING_COINS = 2                          
-MIN_BUY_KRW = 6000                             
-DEFAULT_BUY_RATIO = 0.22                       
-MIN_COIN_PRICE_KRW = 50.0                      
-MAX_TICK_RATIO_PCT = 0.08                      
+BUILD_VERSION = "2026.10.13-v26-alpha-scalper-pro"
+MAX_HOLDING_COINS = 2
+MIN_BUY_KRW = 6000
+DEFAULT_BUY_RATIO = 0.22
+MIN_COIN_PRICE_KRW = 50.0
+MAX_TICK_RATIO_PCT = 0.08
 MIN_24H_ACC_TRADE_VALUE = 1_500_000_000        # 🛡️ 거래대금 필터 상향 (15억 원)
 PRIMARY_1H_TRADE_VAL = 400_000_000             # 🛡️ 1시간 거래대금 기준 상향 (4억 원)
-FALLBACK_1H_TRADE_VAL = 220_000_000            
+FALLBACK_1H_TRADE_VAL = 220_000_000
 MIN_15M_ATR_PCT = 1.20                         # ⚡ 최소 변동성 상향 (1.2% 이상만 타격)
-MARKET_DROP_RATIO_LIMIT = 0.80                 
-DAILY_LOSS_LIMIT_PCT = -3.0                    
+MARKET_DROP_RATIO_LIMIT = 0.80
+DAILY_LOSS_LIMIT_PCT = -3.0
 
 TELEGRAM_BOT_TOKEN = (os.getenv("TELEGRAM_BOT_TOKEN") or "").strip()
 TELEGRAM_CHAT_ID = str(os.getenv("TELEGRAM_CHAT_ID") or "").strip()
@@ -141,7 +141,7 @@ def notify_startup_once():
         with open(RESTART_FLAG_FILE, "w") as f: f.write(str(now_ts))
         mode_str = "🧪 모의투자" if PAPER_TRADING else "🔥 실전매매"
         base_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
-        send_telegram_msg(f"🎯 [오라클 서버] 알파 스캘퍼 프로 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격: 노이즈 필터 강화 및 추세 추종 수익 극대화 모드\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update")
+        send_telegram_msg(f"🎯 [오라클 서버] 알파 스캘퍼 프로 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격:  노이즈 필터 강화 및 추세 추종 수익 극대화 모드\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update")
 
 def sync_file_to_github(file_path, content_data):
     if not GH_TOKEN: return
@@ -166,7 +166,7 @@ def format_portfolio_status_msg(active_positions, closed_trades):
 
     mode_closed = [t for t in closed_trades if t.get("is_paper", True) == current_mode_is_paper]
     recent_10 = mode_closed[-10:][::-1] if mode_closed else []
-    
+
     if not recent_10:
         trades_str, win_rate_10, profit_10_krw = f"• [{mode_tag_name}] 매도 이력이 없습니다.", 0.0, 0
     else:
@@ -214,7 +214,7 @@ def generate_trade_trajectory_summary(pos: dict, exit_p: float, curr_profit_pct:
     if "익절" in close_reason: return f"[{track}] 고점 +{highest_profit_pct:.2f}% 터치 후 추세 추종 수익 +{curr_profit_pct:.2f}% 확정. (보유: {dur_str})"
     elif "본절" in close_reason: return f"[{track}] 추세 무산으로 본절 락 컷. (보유: {dur_str})"
     elif "미반등" in close_reason or "정리" in close_reason: return f"[{track}] 타임아웃 조기 정리. (보유: {dur_str})"
-    elif "손절" in close_reason or "즉시 컷" in close_reason or "붕괴" in close_reason: return f"[{track}] 손절선 및 호가 붕괴 즉시 탈출. (보유: {dur_str})"
+    elif "손절" in close_reason or "즉시 컷" in close_reason or "붕괴" in close_reason: return f"[{track}] 손절선 및 호 가 붕괴 즉시 탈출. (보유: {dur_str})"
     return f"[{track}] 보유 {dur_str} 후 청산완료."
 
 def get_bithumb_jwt_headers(query_params: dict = None):
@@ -418,7 +418,7 @@ def calculate_quant_features(c_1h, c_15m):
     r_lows = [c['low'] for c in c_15m[-10:]]; r_highs = [c['high'] for c in c_15m[-10:]]
     box_low = min(r_lows); box_high = max(r_highs)
     vol_avg = sum(c['volume'] for c in c_15m[-11:-1]) / 10.0 if len(c_15m) >= 11 else 1.0
-    
+
     return {
         "box_low": box_low, "box_high": box_high,
         "box_range_pct": round(((box_high - box_low) / box_low) * 100.0, 2) if box_low > 0 else 0.0,
@@ -561,7 +561,7 @@ def execute_server_side_strategy():
 
     tp = sorted(cp, key=lambda x: x['bid_ratio'], reverse=True)[:6]
     dc = clean_and_parse_json(call_ai_api("Select UP TO 2 best setups from candidate pool (score >= 65).", f"Candidates:\n{json.dumps(tp, ensure_ascii=False)}\n\nSchema: {{'selected_candidates': [{{'symbol':'...', 'score':78, 'entry_discount_pct':0.10, 'detailed_reason':'...'}}]}}"))
-    
+
     if not dc or "selected_candidates" not in dc or not dc["selected_candidates"]:
         NO_CANDIDATE_CYCLE_COUNT += 1; LAST_NO_CANDIDATE_REASON = "AI 승인 거절"
         return
@@ -683,10 +683,10 @@ async def realtime_execution_engine():
 
                 ep, ets = pos["entry_price"], pos.get("entry_timestamp", now)
                 el_sec = now - ets
-                
+
                 hist = [(ts, p) for ts, p in pos.get("price_history", []) if now - ts <= 3600]
                 hist.append((now, cp)); pos["price_history"] = hist
-                
+
                 if cp > pos.get("highest_price", ep): pos["highest_price"] = cp
                 cpct, hpct = ((cp - ep) / ep) * 100.0, ((pos["highest_price"] - ep) / ep) * 100.0
 
