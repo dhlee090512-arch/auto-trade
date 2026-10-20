@@ -76,6 +76,44 @@ LAST_NO_CANDIDATE_REASON = "시스템 초기화 완료"
 WS_TICKER_CACHE = {}
 WS_ORDERBOOK_CACHE = {}
 
+# ==========================================
+# 🛡️ 하드 손절 종목별 동적 쿨타임 관리
+# ==========================================
+HARD_STOP_COOLDOWN_DICT = {}
+
+def check_hard_stop_cooldown(symbol: str) -> tuple[bool, int]:
+    """해당 종목이 현재 하드 손절 쿨타임 중인지 확인 (True면 진입 금지)"""
+    if symbol in HARD_STOP_COOLDOWN_DICT:
+        data = HARD_STOP_COOLDOWN_DICT[symbol]
+        if time.time() < data["until"]:
+            remaining_mins = math.ceil((data["until"] - time.time()) / 60)
+            return True, remaining_mins
+        else:
+            del HARD_STOP_COOLDOWN_DICT[symbol]
+    return False, 0
+
+def record_hard_stop_cooldown(symbol: str):
+    """하드 손절 발생 시 호출: 1차 30분, 2연속 이상 60분 쿨타임 부여"""
+    now = time.time()
+    if symbol in HARD_STOP_COOLDOWN_DICT:
+        current_count = HARD_STOP_COOLDOWN_DICT[symbol]["count"] + 1
+    else:
+        current_count = 1
+    
+    cooldown_mins = 60 if current_count >= 2 else 30
+    until_time = now + (cooldown_mins * 60)
+    
+    HARD_STOP_COOLDOWN_DICT[symbol] = {
+        "count": current_count,
+        "until": until_time
+    }
+    logging.info(f"🚨 [{symbol}] 하드 손절 감지 (누적 {current_count}회). {cooldown_mins}분간 해당 종목 재진입이 차단됩니다.")
+
+def reset_hard_stop_cooldown_on_profit(symbol: str):
+    """수익 청산(익절 등) 시 해당 종목의 연속 하드 손절 카운트 초기화"""
+    if symbol in HARD_STOP_COOLDOWN_DICT:
+        del HARD_STOP_COOLDOWN_DICT[symbol]
+
 HTTP_SESSION = requests.Session()
 adapter = requests.adapters.HTTPAdapter(pool_connections=35, pool_maxsize=35, max_retries=1)
 HTTP_SESSION.mount('https://', adapter)
@@ -542,7 +580,15 @@ def execute_server_side_strategy():
 
     hc = set(m_act.keys()).union(set({k: v for k, v in tq.items() if v.get("is_paper", True) == PAPER_TRADING}.keys()))
     rl = [(s, float(i['closing_price']), float(i['fluctate_rate_24H']), float(i['acc_trade_value_24H'])) for s, i in res["data"].items() if s != "date" and s.upper() not in STABLE_COINS and s not in hc and float(i['closing_price']) >= MIN_COIN_PRICE_KRW and float(i['acc_trade_value_24H']) >= MIN_24H_ACC_TRADE_VALUE]
-    sl = sorted(rl, key=lambda x: x[3], reverse=True)[:35]
+    
+    # 🛡️ 쿨타임 중인 종목 필터링 적용
+    valid_rl = []
+    for s, p, c, v in rl:
+        is_cooldown, _ = check_hard_stop_cooldown(s)
+        if is_cooldown: continue
+        valid_rl.append((s, p, c, v))
+
+    sl = sorted(valid_rl, key=lambda x: x[3], reverse=True)[:35]
 
     m1 = PRIMARY_1H_TRADE_VAL
     for attempt in range(2):
@@ -692,7 +738,6 @@ async def realtime_execution_engine():
 
                 if hpct >= 0.80: pos["breakeven_locked"] = True
 
-                # 🚀 공격적 트레일링 익절 로직: 노이즈를 완전히 무시하고 상승폭을 끝까지 발라먹도록 풀백 대폭 확대
                 t_act, s_pull, s_flr = False, 0.50, 0.0
                 if hpct >= 6.0: t_act, s_pull, s_flr = True, 1.20, 4.50
                 elif hpct >= 4.0: t_act, s_pull, s_flr = True, 0.90, 2.80
@@ -727,6 +772,12 @@ async def realtime_execution_engine():
                     elif 0.75 <= hpct < 1.20 and el_sec >= 1800: sc, rsn = True, "⌛ 30분 안전 정리"
 
                 if sc:
+                    # 👉 하드 손절 감지 시 쿨타임 기록, 익절 시 카운트 초기화
+                    if "하드 손절" in rsn or "손절" in rsn:
+                        record_hard_stop_cooldown(c)
+                    else:
+                        reset_hard_stop_cooldown_on_profit(c)
+
                     su, sf, af = None, 0.0, 0.0
                     if not pos.get("is_paper", True):
                         sc_o, uid = execute_real_market_sell_order(c, pos.get("units", 0.0))
