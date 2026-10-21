@@ -31,7 +31,7 @@ load_dotenv()
 # ==========================================
 # 0. 전역 설정 및 퀀트 파라미터 (공격형 고손익비 알파 엔진)
 # ==========================================
-BUILD_VERSION = "2026.10.13-v26-alpha-scalper-pro"
+BUILD_VERSION = "2026.10.13-v26.1-alpha-scalper-pro"
 MAX_HOLDING_COINS = 2
 MIN_BUY_KRW = 6000
 DEFAULT_BUY_RATIO = 0.22
@@ -179,7 +179,7 @@ def notify_startup_once():
         with open(RESTART_FLAG_FILE, "w") as f: f.write(str(now_ts))
         mode_str = "🧪 모의투자" if PAPER_TRADING else "🔥 실전매매"
         base_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
-        send_telegram_msg(f"🎯 [오라클 서버] 알파 스캘퍼 프로 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격:  노이즈 필터 강화 및 추세 추종 수익 극대화 모드\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update")
+        send_telegram_msg(f"🎯 [오라클 서버] 알파 스캘퍼 프로 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격: 노이즈 필터 강화 및 추세 추종 수익 극대화 모드\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /reset_stats, /stop, /start, /update")
 
 def sync_file_to_github(file_path, content_data):
     if not GH_TOKEN: return
@@ -311,12 +311,23 @@ def get_bithumb_orderbook_10(coin_code: str):
             data = res["data"]
             bids = [{"price": float(b["price"]), "quantity": float(b["quantity"])} for b in data.get("bids", [])[:10]]
             asks = [{"price": float(a["price"]), "quantity": float(a["quantity"])} for a in data.get("asks", [])[:10]]
-            tb = sum(b["quantity"] for b in bids); ta = sum(a["quantity"] for a in asks)
+            
+            tb = sum(b["quantity"] for b in bids)
+            ta = sum(a["quantity"] for a in asks)
             tq = tb + ta
+            
+            # 🛡️ [추가] 상단 1~3호가 집중 분석 (스푸핑 방지 및 매수세 집중도 검증)
+            top3_bids_qty = sum(b["quantity"] for b in bids[:3]) if len(bids) >= 3 else tb
+            top3_asks_qty = sum(a["quantity"] for a in asks[:3]) if len(asks) >= 3 else ta
+            top3_total = top3_bids_qty + top3_asks_qty
+            top3_bid_ratio = round(top3_bids_qty / top3_total, 3) if top3_total > 0 else 0.5
+
             parsed = {
-                "bids": bids, "asks": asks, "total_bid_qty": tb, "total_ask_qty": ta,
+                "bids": bids, "asks": asks, 
+                "total_bid_qty": tb, "total_ask_qty": ta,
                 "total_bid_krw": sum(b["price"] * b["quantity"] for b in bids),
                 "bid_ratio": round(tb / tq, 3) if tq > 0 else 0.5,
+                "top3_bid_ratio": top3_bid_ratio,  # 👈 상단 3호가 매수 집중도
                 "max_bid_wall": max(bids, key=lambda x: x["quantity"]) if bids else None,
                 "time": time.time()
             }
@@ -355,10 +366,17 @@ async def bithumb_websocket_stream_worker():
                                 asks = [{"price": float(a[0]), "quantity": float(a[1])} for a in ar]
                                 tb = sum(b["quantity"] for b in bids); ta = sum(a["quantity"] for a in asks)
                                 tq = tb + ta
+                                
+                                top3_bids_q = sum(b["quantity"] for b in bids[:3]) if len(bids) >= 3 else tb
+                                top3_asks_q = sum(a["quantity"] for a in asks[:3]) if len(asks) >= 3 else ta
+                                top3_tot = top3_bids_q + top3_asks_q
+                                top3_br = round(top3_bids_q / top3_tot, 3) if top3_tot > 0 else 0.5
+
                                 WS_ORDERBOOK_CACHE[c] = {
                                     "bids": bids, "asks": asks, "total_bid_qty": tb, "total_ask_qty": ta,
                                     "total_bid_krw": sum(b["price"] * b["quantity"] for b in bids),
                                     "bid_ratio": round(tb / tq, 3) if tq > 0 else 0.5,
+                                    "top3_bid_ratio": top3_br,
                                     "max_bid_wall": max(bids, key=lambda x: x["quantity"]) if bids else None,
                                     "time": time.time()
                                 }
@@ -475,12 +493,18 @@ def scan_3track_candidates(sym, price, val_24h, c_1h, c_15m, c_5m, min_1h_val):
     if q["tick_ratio_pct"] > MAX_TICK_RATIO_PCT or q["atr_15m_pct"] < MIN_15M_ATR_PCT or q["recent_1h_trade_val"] < min_1h_val: return None
 
     ob = get_bithumb_orderbook_10(sym)
-    bid_ratio = ob.get("bid_ratio", 0.5) if ob else 0.5
+    if not ob: return None
+    
+    bid_ratio = ob.get("bid_ratio", 0.5)
+    top3_bid_ratio = ob.get("top3_bid_ratio", 0.5)
+
+    # 🛡️ [호가 필터 강화] 전체 매수 비율뿐만 아니라 상단 1~3호가 집중도(top3_bid_ratio >= 0.52) 검증 추가
+    if top3_bid_ratio < 0.52: return None
 
     # [Track B] 공격적 모멘텀 돌파 (거래량 폭증 조건 강화)
     day_high = max(c['high'] for c in c_15m[-32:]) if len(c_15m) >= 32 else q["box_high"]
     dist_to_high_pct = ((day_high - price) / price) * 100.0 if price > 0 else 999.0
-    if dist_to_high_pct <= 0.35 and q["vol_surge_ratio"] >= 3.0 and bid_ratio >= 0.58:
+    if dist_to_high_pct <= 0.35 and q["vol_surge_ratio"] >= 3.0 and bid_ratio >= 0.58 and top3_bid_ratio >= 0.55:
         return {"symbol": f"{sym}/KRW", "code": sym, "track": "B", "name": "모멘텀 돌파", "current_price": price, "target_entry": round_to_bithumb_tick(price), "sl_pct": -1.10, "tp_trigger_pct": 1.50, "tp_floor_lock": 1.10, "timeout_mins": 8, "bid_ratio": bid_ratio, "quant": q, "reason": "거래량 3배 폭증 동반 고점 돌파 타점"}
 
     # [Track C] 1차 눌림목 (철저한 5분봉 턴어라운드 확인)
@@ -492,12 +516,12 @@ def scan_3track_candidates(sym, price, val_24h, c_1h, c_15m, c_5m, min_1h_val):
             holds_support = (price >= spike_mid * 0.995 and price <= spike['high'])
             is_5m_turning = (c_5m[-1]['close'] >= c_5m[-1]['open'] and c_5m[-1]['close'] >= c_5m[-2]['close'])
 
-            if is_volume_dry and holds_support and bid_ratio >= 0.50 and is_5m_turning:
+            if is_volume_dry and holds_support and bid_ratio >= 0.50 and top3_bid_ratio >= 0.52 and is_5m_turning:
                 return {"symbol": f"{sym}/KRW", "code": sym, "track": "C", "name": "1차 눌림목", "current_price": price, "target_entry": round_to_bithumb_tick(price), "sl_pct": -1.20, "tp_trigger_pct": 1.50, "tp_floor_lock": 1.10, "timeout_mins": 12, "bid_ratio": bid_ratio, "quant": q, "reason": "수급 주도주 눌림 후 5분봉 확실한 반등 턴 포착"}
 
     # [Track A] 상방 추세(1H EMA 20) 내 박스 하단 반등
     ema_1h = calculate_ema(c_1h, 20)
-    if q["box_range_pct"] >= 2.0 and (-0.50 <= q["dist_to_low_pct"] <= 1.20) and bid_ratio >= 0.48:
+    if q["box_range_pct"] >= 2.0 and (-0.50 <= q["dist_to_low_pct"] <= 1.20) and bid_ratio >= 0.48 and top3_bid_ratio >= 0.52:
         if price > ema_1h:
             return {"symbol": f"{sym}/KRW", "code": sym, "track": "A", "name": "바닥 반등", "current_price": price, "target_entry": round_to_bithumb_tick(price), "sl_pct": -1.00, "tp_trigger_pct": 1.35, "tp_floor_lock": 1.00, "timeout_mins": 10, "bid_ratio": bid_ratio, "quant": q, "reason": "정배열 추세 내 박스 하단 지지 흡수 반등"}
 
@@ -772,7 +796,6 @@ async def realtime_execution_engine():
                     elif 0.75 <= hpct < 1.20 and el_sec >= 1800: sc, rsn = True, "⌛ 30분 안전 정리"
 
                 if sc:
-                    # 👉 하드 손절 감지 시 쿨타임 기록, 익절 시 카운트 초기화
                     if "하드 손절" in rsn or "손절" in rsn:
                         record_hard_stop_cooldown(c)
                     else:
