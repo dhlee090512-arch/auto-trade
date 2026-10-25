@@ -50,27 +50,33 @@ class Config:
     GAP_MAX = 0.010                    
     STOP_LOSS_BUFFER = 0.002           
 
-# ⚠️ 프록시로 인한 통신 막힘 현상을 막기 위해 PROXIES를 None으로 고정합니다.
+# 프록시 이슈 원천 차단 (직통 통신)
 PROXIES = None
 
 class QuantScalpingBot:
     def __init__(self):
         logging.info("initialize: 봇 엔진 초기화 시작...")
-        time.sleep(3)  
         
-        self.send_telegram("🚀 [부팅 완료] 퀀트 스캘핑 봇이 정상적으로 시작되었습니다!")
+        # 텔레그램 부팅 알림이 네트워크 지연으로 인해 블로킹되지 않도록 백그라운드 스레드로 분리
+        threading.Thread(target=lambda: self.send_telegram("🚀 [부팅 완료] 퀀트 스캘핑 봇이 정상적으로 시작되었습니다!"), daemon=True).start()
 
         self.support_cache = {}          
         self.active_positions = {}       
         self.trade_history = []          
         self.macro_bearish = False       
 
+        # 1. 텔레그램 컨트롤러 백그라운드 스레드 가동
         threading.Thread(target=self.listen_telegram_commands, daemon=True).start()
+        
+        # 2. Slow Loop (60초 주기: 스크리닝 및 제미나이 AI 분석) 가동
         threading.Thread(target=self.run_slow_loop_worker, daemon=True).start()
 
         mode_str = "모의투자 (Paper)" if Config.IS_PAPER_TRADING else "실전매매 (LIVE)"
-        self.send_telegram(f"🚀 퀀트 스캘핑 봇 부팅 완료\n- 운영 모드: {mode_str}\n- Fast Loop: 2초 주기 (출구 감시)")
+        threading.Thread(target=lambda: self.send_telegram(f"🚀 퀀트 스캘핑 봇 부팅 완료\n- 운영 모드: {mode_str}\n- Fast Loop: 2초 주기 (출구 감시)"), daemon=True).start()
 
+    # ==========================================
+    # 1. 텔레그램 연동
+    # ==========================================
     def send_telegram(self, message: str):
         if not Config.TELEGRAM_BOT_TOKEN or not Config.TELEGRAM_CHAT_ID:
             print("❌ [Telegram Error] TOKEN 또는 CHAT_ID가 비어있습니다!")
@@ -125,6 +131,9 @@ class QuantScalpingBot:
         report = f"📊 [봇 현재 상태]\n- 모드: {mode_str}\n- 보유 포지션: {len(self.active_positions)} / {Config.MAX_POSITIONS}개\n- 전적: {total}전 {wins}승 (승률: {win_rate:.1f}%)\n- 합산 수익률: {cum_pnl:+.2f}%"
         self.send_telegram(report)
 
+    # ==========================================
+    # 2. 빗썸 API 연동
+    # ==========================================
     def get_bithumb_jwt_headers(self, query_params=None):
         payload = {
             'access_key': Config.BITHUMB_API_KEY,
@@ -176,6 +185,9 @@ class QuantScalpingBot:
             logging.error(f"주문 API 에러: {e}")
             return False, str(e)
 
+    # ==========================================
+    # 3. 제미나이 AI 연동
+    # ==========================================
     def call_gemini_analysis(self, symbol: str, ohlcv_data):
         try:
             if not Config.GEMINI_API_KEY:
@@ -208,6 +220,9 @@ class QuantScalpingBot:
         
         return ohlcv_data[-1][3] * 0.98, 80
 
+    # ==========================================
+    # 4. 퀀트 스캘핑 루프
+    # ==========================================
     def check_macro_guard(self) -> bool:
         try:
             url = f"https://api.bithumb.com/public/candlestick/BTC_KRW/1h"
