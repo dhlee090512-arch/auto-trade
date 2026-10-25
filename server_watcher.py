@@ -4,19 +4,20 @@ import time
 import uuid
 import json
 import re
-import math
-import base64
-import jwt
+import hashlib
+import urllib.parse
 import requests
-import httpx
-import pandas as pd
 from datetime import datetime, timedelta
-from openai import OpenAI
 import logging
 import threading
+import dotenv
+import jwt
+
+# .env 파일 명시적 로드 (가상환경 서비스 구동 시 환경변수 누락 방지)
+dotenv.load_dotenv()
 
 # ==========================================
-# 0. 상세 로깅 및 환경변수 설정
+# 0. 로깅 설정
 # ==========================================
 logging.basicConfig(
     level=logging.INFO,
@@ -28,14 +29,7 @@ logging.basicConfig(
 )
 
 def get_env(key_name):
-    val = None
-    try:
-        from google.colab import userdata
-        val = userdata.get(key_name)
-    except Exception:
-        pass
-    if not val:
-        val = os.getenv(key_name)
+    val = os.getenv(key_name)
     if val and isinstance(val, str):
         return val.strip()
     return ""
@@ -57,7 +51,6 @@ class Config:
     GAP_MIN = 0.005                    # 골디락스 갭 하한 (0.5%)
     GAP_MAX = 0.010                    # 골디락스 갭 상한 (1.0%)
     STOP_LOSS_BUFFER = 0.002           # 지지선 밑 손절 버퍼 (0.2%)
-    CACHE_TTL_MINUTES = 30             # LLM 캐시 유효 시간
 
 PROXIES = {'http': Config.WEBSHARE_URL, 'https': Config.WEBSHARE_URL} if Config.WEBSHARE_URL else None
 
@@ -65,10 +58,13 @@ class QuantScalpingBot:
     def __init__(self):
         logging.info("initialize: 봇 엔진 초기화 시작...")
         
-        self.support_cache = {}          # { symbol: { 'support_price': float, 'pattern_score': int, 'timestamp': datetime } }
-        self.active_positions = {}       # { symbol: { 'entry_price': float, 'amount': float, 'allocation_krw': float, 'stop_loss': float, 'peak_price': float, 'entry_time': datetime } }
-        self.trade_history = []          # 최근 청산 히스토리 (최대 10개)
-        self.macro_bearish = False       # 거시 하락장 여부
+        print(f"🔍 [디버그] 토큰 길이: {len(Config.TELEGRAM_BOT_TOKEN)}, 챗 ID: {Config.TELEGRAM_CHAT_ID}")
+        self.send_telegram("🚀 [부팅 완료] 퀀트 스캘핑 봇이 정상적으로 시작되었습니다!")
+
+        self.support_cache = {}          
+        self.active_positions = {}       
+        self.trade_history = []          
+        self.macro_bearish = False       
 
         # 1. 텔레그램 컨트롤러 백그라운드 스레드 가동
         threading.Thread(target=self.listen_telegram_commands, daemon=True).start()
@@ -77,23 +73,29 @@ class QuantScalpingBot:
         threading.Thread(target=self.run_slow_loop_worker, daemon=True).start()
 
         mode_str = "모의투자 (Paper)" if Config.IS_PAPER_TRADING else "실전매매 (LIVE)"
-        self.send_telegram(f"🚀 *퀀트 스캘핑 봇 부팅 완료*\n- 운영 모드: `{mode_str}`\n- Fast Loop: `2초 주기` (출구 감시)")
+        self.send_telegram(f"🚀 퀀트 스캘핑 봇 부팅 완료\n- 운영 모드: {mode_str}\n- Fast Loop: 2초 주기 (출구 감시)")
 
     # ==========================================
-    # 1. 텔레그램 연동 (알림 및 명령어 실시간 제어)
+    # 1. 텔레그램 연동 (마크다운 파싱 에러 방지)
     # ==========================================
     def send_telegram(self, message: str):
         if not Config.TELEGRAM_BOT_TOKEN or not Config.TELEGRAM_CHAT_ID:
+            print("❌ [Telegram Error] TOKEN 또는 CHAT_ID가 비어있습니다!")
             return
         try:
             url = f"https://api.telegram.org/bot{Config.TELEGRAM_BOT_TOKEN}/sendMessage"
-            payload = {"chat_id": Config.TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
-            requests.post(url, json=payload, timeout=5, proxies=PROXIES)
+            # 마크다운 파싱 충돌 방지를 위해 parse_mode 제거 (일반 텍스트 전송)
+            payload = {"chat_id": Config.TELEGRAM_CHAT_ID, "text": message}
+            res = requests.post(url, json=payload, timeout=5, proxies=PROXIES)
+            if res.status_code == 200:
+                print("✅ [Telegram] 메시지 전송 성공!")
+            else:
+                print(f"⚠️ [Telegram API 에러] 코드: {res.status_code}, 내용: {res.text}")
         except Exception as e:
             logging.error(f"telegram 발송 실패: {e}")
+            print(f"❌ [Telegram 예외 발생]: {e}")
 
     def listen_telegram_commands(self):
-        """텔레그램 실시간 명령어 수신기 (/paper, /live, /status)"""
         offset = 0
         while True:
             try:
@@ -112,10 +114,10 @@ class QuantScalpingBot:
 
                         if msg == "/paper":
                             Config.IS_PAPER_TRADING = True
-                            self.send_telegram("🔄 *모드 전환*: **모의투자(Paper)** 모드")
+                            self.send_telegram("🔄 모드 전환: 모의투자(Paper) 모드")
                         elif msg == "/live":
                             Config.IS_PAPER_TRADING = False
-                            self.send_telegram("⚠️ *경고*: **실전매매(LIVE)** 모드 전환!")
+                            self.send_telegram("⚠️ 경고: 실전매매(LIVE) 모드 전환!")
                         elif msg == "/status":
                             self.send_status_report()
             except Exception as e:
@@ -129,11 +131,11 @@ class QuantScalpingBot:
         win_rate = (wins / total * 100) if total > 0 else 0.0
         cum_pnl = sum(t['pnl_pct'] for t in self.trade_history)
 
-        report = f"📊 *[봇 현재 상태]*\n- 모드: `{mode_str}`\n- 보유 포지션: `{len(self.active_positions)} / {Config.MAX_POSITIONS}`개\n- 전적: {total}전 {wins}승 (승률: **{win_rate:.1f}%**)\n- 합산 수익률: **{cum_pnl:+.2f}%**"
+        report = f"📊 [봇 현재 상태]\n- 모드: {mode_str}\n- 보유 포지션: {len(self.active_positions)} / {Config.MAX_POSITIONS}개\n- 전적: {total}전 {wins}승 (승률: {win_rate:.1f}%)\n- 합산 수익률: {cum_pnl:+.2f}%"
         self.send_telegram(report)
 
     # ==========================================
-    # 2. 빗썸 API 연동 (v2 JWT 인증, 잔고 조회, 주문 집행)
+    # 2. 빗썸 API 연동
     # ==========================================
     def get_bithumb_jwt_headers(self, query_params=None):
         payload = {
@@ -163,7 +165,6 @@ class QuantScalpingBot:
         return max(krw_free * Config.POSITION_RATIO, Config.MIN_BUY_KRW)
 
     def execute_order(self, coin_code: str, side: str, volume: float):
-        """실전 및 모의투자 주문 분기 처리 (side: bid/ask)"""
         if Config.IS_PAPER_TRADING:
             logging.info(f"🧪 [PAPER 주문 시뮬레이션] {coin_code} | {side.upper()} | 수량: {volume}")
             return True, "simulated_uuid"
@@ -188,7 +189,7 @@ class QuantScalpingBot:
             return False, str(e)
 
     # ==========================================
-    # 3. 제미나이 AI 연동 (Flash-Lite 지지선 및 패턴 분석)
+    # 3. 제미나이 AI 연동
     # ==========================================
     def call_gemini_analysis(self, symbol: str, ohlcv_data):
         try:
@@ -220,14 +221,12 @@ class QuantScalpingBot:
         except Exception as e:
             logging.error(f"제미나이 AI 분석 에러 ({symbol}): {e}")
         
-        # 폴백 (기본값)
         return ohlcv_data[-1][3] * 0.98, 80
 
     # ==========================================
-    # 4. 코어 퀀트 스캘핑 로직 (Slow / Fast 루프)
+    # 4. 퀀트 스캘핑 루프
     # ==========================================
     def check_macro_guard(self) -> bool:
-        """비트코인 1시간봉 EMA 50 기준 매크로 가드"""
         try:
             url = f"https://api.bithumb.com/public/candlestick/BTC_KRW/1h"
             res = requests.get(url, proxies=PROXIES, timeout=5).json()
@@ -237,7 +236,7 @@ class QuantScalpingBot:
                 current_btc = closes[-1]
                 if current_btc < ema_50:
                     if not self.macro_bearish:
-                        self.send_telegram("⚠️ *Macro Guard 경보*: 비트코인 추세 이탈로 신규 매매 차단.")
+                        self.send_telegram("⚠️ Macro Guard 경보: 비트코인 추세 이탈로 신규 매매 차단.")
                     self.macro_bearish = True
                     return True
         except Exception:
@@ -246,7 +245,6 @@ class QuantScalpingBot:
         return False
 
     def manage_exits(self):
-        """[Fast Loop - 2초 주기] 보유 포지션 초고속 출구 관리"""
         for symbol, pos in list(self.active_positions.items()):
             try:
                 res = requests.get(f"https://api.bithumb.com/public/ticker/{symbol}_KRW", proxies=PROXIES, timeout=2).json()
@@ -259,18 +257,15 @@ class QuantScalpingBot:
                 pnl_pct = (curr_price - pos['entry_price']) / pos['entry_price']
                 elapsed_min = (datetime.now() - pos['entry_time']).total_seconds() / 60
 
-                # 1. 하드 손절
                 if curr_price <= pos['stop_loss']:
                     self.execute_sell(symbol, "HARD_STOP_LOSS", curr_price)
                     continue
 
-                # 2. 트레일링 익절 (+1.2% 도달 후 고점 대비 -0.5% 하락)
                 if pnl_pct >= 0.012:
                     if (pos['peak_price'] - curr_price) / pos['peak_price'] >= 0.005:
                         self.execute_sell(symbol, "TRAILING_STOP", curr_price)
                         continue
 
-                # 3. 시간 청산 (35분 만기)
                 if elapsed_min >= 35:
                     self.execute_sell(symbol, "TIME_LIMIT_EXPIRED", curr_price)
                     continue
@@ -295,7 +290,7 @@ class QuantScalpingBot:
                     'stop_loss': stop_loss, 'peak_price': entry_price, 'entry_time': datetime.now()
                 }
                 mode_str = "[PAPER]" if Config.IS_PAPER_TRADING else "[LIVE]"
-                self.send_telegram(f"🛒 *매수 체결* (`{symbol}/KRW`) {mode_str}\n- 진입가: `{entry_price:,.0f}`원\n- 손절가: `{stop_loss:.1f}`원")
+                self.send_telegram(f"🛒 매수 체결 ({symbol}/KRW) {mode_str}\n- 진입가: {entry_price:,.0f}원\n- 손절가: {stop_loss:.1f}원")
         except Exception as e:
             logging.error(f"execute_buy 에러: {e}")
 
@@ -319,14 +314,13 @@ class QuantScalpingBot:
             cum_pnl = sum(t['pnl_pct'] for t in self.trade_history)
 
             mode_str = "[PAPER]" if Config.IS_PAPER_TRADING else "[LIVE]"
-            msg = f"📤 *청산 완료* (`{symbol}/KRW`) {mode_str}\n- 사유: `{reason}`\n- 실현 손익: **{pnl_pct*100:+.2f}%** ({profit_krw:+,.0f}원)\n\n"
-            msg += f"📊 *[최근 히스토리 통계 ({total}개)]*\n- 전적: {total}전 {wins}승 (승률: **{win_rate:.1f}%**) | 합산: **{cum_pnl:+.2f}%**"
+            msg = f"📤 청산 완료 ({symbol}/KRW) {mode_str}\n- 사유: {reason}\n- 실현 손익: {pnl_pct*100:+.2f}% ({profit_krw:+,.0f}원)\n\n"
+            msg += f"📊 [최근 히스토리 통계 ({total}개)]\n- 전적: {total}전 {wins}승 (승률: {win_rate:.1f}%) | 합산: {cum_pnl:+.2f}%"
             self.send_telegram(msg)
         except Exception as e:
             logging.error(f"execute_sell 에러: {e}")
 
     def run_slow_loop_worker(self):
-        """[Slow Loop - 60초 주기] 시장 스크리닝 및 제미나이 AI 분석, 진입 탐색"""
         while True:
             try:
                 if self.check_macro_guard():
@@ -337,7 +331,6 @@ class QuantScalpingBot:
                     time.sleep(10)
                     continue
 
-                # 빗썸 상위 종목 스크리닝
                 res = requests.get("https://api.bithumb.com/public/ticker/ALL_KRW", proxies=PROXIES, timeout=5).json()
                 if res.get("status") != "0000":
                     time.sleep(10)
@@ -352,7 +345,6 @@ class QuantScalpingBot:
                 for symbol in candidates[:5]:
                     if len(self.active_positions) >= Config.MAX_POSITIONS: break
 
-                    # 5분봉 조회
                     c_res = requests.get(f"https://api.bithumb.com/public/candlestick/{symbol}_KRW/5m", proxies=PROXIES, timeout=5).json()
                     if c_res.get("status") != "0000": continue
                     ohlcv = [[int(x[0]), float(x[1]), float(x[2]), float(x[3]), float(x[4]), float(x[5])] for x in c_res['data'][-40:]]
@@ -378,7 +370,6 @@ class QuantScalpingBot:
             time.sleep(60)
 
     def run_fast_loop(self):
-        """[Fast Loop - 2초 주기] 실시간 포지션 출구 관리 메인 루프"""
         while True:
             try:
                 self.manage_exits()
