@@ -13,12 +13,10 @@ import threading
 import dotenv
 import jwt
 
-# .env 파일 절대 경로 명시적 로드 (systemd 서비스 구동 시 환경변수 누락 방지)
+# .env 파일 절대 경로 명시적 로드
 dotenv.load_dotenv('/home/ubuntu/auto-trade/.env')
 
-# ==========================================
-# 0. 로깅 설정
-# ==========================================
+# 로깅 설정
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] - %(message)s",
@@ -42,24 +40,24 @@ class Config:
     TELEGRAM_CHAT_ID = get_env("TELEGRAM_CHAT_ID")
     WEBSHARE_URL = get_env("WEBSHARE_URL")
 
-    IS_PAPER_TRADING = True           # 모의투자(True) / 실전매매(False)
-    MIN_BUY_KRW = 6000                # 최소 매수 금액
-    POSITION_RATIO = 0.20             # 가용 잔고의 20% 투입
-    MAX_POSITIONS = 2                 # 최대 동시 보유 종목 수
+    IS_PAPER_TRADING = True           
+    MIN_BUY_KRW = 6000                
+    POSITION_RATIO = 0.20             
+    MAX_POSITIONS = 2                 
 
-    MIN_TRADING_VALUE = 5_000_000_000  # 최소 거래대금 (50억)
-    GAP_MIN = 0.005                    # 골디락스 갭 하한 (0.5%)
-    GAP_MAX = 0.010                    # 골디락스 갭 상한 (1.0%)
-    STOP_LOSS_BUFFER = 0.002           # 지지선 밑 손절 버퍼 (0.2%)
+    MIN_TRADING_VALUE = 5_000_000_000  
+    GAP_MIN = 0.005                    
+    GAP_MAX = 0.010                    
+    STOP_LOSS_BUFFER = 0.002           
 
-PROXIES = {'http': Config.WEBSHARE_URL, 'https': Config.WEBSHARE_URL} if Config.WEBSHARE_URL else None
+# ⚠️ 프록시로 인한 통신 막힘 현상을 막기 위해 PROXIES를 None으로 고정합니다.
+PROXIES = None
 
 class QuantScalpingBot:
     def __init__(self):
         logging.info("initialize: 봇 엔진 초기화 시작...")
-        time.sleep(3)  # systemd 부팅 직후 네트워크 안정화 대기
+        time.sleep(3)  
         
-        print(f"🔍 [디버그] 토큰 길이: {len(Config.TELEGRAM_BOT_TOKEN)}, 챗 ID: {Config.TELEGRAM_CHAT_ID}")
         self.send_telegram("🚀 [부팅 완료] 퀀트 스캘핑 봇이 정상적으로 시작되었습니다!")
 
         self.support_cache = {}          
@@ -67,25 +65,18 @@ class QuantScalpingBot:
         self.trade_history = []          
         self.macro_bearish = False       
 
-        # 1. 텔레그램 컨트롤러 백그라운드 스레드 가동
         threading.Thread(target=self.listen_telegram_commands, daemon=True).start()
-        
-        # 2. Slow Loop (60초 주기: 스크리닝 및 제미나이 AI 분석) 가동
         threading.Thread(target=self.run_slow_loop_worker, daemon=True).start()
 
         mode_str = "모의투자 (Paper)" if Config.IS_PAPER_TRADING else "실전매매 (LIVE)"
         self.send_telegram(f"🚀 퀀트 스캘핑 봇 부팅 완료\n- 운영 모드: {mode_str}\n- Fast Loop: 2초 주기 (출구 감시)")
 
-    # ==========================================
-    # 1. 텔레그램 연동 (마크다운 파싱 에러 방지)
-    # ==========================================
     def send_telegram(self, message: str):
         if not Config.TELEGRAM_BOT_TOKEN or not Config.TELEGRAM_CHAT_ID:
             print("❌ [Telegram Error] TOKEN 또는 CHAT_ID가 비어있습니다!")
             return
         try:
             url = f"https://api.telegram.org/bot{Config.TELEGRAM_BOT_TOKEN}/sendMessage"
-            # 마크다운 파싱 충돌 방지를 위해 parse_mode 제거 (일반 텍스트 전송)
             payload = {"chat_id": Config.TELEGRAM_CHAT_ID, "text": message}
             res = requests.post(url, json=payload, timeout=5, proxies=PROXIES)
             if res.status_code == 200:
@@ -93,7 +84,6 @@ class QuantScalpingBot:
             else:
                 print(f"⚠️ [Telegram API 에러] 코드: {res.status_code}, 내용: {res.text}")
         except Exception as e:
-            logging.error(f"telegram 발송 실패: {e}")
             print(f"❌ [Telegram 예외 발생]: {e}")
 
     def listen_telegram_commands(self):
@@ -135,9 +125,6 @@ class QuantScalpingBot:
         report = f"📊 [봇 현재 상태]\n- 모드: {mode_str}\n- 보유 포지션: {len(self.active_positions)} / {Config.MAX_POSITIONS}개\n- 전적: {total}전 {wins}승 (승률: {win_rate:.1f}%)\n- 합산 수익률: {cum_pnl:+.2f}%"
         self.send_telegram(report)
 
-    # ==========================================
-    # 2. 빗썸 API 연동
-    # ==========================================
     def get_bithumb_jwt_headers(self, query_params=None):
         payload = {
             'access_key': Config.BITHUMB_API_KEY,
@@ -189,9 +176,6 @@ class QuantScalpingBot:
             logging.error(f"주문 API 에러: {e}")
             return False, str(e)
 
-    # ==========================================
-    # 3. 제미나이 AI 연동
-    # ==========================================
     def call_gemini_analysis(self, symbol: str, ohlcv_data):
         try:
             if not Config.GEMINI_API_KEY:
@@ -224,9 +208,6 @@ class QuantScalpingBot:
         
         return ohlcv_data[-1][3] * 0.98, 80
 
-    # ==========================================
-    # 4. 퀀트 스캘핑 루프
-    # ==========================================
     def check_macro_guard(self) -> bool:
         try:
             url = f"https://api.bithumb.com/public/candlestick/BTC_KRW/1h"
