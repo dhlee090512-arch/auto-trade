@@ -13,8 +13,8 @@ import threading
 import dotenv
 import jwt
 
-# .env 파일 명시적 로드 (가상환경 서비스 구동 시 환경변수 누락 방지)
-dotenv.load_dotenv()
+# .env 파일 절대 경로 명시적 로드 (systemd 서비스 구동 시 환경변수 누락 방지)
+dotenv.load_dotenv('/home/ubuntu/auto-trade/.env')
 
 # ==========================================
 # 0. 로깅 설정
@@ -57,6 +57,7 @@ PROXIES = {'http': Config.WEBSHARE_URL, 'https': Config.WEBSHARE_URL} if Config.
 class QuantScalpingBot:
     def __init__(self):
         logging.info("initialize: 봇 엔진 초기화 시작...")
+        time.sleep(3)  # systemd 부팅 직후 네트워크 안정화 대기
         
         print(f"🔍 [디버그] 토큰 길이: {len(Config.TELEGRAM_BOT_TOKEN)}, 챗 ID: {Config.TELEGRAM_CHAT_ID}")
         self.send_telegram("🚀 [부팅 완료] 퀀트 스캘핑 봇이 정상적으로 시작되었습니다!")
