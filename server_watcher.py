@@ -1,5 +1,12 @@
 import os
-import sys
+# ==========================================
+# [필수] 오라클 서버 1 vCPU 환경의 PyTorch/OpenMP 스레드 경합 및 대기(Hang) 방지
+# ==========================================
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
 
 # ==========================================
 # [필수] 시스템 프록시 환경변수 원천 무효화
@@ -7,6 +14,7 @@ import sys
 for proxy_var in ['http_proxy', 'https_proxy', 'HTTP_PROXY', 'HTTPS_PROXY', 'ALL_PROXY', 'all_proxy', 'WEBSHARE_URL']:
     os.environ.pop(proxy_var, None)
 
+import sys
 import time
 import json
 import base64
@@ -22,16 +30,18 @@ import urllib.parse
 import re
 import math
 import websockets
+import numpy as np
 from datetime import datetime, timedelta, timezone
 from openai import OpenAI
 from dotenv import load_dotenv
+from stable_baselines3 import PPO
 
 load_dotenv()
 
 # ==========================================
-# 0. 전역 설정 및 퀀트 파라미터 (2-Track 알파 스캘퍼 프로 엔진)
+# 0. 전역 설정 및 퀀트 파라미터 (2-Track 알파 스캘퍼 프로 + RL PPO 엔진)
 # ==========================================
-BUILD_VERSION = "2026.11.01-v27.0-2track-scalper-pro"
+BUILD_VERSION = "2026.11.01-v27.1-2track-rl-scalper"
 MAX_HOLDING_COINS = 2
 MIN_BUY_KRW = 6000
 DEFAULT_BUY_RATIO = 0.22
@@ -77,12 +87,53 @@ WS_TICKER_CACHE = {}
 WS_ORDERBOOK_CACHE = {}
 
 # ==========================================
+# 🤖 RL (강화학습) PPO 모델 로더 & 추론 모듈
+# ==========================================
+RL_MODEL_PATH = "bithumb_ppo_scalper.zip"
+RL_MODEL = None
+
+def load_rl_model():
+    global RL_MODEL
+    if os.path.exists(RL_MODEL_PATH):
+        try:
+            RL_MODEL = PPO.load(RL_MODEL_PATH)
+            logging.info(f"✅ [RL] 강화학습 PPO 모델 로드 완료: {RL_MODEL_PATH}")
+        except Exception as e:
+            logging.error(f"❌ [RL] 모델 로드 실패: {e}")
+            RL_MODEL = None
+    else:
+        logging.warning(f"⚠️ [RL] 모델 파일({RL_MODEL_PATH})이 없습니다. 룰+LLM 단독 모드로 구동됩니다.")
+
+def predict_rl_action(q_features: dict, ob_data: dict, is_held: bool = False, unrealized_pnl: float = 0.0) -> int:
+    """
+    RL 모델 추론 (Action: 0=Hold/Pass, 1=Buy/Approve, 2=Sell/Reject)
+    모델이 없거나 에러 발생 시 1(승인)을 반환하여 기존 룰 기반 보호
+    """
+    if RL_MODEL is None:
+        return 1
+
+    try:
+        obs = np.array([
+            q_features.get('price_change_pct', 0.0) / 100.0,
+            q_features.get('atr_pct', 0.0) / 100.0,
+            min(q_features.get('vol_surge_ratio', 1.0) / 5.0, 2.0),
+            ob_data.get('bid_ratio', 0.5),
+            1.0 if is_held else 0.0,
+            unrealized_pnl
+        ], dtype=np.float32)
+
+        action, _ = RL_MODEL.predict(obs, deterministic=True)
+        return int(action)
+    except Exception as e:
+        logging.error(f"❌ [RL] 추론 오류: {e}")
+        return 1
+
+# ==========================================
 # 🛡️ 하드 손절 종목별 동적 쿨타임 관리
 # ==========================================
 HARD_STOP_COOLDOWN_DICT = {}
 
 def check_hard_stop_cooldown(symbol: str) -> tuple[bool, int]:
-    """해당 종목이 현재 하드 손절 쿨타임 중인지 확인 (True면 진입 금지)"""
     if symbol in HARD_STOP_COOLDOWN_DICT:
         data = HARD_STOP_COOLDOWN_DICT[symbol]
         if time.time() < data["until"]:
@@ -93,7 +144,6 @@ def check_hard_stop_cooldown(symbol: str) -> tuple[bool, int]:
     return False, 0
 
 def record_hard_stop_cooldown(symbol: str):
-    """하드 손절 발생 시 호출: 1차 30분, 2연속 이상 60분 쿨타임 부여"""
     now = time.time()
     current_count = HARD_STOP_COOLDOWN_DICT[symbol]["count"] + 1 if symbol in HARD_STOP_COOLDOWN_DICT else 1
     cooldown_mins = 60 if current_count >= 2 else 30
@@ -106,7 +156,6 @@ def record_hard_stop_cooldown(symbol: str):
     logging.info(f"🚨 [{symbol}] 하드 손절 감지 (누적 {current_count}회). {cooldown_mins}분간 해당 종목 재진입이 차단됩니다.")
 
 def reset_hard_stop_cooldown_on_profit(symbol: str):
-    """수익 청산(익절 등) 시 해당 종목의 연속 하드 손절 카운트 초기화"""
     if symbol in HARD_STOP_COOLDOWN_DICT:
         del HARD_STOP_COOLDOWN_DICT[symbol]
 
@@ -162,6 +211,7 @@ def init_server_state():
     save_json_file(STATE_FILE, state)
 
 init_server_state()
+load_rl_model()
 
 def send_telegram_msg(msg: str):
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID: return
@@ -175,7 +225,7 @@ def notify_startup_once():
         with open(RESTART_FLAG_FILE, "w") as f: f.write(str(now_ts))
         mode_str = "🧪 모의투자" if PAPER_TRADING else "🔥 실전매매"
         base_dt = parse_dt_safe(UPDATE_BASELINE_TIME)
-        send_telegram_msg(f"🎯 [오라클 서버] 2-Track 알파 스캘퍼 프로 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격: Track A 폐지 및 2단계 호가 방어 손절 적용\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /track, /stop, /start, /update")
+        send_telegram_msg(f"🎯 [오라클 서버] 2-Track 알파 스캘퍼 프로 + RL PPO 엔진 가동 ({BUILD_VERSION})\n• 모드: {mode_str}\n• 성격: 룰 + LLM + PPO 강화학습 앙상블 적용\n• 기준시각: {base_dt.strftime('%m/%d %H:%M KST') if base_dt else '-'}\n\n📱 명령어: /status, /log, /paper, /real, /track, /stop, /start, /update")
 
 def format_portfolio_status_msg(active_positions, closed_trades):
     current_mode_is_paper = PAPER_TRADING
@@ -471,16 +521,15 @@ def scan_2track_candidates(sym, price, val_24h, c_1h, c_15m, c_5m, min_1h_val):
     bid_ratio = ob.get("bid_ratio", 0.5)
     top3_bid_ratio = ob.get("top3_bid_ratio", 0.5)
 
-    # 🛡️ 상단 1~3호가 집중도 검증 (52% 이상)
     if top3_bid_ratio < 0.52: return None
 
-    # [Track B] 공격적 모멘텀 돌파 (거래량 폭증 조건 강화)
+    # [Track B] 공격적 모멘텀 돌파
     day_high = max(c['high'] for c in c_15m[-32:]) if len(c_15m) >= 32 else q["box_high"]
     dist_to_high_pct = ((day_high - price) / price) * 100.0 if price > 0 else 999.0
     if dist_to_high_pct <= 0.35 and q["vol_surge_ratio"] >= 3.0 and bid_ratio >= 0.58 and top3_bid_ratio >= 0.55:
         return {"symbol": f"{sym}/KRW", "code": sym, "track": "B", "name": "모멘텀 돌파", "current_price": price, "target_entry": round_to_bithumb_tick(price), "sl_pct": -1.10, "tp_trigger_pct": 1.50, "tp_floor_lock": 1.10, "timeout_mins": 8, "bid_ratio": bid_ratio, "quant": q, "reason": "거래량 3배 폭증 동반 고점 돌파 타점"}
 
-    # [Track C] 1차 눌림목 (철저한 5분봉 턴어라운드 및 얕은 조정 확인)
+    # [Track C] 1차 눌림목
     if len(c_15m) >= 12:
         spike = next((c for c in c_15m[-5:-1] if ((c['close'] - c['open']) / c['open']) * 100.0 >= 4.0 and (c['volume'] / q["vol_avg_15m"] if q["vol_avg_15m"] > 0 else 0) >= 3.0), None)
         if spike:
@@ -601,6 +650,34 @@ def execute_server_side_strategy():
     if not dc or "selected_candidates" not in dc or not dc["selected_candidates"]:
         NO_CANDIDATE_CYCLE_COUNT += 1; LAST_NO_CANDIDATE_REASON = "AI 승인 거절"
         return
+
+    # ==========================================
+    # 🤖 RL 모델 최종 검증 (앙상블 필터)
+    # ==========================================
+    filtered_candidates = []
+    for cand in dc["selected_candidates"]:
+        co_sym = cand.get("symbol", "").split('/')[0].upper()
+        matched_tp = next((i for i in tp if i["code"] == co_sym), None)
+        if matched_tp and RL_MODEL is not None:
+            q_feat = {
+                "price_change_pct": matched_tp["quant"].get("box_range_pct", 0.0),
+                "atr_pct": matched_tp["quant"].get("atr_15m_pct", 1.0),
+                "vol_surge_ratio": matched_tp["quant"].get("vol_surge_ratio", 1.0)
+            }
+            ob_feat = get_bithumb_orderbook_10(co_sym) or {"bid_ratio": 0.5}
+            
+            rl_action = predict_rl_action(q_feat, ob_feat, is_held=False, unrealized_pnl=0.0)
+            if rl_action == 2:
+                logging.info(f"🛡️ [RL 앙상블 거절] AI는 {co_sym}을 선택했으나, RL 에이전트가 리스크를 감지하여 진입을 보류합니다.")
+                continue
+        
+        filtered_candidates.append(cand)
+    
+    if not filtered_candidates:
+        NO_CANDIDATE_CYCLE_COUNT += 1; LAST_NO_CANDIDATE_REASON = "AI 승인 후 RL 필터 거절"
+        return
+        
+    dc["selected_candidates"] = filtered_candidates
 
     ad = 0; niso = get_kst_now().isoformat(); nts = time.time()
     for c in dc["selected_candidates"][:2]:
@@ -725,6 +802,9 @@ async def realtime_execution_engine():
 
                 if hpct >= 0.80: pos["breakeven_locked"] = True
 
+                # 🤖 보유 중 RL 실시간 조기 청산 검사 (Action == 2)
+                rl_active_action = predict_rl_action({"price_change_pct": cpct, "atr_pct": 1.0, "vol_surge_ratio": 1.0}, get_bithumb_orderbook_10(c) or {"bid_ratio": 0.5}, is_held=True, unrealized_pnl=cpct/100.0)
+
                 t_act, s_pull, s_flr = False, 0.50, 0.0
                 if hpct >= 6.0: t_act, s_pull, s_flr = True, 1.20, 4.50
                 elif hpct >= 4.0: t_act, s_pull, s_flr = True, 0.90, 2.80
@@ -734,7 +814,9 @@ async def realtime_execution_engine():
                 pos["locked_floor_profit_pct"] = max(pos.get("locked_floor_profit_pct", 0.0), s_flr)
                 sc, rsn, xp, apull = False, "", cp, round(hpct - cpct, 2)
 
-                if t_act:
+                if rl_active_action == 2:
+                    sc, rsn = True, "🤖 RL 모델 조기 청산 판단 (Action=2)"
+                elif t_act:
                     tp = max(pos["highest_price"] * (1 - s_pull/100), ep * (1 + pos["locked_floor_profit_pct"]/100))
                     obx = get_bithumb_orderbook_10(c)
                     if obx and obx.get("max_bid_wall") and (cp - obx["max_bid_wall"]["price"]) / cp <= 0.003:
@@ -743,21 +825,14 @@ async def realtime_execution_engine():
                     if cp <= tp or apull >= s_pull or cpct <= pos["locked_floor_profit_pct"]:
                         sc, rsn = True, f"📈 추세 추종 익절 (고점 +{hpct:.2f}% ➔ +{pos['locked_floor_profit_pct']:.2f}% 락)"
                         if pos.get("is_paper", True): xp = round_to_bithumb_tick(tp - get_bithumb_tick_size(tp))
-
-                # ==========================================
-                # 🛡️ 손절 2단계 이원화 로직 (-1.0%~-1.1% 호가 검증 / -1.5% 최종 컷)
-                # ==========================================
                 elif cpct <= -1.50:
                     sc, rsn = True, "🚨 하드 손절 (-1.50%)"
                     xp = round_to_bithumb_tick(ep * 0.985) if pos.get("is_paper", True) else xp
                 elif -1.10 <= cpct <= -1.00:
                     obx = get_bithumb_orderbook_10(c)
-                    # 1차 완충 구간(-1.0%~-1.1%): 상단 매수세가 완전히 무너졌으면(top3_bid_ratio < 0.40 또는 bid_ratio < 0.30) 슬리피지 방지 즉시 컷
                     if obx and (obx.get("top3_bid_ratio", 0.5) < 0.40 or obx.get("bid_ratio", 0.5) < 0.30):
                         sc, rsn = True, f"⚡ 1차 호가 붕괴 즉시 컷 (상단 매수세 취약)"
                         xp = round_to_bithumb_tick(ep * (1.0 + cpct/100.0)) if pos.get("is_paper", True) else xp
-                # ==========================================
-
                 elif pos.get("breakeven_locked") and cpct <= -0.05:
                     sc, rsn = True, "🛡️ 본절 락 컷"
                     xp = round_to_bithumb_tick(ep * 0.9995) if pos.get("is_paper", True) else xp
@@ -774,7 +849,7 @@ async def realtime_execution_engine():
                     elif 0.75 <= hpct < 1.20 and el_sec >= 1800: sc, rsn = True, "⌛ 30분 안전 정리"
 
                 if sc:
-                    if "하드 손절" in rsn or "손절" in rsn or "붕괴" in rsn:
+                    if "하드 손절" in rsn or "손절" in rsn or "붕괴" in rsn or "청산" in rsn:
                         record_hard_stop_cooldown(c)
                     else:
                         reset_hard_stop_cooldown_on_profit(c)
